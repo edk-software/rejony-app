@@ -1,0 +1,17 @@
+{% extends 'CantigaCourseBundle:Summary:area-individual-results.html.twig' %}
+
+{% block page_title %}
+	{{ 'Individual area results' | trans([], 'pages') }}
+{% endblock %}
+
+{% block page_subtitle %}
+	{{ pageSubtitle | trans({}, 'pages') }}
+{% endblock %}
+
+{% block box_header %}
+	<h3 class="box-title">{{ area.name }}</h3>
+{% endblock %}
+
+{% block box_footer %}
+	<a href="{{ spath(indexPage) }}" role="btn" class="btn btn-default">{{ 'Back' | trans([], 'general') }}</a>
+{% endblock %}

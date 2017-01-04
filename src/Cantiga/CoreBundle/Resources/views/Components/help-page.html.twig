@@ -1,0 +1,30 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_title %}
+	{{ text.title }}
+{% endblock %}
+
+{% block page_subtitle %}
+	{{ 'Help pages' | trans([], 'pages') }}
+{% endblock %}
+
+{% block page_content %}
+<div class="col-lg-8 col-md-12">
+	<div class="box">
+		<div class="box-header with-border">
+			<ul class="nav nav-pills">
+				{% for page in pages %}
+					{% if page.current %}
+					<li role="presentation" class="active"><a href="{{ spath(route, {'page': page.route}) }}">{{ page.title | trans([], 'pages') }}</a></li>
+					{% else %}
+					<li role="presentation"><a href="{{ spath(route, {'page': page.route}) }}">{{ page.title | trans([], 'pages') }}</a></li>	
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="box-body">
+			{{ text.content | raw }}
+		</div>
+	</div>
+</div>
+{% endblock %}

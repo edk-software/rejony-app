@@ -1,0 +1,52 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_title %}
+	{{ 'My group: 0' | trans([group.name], 'pages') }}
+{% endblock %}
+
+{% block page_subtitle %}
+	{{ 'Meet your group' | trans({}, 'pages') }}
+{% endblock %}
+
+{% block page_content %}
+	<h4>{{ 'Members' | trans }}</h4>
+	<div class="row">
+	{% for member in members %}
+		<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<div class="box box-widget widget-user-2">
+				<div class="widget-user-header bg-primary">
+					<div class="widget-user-image">
+						<img class="img-circle" src="{{ asset(avatar(member)) }}" alt="av">
+					</div>
+					<h3 class="widget-user-username">{{ member.name }}</h3>
+					<h5 class="widget-user-desc">{% if member.memberInfo.note %}{{ member.memberInfo.note }}{% else %}&nbsp;{% endif %}</h5>
+				</div>
+				<div class="box-footer no-padding">
+					<ul class="list-summary">
+						<li class="list-summary-item">{{ 'Role' | trans([], 'users' ) }} <span class="pull-right">{{ member.memberInfo.role.name | trans }}</span></li>
+						<li class="list-summary-item">{{ 'Location' | trans([], 'users' ) }} <span class="pull-right">{{ member.location }}</span></li>
+						<li class="list-summary-item">{{ 'Last visit' | trans([], 'users' ) }} <span class="pull-right">{{ ago(member.lastVisit) }}</span></li>
+						<li class="list-summary-footer"><a href="{{ spath('memberlist_profile', {'id': member.id }) }}">{{ 'See profile' | trans([], 'users' ) }}</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+	<h4>{{ 'Areas' | trans }}</h4>
+	<div class="row">
+	{% for area in areas %}
+		<div class="col-lg-4 col-md-6 col-xs-12">
+			<div class="small-box bg-purple">
+				<div class="inner">
+					<h3>{{ area.name }}</h3>
+					<p>{{ area.statusText | trans([], 'statuses') }}</p>
+				</div>
+				<div class="icon">
+					<i class="fa fa-cube"></i>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+{% endblock %}

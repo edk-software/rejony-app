@@ -1,0 +1,116 @@
+cantiga_home_page:
+    path:     /
+    defaults:
+        _controller: CantigaCoreBundle:UserDashboard:index
+
+cantiga_auth_login:
+    path:     /auth/login
+    defaults:
+        _localeFromQuery: true
+        _controller: CantigaCoreBundle:Auth:login
+    
+cantiga_auth_check:
+    path:     /auth/check
+
+cantiga_auth_logout:
+    path:     /auth/logout
+    
+cantiga_auth_register:
+    path:     /auth/register
+    defaults:
+        _localeFromQuery: true
+        _controller: CantigaCoreBundle:Auth:register
+cantiga_auth_recovery:
+    path:     /auth/password-recovery
+    defaults:
+        _localeFromQuery: true
+        _controller: CantigaCoreBundle:Auth:passwordRecovery
+cantiga_auth_recovery_complete:
+    path:     /auth/password-recovery-complete/{id}/{provisionKey}
+    defaults:
+        _localeFromQuery: true
+        _controller: CantigaCoreBundle:Auth:passwordRecoveryComplete
+cantiga_auth_activate:
+    path:     /auth/activate/{id}/{provisionKey}
+    defaults:
+        _localeFromQuery: true
+        _controller: CantigaCoreBundle:Auth:activateAccount
+cantiga_auth_terms:
+    path:     /auth/terms
+    defaults:
+        _localeFromQuery: true
+        _controller: CantigaCoreBundle:Auth:terms
+        
+_cantiga_error_controller:
+    resource: "@CantigaCoreBundle/Controller/ErrorController.php"
+    type:     annotation
+        
+_user_dashboard_controller:
+    resource: "@CantigaCoreBundle/Controller/UserDashboardController.php"
+    type:     annotation
+_user_area_request_controller:
+    resource: "@CantigaCoreBundle/Controller/UserAreaRequestController.php"
+    type:     annotation
+    
+_area_mgmt_controller:
+    resource: "@CantigaCoreBundle/Controller/AreaMgmtController.php"
+    type:     annotation
+_group_mgmt_controller:
+    resource: "@CantigaCoreBundle/Controller/GroupMgmtController.php"
+    type:     annotation
+_place_dashboard_controller:
+    resource: "@CantigaCoreBundle/Controller/PlaceDashboardController.php"
+    type:     annotation
+
+_area_group_controller:
+    resource: "@CantigaCoreBundle/Controller/AreaGroupController.php"
+    type:     annotation
+_area_profile_controller:
+    resource: "@CantigaCoreBundle/Controller/AreaProfileController.php"
+    type:     annotation
+_project_button_controller:
+    resource: "@CantigaCoreBundle/Controller/ProjectButtonController.php"
+    type:     annotation
+_project_stats_area_controller:
+    resource: "@CantigaCoreBundle/Controller/ProjectStatsAreaController.php"
+    type:     annotation
+_project_area_request_controller:
+    resource: "@CantigaCoreBundle/Controller/ProjectAreaRequestController.php"
+    type:     annotation
+_project_group_category_controller:
+    resource: "@CantigaCoreBundle/Controller/ProjectGroupCategoryController.php"
+    type:     annotation
+_project_settings_controller:
+    resource: "@CantigaCoreBundle/Controller/ProjectSettingsController.php"
+    type:     annotation
+_project_area_status_controller:                                                                                                                                                   
+    resource: "@CantigaCoreBundle/Controller/ProjectAreaStatusController.php"                                                                                                      
+    type:     annotation
+_project_territory_controller:                                                                                                                                                   
+    resource: "@CantigaCoreBundle/Controller/ProjectTerritoryController.php"                                                                                                      
+    type:     annotation
+_project_app_text_controller:
+    resource: "@CantigaCoreBundle/Controller/ProjectAppTextController.php"
+    type:     annotation
+
+_admin_dashboard_controller:
+    resource: "@CantigaCoreBundle/Controller/AdminDashboardController.php"
+    type:     annotation
+_admin_user_controller:
+    resource: "@CantigaCoreBundle/Controller/AdminUserController.php"
+    type:     annotation
+_admin_registration_controller:
+    resource: "@CantigaCoreBundle/Controller/AdminRegistrationController.php"
+    type:     annotation
+_admin_language_controller:
+    resource: "@CantigaCoreBundle/Controller/AdminLanguageController.php"
+    type:     annotation
+_admin_project_controller:
+    resource: "@CantigaCoreBundle/Controller/AdminProjectController.php"
+    type:     annotation
+_admin_app_text_controller:
+    resource: "@CantigaCoreBundle/Controller/AdminAppTextController.php"
+    type:     annotation
+_admin_app_mail_controller:
+    resource: "@CantigaCoreBundle/Controller/AdminAppMailController.php"
+    type:     annotation

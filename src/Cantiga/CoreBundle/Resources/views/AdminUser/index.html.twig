@@ -1,0 +1,37 @@
+{% extends 'CantigaCoreBundle:layout:list-layout.html.twig' %}
+
+{% block box_header %}
+	{{ form_start(form, {'style': 'inline'}) }}
+		<label>{{ 'Jump to user' | trans }}: </label>
+		{{ form_row(form.login) }}
+		{{ form_row(form.email) }}
+		{{ form_row(form.jump) }}
+	{{ form_end(form) }}	
+{% endblock %}
+
+{% block column_list %}
+<tr>
+	<th width="30">#</th>
+	<th>{{ 'Name' | trans }}</th>
+	<th width="150">{{ 'Registered at' | trans }}</th>
+	<th width="110">{{ 'Places' | trans }}</th>
+	<th width="80">{{ 'Active?' | trans }}</th>
+	<th width="80">{{ 'Admin?' | trans }}</th>
+	<th width="120">{{ 'Actions' | trans({}, 'general') }}</th>
+</tr>
+{% endblock %}
+
+{% block custom_datatable_config %}
+	ajax: "{{ path('admin_user_ajax_list') }}",
+	columnDefs: [
+		{{ dt_col_link(dataTable, 'name', 'info_link') }}
+		{{ dt_col_rewrite(dataTable, 'registeredAt', 'registeredAtFormatted') }}
+		{{ dt_col_boolean(dataTable, 'active') }}
+		{{ dt_col_boolean(dataTable, 'admin') }}
+		{{ dt_actions(dataTable, [
+			{ 'link': 'info_link', 'name': 'Info' | trans({}, 'general'), 'label': 'btn-primary' },
+			{ 'link': 'edit_link', 'name': 'Edit' | trans({}, 'general'), 'label': 'btn-warning' },
+			{ 'link': 'remove_link', 'name': 'Remove' | trans({}, 'general'), 'label': 'btn-danger' },
+		]) }}
+	]
+{% endblock %}

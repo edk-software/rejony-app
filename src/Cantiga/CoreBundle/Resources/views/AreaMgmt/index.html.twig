@@ -1,0 +1,39 @@
+{% extends 'CantigaCoreBundle:layout:list-layout.html.twig' %}
+
+{% block data_filter %}
+	{% include 'CantigaCoreBundle:Filter:area-filter.html.twig' with { 'filter': filter, 'filterForm': filterForm } only %}
+{% endblock %}
+
+{% block column_list %}
+<tr>
+	<th width="30" data-priority="1">#</th>
+	<th data-priority="0">{{ 'Name' | trans }}</th>
+	<th width="120" data-priority="3">{{ 'Territory' | trans }}</th>
+	{% if customizableGroup %}
+	<th width="120" data-priority="3">{{ 'Group' | trans }}</th>
+	{% endif %}
+	<th width="120" data-priority="2">{{ 'Status' | trans }}</th>
+	<th width="120" data-priority="4">{{ 'Member number' | trans }}</th>
+	<th width="80" data-priority="3">{{ 'Profile' | trans }}</th>
+	<th width="120" data-priority="0">{{ 'Actions' | trans({}, 'general') }}</th>
+</tr>
+{% endblock %}
+
+{% block box_footer %}
+{% if showCreateLink %}
+<p>
+	<a href="{{ spath('area_mgmt_insert') }}" class="btn btn-success btn-sm" role="button">{{ 'Insert' | trans({}, 'general') }}</a>
+</p>
+{% endif %}
+{% endblock %}
+
+{% block custom_datatable_config %}
+	ajax: "{{ spath(ajaxListPage, filter.createParamArray()) | raw }}",
+	columnDefs: [
+		{{ dt_col_label(dataTable, 'status', 'statusName', 'statusLabel') }}
+		{{ dt_actions(dataTable, [
+			{ 'link': 'info_link', 'name': 'Info' | trans({}, 'general'), 'label': 'btn-primary' },
+			{ 'link': 'edit_link', 'name': 'Edit' | trans({}, 'general'), 'label': 'btn-warning' }
+		]) }}
+	]
+{% endblock %}

@@ -1,0 +1,24 @@
+cantiga_core_bundle:
+    resource: "@CantigaCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+cantiga_user_bundle:
+    resource: "@CantigaUserBundle/Resources/config/routing.yml"
+    prefix:   /
+cantiga_links_bundle:
+    resource: "@CantigaLinksBundle/Resources/config/routing.yml"
+    prefix:   /
+cantiga_milestone_bundle:
+    resource: "@CantigaMilestoneBundle/Resources/config/routing.yml"
+    prefix:   /
+cantiga_course_bundle:
+    resource: "@CantigaCourseBundle/Resources/config/routing.yml"
+    prefix:   /
+cantiga_export_bundle:
+    resource: "@CantigaExportBundle/Resources/config/routing.yml"
+    prefix:   /
+cantiga_discussion_bundle:
+    resource: "@CantigaDiscussionBundle/Resources/config/routing.yml"
+    prefix:   /
+wio_edk_bundle:
+    resource: "@WioEdkBundle/Resources/config/routing.yml"
+    prefix:   /

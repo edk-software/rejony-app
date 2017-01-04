@@ -1,0 +1,12 @@
+# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
+language: php
+php:
+  - 7.0
+
+env:
+  - DB=mysql
+
+before_script:
+  - cp ./app/config/parameters_test.yml.dist ./app/config/parameters_test.yml
+  - composer install
+  - php bin/console cantiga:install:db --env=test --type=$DB

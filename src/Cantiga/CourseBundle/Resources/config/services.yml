@@ -1,0 +1,36 @@
+imports:
+    - { resource: ../../../../../app/config/parameters.yml }
+
+services:
+    cantiga.course.repo.course:
+        class:     Cantiga\CourseBundle\Repository\ProjectCourseRepository
+        arguments: ["@database_connection", "@cantiga.transaction"]
+    cantiga.course.repo.area_course:
+        class:     Cantiga\CourseBundle\Repository\AreaCourseRepository
+        arguments: ["@database_connection", "@cantiga.transaction", "@event_dispatcher"]
+    cantiga.course.repo.area_summary:
+        class:     Cantiga\CourseBundle\Repository\AreaCourseSummaryRepository
+        arguments: ["@database_connection", "@cantiga.transaction"]
+    cantiga.course.repo.group_summary:
+        class:     Cantiga\CourseBundle\Repository\GroupCourseSummaryRepository
+        arguments: ["@database_connection", "@cantiga.transaction"]
+    cantiga.course.repo.project_summary:
+        class:     Cantiga\CourseBundle\Repository\ProjectCourseSummaryRepository
+        arguments: ["@database_connection", "@cantiga.transaction"]
+    cantiga.course.workspace_listener:
+        class: Cantiga\CourseBundle\EventListener\WorkspaceListener
+        tags:
+            - { name: kernel.event_listener, event: cantiga.workspace.project, method: onProjectWorkspace }
+            - { name: kernel.event_listener, event: cantiga.workspace.group, method: onGroupWorkspace }
+            - { name: kernel.event_listener, event: cantiga.workspace.area, method: onAreaWorkspace }
+    cantiga.course.model_listener:
+        class: Cantiga\CourseBundle\EventListener\ModelListener
+        arguments: ["@database_connection"]
+        tags:
+            - { name: kernel.event_listener, event: cantiga.project.created, method: onProjectCreated }
+            - { name: kernel.event_listener, event: cantiga.area.created, method: onAreaCreated }
+    cantiga.course.dashboard.course_summary:
+        class: Cantiga\CourseBundle\Extension\DashboardCourseCountExtension
+        arguments: ["@cantiga.course.repo.area_course", "@cantiga.user.membership.storage"]
+        tags:
+            - { name: cantiga.extension, point: core.dashboard.area.top, module: edk }

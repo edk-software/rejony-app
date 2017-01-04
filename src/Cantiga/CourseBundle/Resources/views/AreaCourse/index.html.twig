@@ -1,0 +1,107 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_title %}
+	{{ pageTitle | trans({}, 'pages') }}
+{% endblock %}
+
+{% block page_subtitle %}
+	{{ pageSubtitle | trans({}, 'pages') }}
+{% endblock %}
+
+{% block page_content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<i class="fa fa-graduation-cap"></i>
+					<h3 class="box-title">{{ area.name }}</h3>
+				</div>
+				{% if not courseListText.isEmpty() %}
+				<div class="box-body">
+					{{ courseListText.content | raw }}
+				</div>
+				{% endif %}
+				<div class="box-body no-padding">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>{{ 'Name' | trans }}</th>
+								<th width="15%">{{ 'Deadline' | trans }}</th>
+								<th width="10%">{{ 'Status' | trans([], 'course') }}</th>
+								<th width="10%">{{ 'Area result' | trans([], 'course') }}</th>
+								<th width="40"></th>
+								<th width="10%">{{ 'Your result' | trans([], 'course') }}</th>
+								<th width="40"></th>
+								<th width="10%">{{ 'Completed at' | trans([], 'course') }}</th>
+								<th width="120"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in items %}
+							<tr>
+								<td><a href="{{ spath(infoPage, {'id': item.id }) }}">{{ item.name }}</a></td>
+								{% if item.deadline %}
+								<td>{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.deadline) }}</td>
+								{% else %}
+								<td><em>{{ 'None' | trans([], 'general') }}</em></td>
+								{% endif %}
+								{# area results #}
+								{% if item.area_result == 0 %}
+								<td>{{ 'Not started' | trans([], 'course') }}</td>
+								<td>---</td>
+								<td></td>
+								{% else %}
+								{% if item.area_result == 1 %}
+								<td class="success">{{ 'Passed' | trans([], 'course') }}</td>
+								<td>
+									<div class="progress progress-xs">
+										<div class="progress-bar progress-bar-success" style="width: {{ item.area_score }}%"></div>
+									</div>
+								</td>
+								<td><span class="badge bg-green">{{ item.area_score }}%</span></td>
+								{% else %}
+								<td class="danger">{{ 'Failed' | trans([], 'course') }}</td>
+								<td>
+									<div class="progress progress-xs">
+										<div class="progress-bar progress-bar-danger" style="width: {{ item.area_score }}%"></div>
+									</div>
+								</td>
+								<td><span class="badge bg-red">{{ item.area_score }}%</span></td>
+								{% endif %}
+								{% endif %}
+								{# user results #}
+								{% if item.user_result == 0 %}
+								<td>{{ 'Not started' | trans([], 'course') }}</td>
+								<td></td>
+								<td>---</td>
+								{% else %}
+								{% if item.user_result == 1 %}
+								<td>
+									<div class="progress progress-xs">
+										<div class="progress-bar progress-bar-success" style="width: {{ item.user_score }}%"></div>
+									</div>
+								</td>
+								<td><span class="badge bg-green">{{ item.user_score }}%</span></td>
+								<td>{{ ago(item.user_completedAt) }}</td>
+								{% else %}
+								<td>
+									<div class="progress progress-xs">
+										<div class="progress-bar progress-bar-danger" style="width: {{ item.user_score }}%"></div>
+									</div>
+								</td>
+								<td><span class="badge bg-red">{{ item.user_score }}%</span></td>
+								<td>{{ ago(item.user_completedAt) }}</td>
+								{% endif %}
+								{% endif %}
+								<td>
+									<a class="btn btn-xs btn-primary" href="{{ spath(infoPage, {'id': item.id }) }}">{{ 'See the course' | trans }}</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

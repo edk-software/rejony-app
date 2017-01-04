@@ -1,0 +1,84 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_title %}
+	{{ pageTitle | trans({}, 'pages') }}
+{% endblock %}
+
+{% block page_subtitle %}
+	{{ pageSubtitle | trans({}, 'pages') }}
+{% endblock %}
+
+{% block page_content %}
+	<div class="row" id="milestone-editor">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<i class="fa fa-flag-checkered"></i>
+					<h3 class="box-title">{{ 'Overall summary of completed milestones in areas' | trans([], 'milestone') }}</h3>
+				</div>
+				<div class="box-body">
+					<div class="btn-group" role="group" aria-label="...">
+						{% if showTypeSelector %}
+						{% if type == 0 %}
+						<a role="button" class="btn btn-primary active" href="{{ spath(viewPage, {'type': 0}) }}">{{ 'View areas' | trans([], 'milestone') }}</a>
+						<a role="button" class="btn btn-primary" href="{{ spath(viewPage, {'type': 1}) }}">{{ 'View groups' | trans([], 'milestone') }}</a>
+						<a role="button" class="btn btn-success" href="{{ spath(individualPage) }}">{{ 'Overall summary' | trans([], 'milestone') }}</a>
+						{% elseif type == 1 %}
+						<a role="button" class="btn btn-primary" href="{{ spath(viewPage, {'type': 0}) }}">{{ 'View areas' | trans([], 'milestone') }}</a>
+						<a role="button" class="btn btn-primary active" href="{{ spath(viewPage, {'type': 1}) }}">{{ 'View groups' | trans([], 'milestone') }}</a>
+						<a role="button" class="btn btn-success" href="{{ spath(individualPage) }}">{{ 'Overall summary' | trans([], 'milestone') }}</a>
+						{% elseif type == 2 %}
+						<a role="button" class="btn btn-primary" href="{{ spath(viewPage, {'type': 0}) }}">{{ 'View areas' | trans([], 'milestone') }}</a>
+						<a role="button" class="btn btn-primary" href="{{ spath(viewPage, {'type': 1}) }}">{{ 'View groups' | trans([], 'milestone') }}</a>
+						<a role="button" class="btn btn-success active" href="{{ spath(individualPage) }}">{{ 'Overall summary' | trans([], 'milestone') }}</a>
+						{% endif %}
+						{% else %}
+						{% if type == 0 %}
+						<a role="button" class="btn btn-primary active" href="{{ spath(viewPage) }}">{{ 'Ranking' | trans([], 'milestone') }}</a>
+						<a role="button" class="btn btn-success" href="{{ spath(individualPage) }}">{{ 'Overall summary' | trans([], 'milestone') }}</a>
+						{% else %}
+						<a role="button" class="btn btn-primary" href="{{ spath(viewPage) }}">{{ 'Ranking' | trans([], 'milestone') }}</a>
+						<a role="button" class="btn btn-success active" href="{{ spath(individualPage) }}">{{ 'Overall summary' | trans([], 'milestone') }}</a>
+						{% endif %}
+						{% endif %}
+					</div>
+					<hr>
+					<p>{{ 'MilestoneTableScrollableText' | trans([], 'milestone') }}</p>
+					<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th width="40">#</th>
+								<th>{{ 'Place' | trans([], 'milestone') }}</th>
+								<th width="120">{{ 'Status' | trans }}</th>
+								{% for milestone in milestones %}
+								<th width="150">{{ milestone | truncate(20, true) }}</th>
+								{% endfor %}
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in items %}
+							<tr>
+								<td><a href="{{ spath(editPage, {'i': item.entityId })}}"><span class="fa fa-pencil"></span></a></td>
+								<td><a href="{{ spath(areaInfoPage, { 'id': item.id }) }}">{{ item.name }}</a></td>
+								<td class="text-center"><span class="label label-{{item.label}}">{{item.status}}</span></td>
+								{% for progress in item.milestones %}
+								{% if progress == 100 %}
+								<td class="text-center success">{{ progress }}%</td>	
+								{% elseif progress > 0 %}
+								<td class="text-center warning">{{ progress }}%</td>
+								{% else %}
+								<td class="text-center danger">{{ progress }}%</td>
+								{% endif %}
+								{% endfor %}
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock page_content %}
+

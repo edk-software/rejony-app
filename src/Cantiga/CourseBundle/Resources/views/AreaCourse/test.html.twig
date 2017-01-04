@@ -1,0 +1,39 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+{% import "CantigaCoreBundle:layout:macros.html.twig" as macro %}
+
+{% block page_title %}
+	{{ 'Test: 0' | trans([item.name]) }}
+{% endblock %}
+
+{% block page_subtitle %}
+	{{ pageSubtitle | trans({}, 'pages') }}
+{% endblock %}
+
+{% block page_content %}
+	<div class="box">
+		<div class="box-body">
+			<h4>{{ 'Test: 0' | trans([ item.name ], 'course') }}</h4>
+
+			<p class="text-danger">{{ 'CloseRefreshWarningText' | trans([], 'course') }}</p>
+
+			{{ form_start(form) }}
+			<div class="row">
+				<div class="col-lg-12">
+					<p class="lead">{{'Remaining time' | trans([], 'course') }}: <span id="test-timer" data-time-min="{{testTime}}">value</span></p>
+				</div>
+				{% for fieldName in fieldNames %}
+				<div class="col-md-6 col-sm-12">
+					{{ form_row(form.offsetGet(fieldName)) }}
+				</div>
+				{% endfor %}
+			</div>
+			{{ form_end(form) }}
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/jquery-backward-timer.min.js') }}"></script>
+	<script src="{{ asset('js/test-timer.js') }}"></script>
+{% endblock %}
