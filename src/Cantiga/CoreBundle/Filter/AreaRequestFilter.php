@@ -78,7 +78,7 @@ class AreaRequestFilter implements DataFilterInterface
 	public function createForm(FormBuilderInterface $formBuilder)
 	{
 		$formBuilder->setMethod('GET');
-		$formBuilder->add('status', ChoiceType::class, ['label' => 'Status', 'choices' => $this->translateStatus(AreaRequest::statusList()), 'required' => false]);
+		$formBuilder->add('status', ChoiceType::class, ['label' => 'Status', 'choices' => array_flip($this->translateStatus(AreaRequest::statusList())), 'required' => false]);
 		$formBuilder->add('territory', ChoiceType::class, ['label' => 'Territory', 'choices' => $this->territoryRepository->getFormChoices(), 'required' => false]);
 		$formBuilder->add('submit', SubmitType::class, ['label' => 'Filter']);
 		$formBuilder->get('territory')->addModelTransformer(new EntityTransformer($this->territoryRepository));
