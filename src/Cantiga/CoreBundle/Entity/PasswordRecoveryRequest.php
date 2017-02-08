@@ -97,7 +97,7 @@ class PasswordRecoveryRequest
 		}
 		
 		if ($this->status == self::STATUS_NEW || $this->status == self::STATUS_OK) {
-			if ($this->requestIp == ip2long($ip) && $this->provisionKey = $provisionKey) {
+			if ($this->requestIp == ip2long($ip) && $this->provisionKey == $provisionKey) {
 				$this->status = self::STATUS_OK;
 			} else {
 				$this->status = self::STATUS_FAILED;
