@@ -99,7 +99,7 @@ if (sizeof($data->route->ids) > 0) {
 			'registrationStartTime' => $item->startTime,
 			'registrationEndTime' => $item->endTime,
 			'externalRegistrationUrl' => $item->externalRegistrationUrl,
-            'currentYear' => $item->currentYear ? 1 : 0,
+			'currentYear' => $item->currentYear ? 1 : 0,
 		));
 	}
 } else {

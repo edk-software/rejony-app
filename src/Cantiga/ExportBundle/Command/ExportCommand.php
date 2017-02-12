@@ -33,7 +33,7 @@ class ExportCommand extends ContainerAwareCommand
 		$this
 			->setName('cantiga:export-data')
 			->setDescription('Exports the data to the external services via REST.')
-            ->addOption('current-year-id', 'c', InputOption::VALUE_OPTIONAL, 'Current year project ID')
+			->addOption('current-year-id', 'c', InputOption::VALUE_OPTIONAL, 'Current year project ID')
 		;
 	}
 	
@@ -47,11 +47,11 @@ class ExportCommand extends ContainerAwareCommand
 					$output->writeln($text, OutputInterface::VERBOSITY_NORMAL);
 				});
 				if (!empty($result['route']['update'])) {
-                    $currentYear = (int) $input->getOption('current-year-id') === (int) $export['projectId'];
-                    for ($i = 0, $count = count($result['route']['update']); $i < $count; $i++) {
-                        $result['route']['update'][$i]['currentYear'] = $currentYear;
-                    }
-                }
+					$currentYear = (int) $input->getOption('current-year-id') === (int) $export['projectId'];
+					for ($i = 0, $count = count($result['route']['update']); $i < $count; $i++) {
+						$result['route']['update'][$i]['currentYear'] = $currentYear;
+					}
+				}
 				if ($this->send($export, $this->encrypt($export, $result), $output)) {
 					$output->writeln('<info>Export completed</info>');
 				} else {

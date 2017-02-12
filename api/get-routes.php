@@ -14,7 +14,7 @@ try {
 		$stmt->bindValue(':areaId', $area);
 		$stmt->execute();
 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $row['currentYear'] = $row['currentYear'] || false;
+			$row['currentYear'] = $row['currentYear'] || false;
 			$result[] = $row;
 		}
 		$stmt->closeCursor();
@@ -23,7 +23,7 @@ try {
 		$stmt->bindValue(':territoryId', $territory);
 		$stmt->execute();
 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $row['currentYear'] = $row['currentYear'] || false;
+			$row['currentYear'] = $row['currentYear'] || false;
 			$result[] = $row;
 		}
 		$stmt->closeCursor();
@@ -35,10 +35,10 @@ try {
 		$random = rand(0, 100);
 		
 		if($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        $fullUrl = 'http://m2.edk.org.pl/mirror/'.$row['kmlData'].'/edk-gps-route-'.$row['id'].'.kml';
+			$fullUrl = 'http://m2.edk.org.pl/mirror/'.$row['kmlData'].'/edk-gps-route-'.$row['id'].'.kml';
 			
 			$result = $row;
-            $result['currentYear'] = $row['currentYear'] || false;
+			$result['currentYear'] = $row['currentYear'] || false;
 			$result['kmlDataPath'] = $fullUrl;
 			$result['stations'] = array();
 		}
@@ -62,7 +62,7 @@ try {
 					'areaId' => $row['areaId'],
 					'name' => $row['name'],
 					'kmlDataPath' => $fullUrl,
-                    'currentYear' => $row['currentYear'] || false,
+					'currentYear' => $row['currentYear'] || false,
 				),
 				'stationDescs' => array(),
 			);
