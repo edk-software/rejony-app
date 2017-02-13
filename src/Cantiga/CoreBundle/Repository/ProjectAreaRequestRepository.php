@@ -180,10 +180,10 @@ class ProjectAreaRequestRepository
 				. 'WHERE r.`projectId` = :projectId '
 				. 'ORDER BY c.`createdAt` DESC LIMIT '.$count, [':projectId' => $this->project->getId()]);
 			foreach ($items as &$item) {
-				if (strlen($item['message']) > 60) {
-					$item['truncatedContent'] = substr($item['message'], 0, 60);
-					if (ord($item['truncatedContent']{59}) > 127) {
-						$item['truncatedContent'] = substr($item['message'], 0, 59);
+				if (strlen($item['message']) > 150) {
+					$item['truncatedContent'] = substr($item['message'], 0, 150);
+					if (ord($item['truncatedContent']{149}) > 200) {
+						$item['truncatedContent'] = substr($item['message'], 0, 149);
 					}
 					$item['truncatedContent'] .= '...';
 				} else {
