@@ -71,7 +71,7 @@ class CourseProgress implements InsertableEntityInterface
 
 	public function insert(Connection $conn)
 	{
-		$this->mandatoryCourseNum = $conn->fetchColumn('SELECT COUNT(`id`) FROM `'.CourseTables::COURSE_TBL.'` WHERE `isPublished` = 1');
+		$this->mandatoryCourseNum = $conn->fetchColumn('SELECT COUNT(`id`) FROM `'.CourseTables::COURSE_TBL.'` WHERE `isPublished` = 1 AND `projectId` ='.$this->area->getProject()->getId());
 			
 		$conn->insert(CourseTables::COURSE_PROGRESS_TBL, array(
 			'areaId' => $this->area->getId(),

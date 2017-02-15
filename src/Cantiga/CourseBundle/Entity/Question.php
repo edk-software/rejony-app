@@ -162,15 +162,16 @@ class Question
 	{
 		return $this->result;
 	}
-	
-	private function answersToArray()
-	{
-		$result = array();
-		foreach($this->answers as $key=>$answer) {
-			$result[$answer->getAnswer()] = $key;
-		}
-		return $result;
-	}
+
+    private function answersToArray()
+    {
+        $result = [];
+        $i = 0;
+        foreach($this->answers as $answer) {
+            $result[$answer->getAnswer()] = $i++;
+        }
+        return $result;
+    }
 	
 	private function sanitizeAnswerNum($answerNum)
 	{
