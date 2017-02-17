@@ -8,19 +8,19 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 header('HTTP/1.1 200 OK');
 header('Content-Type: text/html; charset=UTF-8');
 
-$ivSize = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC);
-$decrypted = base64_decode(file_get_contents('php://input'));
-if (false === $decrypted) {
+$ivSize = openssl_cipher_iv_length(ENCRYPTION_ALGORITHM);
+$encrypted = base64_decode(file_get_contents('php://input'));
+if (false === $encrypted) {
 	die('');
 }
 
-if (strlen($decrypted) <= $ivSize) {
+if (strlen($encrypted) <= $ivSize) {
 	die('');
 }
-$ivDec = substr($decrypted, 0, $ivSize);
-$message = substr($decrypted, $ivSize);
+$iv = substr($encrypted, 0, $ivSize);
+$message = substr($encrypted, $ivSize);
 
-$decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, base64_decode(ENC_KEY), $message, MCRYPT_MODE_CBC, $ivDec));
+$decrypted = trim(openssl_decrypt($message, ENCRYPTION_ALGORITHM, base64_decode(ENCRYPTION_KEY), true, $iv));
 if (false === $decrypted) {
 	die('');
 }

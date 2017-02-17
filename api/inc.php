@@ -1,9 +1,12 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=11920893_panel', '11920893_panel', '');
+if (!file_exists('./config.php')) {
+	die('config.php file is required!');
+}
+require_once('./config.php');
+
+$pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 $pdo->query('SET NAMES `utf8`');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-define('ENC_KEY', 'TA7ZiF4q+T+xBhffZdggIFWiORcA0YElL466vw9RJNc=');
 
 class AgentTables {
 	const EDK_TERRITORIES = 'edk_territories';
