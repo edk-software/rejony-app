@@ -554,3 +554,12 @@ div.progress-box div.progress-box-link {
   font-weight: 400;
   font-size: 12px;
 }
+.small-box h3,
+.small-box p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.small-box h3:after,
+.small-box p:after {
+  content: "\00a0";
+}
