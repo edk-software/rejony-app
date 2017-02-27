@@ -3,9 +3,12 @@
 		var opts = $.extend( {}, $.fn.registratr.defaults, options );
 		var root = $(this);
 		var routes = new Array();
+		var routeElem;
+		var selectedRouteId = 0;
 		
 		if (null !== opts['routeSelector'] && null !== opts['routeUrl']) {
-			var routeElem = root.find(opts['routeSelector']);
+			routeElem = root.find(opts['routeSelector']);
+			selectedRouteId = parseInt(routeElem.data('route-selected'), 10);
 			routeElem.change(function() {
 				var presenter = root.find(opts['routePresenter']);
 				if (routes[routeElem.val()]) {
@@ -71,7 +74,7 @@
 				url: opts['routeUrl'],
 				dataType: "json",
 				success: function (result) {
-					disableEverything()
+					disableEverything();
 					renderSelector(result);
 				}
 			});
@@ -129,9 +132,16 @@
 			}
 			routeElem.empty();
 			routeElem.append(code);
+
+			if (selectedRouteId > 0) {
+				routeElem.val(selectedRouteId);
+				routeElem.trigger('change');
+				selectedRouteId = 0;
+			}
+
 			data = result;
 		}
-	}
+	};
 	
 	$.fn.registratr.defaults = {
 		routeSelector: null,
@@ -145,6 +155,6 @@
 		estimatedParticipantNumText: '',
 		participantNumText: '',
 		inspiredWarningText: '',
-		additionalInformationText: '',
+		additionalInformationText: ''
 	};
 }(jQuery));

@@ -159,8 +159,11 @@ class AreaParticipantController extends AreaPageController
 			$entity = EdkParticipant::newParticipant();
 
 			if ($request->getMethod() == 'POST') {
-				$entity->setRegistrationSettings($settingsRepository->getItem($request->get('route', null)));
+				$routeId = $request->request->get('route');
+				$entity->setRegistrationSettings($settingsRepository->getItem($routeId));
 				$entity->setIpAddress(ip2long($_SERVER['REMOTE_ADDR']));
+			} else {
+				$routeId = null;
 			}
 
 			$action = new InsertAction($this->crudInfo, $entity);
@@ -174,7 +177,7 @@ class AreaParticipantController extends AreaPageController
 				]);
 			});
 			$action->set('ajaxRoutePage', 'area_edk_participant_ajax_routes');
-			return $action->run($this, $request);
+			return $action->run($this, $request, $routeId);
 		} catch(ItemNotFoundException $exception) {
 			return $this->showPageWithError($this->trans($exception->getMessage(), [], 'edk'), 'area_edk_participant_index', ['slug' => $this->getSlug()]);
 		}
