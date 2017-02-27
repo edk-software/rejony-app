@@ -160,13 +160,11 @@ class EdkRegistrationSettings implements IdentifiableInterface, EditableEntityIn
 		} elseif ($this->registrationType == self::TYPE_OTHER) {
 			$this->checkUnsupportedFields($context, ['externalRegistrationUrl', 'participantLimit', 'maxPeoplePerRecord', 'customQuestion']);
 		}
-		if ($this->registrationType != self::TYPE_NO) {
-			$this->externalParticipantNum = (int) $this->externalParticipantNum;
-			if ($this->externalParticipantNum < 0) {
-				$context->buildViolation('ExternalParticipantNumInvalidErrMsg')
-					->atPath('externalParticipantNum')
-					->addViolation();
-			}
+		$this->externalParticipantNum = (int) $this->externalParticipantNum;
+		if ($this->registrationType != self::TYPE_NO && $this->externalParticipantNum < 0) {
+			$context->buildViolation('ExternalParticipantNumInvalidErrMsg')
+				->atPath('externalParticipantNum')
+				->addViolation();
 		}
 	}
 	
