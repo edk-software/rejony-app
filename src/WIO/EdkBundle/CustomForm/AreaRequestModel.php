@@ -24,6 +24,7 @@ use Cantiga\Metamodel\CustomForm\CustomFormRendererInterface;
 use Cantiga\Metamodel\CustomForm\CustomFormSummaryInterface;
 use Cantiga\Metamodel\CustomForm\DefaultCustomFormRenderer;
 use Cantiga\Metamodel\CustomForm\DefaultCustomFormSummary;
+use DateTime;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -88,9 +89,12 @@ class AreaRequestModel implements CustomFormModelInterface
 			new NotNull,
 			new Length(['min' => 10, 'max' => 400])
 		]));
-		$builder->add('stationaryCourse', ChoiceType::class, ['label' => 'StationaryCoursePreferenceLabel', 'choices' => array_flip($this->stationaryCourseTypes()), 'multiple' => true, 'expanded' => true, 'constraints' => new Count(
-				['min' => 1, 'minMessage' => 'Please select at least one option']
+		$stationaryCourseTypes = $this->getStationaryCourseTypes();
+		if (count($stationaryCourseTypes) > 0) {
+			$builder->add('stationaryCourse', ChoiceType::class, ['label' => 'StationaryCoursePreferenceLabel', 'choices' => array_flip($stationaryCourseTypes), 'multiple' => true, 'expanded' => true, 'constraints' => new Count(
+				['min' => count($stationaryCourseTypes) > 0 ? 1 : 0, 'minMessage' => 'Please select at least one option']
 			)]);
+		}
 	}
 	
 	public function validateForm(array $data, ExecutionContextInterface $context)
@@ -149,7 +153,7 @@ class AreaRequestModel implements CustomFormModelInterface
 				return '---';
 			}
 			$code = '<ul>';
-			$mapping = $this->stationaryCourseTypes();
+			$mapping = $this->getStationaryCourseTypes();
 			foreach ($options as $option) {
 				$code .= '<li>'.$this->translator->trans($mapping[$option]).'</li>';
 			}
@@ -164,15 +168,45 @@ class AreaRequestModel implements CustomFormModelInterface
 		return ['full' => 'Extreme Way of the Cross', 'inspired' => 'Inspired by Extreme Way of the Cross'];
 	}
 	
-	public function stationaryCourseTypes()
+	private function getStationaryCourseTypes()
 	{
-		return [
-            1 => '28.01.2017 - Kraków',
-            2 => '29.01.2017 - Poznań',
-            3 => '04.02.2017 - Kraków',
-            4 => '11.02.2017 - Warszawa',
-            5 => '18.02.2017 - Katowice',
-            6 => '25.02.2017 - termin rezerwowy'
-        ];
+		$today = new DateTime('midnight');
+		$terms = [
+			1 => [
+				'date' => new DateTime('2017-01-28'),
+				'place' => 'Kraków',
+			],
+			2 => [
+				'date' => new DateTime('2017-01-29'),
+				'place' => 'Poznań',
+			],
+			3 => [
+				'date' => new DateTime('2017-02-04'),
+				'place' => 'Kraków',
+			],
+			4 => [
+				'date' => new DateTime('2017-02-11'),
+				'place' => 'Warszawa',
+			],
+			5 => [
+				'date' => new DateTime('2017-02-18'),
+				'place' => 'Katowice',
+			],
+			6 => [
+				'date' => new DateTime('2017-02-25'),
+				'place' => 'termin rezerwowy',
+			],
+		];
+
+		$types = [];
+		foreach ($terms as $id => $term) {
+			if ($term['date'] >= $today) {
+				/** @var DateTime $date */
+				$date = $term['date'];
+				$types[$id] = $date->format('d.m.Y') . ' - ' . $term['place'];
+			}
+		}
+
+		return $types;
 	}
 }
