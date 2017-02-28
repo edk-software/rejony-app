@@ -20,6 +20,7 @@ namespace Cantiga\CoreBundle\Entity;
 
 use Cantiga\Components\Hierarchy\Entity\PlaceRef;
 use Cantiga\Components\Hierarchy\HierarchicalInterface;
+use Cantiga\Components\Hierarchy\User\CantigaUserRefInterface;
 use Cantiga\CoreBundle\CoreTables;
 use Cantiga\CoreBundle\Entity\Traits\PlaceTrait;
 use Cantiga\Metamodel\Capabilities\EditableEntityInterface;
@@ -53,7 +54,7 @@ class Group implements IdentifiableInterface, InsertableEntityInterface, Editabl
 			. 'FROM `'.CoreTables::GROUP_TBL.'` g '
 			. self::createPlaceJoin('g')
 			. 'WHERE g.`id` = :id AND g.`projectId` = :projectId', [':id' => $id, ':projectId' => $project->getId()]);
-		if(null === $data) {
+		if(!is_array($data)) {
 			return false;
 		}
 		$item = Group::fromArray($data);
@@ -74,7 +75,7 @@ class Group implements IdentifiableInterface, InsertableEntityInterface, Editabl
 			. 'FROM `'.CoreTables::GROUP_TBL.'` g '
 			. self::createPlaceJoin('g')
 			. 'WHERE g.`id` = :id', [':id' => $id]);
-		if(null === $data) {
+		if(!is_array($data)) {
 			return false;
 		}
 		$item = Group::fromArray($data);
@@ -105,7 +106,7 @@ class Group implements IdentifiableInterface, InsertableEntityInterface, Editabl
 			. 'INNER JOIN `'.CoreTables::PROJECT_TBL.'` p ON p.`id` = g.`projectId` '
 			. 'WHERE g.`name` = :name AND g.`projectId` = :parentProject AND m.`userId` = :userId', [
 				':name' => $currentGroup->getName(), ':parentProject' => $currentGroup->getProject()->getParentProject()->getId(), ':userId' => $user->getId()]);
-		if(null === $data) {
+		if(!is_array($data)) {
 			return false;
 		}
 		$item = Group::fromArray($data);
@@ -129,7 +130,7 @@ class Group implements IdentifiableInterface, InsertableEntityInterface, Editabl
 			. 'FROM `'.CoreTables::GROUP_TBL.'` g '
 			. self::createPlaceJoin('g')
 			. 'WHERE g.`placeId` = :placeId', [':placeId' => $place->getId()]);
-		if(false === $data) {
+		if(!is_array($data)) {
 			return false;
 		}
 		$group = self::fromArray($data);
@@ -143,7 +144,7 @@ class Group implements IdentifiableInterface, InsertableEntityInterface, Editabl
 		return $group;
 	}
 
-	public static function fromArray($array, $prefix = '')
+	public static function fromArray(array $array, $prefix = '')
 	{
 		$item = new Group;
 		DataMappers::fromArray($item, $array, $prefix);
