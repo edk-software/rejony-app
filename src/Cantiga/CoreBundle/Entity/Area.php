@@ -110,7 +110,7 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 			. 'INNER JOIN `'.CoreTables::PROJECT_TBL.'` p ON p.`id` = a.`projectId` '
 			. 'WHERE a.`name` = :name AND a.`projectId` = :parentProject AND m.`userId` = :userId', [
 				':name' => $currentArea->getName(), ':parentProject' => $currentArea->getProject()->getParentProject()->getId(), ':userId' => $user->getId()]);
-		if(null === $data) {
+		if(null == $data) {
 			return false;
 		}
 		$item = Area::fromArray($data);

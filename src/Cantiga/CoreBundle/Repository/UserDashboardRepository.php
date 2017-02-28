@@ -70,7 +70,7 @@ class UserDashboardRepository
 	
 	public function getUserAreaRequests(CantigaUserRefInterface $user)
 	{
-		return $this->conn->fetchAll('SELECT r.`id`, r.`name`, p.`name` '
+		return $this->conn->fetchAll('SELECT r.`id`, r.`name`, p.`name` AS `projectName` '
 			. 'FROM `'.CoreTables::AREA_REQUEST_TBL.'` r '
 			. 'INNER JOIN `'.CoreTables::PROJECT_TBL.'` p ON p.`id` = r.`projectId` '
 			. 'WHERE r.`requestorId` = :userId AND r.`status` NOT IN (2, 3) ORDER BY p.`name`, r.`name`', [':userId' => $user->getId()]);

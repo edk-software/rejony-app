@@ -53,6 +53,10 @@ DirectoryIndex app.php
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule .? - [L]
 
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{HTTP_HOST} \.dev(\.|$) [NC]
+    RewriteRule .? %{ENV:BASE}/app_dev.php [L,QSA]
+
     # Rewrite all other queries to the front controller.
     RewriteRule .? %{ENV:BASE}/app.php [L]
 </IfModule>

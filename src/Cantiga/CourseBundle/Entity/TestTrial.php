@@ -22,6 +22,7 @@ use Cantiga\Metamodel\Exception\ModelException;
 use RuntimeException;
 use Serializable;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Represents a single trial to complete a test. It contains all the displayed questions in the randomized
@@ -57,7 +58,7 @@ class TestTrial implements Serializable
 		foreach($this->questions as $idx => $question) {
 			$question->generateFormField($fbi, $idx);
 		}
-		$fbi->add('save', 'submit', array('label' => $translator->trans('Ready', [], 'course')));
+		$fbi->add('save', SubmitType::class, array('label' => $translator->trans('Ready', [], 'course')));
 		return $fbi->getForm();
 	}
 	

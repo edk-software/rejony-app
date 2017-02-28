@@ -34,7 +34,7 @@ use Exception;
  */
 class TestResult extends AbstractTestResult {
 	const TIME_BETWEEN_TRIALS = 'P1D';
-	const TIME_BETWEEN_TRIALS_SEC = 86400;
+	const TIME_BETWEEN_TRIALS_SEC = 1;//86400;
 	
 	/**
 	 * @var User

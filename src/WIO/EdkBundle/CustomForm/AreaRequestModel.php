@@ -167,11 +167,12 @@ class AreaRequestModel implements CustomFormModelInterface
 	public function stationaryCourseTypes()
 	{
 		return [
-			1 => '2016-01-23',
-			2 => '2016-01-30',
-			3 => '2016-01-31',
-			4 => '2016-02-06',
-			5 => 'None of the above'
-		];
+            1 => '28.01.2017 - Kraków',
+            2 => '29.01.2017 - Poznań',
+            3 => '04.02.2017 - Kraków',
+            4 => '11.02.2017 - Warszawa',
+            5 => '18.02.2017 - Katowice',
+            6 => '25.02.2017 - termin rezerwowy'
+        ];
 	}
 }

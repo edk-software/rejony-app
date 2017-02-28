@@ -72,7 +72,7 @@ class InsertAction extends AbstractAction
 		return $this;
 	}
 		
-	public function run(CantigaController $controller, Request $request)
+	public function run(CantigaController $controller, Request $request, int $routeId = null)
 	{
 		try {
 			$repository = $this->info->getRepository();
@@ -114,7 +114,8 @@ class InsertAction extends AbstractAction
 			$vars['insertPage'] = $this->info->getInsertPage();
 			$vars['editPage'] = $this->info->getEditPage();
 			$vars['removePage'] = $this->info->getRemovePage();
-			
+			$vars['route'] = $routeId;
+
 			return $controller->render($this->info->getTemplateLocation().'insert.html.twig', $vars);
 		} catch(ItemNotFoundException $exception) {
 			return $this->onError($controller, $controller->trans($this->info->getItemNotFoundErrorMessage()));

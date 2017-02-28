@@ -53,7 +53,7 @@ class DashboardChatExtension implements DashboardExtensionInterface
 	{
 		if ($controller->getProjectSettings()->get(CoreSettings::DASHBOARD_SHOW_CHAT)->getValue()) {
 			$this->repository->setActiveProject($project);
-			return $this->templating->render('CantigaCoreBundle:Project:recent-comments.html.twig', ['comments' => $this->repository->getRecentFeedbackActivity(8)]);
+			return $this->templating->render('CantigaCoreBundle:Project:recent-comments.html.twig', ['comments' => $this->repository->getRecentFeedbackActivity(100)]);
 		}
 		return '';
 	}

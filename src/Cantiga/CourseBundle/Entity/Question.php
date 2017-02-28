@@ -54,7 +54,7 @@ class Question
 			throw new ModelException('Cannot create a question with no correct answers!');
 		}
 	}
-	
+
 	/**
 	 * Generates a single form field for the test form.
 	 * 
@@ -63,7 +63,7 @@ class Question
 	 */
 	public function generateFormField(FormBuilderInterface $fbi, $idx)
 	{
-		$fbi->add($this->generateFieldName($idx), new ChoiceType, array(
+		$fbi->add($this->generateFieldName($idx), ChoiceType::class, array(
 			'label' => $this->content,
 			'expanded' => true,
 			'multiple' => $this->correctAnswerNum != 1,
@@ -162,15 +162,16 @@ class Question
 	{
 		return $this->result;
 	}
-	
-	private function answersToArray()
-	{
-		$result = array();
-		foreach($this->answers as $answer) {
-			$result[] = $answer->getAnswer();
-		}
-		return $result;
-	}
+
+    private function answersToArray()
+    {
+        $result = [];
+        $i = 0;
+        foreach($this->answers as $answer) {
+            $result[$answer->getAnswer()] = $i++;
+        }
+        return $result;
+    }
 	
 	private function sanitizeAnswerNum($answerNum)
 	{
