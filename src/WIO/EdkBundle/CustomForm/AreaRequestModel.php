@@ -125,8 +125,11 @@ class AreaRequestModel implements CustomFormModelInterface
 		$r->fields('routeLength', 'routeAscent');
 		$r->group('About you', 'AboutYouEwcText');
 		$r->fields('whyCreatingArea', 'intersectionPoint', 'leaderGoals', 'particiaptionDetails', 'projectMgmtExperiences', 'threeBiggestSuccesses');
-		$r->group('Stationary course');
-		$r->fields('stationaryCourse');
+		$stationaryCourseTypes = $this->getStationaryCourseTypes();
+		if (count($stationaryCourseTypes) > 0) {
+			$r->group('Stationary course');
+			$r->fields('stationaryCourse');
+		}
 		return $r;
 	}
 	
