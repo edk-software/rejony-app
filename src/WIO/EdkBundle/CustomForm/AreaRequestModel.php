@@ -92,7 +92,7 @@ class AreaRequestModel implements CustomFormModelInterface
 		$stationaryCourseTypes = $this->getStationaryCourseTypes();
 		if (count($stationaryCourseTypes) > 0) {
 			$builder->add('stationaryCourse', ChoiceType::class, ['label' => 'StationaryCoursePreferenceLabel', 'choices' => array_flip($stationaryCourseTypes), 'multiple' => true, 'expanded' => true, 'constraints' => new Count(
-				['min' => count($stationaryCourseTypes) > 0 ? 1 : 0, 'minMessage' => 'Please select at least one option']
+				['min' => 1, 'minMessage' => 'Please select at least one option']
 			)]);
 		}
 	}
