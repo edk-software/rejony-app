@@ -38,7 +38,7 @@ class GroupCourseSummaryController extends GroupPageController
 
 	public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
 	{
-		$membership = $this->get('cantiga.user.memebership.storage')->getMembership();
+		$membership = $this->get('cantiga.user.membership.storage')->getMembership();
 		$this->performInitialization('group_course_summary_index', 'group_course_summary_info', $request, $authChecker);
 		$repository = $this->get(self::REPOSITORY_NAME);
 		$repository->setGroup($membership->getPlace());
