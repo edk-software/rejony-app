@@ -30,6 +30,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class UserAreaRequestForm extends AbstractType
 {
@@ -48,7 +49,7 @@ class UserAreaRequestForm extends AbstractType
 		
 		$builder
 			->add('name', TextType::class, ['label' => 'Area name', 'attr' => ['help_text' => $hint]])
-			->add('territory', ChoiceType::class, ['label' => 'Territory', 'choices' => $options['territoryRepository']->getFormChoices()])
+			->add('territory', ChoiceType::class, ['label' => 'Territory', 'choices' => $options['territoryRepository']->getFormChoices(), 'constraints' => [new NotNull]])
 			->add('save', SubmitType::class, ['label' => 'Submit request']);
 		$builder->get('territory')->addModelTransformer(new EntityTransformer($options['territoryRepository']));
 		$builder->addEventSubscriber(new CustomFormEventSubscriber($options['customFormModel']));
