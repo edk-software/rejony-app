@@ -45,14 +45,15 @@ class AreaForm extends AbstractType
 		$builder
 			->add('name', TextType::class, ['label' => 'Name'])
 			->add('territory', ChoiceType::class, ['label' => 'Territory', 'choices' => $options['territoryRepository']->getFormChoices()])
-			->add('status', ChoiceType::class, ['label' => 'Status', 'choices' => $options['statusRepository']->getFormChoices()])
+
 			->add('save', SubmitType::class, ['label' => 'Save']);
 		if (!empty($options['groupRepository'])) {
 			$builder->add('group', ChoiceType::class, ['label' => 'Group', 'choices' => $options['groupRepository']->getFormChoices()]);
+            $builder->add('status', ChoiceType::class, ['label' => 'Status', 'choices' => $options['statusRepository']->getFormChoices()]);
 			$builder->get('group')->addModelTransformer(new EntityTransformer($options['groupRepository']));
+            $builder->get('status')->addModelTransformer(new EntityTransformer($options['statusRepository']));
 		}
 		$builder->get('territory')->addModelTransformer(new EntityTransformer($options['territoryRepository']));
-		$builder->get('status')->addModelTransformer(new EntityTransformer($options['statusRepository']));
 		$builder->addEventSubscriber(new CustomFormEventSubscriber($options['customFormModel']));
 		$builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use($options) {
 			if ($options['customFormModel'] instanceof CompletenessCalculatorInterface) {
