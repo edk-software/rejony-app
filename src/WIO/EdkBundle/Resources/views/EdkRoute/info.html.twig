@@ -22,6 +22,7 @@
 					{% endif %}
 					<div class="status-actions">
 						{% if not isArea %}
+                        {% if not isGroup %}
 						{% if item.approved %}
 						<div class="btn-group">
 							<a class="btn btn-default btn-sm" href="{{ spath(revokePage, {'id': item.id}) }}">{{ 'Revoke' | trans([], 'general') }}</a>
@@ -31,6 +32,7 @@
 							<a class="btn btn-primary btn-sm" href="{{ spath(approvePage, {'id': item.id}) }}">{{ 'Approve' | trans([], 'general') }}</a>
 						</div>
 						{% endif %}
+                        {% endif %}
 						{% endif %}
 						<div class="btn-group">
 							<button type="button" class="btn btn-default btn-sm">{{ 'Manage' | trans([], 'general') }}</button>
