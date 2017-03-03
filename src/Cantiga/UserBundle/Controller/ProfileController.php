@@ -137,9 +137,13 @@ class ProfileController extends UserPageController
 			->formSubmittedMessage('UserSettingsUpdatedText')
 			->onSubmit(function($user) use($repo) {
 				$repo->updateSettings($user);
-				
-				$this->get('session')->set('timezone', $user->getSettingsTimezone());
-				$this->get('session')->set('_locale', $user->getSettingsLanguage()->getLocale());
+
+				$locale = $user->getSettingsLanguage()
+					->getLocale();
+				$session = $this->get('session');
+				$session->set('timezone', $user->getSettingsTimezone());
+				$session->set('_locale', $locale);
+				$session->set('_user_locale', $locale);
 			})
 			->run($this, $request);
 	}
