@@ -563,3 +563,7 @@ div.progress-box div.progress-box-link {
 .small-box p:after {
   content: "\00a0";
 }
+.direct-chat-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
