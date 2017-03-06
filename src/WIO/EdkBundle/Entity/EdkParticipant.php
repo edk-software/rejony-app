@@ -399,7 +399,12 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 				->addViolation();
 			$ok = false;
 		}
-		if (!empty($this->whereLearnt) && WhereLearntAbout::getItem($this->whereLearnt)->isCustom()) {
+		if (empty($this->whereLearnt)) {
+			$context->buildViolation('WhereLearntErrorMsg')
+				->atPath('whereLearnt')
+				->addViolation();
+			$ok = false;
+		} elseif (WhereLearntAbout::getItem($this->whereLearnt)->isCustom()) {
 			if('' == trim($this->whereLearntOther)) {
 				$context->buildViolation('WhereLearntOtherErrorMsg')
 					->atPath('whereLearntOther')

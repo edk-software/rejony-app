@@ -85,7 +85,8 @@
 		<fieldset>
 			<legend>{{ 'Extreme Way' | trans([], 'public') }}</legend>
 			<div class="col-lg-6 col-md-12">
-				<div class="form-group">
+				<div class="form-group{{ form.whereLearnt.vars.valid or form.whereLearntOther.vars.valid ?
+					' has-error' : '' }}">
 					{{ form_label(form.whereLearnt) }}
 					{{ form_widget(form.whereLearnt, {'id': 'where-learnt'}) }}
 					{{ form_widget(form.whereLearntOther, {'id': 'where-learnt-other'}) }}

@@ -10,6 +10,7 @@ return [
 	'TermsNotAcceptedErrorMsg' => 'You have to tick this field in order to take part in Extreme Way.',
 	'HowManyTimesWrongNumberErrorMsg' => 'The value of this field must be greater or equal than 0.',
 	'InvalidAgeErrorMsg' => 'The age must be a number from 1 to 120.',
+	'WhereLearntErrorMsg' => 'Please select where you have learnt about Extreme Way.',
 	'WhereLearntOtherErrorMsg' => 'Please describe where you have learnt about Extreme Way.',
 	'PleaseFillCustomAnswerErrorMsg' => 'This field is obligatory.',
 	'RegisteredPeopleNumInvalidErrorMsg' => 'The number of registered people must be from range 1 to %max%.',
