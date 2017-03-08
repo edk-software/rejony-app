@@ -42,7 +42,10 @@ return array(
 	'Close' => 'Zamknij',
 	'Warning' => 'Ostrzeżenie',
 	'Change' => 'Zmień',
-	
+
+	'No content' => 'Brak zawartości',
+	'No title' => 'Brak tytułu',
+
 	'Indeed, remove it' => 'Zaiste, usuń',
 	'Edit: 0' => 'Edytuj: 0',
 	'Details: 0' => 'Szczegóły: 0',

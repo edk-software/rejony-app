@@ -231,6 +231,7 @@ return array(
 	'Personal data access' => 'Dostęp do danych osobowych',
 	'Member' => 'Członek',
 	'Manager' => 'Zarządca',
+	'Change role' => 'Zmień rolę',
 	
 	// Admin application texts
 	'Content' => 'Treść',
