@@ -54,6 +54,7 @@ return [
 	'Territories' => 'Terytoria',
 	'Magic buttons' => 'Magiczne przyciski',
 	'Project members' => 'Członkowie projektu',
+	'Manage the areas' => 'Zarządzaj rejonami',
 	
 	// Admin workspace menu items
 	'Administration' => 'Administracja',
