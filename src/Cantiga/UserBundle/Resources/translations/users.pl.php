@@ -11,7 +11,7 @@ return [
 	'See profile' => 'Zobacz profil',
 	
 	'The credentials have been changed.' => 'Dane logowania zostały zmienione.',
-	'An error occured during the credential update.' => 'Przepraszamy, wystąpił błąd w trakcie zmiany danych logowania.',
+	'There is no such credentials set to update.' => 'Nie znaleziono wskazanego zestawu danych logowania do zmiany.',
 	
 	'YourCurrentEmailText' => 'Twój obecny adres e-mail to:',
 	'ChangeEmailText' => 'Aby zmienić adres e-mail, musisz podać swoje obecne hasło. Dodatkowo, na Twój stary adres e-mail wysyłana jest wiadomość z odnośnikiem, w który należy kliknąć, aby zatwierdzić zmianę hasła.',

@@ -11,7 +11,7 @@ return [
 	'See profile' => 'See profile',
 	
 	'The credentials have been changed.' => 'The credentials have been changed.',
-	'An error occured during the credential update.' => 'An error occured during the credential update.',
+	'There is no such credentials set to update.' => 'There is no such credentials set to update.',
 	
 	'YourCurrentEmailText' => 'Your current e-mail address for the account is:',
 	'ChangeEmailText' => 'To change the e-mail address, you must enter your current password. In addition, a message is sent to your old e-mail with the link to confirm the change.',
