@@ -200,7 +200,7 @@ class ProfileController extends UserPageController
 			$repo->completeCredentialChangeRequest($changeRequest);
 			$this->get('session')->getFlashBag()->add('info', $this->trans('The credentials have been changed.', [], 'users'));
 		} catch(ModelException $exception) {
-			$this->get('session')->getFlashBag()->add('error', $this->trans('An error occured during the credential update.', [], 'users'));
+			$this->get('session')->getFlashBag()->add('error', $this->trans('There is no such credentials set to update.', [], 'users'));
 		}
 		return $this->redirect($this->generateUrl('cantiga_home_page'));
 	}
