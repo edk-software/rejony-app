@@ -393,7 +393,8 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 				->addViolation();
 			$ok = false;
 		}
-		if ($this->getRegistrationSettings()->hasCustomQuestion()) {
+		$registrationSettings = $this->getRegistrationSettings();
+		if ($registrationSettings->hasCustomQuestion()) {
 			if('' == trim($this->customAnswer)) {
 				$context->buildViolation('PleaseFillCustomAnswerErrorMsg')
 					->atPath('customAnswer')
@@ -401,19 +402,21 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 				$ok = false;
 			}
 		}
-		
-		$mpps = $this->getRegistrationSettings()->getMaxPeoplePerRecord();
-		if($mpps != 1) {
-			if($this->peopleNum > $mpps || $this->peopleNum < 1) {
+
+		$maxPeoplePerRecord = $registrationSettings->getMaxPeoplePerRecord();
+		if (!empty($maxPeoplePerRecord) && $maxPeoplePerRecord > 1) {
+			if ($this->peopleNum > $maxPeoplePerRecord || $this->peopleNum < 1) {
 				$context->buildViolation('RegisteredPeopleNumInvalidErrorMsg')
-					->setParameter('%max%', $mpps)
+					->setParameter('%max%', $maxPeoplePerRecord)
 					->atPath('peopleNum')
 					->addViolation();
 				$ok = false;
 			}
 		}
-		if(!$this->getRegistrationSettings()->getAllowLimitExceed()) {
-			if($this->peopleNum + $this->getRegistrationSettings()->getParticipantNum() > $this->getRegistrationSettings()->getParticipantLimit()) {
+		if (!$registrationSettings->getAllowLimitExceed()) {
+			$participantNum = $registrationSettings->getParticipantNum();
+			$participantLimit = $registrationSettings->getParticipantLimit();
+			if (!empty($participantLimit) && $this->peopleNum + $participantNum > $participantLimit) {
 				$context->buildViolation('NoMorePlacesErrorMsg')
 					->addViolation();
 				$ok = false;

@@ -7,6 +7,11 @@
 {% block box_body %}
 	<div id="registration">
 	{{ form_start(form) }}
+	{% if not form.vars.valid %}
+		<div class="has-error">
+			{{ form_errors(form) }}
+		</div>
+	{% endif %}
 	<div class="row">
 		<div class="col-lg-6 col-md-12">
 			<fieldset>

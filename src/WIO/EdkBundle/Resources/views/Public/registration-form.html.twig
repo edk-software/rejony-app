@@ -9,6 +9,11 @@
 	{{ text.content | raw }}
 	
 	{{ form_start(form) }}
+    {% if not form.vars.valid %}
+		<div class="has-error">
+			{{ form_errors(form) }}
+		</div>
+    {% endif %}
 	<div class="row">
 		{% if route %}
 		<div class="col-lg-6 col-md-12">
