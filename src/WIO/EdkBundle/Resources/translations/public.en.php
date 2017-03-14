@@ -1,7 +1,6 @@
 <?php
 return [
 	'WhereHaveYouLearntAboutField' => 'Where have you learnt about Extreme Way?',
-	'WhereHaveYouLearntAboutContField' => 'Where have you learnt about Extreme Way - cont.',
 	'HowManyTimesField' => 'How many times have you already participated in Extreme Way of the Cross?',
 	'WhyParticipateField' => 'Why would like you to participate in Extreme Way?',
 	'Additional information' => 'Additional information',
@@ -22,7 +21,7 @@ return [
 	'FromNobleParcelProjectWLChoice' => 'from Noble Parcel project/WIOSNA Association',
 	'FromPressArticleWLChoice' => 'from press article',
 	'FromRadioWLChoice' => 'from radio',
-	'OtherWLChoice' => 'other (please describe -->)',
+	'OtherWLChoice' => 'other',
 	
 	'RegistrationSuccessfulText' => 'Thank you, you have registered to Extreme Way of the Cross! We have sent a confirmation to your e-mail with the summary of the rules, and the chosen route.',
 	'AccessKeyInformation' => 'In rare situations, the confirmation may not reach you. Please note down the following access code. It will allow you check the information about your registration later, or remove the request.',

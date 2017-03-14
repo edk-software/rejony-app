@@ -85,23 +85,16 @@
 		<fieldset>
 			<legend>{{ 'Extreme Way' | trans([], 'public') }}</legend>
 			<div class="col-lg-6 col-md-12">
-				<div class="form-group{{ form.whereLearnt.vars.valid or form.whereLearntOther.vars.valid ?
-					' has-error' : '' }}">
-					{{ form_label(form.whereLearnt) }}
-					{{ form_widget(form.whereLearnt, {'id': 'where-learnt'}) }}
-					{{ form_widget(form.whereLearntOther, {'id': 'where-learnt-other'}) }}
-					{{ form_errors(form.whereLearnt) }}
-					{{ form_errors(form.whereLearntOther) }}
-				</div>
+				{{ form_row(form.whereLearnt, {'id': 'where-learnt'}) }}
 			</div>
 			<div class="col-lg-6 col-md-12">
-			{{ form_row(form.howManyTimes) }}
-			</div>
-			<div class="col-lg-6 col-md-12">
-			{{ form_row(form.whyParticipate, {'id': 'why-participate'}) }}
+				{{ form_row(form.howManyTimes) }}
 			</div>
 			<div class="col-lg-12 col-md-12">
-			{{ form_row(form.customAnswer, {'id': 'custom-answer'}) }}
+				{{ form_row(form.whyParticipate, {'id': 'why-participate'}) }}
+			</div>
+			<div class="col-lg-12 col-md-12">
+				{{ form_row(form.customAnswer, {'id': 'custom-answer'}) }}
 			</div>
 		</fieldset>
 	</div>

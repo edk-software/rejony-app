@@ -42,7 +42,6 @@ return [
 	'Sex' => 'Płeć',
 	'Extreme Way' => 'Ekstremalna Droga Krzyżowa',
 	'WhereHaveYouLearntAboutField' => 'Skąd dowiedziałeś się o EDK?',
-	'WhereHaveYouLearntAboutContField' => 'Skąd dowiedziałeś się o EDK - c.d.',
 	'HowManyTimesField' => 'Ile razy byłeś do tej pory na EDK?',
 	'WhyParticipateField' => 'Dlaczego chcesz wziąć udział w EDK?',
 	'Additional information' => 'Dodatkowe informacje',
@@ -80,7 +79,7 @@ return [
 	'FromNobleParcelProjectWLChoice' => 'ze Szlachetnej Paczki/stowarzyszenia WIOSNA',
 	'FromPressArticleWLChoice' => 'z artykułu w prasie',
 	'FromRadioWLChoice' => 'z radia',
-	'OtherWLChoice' => 'inne (podaj jakie -->)',
+	'OtherWLChoice' => 'inne',
 	
 	'You have already registered not so long ago from this computer. Please wait a few moments.' => 'Zarejestrowałeś się przed chwilą z tego komputera. Prosimy zaczekać chwilę.',
 
