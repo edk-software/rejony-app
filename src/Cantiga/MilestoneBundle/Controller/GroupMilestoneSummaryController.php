@@ -60,8 +60,8 @@ class GroupMilestoneSummaryController extends GroupPageController
 			'viewPage' => 'group_milestone_summary',
 			'individualPage' => 'group_milestone_summary_individual_areas',
 			'editPage' => 'group_milestone_editor',
-			'areaInfoPage' => 'area_mgmt_info',
-			'showTypeSelector' => false,			
+			'infoPageRoute' => 'area_mgmt_info',
+			'showTypeSelector' => false,
 			'type' => 0,
 			'items' => $this->repository->findMilestoneProgressForAreasInGroup($membership->getPlace()),
 		));
