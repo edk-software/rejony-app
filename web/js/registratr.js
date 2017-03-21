@@ -63,12 +63,7 @@
 			});
 			reloadAction();
 		}
-		
-	
-		root.find("#where-learnt").change(function() {
-			checkWhereLearntValue();
-		});
-		
+
 		function reloadAction() {
 			$.ajax({
 				url: opts['routeUrl'],
@@ -79,33 +74,17 @@
 				}
 			});
 		}
-		
-		
-		function checkWhereLearntValue() {
-			var value = root.find("#where-learnt").val();
-
-			if(value == 100) {
-				$("#where-learnt-other").prop("disabled", false);
-			} else {
-				$("#where-learnt-other").prop("disabled", true);
-				$("#where-learnt-other").val("");
-			}
-		}
 
 		function disableEverything() {
 			root.find("input").prop("disabled", true);
 			root.find("textarea").prop("disabled", true);
 			root.find("select#where-learnt").prop("disabled", true);
-			root.find("#where-learnt").prop("disabled", true);
-			root.find("#where-learnt-other").prop("disabled", true);
 		}
 
 		function enableEverything(customAnswer) {
 			root.find("input").prop("disabled", false);
 			root.find("textarea").prop("disabled", false);
 			root.find("select#where-learnt").prop("disabled", false);
-
-			checkWhereLearntValue();
 
 			if(customAnswer != "" && null !== customAnswer) {
 				$("label[for='custom-answer']").text(customAnswer);

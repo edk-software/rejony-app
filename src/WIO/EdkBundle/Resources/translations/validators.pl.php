@@ -11,7 +11,6 @@ return [
 	'HowManyTimesWrongNumberErrorMsg' => 'Wartość tego pola musi być większa lub równa 0.',
 	'InvalidAgeErrorMsg' => 'Wiek musi być liczbą z przedziału 1-120.',
 	'WhereLearntErrorMsg' => 'Proszę wybrać, skąd dowiedziałeś się o EDK.',
-	'WhereLearntOtherErrorMsg' => 'Proszę wpisać, skąd dowiedziałeś się o EDK.',
 	'PleaseFillCustomAnswerErrorMsg' => 'Wypełnienie tego pola jest niezbędne do zapisania się na tę trasę.',
 	'RegisteredPeopleNumInvalidErrorMsg' => 'Liczba zapisywanych osób musi być z przedziału 1-%max%.',
 	'NoMorePlacesErrorMsg' => 'Przykro nam, ale na tej trasie skończyły się właśnie miejsca...',

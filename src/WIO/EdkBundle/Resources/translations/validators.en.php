@@ -11,7 +11,6 @@ return [
 	'HowManyTimesWrongNumberErrorMsg' => 'The value of this field must be greater or equal than 0.',
 	'InvalidAgeErrorMsg' => 'The age must be a number from 1 to 120.',
 	'WhereLearntErrorMsg' => 'Please select where you have learnt about Extreme Way.',
-	'WhereLearntOtherErrorMsg' => 'Please describe where you have learnt about Extreme Way.',
 	'PleaseFillCustomAnswerErrorMsg' => 'This field is obligatory.',
 	'RegisteredPeopleNumInvalidErrorMsg' => 'The number of registered people must be from range 1 to %max%.',
 	'NoMorePlacesErrorMsg' => 'We are sorry, but we have already run out of places on this route...',
