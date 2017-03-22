@@ -91,8 +91,6 @@ return [
 	'ThisIsInspiredWayText' => 'To jest trasa "na wzór EDK". Oznacza to, że nie spełnia ona wszystkich standardów prawdziwej EDK, np. jest zbyt krótka, zbyt łatwa.',
 	'RegistrationOverErrorMsg' => 'Przykro nam, ale wygląda na to, że właśnie skończyły się miejsca na wybranej przez Ciebie trasie albo minął czas zapisów.',
 	
-	'Your access code' => 'Twój kod dostępu',
-	
 	'Check your registration' => 'Sprawdź swoje zgłoszenie',
 	'CheckYourRegistrationText' => 'Jeżeli nie dostałeś lub zgubiłeś e-mail z potwierdzeniem zapisania się, możesz wciąż sprawdzić jego stan, o ile masz zapisany kod dostępu, który wyświetlił Ci się tuż po dokonaniu zapisu. Możesz tutaj także usunąć swoje zgłoszenie.',
 	'I want to check my status' => 'Chcę sprawdzić status mojego zgłoszenia',

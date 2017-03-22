@@ -2,17 +2,18 @@
 	$.fn.registratr = function(options) {
 		var opts = $.extend( {}, $.fn.registratr.defaults, options );
 		var root = $(this);
-		var routes = new Array();
-		var routeElem;
+		var routesList = [];
+		var routeSelect;
+		var territorySelect;
 		var selectedRouteId = 0;
 		
 		if (null !== opts['routeSelector'] && null !== opts['routeUrl']) {
-			routeElem = root.find(opts['routeSelector']);
-			selectedRouteId = parseInt(routeElem.data('route-selected'), 10);
-			routeElem.change(function() {
+			routeSelect = root.find(opts['routeSelector']);
+			selectedRouteId = parseInt(routeSelect.data('route-selected'), 10);
+			routeSelect.change(function() {
 				var presenter = root.find(opts['routePresenter']);
-				if (routes[routeElem.val()]) {
-					route = routes[routeElem.val()];
+				if (routesList[routeSelect.val()]) {
+					var route = routesList[routeSelect.val()];
 					presenter.empty();
 					var inspired = '';
 					if (route.t == 1) {
@@ -22,7 +23,7 @@
 					'<tbody>'+
 					'	<tr>'+
 					'		<td width="30%">'+opts['areaText']+'</td>'+
-					'		<td>'+route.area+'</td>'+
+					'		<td>'+route.area.name+'</td>'+
 					'	</tr>'+
 					'	<tr>'+
 					'		<td width="30%">'+opts['beginningText']+'</td>'+
@@ -58,6 +59,7 @@
 					'</table>'+inspired);
 					enableEverything(route.q);
 				} else {
+					presenter.html('');
 					disableEverything();
 				}
 			});
@@ -92,33 +94,67 @@
 				$("label[for='custom-answer']").text(opts['additionalInformationText']);
 			}
 		}
-		
-		function renderSelector(result) {
-			var code = '<option vaule="">---</option>';
-			for (i in result) {
-				code += '<optgroup label="'+result[i]['name']+'" class="wv">';
-				for (j in result[i]['areas']) {
-					code += '<optgroup label="'+result[i]['areas'][j]['name']+'">';
-					for(k in result[i]['areas'][j]['routes']) {
-						var route = result[i]['areas'][j]['routes'][k];
-						route['area'] = result[i]['areas'][j]['name'];
-						routes[route['id']] = route;
-						code += '<option value="'+route['id']+'">'+route['name']+'</option>';
+
+		function selectOptGroup(territoryId) {
+			var optgroups = routeSelect.find('optgroup');
+			optgroups.hide();
+			optgroups.filter('[data-territory="' + territoryId + '"]')
+				.show();
+		}
+
+		function renderSelector(territories) {
+			var routeFormGroup = routeSelect.parent();
+			if (!territorySelect) {
+				territorySelect = $('<select id="territory" class="form-control">');
+				var territoryFormGroup = $('<div class="form-group">');
+				territoryFormGroup.append(territorySelect);
+				routeFormGroup.before(territoryFormGroup);
+				territorySelect.on('change', function () {
+					var selectedTerritoryId = territorySelect.val();
+					if (selectedTerritoryId !== '') {
+						selectOptGroup(selectedTerritoryId);
+						routeFormGroup.show();
+					} else {
+						routeFormGroup.hide();
 					}
-					code += '</optgroup>';
-				}				
-				code += '</optgroup>';
+					routeSelect.val('')
+						.trigger('change');
+				});
 			}
-			routeElem.empty();
-			routeElem.append(code);
+			routeFormGroup.hide();
+
+			var territoryCode = '<option value="">---</option>';
+			var routeCode = '<option value="">---</option>';
+			$.each(territories, function (key, territory) {
+				territoryCode += '<option value="' + territory.id + '">' + territory.name + '</option>';
+				$.each(territory.areas, function (key, area) {
+					routeCode += '<optgroup label="' + area.name + '" data-territory="' + territory.id + '">';
+					$.each(area.routes, function (key, route) {
+						route.area = area;
+						routesList[route.id] = route;
+						routeCode += '<option value="' + route.id + '">' + route.name + '</option>';
+					});
+					routeCode += '</optgroup>';
+				});
+			});
+			territorySelect.empty();
+			territorySelect.append(territoryCode);
+			routeSelect.empty();
+			routeSelect.append(routeCode);
 
 			if (selectedRouteId > 0) {
-				routeElem.val(selectedRouteId);
-				routeElem.trigger('change');
+				routeSelect.val(selectedRouteId);
 				selectedRouteId = 0;
+				routeSelect.trigger('change');
+				routeFormGroup.show();
+				var selectedTerritoryId = routeSelect.find('option:selected')
+					.parent()
+					.data('territory');
+				if (selectedTerritoryId > 0) {
+					selectOptGroup(selectedTerritoryId);
+					territorySelect.val(selectedTerritoryId);
+				}
 			}
-
-			data = result;
 		}
 	};
 	
