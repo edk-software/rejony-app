@@ -370,13 +370,14 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
 		return $cnt;
 	}
 	
-	public function remove(Connection $conn)
+	public function remove(Connection $conn): int
 	{
 		$this->status = $conn->fetchColumn('SELECT `status` FROM `'.CoreTables::AREA_REQUEST_TBL.'` WHERE `id` = :id', [':id' => $this->id]);
 		if ($this->canRemove()) {
 			DataMappers::recount($conn, CoreTables::TERRITORY_TBL, $this->territory, null, 'requestNum', 'id');
-			$conn->delete(CoreTables::AREA_REQUEST_TBL, DataMappers::pick($this, ['id']));
+			return $conn->delete(CoreTables::AREA_REQUEST_TBL, DataMappers::pick($this, ['id']));
 		}
+		return 0;
 	}
 	
 	public function startVerification(Connection $conn, User $verifier)
