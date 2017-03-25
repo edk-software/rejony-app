@@ -18,6 +18,7 @@
  */
 namespace WIO\EdkBundle\Entity;
 
+use Cantiga\Components\Hierarchy\HierarchicalInterface;
 use Cantiga\CoreBundle\CoreTables;
 use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
@@ -25,7 +26,6 @@ use Cantiga\CoreBundle\Entity\Project;
 use Cantiga\CoreBundle\Entity\User;
 use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
 use Cantiga\Metamodel\Capabilities\InsertableEntityInterface;
-use Cantiga\Components\Hierarchy\MembershipEntityInterface;
 use Cantiga\Metamodel\DataMappers;
 use Cantiga\Metamodel\Exception\ModelException;
 use Cantiga\Metamodel\QueryClause;
@@ -57,7 +57,7 @@ class EdkMessage implements IdentifiableInterface, InsertableEntityInterface
 	private $duplicate;
 	private $ipAddress;
 	
-	public static function fetchByRoot(Connection $conn, $id, MembershipEntityInterface $root)
+	public static function fetchByRoot(Connection $conn, $id, HierarchicalInterface $root)
 	{
 		if ($root instanceof Area) {
 			$data = $conn->fetchAssoc('SELECT * FROM `'.EdkTables::MESSAGE_TBL.'` WHERE `id` = :id AND `areaId` = :rootId', [':id' => $id, ':rootId' => $root->getId()]);

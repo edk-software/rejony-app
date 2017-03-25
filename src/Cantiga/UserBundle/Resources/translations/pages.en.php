@@ -25,6 +25,8 @@ return [
 	'InviteNewPeopleAreaText' => 'Invite new people to cooperate in the area',
 	'InviteNewPeopleGroupText' => 'Invite new people to cooperate in the group',
 	'InviteNewPeopleProjectText' => 'Invite new people to cooperate in the project',
-	
+
+	'Group members' => 'Group members',
+
 	'Provide contact data' => 'Provide contact data'
 ];
