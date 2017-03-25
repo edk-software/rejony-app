@@ -87,7 +87,7 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
 			. 'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = r.`territoryId` '
 			. 'LEFT JOIN `'.CoreTables::USER_TBL.'` v ON v.`id` = r.`verifierId` '
 			. 'WHERE r.`id` = :id AND r.`projectId` = :projectId', [':id' => $id, ':projectId' => $project->getId()]);
-		if(null === $data) {
+		if (!is_array($data)) {
 			return false;
 		}
 		$user = User::fetchByCriteria($conn, QueryClause::clause('u.`id` = :id', ':id', $data['requestorId']));
