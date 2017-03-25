@@ -31,13 +31,11 @@ class WhereLearntAbout
 	private static $CHOICES;
 	private $name;
 	private $id;
-	private $custom;
 
-	public function __construct($id, $name, $custom = false)
+	public function __construct($id, $name)
 	{
 		$this->id = $id;
 		$this->name = $name;
-		$this->custom = $custom;
 	}
 
 	public function getId()
@@ -48,11 +46,6 @@ class WhereLearntAbout
 	public function getName()
 	{
 		return $this->name;
-	}
-	
-	public function isCustom()
-	{
-		return $this->custom;
 	}
 
 	public function __toString()
@@ -76,7 +69,7 @@ class WhereLearntAbout
 			11 => new WhereLearntAbout(11, 'FromNobleParcelProjectWLChoice'),
 			12 => new WhereLearntAbout(12, 'FromPressArticleWLChoice'),
 			13 => new WhereLearntAbout(13, 'FromRadioWLChoice'),
-			100 => new WhereLearntAbout(100, 'OtherWLChoice', true)
+			100 => new WhereLearntAbout(100, 'OtherWLChoice')
 		);
 	}
 

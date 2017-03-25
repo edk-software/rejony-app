@@ -64,7 +64,6 @@ abstract class AbstractParticipantForm extends AbstractType
 				'label' => 'WhereHaveYouLearntAboutField',
 				'choices' => WhereLearntAbout::getFormChoices()
 			])
-			->add('whereLearntOther', TextType::class, array('label' => 'WhereHaveYouLearntAboutContField', 'required' => false))
 			->add('whyParticipate', TextareaType::class, array('label' => 'WhyParticipateField', 'required' => false))
 			->add('save', SubmitType::class, array('label' => $this->getRegisterButtonText($options)));
 		$builder->add('customAnswer', TextareaType::class, array(

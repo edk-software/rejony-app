@@ -78,7 +78,9 @@ class AreaRequestFilter implements DataFilterInterface
 	public function createForm(FormBuilderInterface $formBuilder)
 	{
 		$formBuilder->setMethod('GET');
-		$formBuilder->add('status', ChoiceType::class, ['label' => 'Status', 'choices' => array_flip($this->translateStatus(AreaRequest::statusList())), 'required' => false]);
+		$formBuilder->add('status', ChoiceType::class, ['label' => 'Status', 'choices' => array_merge([
+			'---' => '',
+		], array_flip($this->translateStatus(AreaRequest::statusList()))), 'required' => false]);
 		$formBuilder->add('territory', ChoiceType::class, ['label' => 'Territory', 'choices' => $this->territoryRepository->getFormChoices(), 'required' => false]);
 		$formBuilder->add('submit', SubmitType::class, ['label' => 'Filter']);
 		$formBuilder->get('territory')->addModelTransformer(new EntityTransformer($this->territoryRepository));
@@ -89,7 +91,7 @@ class AreaRequestFilter implements DataFilterInterface
 	public function createFilterClause()
 	{
 		$op = QueryOperator::op(' AND ');
-		if (null !== $this->status) {
+		if (is_numeric($this->status)) {
 			$op->expr(QueryClause::clause('i.status = :status', ':status', $this->status));
 		}
 		if (null !== $this->territory) {
@@ -104,7 +106,7 @@ class AreaRequestFilter implements DataFilterInterface
 		if (null !== $this->territory) {
 			$result['territory'] = $this->territory->getId();
 		}
-		if (null !== $this->status) {
+		if (is_numeric($this->status)) {
 			$result['status'] = $this->status;
 		}
 		return ['form' => $result];
