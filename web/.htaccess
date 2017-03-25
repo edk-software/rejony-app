@@ -34,6 +34,12 @@ DirectoryIndex app.php
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Cache-friendly file names: /static/dddddddd/file.ext
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{THE_REQUEST} ^(GET|HEAD)\ (.*)/static/[0-9]{8}/(.*)\ HTTP/ [NC]
+    RewriteRule .+ /%3 [L,NC]
+
     # Redirect to URI without front controller to prevent duplicate content
     # (with and without `/app.php`). Only do this redirect on the initial
     # rewrite by Apache and not on subsequent cycles. Otherwise we would get an

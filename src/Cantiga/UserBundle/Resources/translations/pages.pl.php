@@ -25,6 +25,8 @@ return [
 	'InviteNewPeopleAreaText' => 'Zaproś nowe osoby do współpracy w rejonie',
 	'InviteNewPeopleGroupText' => 'Zaproś nowe osoby do współpracy w grupie',
 	'InviteNewPeopleProjectText' => 'Zaproś nowe osoby do współpracy w projekcie',
-	
+
+	'Group members' => 'Członkowie grupy',
+
 	'Provide contact data' => 'Uzupełnij dane kontaktowe'
 ];

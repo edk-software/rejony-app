@@ -629,6 +629,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	
 	public function update(Connection $conn)
 	{
+		$this->publicAccessSlug = sha1(time() . $this->routeAscent . $this->routeFrom . rand(-20000, 20000));
 		$this->updatedAt = time();
 		
 		if (null !== $this->postedMessage) {

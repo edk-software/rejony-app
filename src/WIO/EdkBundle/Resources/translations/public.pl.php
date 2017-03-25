@@ -42,7 +42,6 @@ return [
 	'Sex' => 'Płeć',
 	'Extreme Way' => 'Ekstremalna Droga Krzyżowa',
 	'WhereHaveYouLearntAboutField' => 'Skąd dowiedziałeś się o EDK?',
-	'WhereHaveYouLearntAboutContField' => 'Skąd dowiedziałeś się o EDK - c.d.',
 	'HowManyTimesField' => 'Ile razy byłeś do tej pory na EDK?',
 	'WhyParticipateField' => 'Dlaczego chcesz wziąć udział w EDK?',
 	'Additional information' => 'Dodatkowe informacje',
@@ -80,7 +79,7 @@ return [
 	'FromNobleParcelProjectWLChoice' => 'ze Szlachetnej Paczki/stowarzyszenia WIOSNA',
 	'FromPressArticleWLChoice' => 'z artykułu w prasie',
 	'FromRadioWLChoice' => 'z radia',
-	'OtherWLChoice' => 'inne (podaj jakie -->)',
+	'OtherWLChoice' => 'inne',
 	
 	'You have already registered not so long ago from this computer. Please wait a few moments.' => 'Zarejestrowałeś się przed chwilą z tego komputera. Prosimy zaczekać chwilę.',
 
@@ -91,8 +90,6 @@ return [
 	'UnregisterNotificationText' => 'Jeśli rezygnujesz z udziału w EDK, prosimy pamiętać o anulowaniu zgłoszenia przy pomocy odnośnika w mailu lub powyższego kodu.',
 	'ThisIsInspiredWayText' => 'To jest trasa "na wzór EDK". Oznacza to, że nie spełnia ona wszystkich standardów prawdziwej EDK, np. jest zbyt krótka, zbyt łatwa.',
 	'RegistrationOverErrorMsg' => 'Przykro nam, ale wygląda na to, że właśnie skończyły się miejsca na wybranej przez Ciebie trasie albo minął czas zapisów.',
-	
-	'Your access code' => 'Twój kod dostępu',
 	
 	'Check your registration' => 'Sprawdź swoje zgłoszenie',
 	'CheckYourRegistrationText' => 'Jeżeli nie dostałeś lub zgubiłeś e-mail z potwierdzeniem zapisania się, możesz wciąż sprawdzić jego stan, o ile masz zapisany kod dostępu, który wyświetlił Ci się tuż po dokonaniu zapisu. Możesz tutaj także usunąć swoje zgłoszenie.',

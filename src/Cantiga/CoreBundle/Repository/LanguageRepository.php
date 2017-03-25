@@ -89,7 +89,7 @@ class LanguageRepository implements EntityTransformerInterface
 		$this->transaction->requestTransaction();
 		$data = $this->conn->fetchAssoc('SELECT * FROM `'.CoreTables::LANGUAGE_TBL.'` WHERE `id` = :id', [':id' => $id]);
 		
-		if(null === $data) {
+		if (!is_array($data)) {
 			$this->transaction->requestRollback();
 			throw new ItemNotFoundException('The specified language has not been found.', $id);
 		}

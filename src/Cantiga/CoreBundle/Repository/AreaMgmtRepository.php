@@ -90,7 +90,7 @@ class AreaMgmtRepository implements EntityTransformerInterface
 		$dt = new DataTable();
 		$dt->id('id', 'i.id')
 			->searchableColumn('name', 'i.name')
-			->column('territory', 't.name');
+			->searchableColumn('territory', 't.name');
 		if ($this->place->isRoot()) {
 			$dt->searchableColumn('groupName', 'i.groupName');
 		}

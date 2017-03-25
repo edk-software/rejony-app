@@ -54,6 +54,7 @@ return [
 	'Territories' => 'Territories',
 	'Magic buttons' => 'Magic buttons',
 	'Project members' => 'Project members',
+	'Manage the areas' => 'Manage the areas',
 	
 	// Admin workspace menu items
 	'Administration' => 'Administration',
