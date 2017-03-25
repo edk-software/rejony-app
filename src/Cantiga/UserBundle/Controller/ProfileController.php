@@ -137,9 +137,13 @@ class ProfileController extends UserPageController
 			->formSubmittedMessage('UserSettingsUpdatedText')
 			->onSubmit(function($user) use($repo) {
 				$repo->updateSettings($user);
-				
-				$this->get('session')->set('timezone', $user->getSettingsTimezone());
-				$this->get('session')->set('_locale', $user->getSettingsLanguage()->getLocale());
+
+				$locale = $user->getSettingsLanguage()
+					->getLocale();
+				$session = $this->get('session');
+				$session->set('timezone', $user->getSettingsTimezone());
+				$session->set('_locale', $locale);
+				$session->set('_user_locale', $locale);
 			})
 			->run($this, $request);
 	}
@@ -196,7 +200,7 @@ class ProfileController extends UserPageController
 			$repo->completeCredentialChangeRequest($changeRequest);
 			$this->get('session')->getFlashBag()->add('info', $this->trans('The credentials have been changed.', [], 'users'));
 		} catch(ModelException $exception) {
-			$this->get('session')->getFlashBag()->add('error', $this->trans('An error occured during the credential update.', [], 'users'));
+			$this->get('session')->getFlashBag()->add('error', $this->trans('There is no such credentials set to update.', [], 'users'));
 		}
 		return $this->redirect($this->generateUrl('cantiga_home_page'));
 	}

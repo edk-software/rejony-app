@@ -7,11 +7,16 @@
 {% block box_body %}
 	<div id="registration">
 	{{ form_start(form) }}
+	{% if not form.vars.valid %}
+		<div class="has-error">
+			{{ form_errors(form) }}
+		</div>
+	{% endif %}
 	<div class="row">
 		<div class="col-lg-6 col-md-12">
 			<fieldset>
 				<legend>{{ 'Choose the route' | trans([], 'public') }}</legend>
-				<div class="form-group col-lg-4">
+				<div class="form-group">
 					<select name="route" class="form-control" id="route" data-route-selected="{{ route }}"></select>
 				</div>
 				<div id="details">
@@ -36,22 +41,16 @@
 					{{ form_row(form.peopleNum) }}
 				</div>
 				<div class="col-lg-6 col-md-12">
-					<div class="form-group">
-						{{ form_label(form.whereLearnt) }}
-						{{ form_widget(form.whereLearnt, {'id': 'where-learnt'}) }}
-						{{ form_widget(form.whereLearntOther, {'id': 'where-learnt-other'}) }}
-						{{ form_errors(form.whereLearnt) }}
-						{{ form_errors(form.whereLearntOther) }}
-					</div>
+					{{ form_row(form.whereLearnt, {'id': 'where-learnt'}) }}
 				</div>
 				<div class="col-lg-6 col-md-12">
-				{{ form_row(form.howManyTimes) }}
-				</div>
-				<div class="col-lg-6 col-md-12">
-				{{ form_row(form.whyParticipate, {'id': 'why-participate'}) }}
+					{{ form_row(form.howManyTimes) }}
 				</div>
 				<div class="col-lg-12 col-md-12">
-				{{ form_row(form.customAnswer, {'id': 'custom-answer'}) }}
+					{{ form_row(form.whyParticipate, {'id': 'why-participate'}) }}
+				</div>
+				<div class="col-lg-12 col-md-12">
+					{{ form_row(form.customAnswer, {'id': 'custom-answer'}) }}
 				</div>
 			</fieldset>
 			<fieldset>

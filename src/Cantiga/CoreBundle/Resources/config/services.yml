@@ -138,6 +138,8 @@ services:
         class:     Cantiga\CoreBundle\Repository\ProjectTerritoryRepository
         arguments: ["@database_connection", "@cantiga.transaction"]
     cantiga.core.repo.text:
+        calls:
+            -      [setTranslator, ["@translator"]]
         class:     Cantiga\CoreBundle\Repository\AppTextRepository
         arguments: ["@database_connection", "@cantiga.transaction"]
     cantiga.core.repo.mail:
