@@ -64,6 +64,7 @@ return array(
 	'Personal data access' => 'Personal data access',
 	'Member' => 'Member',
 	'Manager' => 'Manager',
+	'Change role' => 'Change role',
 	'Create a new project' => 'Create a new project',
 	
 	// Admin application texts

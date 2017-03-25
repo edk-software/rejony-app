@@ -76,7 +76,7 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 			. 'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = a.`territoryId` '
 			. self::createPlaceJoin('a')
 			. 'INNER JOIN `'.CoreTables::PROJECT_TBL.'` p ON p.`id` = a.`projectId` WHERE a.`id` = :id', [':id' => $id]);
-		if(null === $data) {
+		if (!is_array($data)) {
 			return false;
 		}
 		$item = Area::fromArray($data);
@@ -110,7 +110,7 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 			. 'INNER JOIN `'.CoreTables::PROJECT_TBL.'` p ON p.`id` = a.`projectId` '
 			. 'WHERE a.`name` = :name AND a.`projectId` = :parentProject AND m.`userId` = :userId', [
 				':name' => $currentArea->getName(), ':parentProject' => $currentArea->getProject()->getParentProject()->getId(), ':userId' => $user->getId()]);
-		if(null == $data) {
+		if (!is_array($data)) {
 			return false;
 		}
 		$item = Area::fromArray($data);
@@ -150,7 +150,7 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 			. self::createPlaceJoin('a')
 			. 'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = a.`territoryId` '
 			. 'WHERE a.`id` = :id AND '.$selector, [':id' => $id, ':placeId' => $place->getId()]);
-		if(false === $data) {
+		if (!is_array($data)) {
 			return false;
 		}
 		$item = Area::fromArray($data);
@@ -178,7 +178,7 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 			. self::createPlaceJoin('a')
 			. 'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = a.`territoryId` '
 			. 'WHERE a.`placeId` = :placeId', [':placeId' => $place->getId()]);
-		if(false === $data) {
+		if (!is_array($data)) {
 			return false;
 		}
 		$area = self::fromArray($data);

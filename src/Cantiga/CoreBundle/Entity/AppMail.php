@@ -43,7 +43,7 @@ class AppMail implements IdentifiableInterface, InsertableEntityInterface, Edita
 	public static function fetchById(Connection $conn, $id)
 	{
 		$data = $conn->fetchAssoc('SELECT * FROM `'.CoreTables::MAIL_TBL.'` WHERE `id` = :id', [':id' => $id]);
-		if(null === $data) {
+		if (!is_array($data)) {
 			return false;
 		}
 		return self::fromArray($data);

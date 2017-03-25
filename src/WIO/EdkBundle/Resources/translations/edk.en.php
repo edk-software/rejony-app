@@ -72,7 +72,6 @@ return [
 	'RegisteredPeopleCol' => 'Registered people',
 	'HowManyTimesCol' => 'How many times on Ex. Way?',
 	'WhereLearntCol' => 'Where learnt about?',
-	'WhereLearntOtherCol' => 'Where learnt about (other)',
 	'CreatedAtCol' => 'Registered at',
 	'AdditionalInformationCol' => 'Additional information',
 	'WhyParticipateCol' => 'Reason to participate',

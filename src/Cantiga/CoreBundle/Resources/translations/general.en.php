@@ -43,6 +43,9 @@ return array(
 	'Warning' => 'Warning',
 	'Change' => 'Change',
 
+	'No content' => 'No content',
+	'No title' => 'No title',
+
 	'Indeed, remove it' => 'Indeed, remove it',
 	'Edit: 0' => 'Edit: 0',
 	'Details: 0' => 'Details: 0',
