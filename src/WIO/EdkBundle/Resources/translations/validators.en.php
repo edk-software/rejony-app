@@ -14,6 +14,15 @@ return [
 	'PleaseFillCustomAnswerErrorMsg' => 'This field is obligatory.',
 	'RegisteredPeopleNumInvalidErrorMsg' => 'The number of registered people must be from range 1 to %max%.',
 	'NoMorePlacesErrorMsg' => 'We are sorry, but we have already run out of places on this route...',
+
+	'MaxAllowedPeopleErrMsg' => 'There should be from 1 up to 10 people for one record.',
+	'MinimumParticipantLimitErrMsg' => 'Minimum value is 10 participants.',
+	'InvalidRegistrationTypeErrMsg' => 'Invalid registration type.',
+
+	'RouteLengthGreaterThan30Km' => 'Route length should be equal or greater than 30 km.',
+	'Routes30To40KmMustHaveEnoughAscent' => 'Routes from 30 up to 40 km long should have proper ascent.',
+	'RouteLengthGreaterThan20Km' => 'Route length should be equal or greater than 20 km.',
+	'NegativeAscentInvalid' => 'Value of ascent couldn\'t be negative.',
 	
 	'MaxPeoplePerRecordRequired' => 'This field is required with this registration type - please enter a number from 1 to 10.',
 	'FieldRequiredErrMsg' => 'This field is required with this registration type.',
