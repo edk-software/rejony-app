@@ -65,8 +65,8 @@ class ProjectStatsParticipantController extends ProjectPageController
 	public function projectAreaStatsAction($id, Request $request)
 	{
 		try {
-			$repo = $this->get('cantiga.core.repo.project_area');
-			$repo->setActiveProject($this->getActiveProject());
+			$repo = $this->get('cantiga.core.repo.area_mgmt');
+			$repo->setParentPlace($this->getActiveProject());
 			$area = $repo->getItem($id);
 			
 			$stats = $this->getExtensionPoints()->findImplementations(EdkExtensions::AREA_PARTICIPANT_STATS, $this->getExtensionPointFilter());
@@ -83,12 +83,12 @@ class ProjectStatsParticipantController extends ProjectPageController
 			}
 			$this->breadcrumbs()
 				->workgroup('data')
-				->entryLink($this->trans('Areas', [], 'pages'), 'project_area_index', ['slug' => $this->getSlug()])
-				->link($area->getName(), 'project_area_info', ['slug' => $this->getSlug(), 'id' => $area->getId()])
+				->entryLink($this->trans('Areas', [], 'pages'), 'area_mgmt_index', ['slug' => $this->getSlug()])
+				->link($area->getName(), 'area_mgmt_info', ['slug' => $this->getSlug(), 'id' => $area->getId()])
 				->link($this->trans('Participant statistics', [], 'pages'), 'project_area_stats', ['slug' => $this->getSlug(), 'id' => $area->getId()]);
 			return $this->render('WioEdkBundle:ProjectStats:participants.html.twig', array('output' => $output, 'name' => $area->getName()));
 		} catch(ItemNotFoundException $exception) {
-			return $this->showPageWithError($this->trans($exception->getMessage()), 'project_area_index', ['slug' => $this->getSlug()]);
+			return $this->showPageWithError($this->trans($exception->getMessage()), 'area_mgmt_index', ['slug' => $this->getSlug()]);
 		}
 	}
 	

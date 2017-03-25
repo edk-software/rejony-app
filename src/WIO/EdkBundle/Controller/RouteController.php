@@ -28,6 +28,7 @@ use Cantiga\CoreBundle\Api\Actions\QuestionHelper;
 use Cantiga\CoreBundle\Api\Actions\RemoveAction;
 use Cantiga\CoreBundle\Api\Controller\WorkspaceController;
 use Cantiga\CoreBundle\Entity\Area;
+use Cantiga\CoreBundle\Entity\Group;
 use Cantiga\CoreBundle\Entity\Message;
 use Cantiga\Metamodel\Exception\ModelException;
 use Exception;
@@ -132,7 +133,8 @@ class RouteController extends WorkspaceController
 			->set('ajaxChatFeedPage', self::API_FEED_PAGE)
 			->set('ajaxChatPostPage', self::API_POST_PAGE)
 			->set('areaInfoPage', self::AREA_INFO_PAGE)
-			->set('user', $this->getUser())
+            ->set('user', $this->getUser())
+            ->set('isGroup', $this->isGroup($membership))
 			->set('isArea', $this->isArea($membership));
 		if (!$this->isArea($membership)) {
 			$action->set('approvePage', self::APPROVE_PAGE)->set('revokePage', self::REVOKE_PAGE);
@@ -319,6 +321,10 @@ class RouteController extends WorkspaceController
 	{
 		return ($membership->getPlace() instanceof Area);
 	}
+    private function isGroup(Membership $membership)
+    {
+        return ($membership->getPlace() instanceof Group);
+    }
 
 	private function findAreaRepository(Membership $membership)
 	{

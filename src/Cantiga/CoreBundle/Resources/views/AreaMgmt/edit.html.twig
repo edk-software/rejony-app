@@ -17,10 +17,10 @@
 		<div class="col-md-3 col-xs-12">
 			{{ form_row(form.group) }}
 		</div>
-		{% endif %}
 		<div class="col-md-3 col-xs-12">
 			{{ form_row(form.status) }}
 		</div>
+        {% endif %}
 	</div>
 	{% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
 	{{ form_end(form) }}
