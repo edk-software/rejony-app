@@ -183,6 +183,7 @@ class ProjectTerritoryRepository implements EntityTransformerInterface
 		$stmt->bindValue(':projectId', $this->project->getId());
 		$stmt->execute();
 		$result = array();
+		$result['---'] = '';
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			$result[$row['name']] = $row['id'];
 		}
@@ -192,11 +193,17 @@ class ProjectTerritoryRepository implements EntityTransformerInterface
 
 	public function transformToEntity($key)
 	{
+		if (empty($key)) {
+			return null;
+		}
 		return $this->getItem($key);
 	}
 
 	public function transformToKey($entity)
 	{
-		return $entity->getId();
+		if (null !== $entity) {
+			return $entity->getId();
+		}
+		return 0;
 	}
 }

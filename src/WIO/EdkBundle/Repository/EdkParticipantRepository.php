@@ -286,7 +286,7 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 			$routeSelection = ' AND p.`routeId` = :routeId ';
 		}
 		
-		$stmt = $this->conn->prepare('SELECT p.`firstName`, p.`lastName`, p.`sex`, p.`age`, p.`email`, p.`peopleNum`, p.`howManyTimes`, p.`whereLearnt`, p.`whereLearntOther`, p.`createdAt`, p.`customAnswer`, p.`whyParticipate`, r.`name` AS `routeName` '
+		$stmt = $this->conn->prepare('SELECT p.`firstName`, p.`lastName`, p.`sex`, p.`age`, p.`email`, p.`peopleNum`, p.`howManyTimes`, p.`whereLearnt`, p.`createdAt`, p.`customAnswer`, p.`whyParticipate`, r.`name` AS `routeName` '
 			. 'FROM `'.EdkTables::PARTICIPANT_TBL.'` p '
 			. 'INNER JOIN `'.EdkTables::ROUTE_TBL.'` r ON r.`id` = p.`routeId`'
 			. 'WHERE p.`areaId` = :areaId '.$routeSelection.' ORDER BY p.`lastName`');
@@ -317,7 +317,6 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 					$this->trans->trans('RegisteredPeopleCol', [], 'edk'),
 					$this->trans->trans('HowManyTimesCol', [], 'edk'),
 					$this->trans->trans('WhereLearntCol', [], 'edk'),
-					$this->trans->trans('WhereLearntOtherCol', [], 'edk'),
 					$this->trans->trans('CreatedAtCol', [], 'edk'),
 					$this->trans->trans('AdditionalInformationCol', [], 'edk'),
 					$this->trans->trans('WhyParticipateCol', [], 'edk'),

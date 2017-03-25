@@ -58,11 +58,7 @@
 							</tr>
 							<tr>
 								<td width="30%">{{ 'Where learnt about Extreme Way' | trans([], 'edk') }}</td>
-								{% if item.whereLearnt == 100 %}
-								<td>{{ 'OtherWLChoice' | trans([], 'edk') }}: <em>{{ item.whereLearntOther }}</em></td>
-								{% else %}
 								<td>{{ item.getWhereLearntEntity().getName() | trans([], 'edk') }}</td>
-								{% endif %}
 							</tr>
 							<tr>
 								<td width="30%">{{ 'Reason to participate' | trans([], 'edk') }}</td>

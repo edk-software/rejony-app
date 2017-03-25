@@ -58,7 +58,6 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 	private $howManyTimes;
 	private $whyParticipate;
 	private $whereLearnt;
-	private $whereLearntOther;
 	private $terms1Accepted;
 	private $terms2Accepted;
 	private $terms3Accepted;
@@ -218,11 +217,6 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 		return WhereLearntAbout::getItem($this->whereLearnt);
 	}
 
-	public function getWhereLearntOther()
-	{
-		return $this->whereLearntOther;
-	}
-
 	public function getTerms1Accepted()
 	{
 		return $this->terms1Accepted;
@@ -327,13 +321,7 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 
 	public function setWhereLearnt($whereLearnt)
 	{
-		$this->whereLearnt = $whereLearnt;
-		return $this;
-	}
-
-	public function setWhereLearntOther($whereLearntOther)
-	{
-		$this->whereLearntOther = $whereLearntOther;
+		$this->whereLearnt = (int) $whereLearnt;
 		return $this;
 	}
 
@@ -399,15 +387,14 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 				->addViolation();
 			$ok = false;
 		}
-		if (!empty($this->whereLearnt) && WhereLearntAbout::getItem($this->whereLearnt)->isCustom()) {
-			if('' == trim($this->whereLearntOther)) {
-				$context->buildViolation('WhereLearntOtherErrorMsg')
-					->atPath('whereLearntOther')
-					->addViolation();
-				$ok = false;
-			}
+		if (empty($this->whereLearnt)) {
+			$context->buildViolation('WhereLearntErrorMsg')
+				->atPath('whereLearnt')
+				->addViolation();
+			$ok = false;
 		}
-		if ($this->getRegistrationSettings()->hasCustomQuestion()) {
+		$registrationSettings = $this->getRegistrationSettings();
+		if ($registrationSettings->hasCustomQuestion()) {
 			if('' == trim($this->customAnswer)) {
 				$context->buildViolation('PleaseFillCustomAnswerErrorMsg')
 					->atPath('customAnswer')
@@ -415,19 +402,21 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 				$ok = false;
 			}
 		}
-		
-		$mpps = $this->getRegistrationSettings()->getMaxPeoplePerRecord();
-		if($mpps != 1) {
-			if($this->peopleNum > $mpps || $this->peopleNum < 1) {
+
+		$maxPeoplePerRecord = $registrationSettings->getMaxPeoplePerRecord();
+		if (!empty($maxPeoplePerRecord) && $maxPeoplePerRecord > 1) {
+			if ($this->peopleNum > $maxPeoplePerRecord || $this->peopleNum < 1) {
 				$context->buildViolation('RegisteredPeopleNumInvalidErrorMsg')
-					->setParameter('%max%', $mpps)
+					->setParameter('%max%', $maxPeoplePerRecord)
 					->atPath('peopleNum')
 					->addViolation();
 				$ok = false;
 			}
 		}
-		if(!$this->getRegistrationSettings()->getAllowLimitExceed()) {
-			if($this->peopleNum + $this->getRegistrationSettings()->getParticipantNum() > $this->getRegistrationSettings()->getParticipantLimit()) {
+		if (!$registrationSettings->getAllowLimitExceed()) {
+			$participantNum = $registrationSettings->getParticipantNum();
+			$participantLimit = $registrationSettings->getParticipantLimit();
+			if (!empty($participantLimit) && $this->peopleNum + $participantNum > $participantLimit) {
 				$context->buildViolation('NoMorePlacesErrorMsg')
 					->addViolation();
 				$ok = false;
@@ -458,7 +447,7 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 		$this->accessKey = sha1(uniqid(\microtime().$this->lastName.$this->whyParticipate, true));
 		$conn->insert(
 			EdkTables::PARTICIPANT_TBL,
-			DataMappers::pick($this, ['accessKey', 'firstName', 'lastName', 'sex', 'age', 'email', 'peopleNum', 'customAnswer', 'whyParticipate', 'howManyTimes', 'whereLearnt', 'whereLearntOther', 'terms1Accepted', 'terms2Accepted', 'terms3Accepted', 'createdAt', 'ipAddress'], [
+			DataMappers::pick($this, ['accessKey', 'firstName', 'lastName', 'sex', 'age', 'email', 'peopleNum', 'customAnswer', 'whyParticipate', 'howManyTimes', 'whereLearnt', 'terms1Accepted', 'terms2Accepted', 'terms3Accepted', 'createdAt', 'ipAddress'], [
 				'routeId' => $this->registrationSettings->getRoute()->getId(),
 				'areaId' => $this->registrationSettings->getRoute()->getArea()->getId()
 			])
@@ -472,7 +461,7 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 	{
 		$conn->update(
 			EdkTables::PARTICIPANT_TBL,
-			DataMappers::pick($this, ['firstName', 'lastName', 'sex', 'age', 'email', 'peopleNum', 'customAnswer', 'whyParticipate', 'howManyTimes', 'whereLearnt', 'whereLearntOther']),
+			DataMappers::pick($this, ['firstName', 'lastName', 'sex', 'age', 'email', 'peopleNum', 'customAnswer', 'whyParticipate', 'howManyTimes', 'whereLearnt']),
 			['id' => $this->id]
 		);
 	}

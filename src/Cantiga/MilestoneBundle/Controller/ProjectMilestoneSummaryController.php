@@ -64,7 +64,7 @@ class ProjectMilestoneSummaryController extends ProjectPageController
 			'viewPage' => 'project_milestone_summary',
 			'individualPage' => 'project_milestone_summary_individual_areas',
 			'editPage' => 'project_milestone_editor',
-			'areaInfoPage' => 'area_mgmt_info',
+			'infoPageRoute' => $type == 0 ? 'area_mgmt_info' : 'group_mgmt_info',
 			'showTypeSelector' => true,			
 			'type' => $type,
 			'items' => $items,

@@ -30,6 +30,7 @@ use Cantiga\Metamodel\Transaction;
 use Doctrine\DBAL\Connection;
 use PDO;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class AppTextRepository implements EntityTransformerInterface
 {
@@ -45,6 +46,10 @@ class AppTextRepository implements EntityTransformerInterface
 	 * @var Project
 	 */
 	private $project;
+	/**
+	 * @var TranslatorInterface
+	 */
+	private $translator;
 	
 	public function __construct(Connection $conn, Transaction $transaction)
 	{
@@ -55,6 +60,11 @@ class AppTextRepository implements EntityTransformerInterface
 	public function setProject(Project $project)
 	{
 		$this->project = $project;
+	}
+
+	public function setTranslator(TranslatorInterface $translator)
+	{
+		$this->translator = $translator;
 	}
 	
 	/**
@@ -132,8 +142,8 @@ class AppTextRepository implements EntityTransformerInterface
 		$item = AppText::fetchByLocation($this->conn, $place, $locale, $project);
 		if(false === $item) {
 			$item = new AppText();
-			$item->setTitle('No title');
-			$item->setContent('No content');
+			$item->setTitle($this->translator->trans('No title', [], 'general'));
+			$item->setContent($this->translator->trans('No content', [], 'general'));
 			$item->setLocale($locale);
 			$item->setPlace($place);
 			$item->markEmpty();
