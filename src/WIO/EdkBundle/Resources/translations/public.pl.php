@@ -24,8 +24,8 @@ return [
 	'You did not solve the CAPTCHA correctly, sorry.' => 'Nie rozwiązałeś poprawnie wyzwania CAPTCHA, zabezpieczenia przed spamem.',
 	'The specified area has not been found.' => 'Podany rejon nie został znaleziony.',
 
-	'Register' => 'Zapisz się',
-	'Register to Extreme Way of the Cross' => 'Zapisz się na EDK',
+	'Register page' => 'Wyrusz na EDK',
+	'Register to Extreme Way of the Cross' => 'Wyrusz na EDK',
 	'Chosen route: 0' => 'Wybrana trasa: 0',
 	'Choose the route' => 'Wybierz trasę',
 	'Area' => 'Rejon',
@@ -33,7 +33,9 @@ return [
 	'Ending' => 'Koniec',
 	'Extreme Way date' => 'Data EDK',
 	'Max people per record' => 'Max. osób w zgłoszeniu',
-	
+	'Route details' => 'Pełny opis trasy',
+	'Area details' => 'Szczegółowe informacje o rejonie',
+
 	'About you' => 'O Tobie',
 	'First name' => 'Imię',
 	'Last name' => 'Nazwisko',
@@ -43,12 +45,12 @@ return [
 	'Extreme Way' => 'Ekstremalna Droga Krzyżowa',
 	'WhereHaveYouLearntAboutField' => 'Skąd dowiedziałeś się o EDK?',
 	'HowManyTimesField' => 'Ile razy byłeś do tej pory na EDK?',
-	'WhyParticipateField' => 'Dlaczego chcesz wziąć udział w EDK?',
+	'WhyParticipateField' => 'Dlaczego chcesz przejść EDK?',
 	'Additional information' => 'Dodatkowe informacje',
 	'NumberRegisteredPeopleField' => 'Liczba zapisywanych osób',
 	'NumberRegisteredPeopleHintText' => 'Od 1 do maksymalnej ilości osób w zgłoszeniu ustawionej dla tej trasy.',
 	'Legal issues' => 'Zgody',
-	'Register' => 'Zapisz się!',
+	'Register' => 'Wyślij',
 	
 	'Area' => 'Rejon',
 	'Beginning' => 'Początek',
@@ -61,7 +63,7 @@ return [
 	'Registered participants' => 'Zapisanych uczestników',
 	
 	'EmailNotRequiredHelpText' => 'E-mail nie jest obowiązkowy przy dodawaniu uczestnika przez Panel.',	
-	'AgeHelpText' => 'Osoby niepełnoletnie mogą wziąć udział w EDK wyłącznie pod opieką osób dorosłych.',
+	'AgeHelpText' => 'Podawanie powyżej wieku służy jedynie celom statystycznym. Należy pamiętać, że osoby niepełnoletnie przebywaja pod władzą rodzicielską i ich wyruszenie na EDK może odbywać się wyłącznieza zgodą opiekunów prawnych.',
 	
 	'male' => 'mężczyzna',
 	'female' => 'kobieta',
