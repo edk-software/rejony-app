@@ -36,8 +36,6 @@ class EdkRegistrationSettingsForm extends AbstractType
 {
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefined(['timezone']);
-		$resolver->setRequired(['timezone']);
 		$resolver->setDefaults(array(
 			'translation_domain' => 'edk'
 		));
@@ -55,7 +53,6 @@ class EdkRegistrationSettingsForm extends AbstractType
 				'years' => $this->currentYears(),
 				'input' => 'timestamp',
 				'model_timezone' => 'UTC',
-				'view_timezone' => $options['timezone']->getName(),
 				'required' => false,
 			))
 			->add('endTime', DateTimeType::class, array(
@@ -63,7 +60,6 @@ class EdkRegistrationSettingsForm extends AbstractType
 				'years' => $this->currentYears(),
 				'input' => 'timestamp',
 				'model_timezone' => 'UTC',
-				'view_timezone' => $options['timezone']->getName(),
 				'required' => false
 			))
 			->add('externalRegistrationUrl', UrlType::class, ['label' => 'External registration URL', 'attr' => ['help_text' => 'ExternalRegistrationUrlHint'], 'required' => false])
