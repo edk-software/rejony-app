@@ -104,7 +104,7 @@
 
 {% block javascripts_inline %}
 	<script>
-		$('#discussion-content').summernote({ lang: '{{ user.settingsLanguage.locale }}', airMode: true, placeholder: '{{ 'EditorStartTypingPlaceholder' | trans([], 'discussion') }}', popover: {
+		$('#discussion-content').summernote({ lang: '{{ user.settingsLanguage.locale }}', dialogsInBody: true, airMode: true, placeholder: '{{ 'EditorStartTypingPlaceholder' | trans([], 'discussion') }}', popover: {
 			air: [
 				['link', ['link', 'unlink']],
 				['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript']], 
