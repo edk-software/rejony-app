@@ -224,7 +224,7 @@ class EdkRouteRepository
 				. 'WHERE r.`publicAccessSlug` = :slug AND s.`key` = :key', [':slug' => $slug, ':key' => $requestedSetting]);
 			if(false === $data) {
 				$this->transaction->requestRollback();
-				throw new ItemNotFoundException('The specified item has not been found.', $id);
+				throw new ItemNotFoundException('The specified item has not been found.', $slug);
 			}
 			return $data;
 		} catch(Exception $ex) {
