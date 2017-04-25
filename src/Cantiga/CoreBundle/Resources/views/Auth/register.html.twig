@@ -20,8 +20,7 @@
 				<a href="{{ path('cantiga_auth_login') }}">{{ Branding.APP_NAME }}</a>
 		</div><!-- /.login-logo -->
 		<div class="register-box-body">
-			<p class="login-box-msg">Rejestracja w systemie nie jest już możliwa.</p>
-            {#{{ form_start(form) }}
+			{{ form_start(form) }}
 			<p class="login-box-msg">{{ 'Create a new user account' | trans }}</p>
 
 
@@ -76,7 +75,7 @@
 			</div>
 			<p class="login-box-msg"><a href="{{ path('cantiga_auth_terms') }}">{{ 'Terms of use' | trans }}</a> &bull;
 				<a href="{{ path('cantiga_auth_login') }}" class="text-center">{{ 'Back to login' | trans }}</a></p>
-            {{ form_end(form) }}#}
+            {{ form_end(form) }}
 		</div>
 	</div>
 {% endblock %}
