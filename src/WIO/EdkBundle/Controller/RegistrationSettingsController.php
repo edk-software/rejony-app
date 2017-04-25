@@ -120,7 +120,7 @@ class RegistrationSettingsController extends WorkspaceController
 	 */
 	public function editAction($id, Request $request)
 	{
-		$action = new EditAction($this->crudInfo, EdkRegistrationSettingsForm::class, ['timezone' => new DateTimeZone($this->getUser()->getSettingsTimezone())]);
+		$action = new EditAction($this->crudInfo, EdkRegistrationSettingsForm::class);
 		$action->slug($this->getSlug());
 		return $action->run($this, $id, $request);
 	}

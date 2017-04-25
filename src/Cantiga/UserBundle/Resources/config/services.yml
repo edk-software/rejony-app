@@ -39,6 +39,11 @@ services:
             - { name: kernel.event_listener, event: cantiga.workspace.group, method: onGroupWorkspace }
             - { name: kernel.event_listener, event: cantiga.workspace.area, method: onAreaWorkspace }
             - { name: kernel.event_listener, event: cantiga.workspace.user, method: onUserWorkspace }
+    cantiga.user.timezone_listener:
+        class: Cantiga\UserBundle\EventListener\TimezoneListener
+        arguments: ["@security.authorization_checker", "@security.token_storage"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
     cantiga.user.role.voter:
          class: Cantiga\UserBundle\Auth\PlaceRoleVoter
          arguments: ["@cantiga.user.membership.storage"]

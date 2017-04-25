@@ -220,7 +220,7 @@ class UserAreaRequestRepository implements EntityTransformerInterface
 	{
 		$this->transaction->requestTransaction();
 		try {
-			if (!$item->remove($this->conn)) {
+			if ($item->remove($this->conn) < 1) {
 				throw new ModelException('Cannot remove the specified area request.');
 			}
 		} catch(Exception $exception) {
