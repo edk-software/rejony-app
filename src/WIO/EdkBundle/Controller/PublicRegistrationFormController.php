@@ -179,14 +179,13 @@ class PublicRegistrationFormController extends PublicEdkController
 	private function removeRequest($key)
 	{
 		try {
-            return $this->showErrorMessage('ParticipantNotFoundErrMsg');
-			/*$repository = $this->get(self::REPOSITORY_NAME);
+            $repository = $this->get(self::REPOSITORY_NAME);
 			$item = $repository->removeItemByKey($key, $this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue());
 			return $this->render('WioEdkBundle:Public:public-message.html.twig', [
 				'message' => $this->trans('RequestRemovedMsg', [], 'public'),
 				'slug' => $this->project->getSlug(),
 				'currentPage' => 'public_edk_check',
-			]);*/
+			]);
 		} catch(ItemNotFoundException $exception) {
 			return $this->showErrorMessage('ParticipantNotFoundErrMsg');
 		}
