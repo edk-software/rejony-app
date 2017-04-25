@@ -19,7 +19,8 @@ return array(
 	'LeaderGoalsFormLabel' => 'What goals do you have, as a leader of EWC area?',
 	'ParticipationDetailsFormLabel' => 'Did you ever walk or create Extreme Way of the Cross? If yes, please describe your engagement.',
 	'ProjectMgmtExperienceFormLabel' => 'Do you have any experience in project management, people management or event-making? If yes, please describe it briefly.',
-	'ThreeBiggestSuccessesFormLabel' => 'Describe your three biggest successes related to work/hobby/volunteering, including one that was exceptionally hard to you.',	
+	'ThreeBiggestSuccessesFormLabel' => 'Describe your three biggest successes related to work/hobby/volunteering, including one that was exceptionally hard to you.',
+	'StationaryCoursePreferenceLabel' => 'I\'m interested in one-day EWC course at:',
 	'ProjectMgmtExperiencesHelp' => 'Take a broad perspective: experiences from your studies, school, work, etc. (max. 400 characters)',
 	'Max400Chars' => 'Max. 400 characters',
 	
