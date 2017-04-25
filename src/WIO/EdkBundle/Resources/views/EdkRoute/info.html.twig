@@ -213,7 +213,7 @@
 		});
 	</script>
 	<script>
-		$('#note-content-editor').summernote({ lang: '{{ user.settingsLanguage.locale }}', airMode: true, placeholder: '{{ 'EditorStartTypingPlaceholder' | trans([], 'edk') }}', popover: {
+		$('#note-content-editor').summernote({ lang: '{{ user.settingsLanguage.locale }}', dialogsInBody: true, airMode: true, placeholder: '{{ 'EditorStartTypingPlaceholder' | trans([], 'edk') }}', popover: {
 			air: [
 				['link', ['link', 'unlink']],
 				['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript']], 
