@@ -563,6 +563,10 @@ div.progress-box div.progress-box-link {
 .small-box p:after {
   content: "\00a0";
 }
+.direct-chat-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .modal-dialog {
   max-height: calc(100% - 2 * 10px);
   overflow-y: auto;
