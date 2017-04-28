@@ -179,7 +179,7 @@ class PublicRegistrationFormController extends PublicEdkController
 	private function removeRequest($key)
 	{
 		try {
-			$repository = $this->get(self::REPOSITORY_NAME);
+            $repository = $this->get(self::REPOSITORY_NAME);
 			$item = $repository->removeItemByKey($key, $this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue());
 			return $this->render('WioEdkBundle:Public:public-message.html.twig', [
 				'message' => $this->trans('RequestRemovedMsg', [], 'public'),

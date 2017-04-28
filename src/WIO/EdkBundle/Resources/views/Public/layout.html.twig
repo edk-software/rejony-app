@@ -29,7 +29,7 @@
 				  <ul class="list-inline">
 					  <li class="menuactive menuparent"><a class="menuactive menuparent" href="http://www.edk.org.pl">{{ 'Back to EDK home page' | trans([], 'public' ) }}</a></li>
 					  {% if slug is defined %}
-					  <li><a href="{{ path('public_edk_register', {'slug': slug }) }}">{{ 'Register' | trans([], 'public' ) }}</a></li>
+					  <li><a href="{{ path('public_edk_register', {'slug': slug }) }}">{{ 'Register page' | trans([], 'public' ) }}</a></li>
 					  <li><a href="{{ path('public_edk_write_msg', {'slug': slug }) }}">{{ 'Contact with area' | trans([], 'public' ) }}</a></li>
 					  <li><a href="{{ path('public_edk_check', {'slug': slug }) }}">{{ 'Check registration' | trans([], 'public' ) }}</a></li>
 					  {% endif %}
@@ -55,7 +55,7 @@
 				<ul class="list-unstyled">
 					<li><a href="http://www.edk.org.pl/">{{ 'Home page' | trans([], 'public' ) }}</a></li>
 					{% if slug is defined %}
-					<li><a href="{{ path('public_edk_register', {'slug': slug }) }}">{{ 'Register' | trans([], 'public' ) }}</a></li>
+					<li><a href="{{ path('public_edk_register', {'slug': slug }) }}">{{ 'Register page' | trans([], 'public' ) }}</a></li>
 					<li><a href="{{ path('public_edk_write_msg', {'slug': slug }) }}">{{ 'Contact with area' | trans([], 'public' ) }}</a></li>
 					<li><a href="{{ path('public_edk_check', {'slug': slug }) }}">{{ 'Check registration' | trans([], 'public' ) }}</a></li>
 					{% endif %}

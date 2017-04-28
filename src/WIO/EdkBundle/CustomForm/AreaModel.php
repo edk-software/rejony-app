@@ -58,27 +58,27 @@ class AreaModel implements CustomFormModelInterface, CompletenessCalculatorInter
 		]));
 		
 		$builder->add('parishName', TextType::class, array('label' => 'Parish name', 'required' => false, 'constraints' => [
-			new Length(array('min' => 2, 'max' => 50))
-		]));
+			new Length(array('min' => 2, 'max' => 100))
+		], 'attr' => ['maxlength' => 100]));
 		$builder->add('parishAddress', TextType::class, array('label' => 'Parish address', 'required' => false, 'constraints' => [
 			new Length(array('min' => 2, 'max' => 100))
-		]));
+		], 'attr' => ['maxlength' => 100]));
 		$builder->add('parishPostal', TextType::class, array('label' => 'Postal code', 'required' => false, 'constraints' => [
 			new Length(array('min' => 2, 'max' => 12))
-		]));
+		], 'attr' => ['maxlength' => 12]));
 		$builder->add('parishCity', TextType::class, array('label' => 'Parish city', 'required' => false, 'constraints' => [
 			new Length(array('min' => 2, 'max' => 50))
-		]));
+		], 'attr' => ['maxlength' => 50]));
 		$builder->add('parishWebsite', UrlType::class, array('label' => 'Parish website', 'required' => false, 'constraints' => [
 			new Url(array('message' => $this->translator->trans('ParishWebsiteUrlInvalidText')))
 		]));
 		$builder->add('responsiblePriest', TextType::class, array('label' => 'Priest', 'required' => false, 'constraints' => [
 			new Length(array('min' => 2, 'max' => 60))
-		]));
+		], 'attr' => ['maxlength' => 60]));
 		$builder->add('responsibleCoordinator', TextType::class, array('label' => 'Area coordinator', 'required' => false, 'constraints' => [
 			new Length(array('min' => 2, 'max' => 60))
-		]));
-		$builder->add('contactPhone', TextType::class, array('label' => 'Contact telephone', 'required' => false, 'attr' => ['help_text' => 'ContactPhoneHintText'], 'constraints' => [
+		], 'attr' => ['maxlength' => 60]));
+		$builder->add('contactPhone', TextType::class, array('label' => 'Contact telephone', 'required' => false, 'attr' => ['help_text' => 'ContactPhoneHintText', 'maxlength' => 16], 'constraints' => [
 			new Regex(array('pattern' => '/^[0-9\-\+ ]{9,16}$/', 'htmlPattern' => '^[0-9\-\+ ]{9,16}$', 'message' => $this->translator->trans('ContactPhoneNumberInvalidText')))
 		]));
 		$builder->add('areaWebsite', UrlType::class, array('label' => 'Area website', 'required' => false, 'constraints' => [

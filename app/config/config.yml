@@ -9,8 +9,8 @@ parameters:
 
 framework:
     assets:
-        version: 17032201
-        version_format: static/%%2$s/%%1$s
+      version: 17032201
+      version_format: static/%%2$s/%%1$s
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
