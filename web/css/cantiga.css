@@ -567,3 +567,12 @@ div.progress-box div.progress-box-link {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.modal-dialog {
+  max-height: calc(100% - 2 * 10px);
+  overflow-y: auto;
+}
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-height: calc(100% - 2 * 30px);
+  }
+}
