@@ -227,7 +227,7 @@ class ProjectAreaRequestRepository
 	{
 		$this->transaction->requestTransaction();
 		try {
-			if ($item->remove($this->conn) < 1) {
+			if (!$item->remove($this->conn)) {
 				throw new ModelException('Cannot remove the specified area request.');
 			}
 		} catch(Exception $exception) {

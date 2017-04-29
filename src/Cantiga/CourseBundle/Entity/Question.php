@@ -24,8 +24,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Represents a single question with four answers.
- *
- * @author Tomasz Jędrzejewski
  */
 class Question
 {

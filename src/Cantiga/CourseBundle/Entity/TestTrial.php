@@ -21,15 +21,14 @@ namespace Cantiga\CourseBundle\Entity;
 use Cantiga\Metamodel\Exception\ModelException;
 use RuntimeException;
 use Serializable;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Represents a single trial to complete a test. It contains all the displayed questions in the randomized
  * order, and with randomized answers. The class is serializable and does not contain any references to the
  * outside world, so that it can be stored in a session to verify it in a later time.
- *
- * @author Tomasz Jędrzejewski
  */
 class TestTrial implements Serializable
 {
@@ -53,7 +52,7 @@ class TestTrial implements Serializable
 	 * @param TranslatorInterface $translator Translator for static labels
 	 * @return The form
 	 */
-	public function generateTestForm(FormBuilderInterface $fbi, \Symfony\Component\Translation\TranslatorInterface $translator)
+	public function generateTestForm(FormBuilderInterface $fbi, TranslatorInterface $translator)
 	{
 		foreach($this->questions as $idx => $question) {
 			$question->generateFormField($fbi, $idx);
