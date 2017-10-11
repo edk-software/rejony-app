@@ -1,8 +1,8 @@
 <?php
 return [
-	'OpenRegistrationsText' => 'Open area registrations',
-	'AwaitingInvitationsText' => 'Awaiting invitations',
-	'YourAreaRequestsText' => 'Your area requests',
+	'OpenRegistrationsText' => 'New area',
+	'AwaitingInvitationsText' => 'Invitations',
+	'YourAreaRequestsText' => 'Requests',
 	
 	'ProjectMembershipText' => 'You are a member of this project',
 	'GroupMembershipText' => 'You are a member of this group',

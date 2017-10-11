@@ -29,9 +29,9 @@ return [
 	'Profile' => 'Twój profil',
 	'Area requests' => 'Zgłoszenia rejonów',
 	'Request area' => 'Zgłoś rejon',
-	'Your area requests' => 'Twoje zgłoszenia',
+	'Your area requests' => 'Przejrzyj zgłoszenia',
 	'Your places' => 'Twoje miejsca',
-	'Invitations' => 'Zaproszenia',
+	'Invitations' => 'Przejrzyj Zaproszenia',
 	'Request a new area' => 'Zgłoś nowy rejon',
 	
 	// Area workspace menu items

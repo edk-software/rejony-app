@@ -1,8 +1,8 @@
 <?php
 return [
-	'OpenRegistrationsText' => 'Otwarte rejestracje rejonów',
-	'AwaitingInvitationsText' => 'Oczekujące zaproszenia',
-	'YourAreaRequestsText' => 'Twoje zgłoszenia rejonów',
+	'OpenRegistrationsText' => 'Nowy rejon',
+	'AwaitingInvitationsText' => 'Zaproszenia',
+	'YourAreaRequestsText' => 'Zgłoszenia',
 	
 	'ProjectMembershipText' => 'Jesteś członkiem tego projektu',
 	'GroupMembershipText' => 'Jesteś członkiem tej grupy',
