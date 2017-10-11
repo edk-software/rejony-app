@@ -1,6 +1,6 @@
 <?php
 return [
-	'Dashboard' => 'Przegląd',
+	'Dashboard' => 'Pulpit',
 	'User workspace' => 'Przestrzeń użytkownika',
 	'Area workspace' => 'Przestrzeń rejonu',
 	'Group workspace' => 'Przestrzeń grupy',
