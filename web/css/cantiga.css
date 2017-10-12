@@ -554,3 +554,10 @@ div.progress-box div.progress-box-link {
   font-weight: 400;
   font-size: 12px;
 }
+
+.content-header>.breadcrumb {
+  float: none;
+  top: 0px;
+  right: 0px;
+  position: relative;
+}

@@ -8,7 +8,7 @@ return [
 	'Admin workspace' => 'Przestrzeń administracyjna',
 	'NAVIGATION' => 'Nawigacja',
 	
-	'Home' => 'Strona główna',
+	'Home' => 'Pulpit',
 	'Requests' => 'Zgłoszenia',
 	'Places' => 'Miejsca',
 	'Summary' => 'Zestawienia',

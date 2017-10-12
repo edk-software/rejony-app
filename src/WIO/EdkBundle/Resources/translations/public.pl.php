@@ -2,7 +2,7 @@
 return [
 	'Extreme Way of the Cross' => 'Ekstremalna Droga Krzyżowa',
 	'Contact with area' => 'Kontakt z rejonem',
-	'Home page' => 'Strona główna',
+	'Home page' => 'Pulpit',
 	'Back to EDK home page' => 'Powrót do strony EDK',
 	'Partners' => 'Partnerzy',
 
