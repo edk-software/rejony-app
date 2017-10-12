@@ -30,6 +30,7 @@ use Cantiga\CoreBundle\Entity\Invitation;
 use Cantiga\CoreBundle\Entity\User;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Transaction;
+use Cantiga\UserBundle\UserTables;
 use Doctrine\DBAL\Connection;
 use Exception;
 
@@ -145,9 +146,9 @@ class MembershipRepository implements MembershipRepositoryInterface
 
 	public function clearMembership(User $user)
 	{
-		$this->conn->executeUpdate('UPDATE `'.CoreTables::PROJECT_TBL.'` p INNER JOIN `'.CoreTables::PROJECT_MEMBER_TBL.'` m ON m.`projectId` = p.`id` '
+		$this->conn->executeUpdate('UPDATE `'.CoreTables::PLACE_TBL.'` p INNER JOIN `'.UserTables::PLACE_MEMBERS_TBL.'` m ON m.`placeId` = p.`id` '
 			. 'SET p.`memberNum` = (p.`memberNum` - 1) WHERE m.`userId` = :userId', [':userId' => $user->getId()]);
-		$this->conn->executeQuery('DELETE FROM `'.CoreTables::PROJECT_MEMBER_TBL.'` WHERE `userId` = :userId', [':userId' => $user->getId()]);
-		return 'projectNum';
+		$this->conn->executeQuery('DELETE FROM `'.UserTables::PLACE_MEMBERS_TBL.'` WHERE `userId` = :userId', [':userId' => $user->getId()]);
+		return 'placeNum';
 	}
 }
