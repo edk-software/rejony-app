@@ -179,46 +179,10 @@ div.box-status div.status-info div.info-item span {
 .box.box-solid.box-purple > .box-header {
   color: #ffffff;
   background: #605ca8;
-  background-color: #605ca8;
 }
 .box.box-solid.box-purple > .box-header a,
 .box.box-solid.box-purple > .box-header .btn {
   color: #ffffff;
-}
-.login-container {
-  width: 740px;
-  margin: 7% auto;
-  overflow: hidden;
-}
-.login-left {
-  margin: 7% 0 !important;
-  float: left;
-}
-.login-info {
-  float: right;
-  background: #fff;
-  width: 360px;
-  margin-top: 52px;
-  padding: 6px;
-}
-@media (max-width: 768px) {
-  .login-info {
-    width: 90%;
-    margin-top: 20px;
-  }
-}
-.login-bottom {
-  float: left;
-  width: 720px;
-  background: #fff;
-  margin: 10px auto;
-  padding-top: 9px;
-}
-@media (max-width: 768px) {
-  .login-bottom {
-    width: 90%;
-    margin-top: 20px;
-  }
 }
 .login-bottom p {
   text-align: center;
@@ -557,7 +521,7 @@ div.progress-box div.progress-box-link {
 
 .content-header>.breadcrumb {
   float: none;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   position: relative;
 }
