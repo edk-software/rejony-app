@@ -47,6 +47,13 @@ class Configuration implements ConfigurationInterface
 					->end()
 				->end()
 			->end()
+            ->children()
+                ->arrayNode('map')
+                    ->children()
+                        ->scalarNode('secretKey')->defaultValue('')->end()
+                    ->end()
+                ->end()
+            ->end()
 		;
 		return $treeBuilder;
 	}

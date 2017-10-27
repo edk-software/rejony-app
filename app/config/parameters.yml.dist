@@ -18,3 +18,4 @@ parameters:
     sourceMail: foo@example.com
     recaptcha_siteKey:
     recaptcha_secretKey:
+    map_secretKey:

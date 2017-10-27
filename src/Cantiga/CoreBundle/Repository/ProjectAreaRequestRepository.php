@@ -137,7 +137,24 @@ class ProjectAreaRequestRepository
 			$qb->where($dataTable->buildFetchingCondition($qb->getWhere()))->fetchAll($this->conn)
 		);
 	}
-	
+    public function listMapData(TranslatorInterface $trans)
+    {
+        $qb = QueryBuilder::select()
+            ->field('i.id', 'id')
+            ->field('i.name', 'name')
+            ->field('i.lat', 'lat')
+            ->field('i.lng', 'lng')
+            ->field('i.status', 'status')
+            ->from(CoreTables::AREA_REQUEST_TBL, 'i')
+            ->where(QueryClause::clause('i.projectId = :projectId', ':projectId', $this->project->getId()));
+
+        $qb->postprocess(function($row) use($trans) {
+            $row['statusText'] = $trans->trans(AreaRequest::statusText($row['status']), [], 'statuses');
+            return $row;
+        });
+        return $qb->fetchAll($this->conn);
+    }
+
 	public function getItem($id): AreaRequest
 	{
 		$this->transaction->requestTransaction();

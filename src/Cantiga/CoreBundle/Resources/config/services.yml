@@ -68,6 +68,10 @@ services:
     cantiga.security.recaptcha:
         class:     Cantiga\CoreBundle\Services\RecaptchaService
         arguments: ["@=container.getParameter('cantiga')['recaptcha']['siteKey']", "@=container.getParameter('cantiga')['recaptcha']['secretKey']"]
+    cantiga.security.map:
+            class:     Cantiga\CoreBundle\Services\MapService
+            arguments: ["@=container.getParameter('cantiga')['map']['secretKey']"]
+
     cantiga.project.settings.database_storage:
         class:     "%database_settings_storage.class%"
         arguments: ["@database_connection"]

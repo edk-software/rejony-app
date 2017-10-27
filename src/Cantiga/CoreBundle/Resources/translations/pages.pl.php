@@ -31,7 +31,7 @@ return [
 	'Request area' => 'Zgłoś rejon',
 	'Your area requests' => 'Przejrzyj zgłoszenia',
 	'Your places' => 'Twoje miejsca',
-	'Invitations' => 'Przejrzyj Zaproszenia',
+	'Invitations' => 'Przejrzyj zaproszenia',
 	'Request a new area' => 'Zgłoś nowy rejon',
 	
 	// Area workspace menu items

@@ -9,8 +9,8 @@ parameters:
 
 framework:
     assets:
-      version: 17032201
-      version_format: static/%%2$s/%%1$s
+     version: 17032201
+     version_format: static/%%2$s/%%1$s
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
@@ -71,3 +71,5 @@ cantiga_core:
      recaptcha:
           siteKey: "%recaptcha_siteKey%"
           secretKey: "%recaptcha_secretKey%"
+     map:
+          secretKey: "%map_secretKey%"
