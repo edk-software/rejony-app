@@ -22,7 +22,7 @@
 					{% endif %}
 					<div class="status-actions">
 						{% if not isArea %}
-                        {% if not isGroup %}
+						{% if not isGroup %}
 						{% if item.approved %}
 						<div class="btn-group">
 							<a class="btn btn-default btn-sm" href="{{ spath(revokePage, {'id': item.id}) }}">{{ 'Revoke' | trans([], 'general') }}</a>
@@ -32,7 +32,7 @@
 							<a class="btn btn-primary btn-sm" href="{{ spath(approvePage, {'id': item.id}) }}">{{ 'Approve' | trans([], 'general') }}</a>
 						</div>
 						{% endif %}
-                        {% endif %}
+						{% endif %}
 						{% endif %}
 						<div class="btn-group">
 							<button type="button" class="btn btn-default btn-sm">{{ 'Manage' | trans([], 'general') }}</button>
@@ -174,11 +174,174 @@
 		{{ macro.chat_box('Comments' | trans, 'route-comments') }}
 		<div class="box">
 			<div class="box-body">
-				<div id="map-canvas" style="width: 100%; height: 400px;" data-what="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}" data-where="{{ item.routeFrom }}"></div>
+				<div id="map-canvas" style="width: 100%; height: 400px;" 
+					 data-what="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}" 
+					 data-where="{{ item.routeFrom }}"
+					 data-route-params="{{ spath('edk_route_params', {'id': item.id}) }}">
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<!-- /.row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">{{ 'Route verification' | trans({}, 'edk') }}</h3>
+				<div class="box-tools pull-right">
+					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+							class="fa fa-minus"></i>
+					</button>
+				</div>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body">
+				<div class="col-md-8 col-sm-6 col-xs-12">
+					<div id="routeType" class="info-box">
+								<span class="info-box-icon bg-navy-active disabled"><i
+										class="fa fa-flag-o"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
+							<span class="info-box-number"></span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div id="pathLength" class="info-box">
+						<span class="info-box-icon bg-gray-light"><i class="fa fa-map-signs"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Length' | trans({}, 'edk') }}</span>
+							<span class="info-box-number"></span>
+							<span class="users-list-date">{{ 'RouteLengthDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div id="elevationGain" class="info-box">
+						<span class="info-box-icon bg-gray-light"><i class="fa fa-arrow-up"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Total ascent' | trans({}, 'edk') }}</span>
+							<span class="info-box-number"></span>
+							<span class="users-list-date">{{ 'TotalAscentDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div id="elevationLoss" class="info-box">
+						<span class="info-box-icon bg-gray-light"><i class="fa fa-arrow-down"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Total descent' | trans({}, 'edk') }}</span>
+							<span class="info-box-number"></span>
+							<span class="users-list-date">{{ 'TotalDescentDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div id="elevationTotalChange" class="info-box">
+						<span class="info-box-icon bg-gray-light"><i class="fa fa-arrows-v"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Total elevation change' | trans({}, 'edk') }}</span>
+							<span class="info-box-number"></span>
+							<span class="users-list-date">{{ 'TotalElevationChangeDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div id="numberOfStations" class="info-box">
+						<span class="info-box-icon bg-gray-light"><i class="fa fa-map-marker"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Number of stations' | trans({}, 'edk') }}</span>
+							<span class="info-box-number"></span>
+							<span class="users-list-date">{{ 'NumberOfStationsDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div id="updateStationsOrderAndNaming" class="info-box">
+								<span class="info-box-icon bg-gray-light"><i
+										class="fa fa-sort-numeric-asc"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Stations order' | trans({}, 'edk') }}</span>
+							<span class="users-list-date">{{ 'StationsOrderDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div id="updateStationsStartEndMarked" class="info-box">
+						<span class="info-box-icon bg-gray-light"><i class="fa fa-map-pin"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Route start and end' | trans({}, 'edk') }}</span>
+							<span class="users-list-date">{{ 'RouteStartAndEndDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div id="singlePath" class="info-box">
+						<span class="info-box-icon bg-gray-light"><i class="fa fa-circle-o"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Single path' | trans({}, 'edk') }}</span>
+							<span class="users-list-date">{{ 'SinglePathDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+
+				<div class="col-md-8 col-sm-6 col-xs-12">
+					<div id="dataConsistency" class="info-box">
+						<span class="info-box-icon bg-gray-light"><i class="fa fa-warning"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text">{{ 'Data consistency' | trans({}, 'edk') }}</span>
+							<span class="users-list-date">{{ 'DataConsistencyDescription' | trans({}, 'edk') }}</span>
+						</div>
+						<!-- /.info-box-content -->
+					</div>
+					<!-- /.info-box -->
+				</div>
+			</div>
+			<div class="box-footer">
+				<div class="col-md-10">
+					<div id="profilTrasy">{{ 'Elevation chart' | trans({}, 'edk') }}</div>
+					<canvas id="elevationChart"></canvas>
+				</div>
+				<div class="col-md-2">
+					<button id="verifyRoute" type="button" class="box btn btn-flat btn-block btn-primary">
+						<i class="fa fa-gears"></i> {{ 'Verify' | trans({}, 'edk') }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}
 
 {% block stylesheets %}
@@ -192,6 +355,8 @@
 	<script src="{{ asset('js/chatbox.js') }}"></script>
 	<script src="{{ asset('js/summernote.min.js') }}"></script>
 	<script src="{{ asset('js/lang/summernote-'~user.settingsLanguage.locale~'.js')}}"></script>
+	<script src="{{ asset('js/Chart.min.js') }}"></script>
+	<script src="{{ asset('js/routeVerifier.min.js')}}"></script>
 {% endblock %}
 
 {% block javascripts_inline %}
@@ -222,10 +387,10 @@
 			]
 		} } );
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=geometry&v=3.exp"></script>
 	<script>
 	{% raw %}	
-    var geocoder;
+	var geocoder;
 	var map;
 	function initialize() {
 		var myCenter = new google.maps.LatLng(50.06561980,19.946850);
