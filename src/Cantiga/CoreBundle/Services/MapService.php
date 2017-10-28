@@ -37,6 +37,6 @@ class MapService
 
 	public function getGeometryLink()
     {
-        return 'https://maps.googleapis.com/maps/api/js?key='.$this->secretKey.'&libraries=geometry&v=3.exp&callback=initMap';
+        return 'https://maps.googleapis.com/maps/api/js?key='.$this->secretKey.'&libraries=geometry&v=3.exp';
     }
 }
