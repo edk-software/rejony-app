@@ -1,6 +1,7 @@
 function render(data) {
     var myLatLng = {lat: 50.043, lng: 19.498};
-    var map = new google.maps.Map(document.getElementById('map'), {
+    var map = new
+    google.maps.Map(document.getElementById('map'), {
         zoom: 5,
         center: myLatLng,
         styles: [{

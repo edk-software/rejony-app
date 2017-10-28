@@ -31,6 +31,7 @@ use Cantiga\Metamodel\Exception\ModelException;
 class InfoAction extends AbstractAction
 {
 	private $fetch;
+	private $map;
 	
 	public function __construct(CRUDInfo $crudInfo)
 	{
@@ -52,6 +53,12 @@ class InfoAction extends AbstractAction
 		$this->fetch = $callable;
 		return $this;
 	}
+
+	public function setMap($map)
+    {
+        $this->map = $map;
+        return $this;
+    }
 	
 	public function run(CantigaController $controller, $id, $customDataGenerator = null)
 	{
@@ -67,7 +74,7 @@ class InfoAction extends AbstractAction
 			if(is_callable($customDataGenerator)) {
 				$customData = $customDataGenerator($item);
 			}
-			
+
 			$vars = $this->getVars();
 			$vars['pageTitle'] = $this->info->getPageTitle();
 			$vars['pageSubtitle'] = $this->info->getPageSubtitle();
@@ -79,7 +86,9 @@ class InfoAction extends AbstractAction
 			$vars['insertPage'] = $this->info->getInsertPage();
 			$vars['editPage'] = $this->info->getEditPage();
 			$vars['removePage'] = $this->info->getRemovePage();
-			
+			if (!is_null($this->map))
+                $vars['map'] = $this->map;
+
 			$controller->breadcrumbs()->link($name, $this->info->getInfoPage(), $this->slugify(['id' => $id]));
 			
 			return $controller->render($this->info->getTemplateLocation().$this->info->getInfoTemplate(), $vars);

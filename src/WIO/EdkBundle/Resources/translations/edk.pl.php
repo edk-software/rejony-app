@@ -56,7 +56,7 @@ return [
 	'RouteMapCopyrightInformationText' => 'Zabronione jest publikowanie map objętych prawami autorskimi!',
 	'Save' => 'Zapisz trasę',
 
-	'Route verification' => 'Weryfikacja śladu trasy',
+	'Route verification' => 'Automatyczna weryfikacja trasy',
 	'Route type' => 'Typ trasy',
 	'Length' => 'Długość',
 	'RouteLengthDescription' => 'Długość wyliczona na podstawie dołączonego śladu trasy.',
@@ -77,7 +77,7 @@ return [
 	'Data consistency' => 'Zgodność danych',
 	'DataConsistencyDescription' => 'Długość trasy (±1km), suma podejść (±50m) oraz typ powinny zgadzać się z wyliczonymi wartościami.',
 	'Elevation chart' => 'Profil trasy',
-	'Verify' => 'Sprawdź',
+	'Verify' => 'Zweryfikuj poprawność śladu trasy',
 
 	'Not uploaded' => 'Niewgrany',
 	

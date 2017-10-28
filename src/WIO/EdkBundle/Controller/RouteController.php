@@ -101,7 +101,7 @@ class RouteController extends WorkspaceController
 			'insertPage' => $this->crudInfo->getInsertPage(),
 			'ajaxListPage' => self::API_LIST_PAGE,
 			'isArea' => $this->isArea($membership),
-			'importer' => $this->getImportService(),
+			'importer' => $this->getImportService()
 		));
 	}
 	
@@ -139,6 +139,7 @@ class RouteController extends WorkspaceController
 		if (!$this->isArea($membership)) {
 			$action->set('approvePage', self::APPROVE_PAGE)->set('revokePage', self::REVOKE_PAGE);
 		}
+		$action->setMap($this->get('cantiga.security.map'));
 		return $action->run($this, $id);
 	}
 	 
