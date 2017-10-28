@@ -55,7 +55,7 @@ class RouteController extends WorkspaceController
 	const APPROVE_PAGE = 'edk_route_approve';
 	const REVOKE_PAGE = 'edk_route_revoke';
 	const AREA_INFO_PAGE = 'area_mgmt_info';
-	
+
 	/**
 	 * @var CRUDInfo
 	 */
@@ -311,6 +311,23 @@ class RouteController extends WorkspaceController
 			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 		}
 	}
+
+	/**
+	 * @Route("/{id}/params", name="edk_route_params")
+	 */
+	public function getParams($id)
+	{
+		try {
+			$edkRoute = $this->crudInfo->getRepository()->getItem($id);
+			return new JsonResponse(['success' => 1, 
+									 'type' => $edkRoute->getRouteType(),
+									 'length' => $edkRoute->getRouteLength(),
+									 'ascent' => $edkRoute->getRouteAscent()]);
+		} catch (Exception $exception) {
+			return new JsonResponse(['success' => 0,
+									 'error' => $exception->getMessage()]);
+		}
+	}
 	
 	public function getImportService(): ImporterInterface
 	{
@@ -321,10 +338,10 @@ class RouteController extends WorkspaceController
 	{
 		return ($membership->getPlace() instanceof Area);
 	}
-    private function isGroup(Membership $membership)
-    {
-        return ($membership->getPlace() instanceof Group);
-    }
+	private function isGroup(Membership $membership)
+	{
+		return ($membership->getPlace() instanceof Group);
+	}
 
 	private function findAreaRepository(Membership $membership)
 	{

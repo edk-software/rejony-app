@@ -19,7 +19,17 @@ return [
 	'RouteMapFileUpload' => 'File with the map for the route (PDF, JPG)',
 	'RouteGPSTraceFileUpload' => 'File with the GPS trace (KML)',
 	'RouteMapCopyrightInformationText' => 'It is strictly forbidden to upload maps protected by the copyrights!',
-	
+
+	'RouteLengthDescription' => 'Route length calculated from GPS trace file.',
+	'TotalAscentDescription' => 'Total ascent calculated from GPS trace file.',
+	'TotalDescentDescription' => 'Total descent calculated from GPS trace file.',
+	'TotalElevationChangeDescription' => 'Total elevation change calculated from GPS trace file.',
+	'NumberOfStationsDescription' => 'Route shall contain 14 stations.',
+	'StationsOrderDescription' => 'Stations shall be numbered and appear on the route in ascending order.',
+	'RouteStartAndEndDescription' => 'Route start and end shall be marked.',
+	'SinglePathDescription' => 'GPS trace shall contain only one path.',
+	'DataConsistencyDescription' => 'Route length (±1km), total ascent (±50m) and route type shall be consistent with calculated from GPS trace file.',
+
 	'AreaAdditionalNoteInfoText' => 'Below you can edit additional sections about your area that will be shown on the website.',
 	'EwcBeginningNote' => 'Beginning',
 	'EwcRegistrationNote' => 'Registration',
