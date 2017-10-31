@@ -48,7 +48,7 @@
 			</div>
 			<div class="box-footer">
 				<a href="{{ spath(indexPage) }}" class="btn btn-default btn-sm" role="button">{{ 'Back' | trans({}, 'general') }}</a>
-				<a href="{{ spath(editPage, {'id': item.id }) }}" class="btn btn-warning btn-sm" role="button">{{ 'Edit' | trans({}, 'general') }}</a>
+				<a href="{{ spath(editPage, {'id': item.id }) }}" class="btn btn-primary btn-sm" role="button">{{ 'Edit' | trans({}, 'general') }}</a>
 				{% if item.canRemove() %}
 					<a href="{{ spath(removePage, {'id': item.id }) }}" class="btn btn-danger btn-sm" role="button">{{ 'Remove' | trans({}, 'general') }}</a>
 				{% endif %}

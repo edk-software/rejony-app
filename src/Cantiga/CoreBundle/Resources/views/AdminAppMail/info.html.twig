@@ -35,7 +35,7 @@
 {% block box_footer %}
 <p>
 	<a href="{{ path('admin_app_mail_index') }}" class="btn btn-default btn-sm" role="button">{{ 'Back' | trans({}, 'general') }}</a>
-	<a href="{{ path('admin_app_mail_edit', {'id': item.id }) }}" class="btn btn-warning btn-sm" role="button">{{ 'Edit' | trans({}, 'general') }}</a>
+	<a href="{{ path('admin_app_mail_edit', {'id': item.id }) }}" class="btn btn-primary btn-sm" role="button">{{ 'Edit' | trans({}, 'general') }}</a>
 	<a href="{{ path('admin_app_mail_remove', {'id': item.id }) }}" class="btn btn-danger btn-sm" role="button">{{ 'Remove' | trans({}, 'general') }}</a>
 </p>
 {% endblock %}

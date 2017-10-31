@@ -234,7 +234,7 @@ $code = <<<EOF
 	columnDefs: [
 		{{ dt_actions(dataTable, [
 			{ 'link': 'info_link', 'name': 'Info' | trans({}, 'general'), 'label': 'btn-primary' },
-			{ 'link': 'edit_link', 'name': 'Edit' | trans({}, 'general'), 'label': 'btn-warning' },
+			{ 'link': 'edit_link', 'name': 'Edit' | trans({}, 'general'), 'label': 'btn-primary' },
 			{ 'link': 'remove_link', 'name': 'Remove' | trans({}, 'general'), 'label': 'btn-danger' },
 		]) }}
 	]
@@ -266,7 +266,7 @@ $code = <<<EOF
 {% block box_footer %}
 <p>
 	<a href="{{ path('{$this->routePrefix}_index') }}" class="btn btn-default btn-sm" role="button">{{ 'Back' | trans({}, 'general') }}</a>
-	<a href="{{ path('{$this->routePrefix}_edit', {'id': item.id }) }}" class="btn btn-warning btn-sm" role="button">{{ 'Edit' | trans({}, 'general') }}</a>
+	<a href="{{ path('{$this->routePrefix}_edit', {'id': item.id }) }}" class="btn btn-primary btn-sm" role="button">{{ 'Edit' | trans({}, 'general') }}</a>
 	<a href="{{ path('{$this->routePrefix}_remove', {'id': item.id }) }}" class="btn btn-danger btn-sm" role="button">{{ 'Remove' | trans({}, 'general') }}</a>
 </p>
 {% endblock %}
