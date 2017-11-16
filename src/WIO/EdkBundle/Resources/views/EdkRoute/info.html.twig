@@ -227,32 +227,83 @@
                             <i class="fa fa-gears"></i> {{ 'Verify' | trans({}, 'edk') }}
                         </button>
                     </div>
-                    <div class="col-md-8 col-sm-6 col-xs-12">
-                        <div id="routeType" class="info-box">
-								<span class="info-box-icon bg-navy-active disabled"><i
-                                            class="fa fa-flag-o"></i></span>
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div id="singlePath" class="info-box">
+							<span class="info-box-icon bg-gray-light"><i class="fa fa-circle-o"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="pathLength" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-signs"></i></span>
+							<div class="info-box-content">
+								<span class="info-box-text">{{ 'Single path' | trans({}, 'edk') }}</span>
+								<span class="users-list-date">{{ 'SinglePathDescription' | trans({}, 'edk') }}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div id="pathLength" class="info-box">
+							<span class="info-box-icon bg-gray-light"><i class="fa fa-map-signs"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Length' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                                <span class="users-list-date">{{ 'RouteLengthDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
+							<div class="info-box-content">
+								<span class="info-box-text">{{ 'Length' | trans({}, 'edk') }}</span>
+								<span class="info-box-number"></span>
+								<span class="users-list-date">{{ 'RouteLengthDescription' | trans({}, 'edk') }}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div id="routeType" class="info-box">
+							<span class="info-box-icon bg-navy-active disabled"><i class="fa fa-flag-o"></i></span>
+							<input type="hidden" id="normalRouteString" value="{{ 'FullRoute' | trans({}, 'edk') }}" />
+							<input type="hidden" id="inspiredRouteString" value="{{ 'RouteInspiredByEWC' | trans({}, 'edk') }}" />
+							<div class="info-box-content">
+								<span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
+								<span class="info-box-number"></span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div id="numberOfStations" class="info-box">
+							<span class="info-box-icon bg-gray-light"><i class="fa fa-map-marker"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">{{ 'Stations number and naming' | trans({}, 'edk') }}</span>
+								<span class="info-box-number"></span>
+								<span class="users-list-date">{{ 'NumberOfStationsDescription' | trans({}, 'edk') }}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div id="stationsOrder" class="info-box">
+								<span class="info-box-icon bg-gray-light"><i
+										class="fa fa-sort-numeric-asc"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">{{ 'Stations order' | trans({}, 'edk') }}</span>
+								<span class="users-list-date">{{ 'StationsOrderDescription' | trans({}, 'edk') }}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div id="stationsOnPath" class="info-box">
+							<span class="info-box-icon bg-gray-light"><i class="fa fa-map-pin"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">{{ 'Stations location' | trans({}, 'edk') }}</span>
+								<span class="users-list-date">{{ 'StationsOnPathDescription' | trans({}, 'edk') }}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div id="elevationGain" class="info-box">
                             <span class="info-box-icon bg-gray-light"><i class="fa fa-arrow-up"></i></span>
@@ -293,58 +344,6 @@
                         <!-- /.info-box -->
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="numberOfStations" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-marker"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Number of stations' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                                <span class="users-list-date">{{ 'NumberOfStationsDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="updateStationsOrderAndNaming" class="info-box">
-								<span class="info-box-icon bg-gray-light"><i
-                                            class="fa fa-sort-numeric-asc"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Stations order' | trans({}, 'edk') }}</span>
-                                <span class="users-list-date">{{ 'StationsOrderDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="updateStationsStartEndMarked" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-pin"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Route start and end' | trans({}, 'edk') }}</span>
-                                <span class="users-list-date">{{ 'RouteStartAndEndDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="singlePath" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-circle-o"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Single path' | trans({}, 'edk') }}</span>
-                                <span class="users-list-date">{{ 'SinglePathDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-
-                    <div class="col-md-8 col-sm-6 col-xs-12">
                         <div id="dataConsistency" class="info-box">
                             <span class="info-box-icon bg-gray-light"><i class="fa fa-warning"></i></span>
 
