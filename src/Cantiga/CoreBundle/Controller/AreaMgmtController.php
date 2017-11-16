@@ -73,7 +73,7 @@ class AreaMgmtController extends WorkspaceController
 			->setItemUpdatedMessage('The area profile \'0\' has been updated.');
 
 		$this->breadcrumbs()
-			->workgroup('data')
+			->workgroup('area')
 			->entryLink($this->trans('Areas', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 		$this->get(self::REPOSITORY_NAME)->setParentPlace($this->get('cantiga.user.membership.storage')->getMembership()->getPlace());
 		$this->checkCapabilities();

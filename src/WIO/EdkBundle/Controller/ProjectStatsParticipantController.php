@@ -82,7 +82,7 @@ class ProjectStatsParticipantController extends ProjectPageController
 				}
 			}
 			$this->breadcrumbs()
-				->workgroup('data')
+				->workgroup('area')
 				->entryLink($this->trans('Areas', [], 'pages'), 'area_mgmt_index', ['slug' => $this->getSlug()])
 				->link($area->getName(), 'area_mgmt_info', ['slug' => $this->getSlug(), 'id' => $area->getId()])
 				->link($this->trans('Participant statistics', [], 'pages'), 'project_area_stats', ['slug' => $this->getSlug(), 'id' => $area->getId()]);

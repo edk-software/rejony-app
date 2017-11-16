@@ -1,114 +1,143 @@
 {% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
 
 {% block page_title %}
-	{{ pageTitle | trans({}, 'pages') }}
+    {{ pageTitle | trans({}, 'pages') }}
 {% endblock %}
 
 {% block page_subtitle %}
-	{{ pageSubtitle | trans({}, 'pages') }}
+    {{ pageSubtitle | trans({}, 'pages') }}
 {% endblock %}
 
 {% block page_content %}
-<div class="row" id="ppp">
-	<div class="col-md-7 col-sm-6 col-xs-12">
-		<h4>{{ 'Area details: 0' | trans([item.name]) }}</h4>
-		<div class="box">
-			<div class="box-body box-status">
-				<div class="status-line">
-					<div class="status-item status-{{ item.status.label }}">{{ item.status.name | trans({}, 'statuses') }}</div>
-					<div class="status-actions">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default btn-sm">{{ 'Manage' | trans([], 'general') }}</button>
-							<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<span class="caret"></span>
-								<span class="sr-only">{{ 'Toggle dropdown' | trans([], 'general') }}</span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ spath('downstream_membership_index', {'id': item.id, 'placeType': 'area' })}}">{{ 'Members' | trans({}, 'general') }}</a></li>
-								<li><a href="{{ spath('area_mgmt_edit', {'id': item.id }) }}">{{ 'Edit' | trans({}, 'general') }}</a></li>
-								{{ macro.render_context_menu(custom.links) }}
-							</ul>
-						</div>
-						<a href="{{ spath('area_mgmt_index') }}" class="btn btn-default btn-sm">{{ 'Back' | trans([], 'general') }}</a>
-					</div>
-				</div>
-				<div class="status-info">
-					<div class="info-item">
-						<h4><i class="fa fa-flag-o"></i> {{ 'Group' | trans }}</h4>
-						{% if item.group %}
-						<span class="value"><a href="{{ spath('group_mgmt_info', {'id': item.group.id}) }}">{{ item.group.name }}</a></span>
-						{% else %}
-						<span class="value"><em>{{ 'GroupUnassigned' | trans }}</em></span>
-						{% endif %}
-					</div>
-					<div class="info-item">
-						<h4><i class="fa fa-globe"></i> {{ 'Territory' | trans }}</h4>
-						<span class="value">{{ item.territory.name }}</span>
-					</div>
-					<div class="info-item">
-						<h4><i class="fa fa-user"></i> {{ 'Member number' | trans }}</h4>
-						<span class="value">{{ item.place.memberNum }}</span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="nav-tabs-custom">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#request-info" aria-controls="request-info" role="tab" data-toggle="tab">{{ 'Area information' | trans }}</a></li>
-				<li><a href="#members" aria-controls="members" role="tab" data-toggle="tab">{{ 'Members' | trans([], 'general') }}</a></li>
-			</ul>
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="request-info">
-					<div class="progress progress-sm">
-						<div class="progress-bar progress-bar-{{ custom.progressBarColor }}" role="progressbar" aria-valuenow="{{item.percentCompleteness}}" aria-valuemin="0" aria-valuemax="100" style="width: {{item.percentCompleteness}}%">
-							<span class="sr-only">{{item.percentCompleteness}}%</span>
-						</div>
-					</div>
-					<table class="table table-hover">
-						<tbody>
-							{% include custom.summary.template with { 'summary': custom.summary, 'item': item } only %}
-						</tbody>
-					</table>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="members">
-					<table class="table table-hover" id="member-table">
-						<thead>
-							<tr>
-								<th width="32"></th>
-								<th>{{ 'Name' | trans }}</th>
-								<th width="20%">{{ 'Location' | trans([], 'users') }}</th>
-								<th width="20%">{{ 'Function' | trans([], 'users') }}</th>
-								<th width="20%">{{ 'E-mail' | trans([], 'users') }}</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>				
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-5 col-sm-6 col-xs-12">
-		{{ custom.extensions | raw }}
-	</div>
-</div>
+    <div class="row" id="ppp">
+        <div class="col-md-7 col-sm-6 col-xs-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h4 class="box-title">{{ item.name }} <span
+                                class="label label-{{ item.status.label }}">{{ item.status.name | trans({}, 'statuses') }}</span>
+                    </h4>
+                    <div class="pull-right box-tools">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="fa fa-bars"></i></button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a href="{{ spath('downstream_membership_index', {'id': item.id, 'placeType': 'area' }) }}">{{ 'Members' | trans({}, 'general') }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ spath('area_mgmt_edit', {'id': item.id }) }}">{{ 'Edit' | trans({}, 'general') }}</a>
+                                </li>
+                                {{ macro.render_context_menu(custom.links) }}
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{ spath('area_mgmt_index') }}">{{ 'Back' | trans([], 'general') }}</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-6 no-padding">
+                        <strong><i class="fa fa-globe margin-r-5"></i> {{ 'Territory' | trans }}</strong>
+                        <p class="text-muted">{{ item.territory.name }}</p>
+                        <hr>
+                        <strong><i class="fa fa-user margin-r-5"></i> {{ 'Member number' | trans }}</strong>
+                        <p class="text-muted">{{ item.place.memberNum }}</p>
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <strong><i class="fa fa-flag-o margin-r-5"></i> {{ 'Group' | trans }}</strong>
+                        <p class="text-muted">
+                            {% if item.group %}<a
+                                href="{{ spath('group_mgmt_info', {'id': item.group.id}) }}">{{ item.group.name }}</a>
+                            {% else %}
+                                <em>{{ 'GroupUnassigned' | trans }}</em>
+                            {% endif %}
+                        </p>
+                        <hr>
+                        <strong>
+                            {% if item.stationaryTraining %}
+                                <i class="fa fa-check margin-r-5"></i>
+                            {% else %}
+                                <i class="fa fa-close margin-r-5"></i>
+                            {% endif %}
+                            {{ 'Stationary Training' | trans }}
+                        </strong><br>
+                        <strong>
+                            {% if item.contract %}
+                                <i class="fa fa-check margin-r-5"></i>
+                            {% else %}
+                                <i class="fa fa-close margin-r-5"></i>
+                            {% endif %}
+                            {{ 'Contract' | trans }}
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#request-info" aria-controls="request-info" role="tab"
+                                          data-toggle="tab">{{ 'Area information' | trans }}</a></li>
+                    <li><a href="#members" aria-controls="members" role="tab"
+                           data-toggle="tab">{{ 'Members' | trans([], 'general') }}</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="request-info">
+                        <div class="progress progress-sm">
+                            <div class="progress-bar progress-bar-{{ custom.progressBarColor }}" role="progressbar"
+                                 aria-valuenow="{{ item.percentCompleteness }}" aria-valuemin="0" aria-valuemax="100"
+                                 style="width: {{ item.percentCompleteness }}%">
+                                <span class="sr-only">{{ item.percentCompleteness }}%</span>
+                            </div>
+                        </div>
+                        <table class="table table-hover">
+                            <tbody>
+                            {% include custom.summary.template with { 'summary': custom.summary, 'item': item } only %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="members">
+                        <table class="table table-hover" id="member-table">
+                            <thead>
+                            <tr>
+                                <th width="32"></th>
+                                <th>{{ 'Name' | trans }}</th>
+                                <th width="20%">{{ 'Location' | trans([], 'users') }}</th>
+                                <th width="20%">{{ 'Function' | trans([], 'users') }}</th>
+                                <th width="20%">{{ 'E-mail' | trans([], 'users') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-6 col-xs-12">
+            {{ custom.extensions | raw }}
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-	<script src="{{ asset('js/members-display.js') }}"></script>
+    {{ parent() }}
+    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('js/members-display.js') }}"></script>
 {% endblock %}
 
 {% block javascripts_inline %}
-	<script type="text/javascript">
-	$(document).ready(function() {
-		$('#member-table').membersDisplay({
-			url: '{{ spath(ajaxMembersPage, {'id': item.id}) }}',
-			table: '#member-table',
-			tab: 'members',
-			avatars: '{{ asset('ph') }}'
-		});
-	});
-	</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#member-table').membersDisplay({
+                url: '{{ spath(ajaxMembersPage, {'id': item.id}) }}',
+                table: '#member-table',
+                tab: 'members',
+                avatars: '{{ asset('ph') }}'
+            });
+        });
+    </script>
 {% endblock %}

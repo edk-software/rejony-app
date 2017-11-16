@@ -51,7 +51,9 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 	private $createdAt;
 	private $lastUpdatedAt;
 	private $percentCompleteness;
-	
+	private $stationaryTraining;
+	private $contract;
+
 	private $oldGroup;
 	private $oldStatus;
 	private $oldTerritory;
@@ -333,6 +335,28 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 		$this->reporter = $reporter;
 		return $this;
 	}
+
+	public function getStationaryTraining()
+    {
+        return $this->stationaryTraining;
+    }
+
+    public function setStationaryTraining($stationaryTraining)
+    {
+        $this->stationaryTraining = $stationaryTraining;
+        return $this;
+    }
+
+    public function getContract()
+    {
+        return $this->contract;
+    }
+
+    public function setContract($contract)
+    {
+        $this->contract = $contract;
+        return $this;
+    }
 	
 	public function getCreatedAt()
 	{
@@ -445,7 +469,7 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 		
 		return $conn->update(
 			CoreTables::AREA_TBL,
-			DataMappers::pick($this, ['name', 'group', 'territory', 'status', 'lastUpdatedAt', 'percentCompleteness'], ['customData' => json_encode($this->customData), 'groupName' => $groupName]),
+			DataMappers::pick($this, ['name', 'group', 'territory', 'status', 'lastUpdatedAt', 'percentCompleteness', 'stationaryTraining', 'contract'], ['customData' => json_encode($this->customData), 'groupName' => $groupName]),
 			DataMappers::pick($this, ['id'])
 		);
 	}

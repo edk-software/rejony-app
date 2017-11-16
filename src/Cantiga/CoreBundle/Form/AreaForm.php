@@ -22,6 +22,7 @@ use Cantiga\Metamodel\Capabilities\CompletenessCalculatorInterface;
 use Cantiga\Metamodel\CustomForm\CustomFormEventSubscriber;
 use Cantiga\Metamodel\CustomForm\CustomFormModelInterface;
 use Cantiga\Metamodel\Form\EntityTransformer;
+use Cantiga\CoreBundle\Form\Type\BooleanType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -44,6 +45,8 @@ class AreaForm extends AbstractType
 	{
 		$builder
 			->add('name', TextType::class, ['label' => 'Name'])
+			->add('stationaryTraining', BooleanType::class, ['label' => 'Stationary Training', 'required' => true, 'disabled' => false])
+			->add('contract', BooleanType::class, ['label' => 'Contract', 'required' => true, 'disabled' => false])
 			->add('territory', ChoiceType::class, ['label' => 'Territory', 'choices' => $options['territoryRepository']->getFormChoices()])
 
 			->add('save', SubmitType::class, ['label' => 'Save']);

@@ -104,15 +104,16 @@ class WorkspaceListener implements WorkspaceSourceInterface
 		$project = $workspace->getProject();
         if ($this->authChecker->isGranted('PLACE_MEMBER')) {
             $workspace->addWorkgroup(new Workgroup('request', 'Area requests', 'plus-square-o', 1));
+            $workspace->addWorkgroup(new Workgroup('area', 'Areas', 'flag-o', 1));
         }
-		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 1));
+		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 9));
 
 		if ($this->authChecker->isGranted('PLACE_VISITOR')) {
 			$workspace->addWorkgroup(new Workgroup('statistics', 'Statistics', 'bar-chart', 1));
 			$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 2));
 		}
 		if ($this->authChecker->isGranted('PLACE_MEMBER')) {
-			$workspace->addWorkgroup(new Workgroup('data', 'Data', 'database', 3));
+			$workspace->addWorkgroup(new Workgroup('data', 'Data', 'database', 4));
 		}
 		if ($this->authChecker->isGranted('PLACE_MANAGER')) {
 			$workspace->addWorkgroup(new Workgroup('manage', 'Manage', 'wrench', 10));
@@ -124,7 +125,7 @@ class WorkspaceListener implements WorkspaceSourceInterface
 		
 		if ($project->getAreasAllowed()) {
 			$workspace->addWorkItem('request', new WorkItem('project_area_request_index', 'Area requests'));
-			$workspace->addWorkItem('data', new WorkItem('area_mgmt_index', 'Areas'));
+			$workspace->addWorkItem('area', new WorkItem('area_mgmt_index', 'Areas'));
 		}
 		$workspace->addWorkItem('data', new WorkItem('project_buttons', 'Magic buttons'));
 		$workspace->addWorkItem('data', new WorkItem('group_mgmt_index', 'Groups'));
@@ -144,10 +145,11 @@ class WorkspaceListener implements WorkspaceSourceInterface
 		$project = $workspace->getProject();
 		
 		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 1));
-		$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 2));
-		$workspace->addWorkgroup(new Workgroup('data', 'Data', 'database', 3));
+        $workspace->addWorkgroup(new Workgroup('area', 'Areas', 'flag-o', 2));
+        $workspace->addWorkgroup(new Workgroup('data', 'Data', 'database', 3));
+		$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 4));
 		if ($project->getAreasAllowed()) {
-			$workspace->addWorkItem('data', new WorkItem('area_mgmt_index', 'Areas'));
+			$workspace->addWorkItem('area', new WorkItem('area_mgmt_index', 'Areas'));
 		}
 	}
 	
