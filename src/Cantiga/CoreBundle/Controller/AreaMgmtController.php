@@ -64,7 +64,7 @@ class AreaMgmtController extends WorkspaceController
 		$this->crudInfo = $this->newCrudInfo(self::REPOSITORY_NAME)
 			->setTemplateLocation('CantigaCoreBundle:AreaMgmt:')
 			->setItemNameProperty('name')
-			->setPageTitle('Areas')
+			->setPageTitle('Areas list')
 			->setPageSubtitle('Manage the areas')
 			->setIndexPage('area_mgmt_index')
 			->setInfoPage('area_mgmt_info')
@@ -74,7 +74,7 @@ class AreaMgmtController extends WorkspaceController
 
 		$this->breadcrumbs()
 			->workgroup('area')
-			->entryLink($this->trans('Areas', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
+			->entryLink($this->trans('Areas list', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 		$this->get(self::REPOSITORY_NAME)->setParentPlace($this->get('cantiga.user.membership.storage')->getMembership()->getPlace());
 		$this->checkCapabilities();
 	}

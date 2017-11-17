@@ -83,7 +83,7 @@ class ProjectStatsParticipantController extends ProjectPageController
 			}
 			$this->breadcrumbs()
 				->workgroup('area')
-				->entryLink($this->trans('Areas', [], 'pages'), 'area_mgmt_index', ['slug' => $this->getSlug()])
+				->entryLink($this->trans('Areas list', [], 'pages'), 'area_mgmt_index', ['slug' => $this->getSlug()])
 				->link($area->getName(), 'area_mgmt_info', ['slug' => $this->getSlug(), 'id' => $area->getId()])
 				->link($this->trans('Participant statistics', [], 'pages'), 'project_area_stats', ['slug' => $this->getSlug(), 'id' => $area->getId()]);
 			return $this->render('WioEdkBundle:ProjectStats:participants.html.twig', array('output' => $output, 'name' => $area->getName()));
