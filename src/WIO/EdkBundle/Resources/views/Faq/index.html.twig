@@ -1,0 +1,17 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_content %}
+    {% for category in categories %}
+        {% if category.questionsByLevel(level)|length > 0 %}
+            <h3>{{ category.name }}</h3>
+            {% for question in category.questionsByLevel(level, false) %}
+                <h4><a href="{{ path(questionRouteName, {id: question.id, slug: slug}) }}">{{ question.topic }}</a></h4>
+                {% if question.answer starts with '<p>' %}
+                    {{ question.answer|raw }}
+                {% else %}
+                    <p>{{ question.answer|raw }}</p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

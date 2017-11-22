@@ -1,0 +1,29 @@
+WIO\EdkBundle\Entity\EdkFaqQuestion:
+    repositoryClass:                    WIO\EdkBundle\Repository\EdkFaqQuestionRepository
+    table:                              cantiga_edk_faq_question
+    type:                               entity
+
+    indexes:
+        Q_INDEX_1:
+            columns:
+                -                       level
+
+    fields:
+        id:
+            generator:
+                strategy:               AUTO
+            id:                         true
+            type:                       integer
+        topic:
+            type:                       string
+        answer:
+            type:                       text
+        level:
+            type:                       integer
+
+    manyToOne:
+        category:
+            cascade:
+                -                       persist
+            inversedBy:                 questions
+            targetEntity:               WIO\EdkBundle\Entity\EdkFaqCategory
