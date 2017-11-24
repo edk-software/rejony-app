@@ -9,4 +9,4 @@ env:
 before_script:
   - cp ./app/config/parameters_test.yml.dist ./app/config/parameters_test.yml
   - composer install
-  - php bin/console cantiga:install:db --env=test --type=$DB
+  - php bin/console doctrine:migrations:migrate

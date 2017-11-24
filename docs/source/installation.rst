@@ -42,7 +42,7 @@ Composer will download the necessary dependencies and ask you several questions 
 
 The final step is installing the database structure::
 
-    php bin/console cantiga:install:db --env=prod -i --type=mysql
+    php bin/console doctrine:migrations:migrate
     
 Now you can run the web application in your browser. The login screen should appear. The default credentials are:
 
