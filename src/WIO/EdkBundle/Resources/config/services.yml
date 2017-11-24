@@ -66,12 +66,18 @@ services:
             - { name: kernel.event_listener, event: cantiga.export.ongoing, method: onProjectExported }
     wio.edk.workspace_listener:
         class: WIO\EdkBundle\EventListener\WorkspaceListener
-        arguments: ["@security.authorization_checker"]
+        arguments: ["@security.authorization_checker", "@router", "@translator"]
         tags:
             - { name: kernel.event_listener, event: cantiga.workspace.project, method: onProjectWorkspace }
             - { name: kernel.event_listener, event: cantiga.workspace.group, method: onGroupWorkspace }
             - { name: kernel.event_listener, event: cantiga.workspace.area, method: onAreaWorkspace }
             - { name: kernel.event_listener, event: cantiga.ui.ctxmenu.project.area, method: onProjectAreaInfo }
+            - { name: kernel.event_listener, event: cantiga.ui.help, method: onUiHelp }
+    wio.edk.kernel_listener:
+        class: WIO\EdkBundle\EventListener\KernelListener
+        arguments: ["@wio.edk.workspace_listener"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
     wio.edk.dashboard.recent_comments:
         class:     WIO\EdkBundle\Extension\DashboardChatExtension
         arguments: ["@wio.edk.repo.route", "@templating", "@cantiga.user.membership.storage"]

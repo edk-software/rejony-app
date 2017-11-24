@@ -21,8 +21,12 @@ namespace WIO\EdkBundle\EventListener;
 use Cantiga\CoreBundle\Api\Workgroup;
 use Cantiga\CoreBundle\Api\WorkItem;
 use Cantiga\CoreBundle\Event\ContextMenuEvent;
+use Cantiga\CoreBundle\Event\ShowHelpEvent;
 use Cantiga\CoreBundle\Event\WorkspaceEvent;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\DataCollectorTranslator;
 
 class WorkspaceListener
 {
@@ -30,12 +34,25 @@ class WorkspaceListener
 	 * @var AuthorizationCheckerInterface 
 	 */
 	private $authChecker;
+	private $request;
+	private $router;
+    private $translator;
 	
-	public function __construct(AuthorizationCheckerInterface $authChecker)
+	public function __construct(AuthorizationCheckerInterface $authChecker, Router $router,
+        DataCollectorTranslator $translator)
 	{
 		$this->authChecker = $authChecker;
+        $this->router = $router;
+        $this->translator = $translator;
 	}
-	
+
+    public function setRequest(Request $request) : self
+    {
+        $this->request = $request;
+        
+        return $this;
+    }
+
 	public function onProjectWorkspace(WorkspaceEvent $event)
 	{
 		$workspace = $event->getWorkspace();
@@ -51,7 +68,7 @@ class WorkspaceListener
 			$workspace->addWorkItem('participants', new WorkItem('edk_reg_settings_index', 'Registration settings'));
 		}
 	}
-	
+
 	public function onGroupWorkspace(WorkspaceEvent $event)
 	{
 		$workspace = $event->getWorkspace();
@@ -87,4 +104,40 @@ class WorkspaceListener
 	{
 		$event->addLink('Participant statistics', 'project_area_stats', ['id' => $event->getEntity()->getId()]);
 	}
+
+    public function onUiHelp(ShowHelpEvent $event)
+    {
+        $pages = $event->getPages();
+        $lastPage = end($pages);
+        if (is_array($lastPage)) {
+            // @HACK: FAQ link adding dependent on other links existed on list
+            switch ($lastPage['route']) {
+                case 'area_members':
+                    $pages[] = $this->getFaqPage('area_faq_index');
+                    break;
+
+                case 'group_members':
+                    $pages[] = $this->getFaqPage('group_faq_index');
+                    break;
+
+                case 'project_members':
+                    $pages[] = $this->getFaqPage('project_faq_index');
+                    break;
+            }
+            $event->setPages($pages);
+        }
+    }
+
+    private function getFaqPage(string $route)
+    {
+        $slug = $this->request->attributes->get('slug');
+        $faqPage = [
+            'route' => $this->router->generate($route, [
+                'slug' => $slug,
+            ]),
+            'title' => $this->translator->trans('Frequently asked questions', [], 'pages'),
+        ];
+        
+        return $faqPage;
+    }
 }
