@@ -17,4 +17,6 @@ return [
 	'Manage registered participants' => 'Zarządzaj zarejestrowanymi uczestnikami',
 	'View participant progression per area summary' => 'Oglądaj zestawienie przyrostu uczestników w rejonach',
     'Frequently asked questions' => 'Najczęściej zadawane pytania',
+    'Knowledge and materials' => 'Wiedza i materiały',
+    'On-line courses' => 'Szkolenia on-line',
 ];

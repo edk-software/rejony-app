@@ -57,14 +57,15 @@ class WorkspaceListener
 	{
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('edk')) {
+            $workspace->addWorkgroup(new Workgroup('knowledge', 'Knowledge and materials', 'book', 1));
 			$workspace->addWorkgroup(new Workgroup('participants', 'Participants', 'male', 6));
-			
+            
+			$workspace->addWorkItem('knowledge', new WorkItem('project_faq_index', 'Help'));
+			$workspace->addWorkItem('knowledge', new WorkItem('project_course_summary_index', 'Course results'));
 			$workspace->addWorkItem('statistics', new WorkItem('project_stats_route_index', 'Route statistics'));
 			$workspace->addWorkItem('statistics', new WorkItem('project_stats_participant_index', 'Participant statistics'));
 			$workspace->addWorkItem('summary', new WorkItem('project_participant_summary', 'Participants'));
 			$workspace->addWorkItem('data', new WorkItem('edk_route_index', 'Routes'));
-			$workspace->addWorkItem('data', new WorkItem('project_faq_index', 'Help'));
-			
 			$workspace->addWorkItem('participants', new WorkItem('edk_reg_settings_index', 'Registration settings'));
 		}
 	}
@@ -73,10 +74,12 @@ class WorkspaceListener
 	{
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('edk')) {
+            $workspace->addWorkgroup(new Workgroup('knowledge', 'Knowledge and materials', 'book', 0));
 			$workspace->addWorkgroup(new Workgroup('participants', 'Participants', 'male', 4));
-			
+            
+			$workspace->addWorkItem('knowledge', new WorkItem('group_faq_index', 'Help'));
+			$workspace->addWorkItem('knowledge', new WorkItem('group_course_summary_index', 'Course results'));
 			$workspace->addWorkItem('data', new WorkItem('edk_route_index', 'Routes'));
-			$workspace->addWorkItem('data', new WorkItem('group_faq_index', 'Help'));
 			$workspace->addWorkItem('participants', new WorkItem('edk_reg_settings_index', 'Registration settings'));
 		}
 	}
@@ -86,11 +89,13 @@ class WorkspaceListener
 		$workspace = $event->getWorkspace();
 		
 		if ($workspace->getProject()->supportsModule('edk')) {
+            $workspace->addWorkgroup(new Workgroup('knowledge', 'Knowledge and materials', 'book', 0));
 			$workspace->addWorkgroup(new Workgroup('participants', 'Participants', 'male', 4));
-			
+
+			$workspace->addWorkItem('knowledge', new WorkItem('area_course_index', 'On-line courses'));
+			$workspace->addWorkItem('knowledge', new WorkItem('area_faq_index', 'Help'));
 			$workspace->addWorkItem('area', new WorkItem('area_note_index', 'WWW: area information'));
 			$workspace->addWorkItem('area', new WorkItem('edk_route_index', 'Routes'));
-			$workspace->addWorkItem('area', new WorkItem('area_faq_index', 'Help'));
 			$workspace->addWorkItem('participants', new WorkItem('edk_reg_settings_index', 'Registration settings'));
 			$workspace->addWorkItem('participants', new WorkItem('area_edk_message_index', 'Messages'));
 			$workspace->addWorkItem('participants', new WorkItem('area_stats_participant_index', 'Participant statistics'));

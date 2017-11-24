@@ -19,7 +19,7 @@ class AreaFaqController extends AreaPageController
 
     public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
     {
-        $this->initializeParams('area', EdkFaqQuestion::LEVEL_AREA, 'area_faq_index', 'area_faq_info');
+        $this->initializeParams('knowledge', EdkFaqQuestion::LEVEL_AREA, 'area_faq_index', 'area_faq_info');
     }
 
     /**

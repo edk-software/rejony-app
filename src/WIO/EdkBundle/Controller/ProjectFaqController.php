@@ -19,7 +19,7 @@ class ProjectFaqController extends ProjectPageController
     
     public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
     {
-        $this->initializeParams('data', EdkFaqQuestion::LEVEL_PROJECT, 'project_faq_index', 'project_faq_info');
+        $this->initializeParams('knowledge', EdkFaqQuestion::LEVEL_PROJECT, 'project_faq_index', 'project_faq_info');
     }
 
     /**

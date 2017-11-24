@@ -19,7 +19,7 @@ class GroupFaqController extends GroupPageController
 
     public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
     {
-        $this->initializeParams('data', EdkFaqQuestion::LEVEL_GROUP, 'group_faq_index', 'group_faq_info');
+        $this->initializeParams('knowledge', EdkFaqQuestion::LEVEL_GROUP, 'group_faq_index', 'group_faq_info');
     }
 
     /**
