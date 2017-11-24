@@ -41,24 +41,25 @@ trait FaqControllerTrait
 
         return $this->render('WioEdkBundle:Faq:index.html.twig', [
             'categories' => $categories,
+            'categoryRouteName' => $this->infoRouteName,
             'level' => $this->level,
-            'questionRouteName' => $this->infoRouteName,
             'slug' => $this->getSlug(),
         ]);
     }
 
     public function renderInfo(int $id) : Response
     {
-        $repository = $this->get('wio.edk.repo.faq_question');
-        $question = $repository->findOneBy([
+        $repository = $this->get('wio.edk.repo.faq_category');
+        $categories = $repository->findBy([
             'id' => $id,
         ]);
-        if (!isset($question) || $question->getLevel() > $this->level) {
+        if (count($categories) != 1) {
             throw new NotFoundHttpException();
         }
 
-        return $this->render('WioEdkBundle:Faq:info.html.twig', [
-            'question' => $question,
+        return $this->render('WioEdkBundle:Faq:index.html.twig', [
+            'categories' => $categories,
+            'level' => $this->level,
         ]);
     }
 }
