@@ -28,7 +28,7 @@ trait FaqControllerTrait
         $this
             ->breadcrumbs()
             ->workgroup($workgroup)
-            ->entryLink($this->trans('Help', [], 'pages'), $this->indexRouteName, [
+            ->entryLink($this->trans('Frequently asking questions', [], 'pages'), $this->indexRouteName, [
                 'slug' => $this->getSlug(),
             ])
         ;
