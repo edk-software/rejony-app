@@ -32,11 +32,7 @@
                                         <div id="collapse-{{ category.id }}-{{ question.id }}"
                                             class="panel-collapse collapse" aria-expanded="false" style="height:0">
                                             <div class="box-body">
-                                                {% if question.answer starts with '<p>' %}
-                                                    {{ question.answer|raw }}
-                                                {% else %}
-                                                    <p>{{ question.answer|raw }}</p>
-                                                {% endif %}
+                                                {{ question.answer|raw }}
                                             </div>
                                         </div>
                                     </div>
