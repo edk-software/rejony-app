@@ -29,13 +29,11 @@
 		</div>
 	</div>
 	<div class="col-lg-12">
-		
-		
 		{{ form_row(form.save) }}
 	</div>
 	{{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts_head %}
-<script src='https://www.google.com/recaptcha/api.js'></script>
+	<script src="{{ recaptcha_api_url }}"></script>
 {% endblock %}

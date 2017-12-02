@@ -29,6 +29,7 @@ use Cantiga\CoreBundle\Form\PasswordRecoveryCompleteForm;
 use Cantiga\CoreBundle\Form\PasswordRecoveryRequestForm;
 use Cantiga\CoreBundle\Form\UserRegistrationForm;
 use Cantiga\Metamodel\Exception\ModelException;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
@@ -80,6 +81,7 @@ class AuthController extends CantigaController
 	{
 		$repository = $this->get('cantiga.core.repo.user_registration');
 		$langRepo = $this->get('cantiga.core.repo.language');
+        $recaptcha = $this->get('cantiga.security.recaptcha');
 		try {
 			$intent = new UserRegistrationIntent($repository);
 			$intent->email = $request->get('fromMail', '');
@@ -91,12 +93,17 @@ class AuthController extends CantigaController
 			$form->handleRequest($request);
 
 			if ($form->isValid()) {
-				$intent->execute();			
-				return $this->render('CantigaCoreBundle:Auth:post-registration.html.twig');
+			    if ($recaptcha->verifyRecaptcha($request)) {
+                    $intent->execute();
+                    return $this->render('CantigaCoreBundle:Auth:post-registration.html.twig');
+                } else {
+                    $form->addError(new FormError($this->trans('You did not solve the CAPTCHA correctly, sorry.', [], 'public')));
+                }
 			}
 			return $this->render('CantigaCoreBundle:Auth:register.html.twig', [
 				'item' => $intent,
 				'form' => $form->createView(),
+                'recaptcha' => $recaptcha,
 			]);
 		} catch(ModelException $exception) {
 			$this->get('session')->getFlashBag()->add('error', $this->trans($exception->getMessage()));

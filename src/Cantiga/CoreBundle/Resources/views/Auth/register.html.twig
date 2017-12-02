@@ -1,5 +1,9 @@
 {% extends 'CantigaCoreBundle:layout:login-layout.html.twig' %}
 
+{% block javascripts_head %}
+	<script src="{{ recaptcha_api_url }}"></script>
+{% endblock %}
+
 {% block javascripts_inline %}
 	<script>
 	  $(function () {
@@ -56,6 +60,9 @@
 				<span class="glyphicon glyphicon-globe form-control-feedback"></span>
                 {{ form_errors(form.language) }}
 			</div>
+			<div class="form-group has-feedback">
+                {{ recaptcha.generateHtmlCode() | raw }}
+			</div>
 			<div class="row">
 				<div class="col-xs-1">
 					<div class="checkbox icheck" name="acceptRules">
@@ -70,7 +77,7 @@
 				</div>
 				<!-- /.col -->
 				<div class="col-xs-4">
-					<button type="submit" class="btn btn-primary btn-block btn-flat">{{ 'Register' |trans }}</button>
+					<button type="submit" class="btn btn-primary btn-block btn-flat">{{ 'Register' | trans }}</button>
 				</div>
 			</div>
 			<p class="login-box-msg"><a href="{{ path('cantiga_auth_terms') }}">{{ 'Terms of use' | trans }}</a> &bull;
