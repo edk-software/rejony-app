@@ -31,6 +31,7 @@ class CoreTexts
 	const AREA_REQUEST_REVOKED_INFO_TEXT = 'cantiga:area-request:revoked';
 	const TERMS_OF_USE_TEXT = 'cantiga:terms-of-use';
 	const LOGIN_TEXT = 'cantiga:login';
+	const PROCESSING_PERSONAL_DATA = 'cantiga:processing-data';
 	const DASHBOARD_USER_TEXT = 'cantiga:dashboard:user';
 	const DASHBOARD_ADMIN_TEXT = 'cantiga:dashboard:admin';
 	const DASHBOARD_PROJECT_TEXT = 'cantiga:dashboard:project';

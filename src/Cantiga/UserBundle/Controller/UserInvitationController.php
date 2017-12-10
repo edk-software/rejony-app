@@ -80,6 +80,7 @@ class UserInvitationController extends UserPageController
 			$form = $this->createForm(
 				ContactDataForm::class, $contactData, [
 					'action' => $this->generateUrl('user_invitation_accept', ['id' => $id]),
+                    'isUserRequestForm' => false
 				]
 			);
 			$form->handleRequest($request);

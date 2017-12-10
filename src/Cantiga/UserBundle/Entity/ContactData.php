@@ -30,6 +30,7 @@ class ContactData
 	private $email;
 	private $telephone;
 	private $notes;
+	private $isProcessingData;
 	
 	public static function findContactData(Connection $conn, HierarchicalInterface $project, CantigaUserRefInterface $user): ContactData
 	{
@@ -82,6 +83,10 @@ class ContactData
 	{
 		return $this->notes;
 	}
+	public function getIsProcessingData()
+	{
+		return $this->isProcessingData;
+	}
 
 
 	public function setEmail($email): self
@@ -99,6 +104,11 @@ class ContactData
 	public function setNotes($notes): self
 	{
 		$this->notes = $notes;
+		return $this;
+	}
+	public function setIsProcessingData($isProcessing): self
+	{
+		$this->isProcessingData = $isProcessing;
 		return $this;
 	}
 	

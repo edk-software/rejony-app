@@ -19,6 +19,7 @@
 namespace Cantiga\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,7 +30,9 @@ class ContactDataForm extends AbstractType
 {
 	public function configureOptions(OptionsResolver $resolver)
 	{
+        $resolver->setDefined(['isUserRequestForm', 'processingDataText']);
 		$resolver->setDefault('translation_domain', 'users');
+        $resolver->addAllowedTypes('isUserRequestForm','bool');
 	}
 	
 	public function buildForm(FormBuilderInterface $builder, array $options)
@@ -37,10 +40,10 @@ class ContactDataForm extends AbstractType
 		$builder
 			->add('email', EmailType::class, ['label' => 'E-mail', 'attr' => ['placeholder' => '']])
 			->add('telephone', TextType::class, ['label' => 'Phone number', 'attr' => ['placeholder' => '']])
-			->add('notes', TextType::class, ['label' => 'About', 'attr' => ['placeholder' => 'AboutHintText']])
-			->add('save', SubmitType::class, ['label' => 'Save', 'translation_domain' => 'general']);
+			->add('notes', TextType::class, ['label' => 'Role', 'attr' => ['placeholder' => 'RoleHint']])
+			->add('isProcessingData', CheckboxType::class, ['label' =>  $options['processingDataText']])
+			->add('save', SubmitType::class, ['label' => $options['isUserRequestForm'] ? 'Submit request' : 'Save', 'translation_domain' => 'users']);
 	}
-
 	public function getName()
 	{
 		return 'ContactData';

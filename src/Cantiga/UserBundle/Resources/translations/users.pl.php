@@ -9,6 +9,7 @@ return [
 	'Note' => 'Notatka',
 	'Phone number' => 'Telefon',
 	'See profile' => 'Zobacz profil',
+    'Submit request' => 'Wyślij zgłoszenie',
 	
 	'The credentials have been changed.' => 'Dane logowania zostały zmienione.',
 	'There is no such credentials set to update.' => 'Nie znaleziono wskazanego zestawu danych logowania do zmiany.',
@@ -27,6 +28,9 @@ return [
 	'Function' => 'Funkcja',
 	'About' => 'O sobie',
 	'AboutHintText' => 'Napisz coś o sobie.',
+    'Role' => 'Rola',
+    'RoleHint' => 'np. Lider Rejonu',
+    'Submit request' => 'Wyślij zgłoszenie',
 	
 	'Confirm removal' => 'Potwierdź usunięcie',
 	'Contact data' => 'Dane kontaktowe',

@@ -43,6 +43,11 @@ services:
         arguments: ["@translator"]
         tags:
             - { name: cantiga.extension, point: core.form.area-request, module: edk, description: "EDK area request form" }
+    wio.edk.form.area_request_2018:
+            class:     WIO\EdkBundle\CustomForm\AreaRequestModel2018
+            arguments: ["@translator"]
+            tags:
+                - { name: cantiga.extension, point: core.form.area-request, module: edk, description: "EDK area request form" }
     wio.edk.form.area:
         class:     WIO\EdkBundle\CustomForm\AreaModel
         arguments: ["@translator"]

@@ -45,6 +45,7 @@ class CantigaCoreBundle extends Bundle
 		AppTexts::registerName(CoreTexts::AREA_REQUEST_CREATION_STEP2_TEXT);
 		AppTexts::registerName(CoreTexts::TERMS_OF_USE_TEXT);
 		AppTexts::registerName(CoreTexts::LOGIN_TEXT);
+		AppTexts::registerName(CoreTexts::PROCESSING_PERSONAL_DATA);
 		AppTexts::registerName(CoreTexts::DASHBOARD_ADMIN_TEXT);
 		AppTexts::registerName(CoreTexts::DASHBOARD_USER_TEXT);
 		AppTexts::registerName(CoreTexts::DASHBOARD_PROJECT_TEXT);

@@ -1,19 +1,50 @@
 {% extends 'CantigaCoreBundle:layout:common-layout.html.twig' %}
 
 {% block box_header %}
-	<h4>{{ 'Edit request: 0' | trans([item.name]) }}</h4>
+    <h4>{{ 'Edit request: 0' | trans([item.name]) }}</h4>
 {% endblock %}
 
 {% block box_body %}
-				{{ form_start(form) }}
-				<div class="row">
-					<div class="col-md-6 col-xs-12">
-						{{ form_row(form.name) }}
-					</div>
-					<div class="col-md-6 col-xs-12">
-						{{ form_row(form.territory) }}
-					</div>
-				</div>
-				{% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
-				{{ form_end(form) }}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-xs-12">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-xs-12">
+                {{ form_row(form.territory) }}
+            </div>
+            <div class="col-xs-12">
+                <span class="help-block">{{ 'MapPinHelp' | trans([], 'public') }}</span>
+                <div id="map_canvas" style="width: 100%; height: 400px;"></div>
+                <script src="{{ asset('js/map-common.js') }}"></script>
+                <script src="{{ asset('js/map-geolocation.js') }}"></script>
+                <script>
+                    function initMap() {
+                        initMapCore();
+                        showMarker({lat:{{ item.lat }},lng:{{ item.lng }}}, '{{ item.name }}');
+                        registerChangeCoordinates('user_area_request_form_name','user_area_request_form_lat','user_area_request_form_lng');
+                    }
+                </script>
+                <script
+                        async defer
+                        src="{{ map.link }}">
+                </script>
+                <div class="col-md-6 col-xs-12 no-padding">
+                    {{ form_row(form.lat) }}
+                </div>
+                <div class="col-md-6 col-xs-12 no-padding">
+                    {{ form_row(form.lng) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            {% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts_inline %}
+    {{ use_icheck() }}
 {% endblock %}

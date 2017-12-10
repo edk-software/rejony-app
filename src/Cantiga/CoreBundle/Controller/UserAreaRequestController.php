@@ -168,10 +168,14 @@ class UserAreaRequestController extends UserPageController
 	{
 		$this->getAreaRequestFlow()->clearSession($request->getSession());
 		$repository = $this->get(self::REPOSITORY_NAME);
+        $projects=$repository->getAvailableProjects();
+        if(count($projects) == 1)
+            return $this->redirectToRoute($this->crudInfo->getInsertPage(), ['step' => 2, 'projectId' => $projects[0]['id']]);
+
 		$text = $this->getTextRepository()->getText(CoreTexts::AREA_REQUEST_CREATION_STEP1_TEXT, $request);
 		return $this->render($this->crudInfo->getTemplateLocation().'insert-step1.html.twig', array(
 			'text' => $text,
-			'availableProjects' => $repository->getAvailableProjects(),
+			'availableProjects' =>$projects,
 		));
 	}
 	
@@ -189,7 +193,8 @@ class UserAreaRequestController extends UserPageController
 					'action' => $this->generateUrl($this->crudInfo->getInsertPage(), ['step' => 2, 'projectId' => $projectId]),
 					'customFormModel' => $formModel,
 					'projectSettings' => $settings,
-					'territoryRepository' => $this->territoryRepository
+					'territoryRepository' => $this->territoryRepository,
+                    'isSingleForm' => false
 				]
 			);
 			$form->handleRequest($request);
@@ -206,12 +211,13 @@ class UserAreaRequestController extends UserPageController
 				'form' => $form->createView(),
 				'formRenderer' => $formModel->createFormRenderer(),
 				'project' => $project,
+                'map'=> $this->getMap()
 			));
 		} catch (ModelException $ex) {
 			return $this->showPageWithError($this->trans($ex->getMessage()), $this->crudInfo->getIndexPage());
 		}
 	}
-	
+
 	public function createStep3($projectId, Request $request)
 	{
 		if (!ctype_digit($projectId)) {
@@ -220,9 +226,12 @@ class UserAreaRequestController extends UserPageController
 		try {
 			list($settings, $project, $formModel) = $this->loadEnvironment($projectId);
 			$item = $this->getAreaRequestFlow()->createContactData($project, $this->getUser());
+            $text = $this->getTextRepository()->getText(CoreTexts::PROCESSING_PERSONAL_DATA, $request);
 			$form = $this->createForm(
 				ContactDataForm::class, $item, [
 					'action' => $this->generateUrl($this->crudInfo->getInsertPage(), ['step' => 3, 'projectId' => $projectId]),
+                    'isUserRequestForm' => true,
+                    'processingDataText' => $text->getContent()
 				]
 			);
 			$form->handleRequest($request);
@@ -230,6 +239,7 @@ class UserAreaRequestController extends UserPageController
 				$this->getAreaRequestFlow()->persistContactData($request->getSession(), $item);
 				return $this->redirectToRoute($this->crudInfo->getInsertPage(), ['step' => 4, 'projectId' => $projectId]);
 			}
+
 			return $this->render($this->crudInfo->getTemplateLocation().'insert-step3.html.twig', [
 				'form' => $form->createView(),
 				'project' => $project
@@ -303,7 +313,8 @@ class UserAreaRequestController extends UserPageController
 					'action' => $this->generateUrl($this->crudInfo->getEditPage(), ['id' => $id]),
 					'customFormModel' => $formModel,
 					'projectSettings' => $settings,
-					'territoryRepository' => $this->territoryRepository
+					'territoryRepository' => $this->territoryRepository,
+                    'isSingleForm' => true
 				]
 			);
 
@@ -322,6 +333,7 @@ class UserAreaRequestController extends UserPageController
 					'form' => $form->createView(),
 					'formRenderer' => $formModel->createFormRenderer(),
 					'project' => $item->getProject(),
+                    'map'=>$this->getMap()
 			));
 		} catch (ModelException $ex) {
 			return $this->showPageWithError($this->trans($ex->getMessage()), $this->crudInfo->getIndexPage());

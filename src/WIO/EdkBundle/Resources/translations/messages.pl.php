@@ -11,18 +11,23 @@ return array(
 	
 	'Your Extreme Way' => 'Twoja Ekstremalna Droga',
 	'Type of the way you wish to create' => 'Rodzaj drogi, którą chcesz utworzyć',
-	'Extreme Way of the Cross' => 'Ekstremalna Droga Krzyżowa (pełny rejon)',
-	'Inspired by Extreme Way of the Cross' => 'Droga na wzór EDK',
+	'Extreme Way of the Cross' => 'Trasa EDK (pełny rejon)',
+	'Inspired by Extreme Way of the Cross' => 'Trasa na wzór EDK (rejon "na wzór")',
 	'Proposed route' => 'Proponowana trasa',
-	'ProposedRouteInformationText' => 'Aby zgłosić rejon EDK, należy mieć pomysł na przynajmniej jedną trasę spełniającą standardy EDK. Po  zaakceptowaniu rejonu będzie można dodać dowolną liczbę tras.',	
-	'Beginning of the route' => 'Początek trasy',
-	'End of the route' => 'Koniec trasy',
+	'ProposedRouteInformationText' => 'Rejon EDK, opiekuję się przynajmniej jedną trasą spełniającą standardy EDK. Po zaakceptowaniu rejonu istnieje możliwość dodania kolejnych.',
+	'Beginning of the route' => 'Początek trasy (miejscowość)',
+	'Beginning of the route help' => 'np. Kraków',
+	'End of the route' => 'Koniec trasy (miejscowość)',
+	'End of the route help' => 'np. Kalwaria Zebrzydowska',
 	'Type of the way' => 'Rodzaj drogi',
-	'Route length' => 'Długość trasy',
-	'Route ascent' => 'Suma podejść',
+    'Route length (km)' => 'Długość trasy (km)',
+    'Route length' => 'Długość trasy',
+    'Route ascent' => 'Suma podejść',
+    'Route ascent (m)' => 'Suma podejść (m)',
 	'In kilometres' => 'W kilometrach',
 	'In metres' => 'W metrach',
-	
+	'Ewc type help' => 'Trasa EDK (rejon pełny): minimalna długość trasy 40km, lub trasa dłuższa niż 30km z sumą podejść minimum 500m. Trasa na wzór (rejon "na wzór"): minimalna długość trasy 20km.',
+
 	'EWC information' => 'Informacje o EDK',
 	'-- none --' => '-- brak --',
 	'Date of Extreme Way of the Cross' => 'Data Ekstremalnej Drogi Krzyżowej',
@@ -49,10 +54,20 @@ return array(
 	'Facebook profile' => 'Nazwa profilu Facebook',
 	
 	'RequiredFieldsForProfilePublicationText' => 'Pola oznaczone jako * są wymagane, aby profil pojawił się na stronie internetowej EDK.',
-	
+
+	'EWC practise' => 'Twoje EDK',
+	'EWC practise details' => 'Opowiedz nam o tym co wiesz o EDK',
 	'About you' => 'O Tobie',
-	'AboutYouEwcText' => 'Podaj kilka informacji o sobie, swoich motywacjach i osiągnięciach.',
-	'WhyCreatingAreaFormLabel' => 'Dlaczego chcesz stworzyć rejon EDK?',
+	'AboutYouEwcText' => 'Dzięki tym informacjom będziemy się mogli lepiej poznać.',
+
+    'IsParticipantFormLabel' => 'Czy przeszedłeś kiedyś Ekstrelaną Drogę Krzyżową?',
+	'EWCMeaningFormLabel' => 'Czym dla Ciebie jest EDK? Jak ją rozumiesz?',
+	'IsAreaCreatedFormLabel' => 'Czy twórzyłeś wcześniej rejon Ekstrelanej Drogi Krzyżowej?',
+    'WhyCreatingAreaFormLabel' => 'Dlaczego chcesz stworzyć rejon EDK?',
+	'ProjectMgmtFormLabel' => 'Opisz krótko swoje umiejętności zarządzania.',
+	'ParticipantCountFormLabel' => 'Jaką liczbę uczestników przewidujesz w Twoim rejonie?',
+
+
 	'IntersectionPointFormLabel' => 'Gdzie jest punkt styku pomiędzy duchowością EDK, a tym co jest dla Ciebie ważne?',
 	'LeaderGoalsFormLabel' => 'Jakie cele stawiasz sobie, pełniąc rolę lidera rejonu EDK?',
 	'ParticipationDetailsFormLabel' => 'Czy organizowałeś lub brałeś udział w EDK? Jeśli tak, napisz na czym polegało Twoje zaangażowanie.',

@@ -1,38 +1,73 @@
 {% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
 
 {% block page_title %}
-	{{ 'Request a new area' | trans([], 'pages') }}
+    {{ 'Request a new area' | trans([], 'pages') }}
 {% endblock %}
 
 {% block page_content %}
-	<div class="row">
-		{% include 'CantigaCoreBundle:UserAreaRequest:insert-steps.html.twig' with { currentStep: 2, disablePrevious: false, projectId: project.id } %}
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="box box-success">
-				{{ form_start(form) }}
-				<div class="box-header with-border">
-					<i class="fa fa-info"></i> <h3 class="box-title">{{ 'ProvideAreaInfoText' | trans([], 'requests') }}</h3>
-				</div>	
-				<div class="box-body">
-					{{ text.content | raw }}
-					<hr/>
-					<div class="row">
-						<div class="col-md-6 col-xs-12">
-							{{ form_row(form.name) }}
-						</div>
-						<div class="col-md-6 col-xs-12">
-							{{ form_row(form.territory) }}
-						</div>
-					</div>
-					{% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
-				</div>
-				<div class="box-footer">
-					{{ form_widget(form.save) }}
-				</div>
-				{{ form_end(form) }}
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        {% include 'CantigaCoreBundle:UserAreaRequest:insert-steps.html.twig' with { currentStep: 2, disablePrevious: false, projectId: project.id } %}
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-lg-offset-3 col-md-offset-0">
+            <div class="box box-success">
+                {{ form_start(form) }}
+                <div class="box-header with-border">
+                    <i class="fa fa-info"></i>
+                    <h3 class="box-title">{{ 'ProvideAreaInfoText' | trans([], 'requests') }}</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-sm-12">
+                        {{ text.content | raw }}
+                        <hr/>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.name) }}
+                            </div>
+                            <div class="col-xs-12">
+
+                                {{ form_row(form.territory) }}
+                            </div>
+
+                            <div class="col-xs-12">
+                                <span id="search" class="btn btn-success btn-sm"><i
+                                            class="fa fa-search"></i> {{ 'SearchInMap' | trans([], 'public') }}</span>
+                                <span class="help-block">{{ 'MapPinHelp' | trans([], 'public') }}</span>
+                                <div id="map_canvas" style="width: 100%; height: 400px;"></div>
+
+                                <script src="{{ asset('js/map-common.js') }}"></script>
+                                <script src="{{ asset('js/map-geolocation.js') }}"></script>
+                                <script>
+                                    function initMap() {
+                                        initMapCore();
+                                        registerGeocoder('user_area_request_form_name', 'search');
+                                        registerChangeCoordinates('user_area_request_form_name', 'user_area_request_form_lat', 'user_area_request_form_lng');
+                                        findLocation();
+                                    }
+                                </script>
+                                <script
+                                        async defer
+                                        src="{{ map.link }}">
+                                </script>
+                                <div class="col-md-6 col-xs-12 no-padding">
+                                    {{ form_row(form.lat) }}
+                                </div>
+                                <div class="col-md-6 col-xs-12 no-padding">
+                                    {{ form_row(form.lng) }}
+                                </div>
+                            </div>
+                        </div>
+                        {% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="pull-right">{{ form_widget(form.save) }}</div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts_inline %}
+    {{ use_icheck() }}
 {% endblock %}

@@ -28,28 +28,33 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserAreaRequestForm extends AbstractType
 {
+    private $isSingleForm = true;
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefined(['customFormModel', 'territoryRepository', 'projectSettings']);
-		$resolver->setRequired(['customFormModel', 'territoryRepository', 'projectSettings']);
+		$resolver->setDefined(['customFormModel', 'territoryRepository', 'projectSettings','isSingleForm']);
+		$resolver->setRequired(['customFormModel', 'territoryRepository', 'projectSettings','isSingleForm']);
 		$resolver->addAllowedTypes('customFormModel', CustomFormModelInterface::class);
 		$resolver->addAllowedTypes('projectSettings', ProjectSettings::class);
 		$resolver->addAllowedTypes('territoryRepository', ProjectTerritoryRepository::class);
+		$resolver->addAllowedTypes('isSingleForm','bool');
 	}
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$hint = $options['projectSettings']->get(CoreSettings::AREA_NAME_HINT)->getValue();
-		
+		$this->isSingleForm = $options['isSingleForm'];
 		$builder
-			->add('name', TextType::class, ['label' => 'Area name', 'attr' => ['help_text' => $hint]])
+			->add('name', TextType::class, ['label' => 'Area place', 'attr' => ['placeholder'=> 'PlaceholderName','help_text' => $hint]])
+			->add('lat', NumberType::class, ['label' => 'Lat'])
+			->add('lng', NumberType::class, ['label' => 'Lng'])
 			->add('territory', ChoiceType::class, ['label' => 'Territory', 'choices' => $options['territoryRepository']->getFormChoices()])
-			->add('save', SubmitType::class, ['label' => 'Submit request']);
+			->add('save', SubmitType::class, $this->isSingleForm ?  ['label' => 'Save'] : ['label' => 'Next step']);
 		$builder->get('territory')->addModelTransformer(new EntityTransformer($options['territoryRepository']));
 		$builder->addEventSubscriber(new CustomFormEventSubscriber($options['customFormModel']));
 	}

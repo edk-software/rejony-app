@@ -1,6 +1,7 @@
 <?php
 return array(
 	'Save' => 'Zapisz',
+    'Submit request' => 'Wyślij zgłoszenie',
 	'Send' => 'Wyślij',
 	
 	// Public texts
@@ -90,6 +91,7 @@ return array(
 	// User area requesting
 	'Request a new area' => 'Zgłoś nowy rejon',
 	'Area name' => 'Nazwa rejonu',
+	'Area place' => 'Miejcowość w której chcesz utworzyć rejon',
 	'Last update' => 'Ostatnia zmiana',
 	'Comments' => 'Komentarze',
 	'Request date' => 'Data zgłoszenia',
@@ -102,7 +104,8 @@ return array(
 	'Do you really want to remove \'0\' request?' => 'Czy na pewno chcesz usunąć zgłoszenie rejonu "0"?',
 	'Do you really want to revoke the request \'0\'? This operation cannot be undone.' => 'Czy na pewno chcesz odrzucić zgłoszenie rejonu "0"? Ta operacja nie może być cofnięta.',
 	'Do you want to approve the request \'0\'? This operation cannot be undone.' => 'Czy na pewno chcesz zatwierdzić zgłoszenie rejonu "0"? Ta operacja nie może być cofnięta.',
-	'Submit request' => 'Zapisz zgłoszenie',
+	'Submit request' => 'Wyślij zgłoszenie',
+	'Next step'=>'Następny krok',
 	
 	// Project dashboard
 	'Recent chat activity in requests' => 'Najnowsze rozmowy w zgłoszeniach rejonów',
@@ -149,6 +152,11 @@ return array(
 	'Last visit' => 'Ostatnia wizyta',
 	'E-mail' => 'E-mail',
 	'Phone number' => 'Telefon',
+
+    'Lat' => 'Szerokość geograficzna',
+    'Lng' => 'Długość geograficzna',
+    'PlaceholderName' => 'np. Kraków',
+
 	
 	// Project area
 	'GroupUnassigned' => 'Nieprzypisana',
