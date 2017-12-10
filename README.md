@@ -39,3 +39,8 @@ In practice:
    and you must not change the licensing terms.
 
 Copyright 2015-2016 Cantiga team
+
+Making changes in database structure
+------------------------------------
+
+This project uses [DoctrineMigrationsBundle](https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html) to support changes in database structure. It means that each change should be added as Doctrine migration. Because project doesn't support ORM (DBAL only), making automatic "diff" migrations is unavailable. You should use `doctrine:migrations:generate` command instead to generate empty migration class and then add forward and backward migration. Then execute `doctrine:migrations:migrate` to implement these changes into database.
