@@ -40,6 +40,8 @@ twig:
     exception_controller: cantiga.controller.exception:showAction
     form_themes:
         - 'CantigaCoreBundle:layout:form-theme.html.twig'
+    globals:
+        recaptcha_api_url: https://www.google.com/recaptcha/api.js
 
 # Doctrine Configuration
 doctrine:
