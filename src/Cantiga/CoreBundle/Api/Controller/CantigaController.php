@@ -110,7 +110,10 @@ class CantigaController extends Controller
 	{
 		return $this->get('cantiga.extensions');
 	}
-	
+    protected function getMap()
+    {
+        return $this->get('cantiga.security.map');
+    }
 	/**
 	 * Returns a new instance of data routes, a route builder for data sets that are sent via AJAX
 	 * to the JS code. In this way, we don't have to generate the links in JavaScript, but we get

@@ -16,6 +16,7 @@
  * along with Foobar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 namespace WIO\EdkBundle\Extension;
 
 use Cantiga\CoreBundle\Api\Controller\CantigaController;
@@ -26,30 +27,37 @@ use Symfony\Component\Templating\EngineInterface;
 
 class AreaInformationMapExtension implements AreaInformationExtensionInterface
 {
-	/**
-	 * @var EngineInterface
-	 */
-	private $templating;
-	
-	public function __construct(EngineInterface $templating)
-	{
-		$this->templating = $templating;
-	}
-	
-	public function getPriority()
-	{
-		return self::PRIORITY_HIGH;
-	}
+    /**
+     * @var EngineInterface
+     */
+    private $templating;
 
-	public function render(CantigaController $controller, Request $request, Area $area)
-	{
-		$data = $area->getCustomData();
-		if (!empty($data['positionLat']) && !empty($data['positionLng'])) {
-			return $this->templating->render('WioEdkBundle:Extension:area-information-map.html.twig', [
-				'positionLat' => $data['positionLat'],
-				'positionLng' => $data['positionLng']
-			]);
-		}
-		return '';
-	}
+    public function __construct(EngineInterface $templating)
+    {
+        $this->templating = $templating;
+    }
+
+    public function getPriority()
+    {
+        return self::PRIORITY_HIGH;
+    }
+
+    public function render(CantigaController $controller, Request $request, Area $area)
+    {
+        $map = $controller->get('cantiga.security.map');
+        $data = $area->getCustomData();
+        if (!empty($data['positionLat']) && !empty($data['positionLng'])) {
+            return $this->templating->render(
+                'WioEdkBundle:Extension:area-information-map.html.twig',
+                [
+                    'positionLat' => $data['positionLat'],
+                    'positionLng' => $data['positionLng'],
+                    'map' => $map,
+
+                ]
+            );
+        }
+
+        return '';
+    }
 }
