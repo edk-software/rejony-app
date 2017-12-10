@@ -28,6 +28,7 @@ use Symfony\Component\HttpFoundation\Request;
 use WIO\EdkBundle\EdkSettings;
 use WIO\EdkBundle\EdkTexts;
 use WIO\EdkBundle\Entity\EdkParticipant;
+use WIO\EdkBundle\Form\EdkCheckRegistrationForm;
 use WIO\EdkBundle\Form\PublicParticipantForm;
 
 /**
@@ -68,18 +69,36 @@ class PublicRegistrationFormController extends PublicEdkController
 	public function checkAction(Request $request)
 	{
 		try {
-			$k = $request->get('k', null);
-			$t = $request->get('t', null);
-			
-			if (!empty($k) && null !== $t) {
-				switch ((int) $t) {
-					case 0:
-						return $this->checkRequest($k);
-					case 1:
-						return $this->removeRequest($k);
-				}
-			}
-			return $this->render('WioEdkBundle:Public:check-registration.html.twig', ['slug' => $this->project->getSlug(), 'currentPage' => 'public_edk_check',]);
+            $recaptcha = $this->get('cantiga.security.recaptcha');
+            $form = $this->createForm(EdkCheckRegistrationForm::class, [
+                'k' => $request->query->get('k'),
+                't' => $request->query->getInt('t'),
+            ]);
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                if ($recaptcha->verifyRecaptcha($request)) {
+                    $k = $form->get('k')->getData();
+                    $t = $form->get('t')->getData();
+
+                    switch ($t) {
+                        case EdkCheckRegistrationForm::TYPE_CHECK:
+                            return $this->checkRequest($k);
+
+                        case EdkCheckRegistrationForm::TYPE_REMOVE:
+                            return $this->removeRequest($k);
+                    }
+                } else {
+                    return $this->showErrorMessage('You did not solve the CAPTCHA correctly, sorry.');
+                }
+            }
+
+			return $this->render('WioEdkBundle:Public:check-registration.html.twig', [
+                'currentPage' => 'public_edk_check',
+                'form' => $form->createView(),
+                'recaptcha' => $recaptcha,
+                'slug' => $this->project->getSlug(),
+            ]);
 		} catch (ModelException $exception) {
 			return $this->showErrorMessage($exception->getMessage());
 		}
