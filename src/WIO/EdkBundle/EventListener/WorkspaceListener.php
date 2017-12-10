@@ -26,7 +26,7 @@ use Cantiga\CoreBundle\Event\WorkspaceEvent;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class WorkspaceListener
 {
@@ -39,7 +39,7 @@ class WorkspaceListener
     private $translator;
 	
 	public function __construct(AuthorizationCheckerInterface $authChecker, Router $router,
-        DataCollectorTranslator $translator)
+        TranslatorInterface $translator)
 	{
 		$this->authChecker = $authChecker;
         $this->router = $router;
