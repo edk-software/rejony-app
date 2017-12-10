@@ -46,14 +46,16 @@ class Setting implements ModuleAwareInterface
 	private $value;
 	private $type;
 	private $extensionPoint;
-	
-	public function __construct($key, $name, $module, $value, $type, $extensionPoint = null)
+	private $isRequired;
+
+	public function __construct($key, $name, $module, $value, $type, $isRequired = true, $extensionPoint = null)
 	{
 		$this->key = $key;
 		$this->name = $name;
 		$this->module = $module;
 		$this->type = $type;
 		$this->extensionPoint = $extensionPoint;
+		$this->isRequired = $isRequired;
 		$this->setValue($value);
 	}
 	
@@ -80,6 +82,11 @@ class Setting implements ModuleAwareInterface
 	public function getType()
 	{
 		return $this->type;
+	}
+
+	public function getIsRequired()
+	{
+		return $this->isRequired;
 	}
 	
 	public function getExtensionPoint()
@@ -121,10 +128,10 @@ class Setting implements ModuleAwareInterface
 	{
 		switch ($this->type) {
 			case self::TYPE_STRING:
-				$builder->add($this->key, TextType::class, array('label' => $this->name));
+				$builder->add($this->key, TextType::class, array('label' => $this->name, 'required' => $this->isRequired));
 				break;
 			case self::TYPE_INTEGER:
-				$builder->add($this->key, IntegerType::class, array('label' => $this->name));
+				$builder->add($this->key, IntegerType::class, array('label' => $this->name, 'required' => $this->isRequired));
 				break;
 			case self::TYPE_BOOLEAN:
 				$builder->add($this->key, BooleanType::class, array('label' => $this->name));

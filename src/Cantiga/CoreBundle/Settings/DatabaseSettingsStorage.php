@@ -47,7 +47,7 @@ class DatabaseSettingsStorage implements SettingsStorageInterface
 		
 		$result = array();
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-			$result[] = new Setting($row['key'], $row['name'], $row['module'], $row['value'], $row['type'], $row['extensionPoint']);
+			$result[] = new Setting($row['key'], $row['name'], $row['module'], $row['value'], $row['type'], $row['isRequired'], $row['extensionPoint']);
 		}
 		$stmt->closeCursor();
 		
@@ -56,8 +56,8 @@ class DatabaseSettingsStorage implements SettingsStorageInterface
 
 	public function saveSettings($projectId, array $settings)
 	{
-		$stmt = $this->conn->prepare('INSERT INTO `'.CoreTables::PROJECT_SETTINGS_TBL.'` (`projectId`, `key`, `name`, `module`, `value`, `type`, `extensionPoint`) '
-			. 'VALUES(:projectId, :key, :name, :module, :value, :type, :extensionPoint) ON DUPLICATE KEY UPDATE `value` = :newValue');
+		$stmt = $this->conn->prepare('INSERT INTO `'.CoreTables::PROJECT_SETTINGS_TBL.'` (`projectId`, `key`, `name`, `module`, `value`, `type`, `isRequired`,`extensionPoint`) '
+			. 'VALUES(:projectId, :key, :name, :module, :value, :type, :isRequired, :extensionPoint) ON DUPLICATE KEY UPDATE `value` = :newValue');
 		
 		foreach ($settings as $setting) {
 			$stmt->bindValue(':projectId', $projectId);
@@ -66,6 +66,7 @@ class DatabaseSettingsStorage implements SettingsStorageInterface
 			$stmt->bindValue(':module', $setting->getModule());
 			$stmt->bindValue(':value', $setting->getNormalizedValue());
 			$stmt->bindValue(':type', $setting->getType());
+			$stmt->bindValue(':isRequired', $setting->getIsRequired());
 			$stmt->bindValue(':extensionPoint', $setting->getExtensionPoint());
 			$stmt->bindValue(':newValue', $setting->getNormalizedValue());
 			$stmt->execute();

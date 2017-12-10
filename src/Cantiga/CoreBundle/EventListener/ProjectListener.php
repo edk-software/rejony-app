@@ -49,8 +49,8 @@ class ProjectListener
 		$settings = $event->getSettings();
 		$settings->create(new Setting(CoreSettings::AREA_NAME_HINT, 'Hint for the area name displayed in the area registration form', 'core', 'Sample area hint', Setting::TYPE_STRING));
 		$settings->create(new Setting(CoreSettings::AREA_REQUEST_INFO_TEXT, 'Text displayed during area registration', 'core', 'Sample text', Setting::TYPE_STRING));
-		$settings->create(new Setting(CoreSettings::AREA_REQUEST_FORM, 'Area request form', 'core', 'cantiga.core.form.default_area_request', Setting::TYPE_EXTENSION_POINT, CoreExtensions::AREA_REQUEST_FORM));
-		$settings->create(new Setting(CoreSettings::AREA_FORM, 'Area form', 'core', 'cantiga.core.form.default_area', Setting::TYPE_EXTENSION_POINT, CoreExtensions::AREA_FORM));
+		$settings->create(new Setting(CoreSettings::AREA_REQUEST_FORM, 'Area request form', 'core', 'cantiga.core.form.default_area_request', Setting::TYPE_EXTENSION_POINT, true,CoreExtensions::AREA_REQUEST_FORM));
+		$settings->create(new Setting(CoreSettings::AREA_FORM, 'Area form', 'core', 'cantiga.core.form.default_area', Setting::TYPE_EXTENSION_POINT, true,CoreExtensions::AREA_FORM));
 		$settings->create(new Setting(CoreSettings::DASHBOARD_SHOW_CHAT, 'Show recent chat activity on dashboard', 'core', true, Setting::TYPE_BOOLEAN));
 		$settings->create(new Setting(CoreSettings::DASHOBARD_SHOW_REQUESTS, 'Show recent area requests on dashboard', 'core', true, Setting::TYPE_BOOLEAN));
 		
