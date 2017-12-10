@@ -34,3 +34,12 @@ project_stats_route_controller:
 project_stats_participant_controller:
     resource: "@WioEdkBundle/Controller/ProjectStatsParticipantController.php"
     type:     annotation
+area_faq_controller:
+    resource: "@WioEdkBundle/Controller/AreaFaqController.php"
+    type:     annotation
+group_faq_controller:
+    resource: "@WioEdkBundle/Controller/GroupFaqController.php"
+    type:     annotation
+project_faq_controller:
+    resource: "@WioEdkBundle/Controller/ProjectFaqController.php"
+    type:     annotation

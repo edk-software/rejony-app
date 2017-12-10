@@ -1,0 +1,25 @@
+WIO\EdkBundle\Entity\EdkFaqCategory:
+    repositoryClass:                    WIO\EdkBundle\Repository\EdkFaqCategoryRepository
+    table:                              cantiga_edk_faq_category
+    type:                               entity
+
+    fields:
+        id:
+            generator:
+                strategy:               AUTO
+            id:                         true
+            type:                       integer
+        name:
+            type:                       string
+
+    oneToMany:
+        questions:
+            cascade:
+                -                       persist
+                -                       remove
+            mappedBy:                   category
+            targetEntity:               WIO\EdkBundle\Entity\EdkFaqQuestion
+
+    lifecycleCallbacks:
+        postLoad:
+            -                           initializeCollections

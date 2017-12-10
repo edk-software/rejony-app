@@ -15,5 +15,8 @@ return [
 	'Messages' => 'Wiadomości',
 	'View messages sent you by the participants' => 'Oglądaj i zarządzaj wiadomościami od uczestników',
 	'Manage registered participants' => 'Zarządzaj zarejestrowanymi uczestnikami',
-	'View participant progression per area summary' => 'Oglądaj zestawienie przyrostu uczestników w rejonach'
+	'View participant progression per area summary' => 'Oglądaj zestawienie przyrostu uczestników w rejonach',
+    'Frequently asked questions' => 'Najczęściej zadawane pytania',
+    'Knowledge and materials' => 'Wiedza i materiały',
+    'On-line courses' => 'Szkolenia on-line',
 ];

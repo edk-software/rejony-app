@@ -57,6 +57,10 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
+    orm:
+        entity_managers:
+            default:
+                auto_mapping: true
 
 # Swiftmailer Configuration
 swiftmailer:

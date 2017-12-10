@@ -93,7 +93,7 @@ trait DashboardTrait
 	private function findText(string $route)
 	{
 		foreach ($this->getWorkspace()->getHelpPages() as $page) {
-			if ($page['route'] == $route) {
+			if (array_key_exists('route', $page) && $page['route'] == $route) {
 				return $page['text'];
 			}
 		}
