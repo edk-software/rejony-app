@@ -83,8 +83,8 @@ class RouteController extends WorkspaceController
 			->setRemoveQuestion('Do you really want to remove the route \'0\'?');
 
 		$this->breadcrumbs()
-			->workgroup($place instanceof Area ? 'area' : 'data')
-			->entryLink($this->trans('Routes', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
+			->workgroup('routes')
+			->entryLink($this->trans('Routes list', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 	}
 
 	/**

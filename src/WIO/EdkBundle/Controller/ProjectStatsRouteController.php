@@ -37,7 +37,7 @@ class ProjectStatsRouteController extends ProjectPageController
 	public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
 	{
 		$this->breadcrumbs()
-			->workgroup('statistics')
+			->workgroup('routes')
 			->entryLink($this->trans('Route statistics', [], 'pages'), 'project_stats_route_index', ['slug' => $this->getSlug()]);
 	}
 

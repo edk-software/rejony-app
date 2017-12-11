@@ -2,6 +2,7 @@
 return [
 	'Participants' => 'Uczestnicy',
 	'Routes' => 'Trasy',
+	'Routes list' => 'Lista tras',
 	'Route statistics' => 'Statystyki tras',
 	'Participant statistics' => 'Statystyki uczestników',
 	'Participant statistics: 0' => 'Statystyki uczestników: 0',

@@ -104,16 +104,16 @@ class WorkspaceListener implements WorkspaceSourceInterface
 		$project = $workspace->getProject();
         if ($this->authChecker->isGranted('PLACE_MEMBER')) {
             $workspace->addWorkgroup(new Workgroup('request', 'Area requests', 'plus-square-o', 1));
-            $workspace->addWorkgroup(new Workgroup('area', 'Areas', 'flag-o', 1));
+            $workspace->addWorkgroup(new Workgroup('area', 'Areas', 'flag-o', 2));
         }
 		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 9));
 
 		if ($this->authChecker->isGranted('PLACE_VISITOR')) {
-			$workspace->addWorkgroup(new Workgroup('statistics', 'Statistics', 'bar-chart', 1));
-			$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 2));
+			$workspace->addWorkgroup(new Workgroup('statistics', 'Statistics', 'bar-chart', 8));
+			$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 8));
 		}
 		if ($this->authChecker->isGranted('PLACE_MEMBER')) {
-			$workspace->addWorkgroup(new Workgroup('data', 'Data', 'database', 4));
+			$workspace->addWorkgroup(new Workgroup('data', 'Data', 'database', 7));
 		}
 		if ($this->authChecker->isGranted('PLACE_MANAGER')) {
 			$workspace->addWorkgroup(new Workgroup('manage', 'Manage', 'wrench', 10));
@@ -141,10 +141,10 @@ class WorkspaceListener implements WorkspaceSourceInterface
 		$workspace = $event->getWorkspace();
 		$project = $workspace->getProject();
 		
-		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 1));
+		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 9));
         $workspace->addWorkgroup(new Workgroup('area', 'Areas', 'flag-o', 2));
         $workspace->addWorkgroup(new Workgroup('data', 'Data', 'database', 3));
-		$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 4));
+		$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 8));
 		if ($project->getAreasAllowed()) {
 			$workspace->addWorkItem('area', new WorkItem('area_mgmt_index', 'Areas list'));
 		}
@@ -153,8 +153,8 @@ class WorkspaceListener implements WorkspaceSourceInterface
 	public function onAreaWorkspace(WorkspaceEvent $event)
 	{
 		$workspace = $event->getWorkspace();
-		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 1));
-		$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 2));
+		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 9));
+		$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 8));
 		$workspace->addWorkgroup(new Workgroup('area', 'Area', 'flag-o', 3));
 		if ($this->authChecker->isGranted('PLACE_MANAGER')) {
 			$workspace->addWorkgroup(new Workgroup('manage', 'Manage', 'wrench', 10));
