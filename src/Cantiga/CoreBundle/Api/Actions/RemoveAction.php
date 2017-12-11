@@ -73,7 +73,7 @@ class RemoveAction extends AbstractAction
 				$vars['question'] = $controller->trans($this->info->getRemoveQuestion(), [$item->$nameProperty()]);
 				$vars['successPath'] = $controller->generateUrl($this->info->getRemovePage(), $this->slugify(['id' => $id, 'answer' => 'yes']));
 				$vars['failurePath'] = $controller->generateUrl($this->info->getRemovePage(), $this->slugify(['id' => $id, 'answer' => 'no']));
-				$vars['successBtn'] = $controller->trans('Indeed, remove it', [], 'general');
+				$vars['successBtn'] = $controller->trans('Yes', [], 'general');
 				$vars['failureBtn'] = $controller->trans('Cancel', [], 'general');
 				$vars['indexPage'] = $this->info->getIndexPage();
 				$vars['infoPage'] = $this->info->getInfoPage();

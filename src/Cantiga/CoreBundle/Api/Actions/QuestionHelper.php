@@ -94,7 +94,7 @@ class QuestionHelper
 				'question' => $this->question,
 				'successPath' => $ctrl->generateUrl($this->respondName, $successArgs),
 				'failurePath' => $ctrl->generateUrl($this->respondName, $cancelArgs),
-				'successBtn' => $ctrl->trans('Indeed', [], 'general'),
+				'successBtn' => $ctrl->trans('Yes', [], 'general'),
 				'failureBtn' => $ctrl->trans('Cancel', [], 'general'),
 			));
 		}
