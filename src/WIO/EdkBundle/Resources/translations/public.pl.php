@@ -18,7 +18,7 @@ return [
 	'Send message' => 'Wyślij wiadomość',
 	'Spam protection' => 'Zabezpieczenie przed spamem',
 
-    'MapPinHelp' => 'Zmiany lokalizacji dokonać można łapiąc za pineskę na mapie i przeciągając ją w odpowiednie miejsce. Można to także zrobić wpisując długość i szerokość geograficzną w pola poniżej.',
+    'MapPinHelp' => 'Przeciągnij marker na mapie w dokładne miejsce w którym znajdować się będzie rejon. W przypadku problemów z mapą wpisz długość i szerokość geograficzną ręcznie w pola poniżej.',
     'SearchInMap' => 'Wyszukaj na mapie',
 
     'Error' => 'Błąd',

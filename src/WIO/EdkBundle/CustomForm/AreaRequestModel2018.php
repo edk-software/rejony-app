@@ -48,8 +48,6 @@ class AreaRequestModel2018 implements CustomFormModelInterface
 	
 	public function constructForm(FormBuilderInterface $builder)
 	{
-//		$builder->add('ewcType', ChoiceType::class, array('label' => 'Type of the way you wish to create', 'attr' => array('help_text' => 'Ewc type help'), 'choices' => array_flip($this->ewcTypes())));
-		
 		$builder->add('routeFrom', TextType::class, array('label' => 'Beginning of the route',  'attr' => array('placeholder' => 'Beginning of the route help'), 'constraints' => [
 			new NotNull,
 			new Length(['min' => 2, 'max' => 50])
@@ -170,13 +168,13 @@ class AreaRequestModel2018 implements CustomFormModelInterface
             return 'Inspired by Extreme Way of the Cross';
 	}
 	
-	public function stationaryCourseTypes()
+        public function stationaryCourseTypes()
 	{
 		return [
-            1 => '20.01.2017 - ?',
-            2 => '27.01.2017 - ?',
-            3 => '10.02.2017 - ?',
-            4 => '17.02.2017 - ?',
+            1 => '20.01.2017 - Kraków',
+            2 => '27.01.2017 - Poznań',
+            3 => '10.02.2017 - Wrocław',
+            4 => '10.02.2017 - Warszawa',
             5 => '17.02.2017 - Kraków',
             6 => 'szkolenie zdalne - rejon zagraniczny',
             7 => 'nie będe uczestniczył - tworzyłem rejon w zeszłym roku',
