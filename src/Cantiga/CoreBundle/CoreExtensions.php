@@ -29,7 +29,8 @@ class CoreExtensions
 	const AREA_REQUEST_FORM = 'core.form.area-request';
 	const AREA_FORM = 'core.form.area';
 	const AREA_STATS = 'core.stats.area';
-	
+	const REQUEST_STATS = 'core.stats.request';
+
 	const MAGIC_BUTTON = 'core.magic-button';
 	
 	const AREA_INFORMATION = 'core.page.area.info';

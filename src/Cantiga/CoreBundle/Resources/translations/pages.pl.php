@@ -27,7 +27,9 @@ return [
 	
 	// User workspace menu items
 	'Profile' => 'Twój profil',
-	'Area requests' => 'Zgłoszenia rejonów',
+
+    'Area requests' => 'Zgłoszenia rejonów',
+    'Area requests statistics' => 'Podsumowanie zgłoszeń',
 	'Request area' => 'Zgłoś rejon',
 	'Your area requests' => 'Przejrzyj zgłoszenia',
 	'Your places' => 'Twoje miejsca',
@@ -47,7 +49,8 @@ return [
 	'Data' => 'Dane',
 	'Manage' => 'Zarządzaj',
 	'Area requests' => 'Zgłoszenia rejonów',
-	'Group categories' => 'Kategorie grup',
+    'Area request statistics' => 'Podsumowanie zgłoszeń',
+    'Group categories' => 'Kategorie grup',
     'AreasType' => 'Lista rejonów',
     'GroupsType' => 'Lista grup',
 	'Groups' => 'Grupy',

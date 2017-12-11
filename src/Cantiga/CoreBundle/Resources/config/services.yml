@@ -162,15 +162,14 @@ services:
     cantiga.core.filter.area_request:
         class: Cantiga\CoreBundle\Filter\AreaRequestFilter
         arguments: ["@translator", "@cantiga.core.repo.project_territory"]
-
-    cantiga.core.stats.area_per_status:
-        class:     "%area_per_status_stats.class%"
-        arguments: ["@database_connection"]
-        tags:
-            - { name: cantiga.extension, point: core.stats.area }
     cantiga.core.stats.area_requests_over_time:
         class:     Cantiga\CoreBundle\Statistics\AreaRequestsOverTimeStats
         arguments: ["@database_connection", "@cantiga.core.repo.statistics", "@translator"]
+        tags:
+            - { name: cantiga.extension, point: core.stats.request }
+    cantiga.core.stats.area_per_status:
+        class:     "%area_per_status_stats.class%"
+        arguments: ["@database_connection"]
         tags:
             - { name: cantiga.extension, point: core.stats.area }
     cantiga.core.dashboard.text:

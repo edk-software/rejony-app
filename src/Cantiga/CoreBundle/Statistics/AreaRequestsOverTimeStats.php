@@ -16,6 +16,7 @@
  * along with Foobar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 namespace Cantiga\CoreBundle\Statistics;
 
 use Cantiga\CoreBundle\Repository\CoreStatisticsRepository;
@@ -32,56 +33,68 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class AreaRequestsOverTimeStats implements StatsInterface
 {
-	/**
-	 * @var Connection
-	 */
-	private $conn;
-	/**
-	 * @var CoreStatisticsRepository
-	 */
-	private $repo;
-	/**
-	 * @var TranslatorInterface
-	 */
-	private $translator;
-	/**
-	 * @var StatDateDataset
-	 */
-	private $data;
-	
-	public function __construct(Connection $conn, CoreStatisticsRepository $repository, TranslatorInterface $translator)
-	{
-		$this->conn = $conn;
-		$this->repo = $repository;
-		$this->translator = $translator;
-	}
+    /**
+     * @var Connection
+     */
+    private $conn;
+    /**
+     * @var CoreStatisticsRepository
+     */
+    private $repo;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+    /**
+     * @var StatDateDataset
+     */
+    private $data;
+    private $summary;
 
-	public function collectData(IdentifiableInterface $root)
-	{
-		$this->data = $this->repo->fetchAreaRequestTimeData($root);
-		return true;
-	}
+    public function __construct(Connection $conn, CoreStatisticsRepository $repository, TranslatorInterface $translator)
+    {
+        $this->conn = $conn;
+        $this->repo = $repository;
+        $this->translator = $translator;
+    }
 
-	public function getTitle()
-	{
-		return 'Area requests over time';
-	}
+    public function collectData(IdentifiableInterface $root)
+    {
+        $this->data = $this->repo->fetchAreaRequestTimeData($root);
+        $this->summary = $this->repo->fetchAreaRequestSummary($root);
 
-	public function renderPlaceholder(TwigEngine $tpl)
-	{
-		return $tpl->render('CantigaCoreBundle:Stats:area-requests-over-time.html.twig');
-	}
+        return true;
+    }
 
-	public function renderStatistics(TwigEngine $tpl)
-	{
-		$renderer = new ChartJSDateDatasetRenderer();
-		$renderer->data($this->translator->trans('New', [], 'statuses'), '210,214,222')
-			->data($this->translator->trans('Verification', [], 'statuses'), '60,141,188')
-			->data($this->translator->trans('Approved', [], 'statuses'), '0,166,90')
-			->data($this->translator->trans('Rejected', [], 'statuses'), '221,75,57');
-		return $tpl->render('CantigaCoreBundle:Stats:area-requests-over-time.js.twig', array(
-			'data' => $renderer->generateData($this->data)
-		));
-	}
+    public function getTitle()
+    {
+        return 'Area requests over time';
+    }
+
+    public function renderPlaceholder(TwigEngine $tpl)
+    {
+        return $tpl->render(
+            'CantigaCoreBundle:Stats:area-requests-over-time.html.twig',
+            array(
+                'summary' => $this->summary,
+            )
+        );
+    }
+
+    public function renderStatistics(TwigEngine $tpl)
+    {
+        $renderer = new ChartJSDateDatasetRenderer();
+        $renderer->data($this->translator->trans('New', [], 'statuses'), '210,214,222')
+            ->data($this->translator->trans('Verification', [], 'statuses'), '60,141,188')
+            ->data($this->translator->trans('Approved', [], 'statuses'), '0,166,90')
+            ->data($this->translator->trans('Declined', [], 'statuses'), '221,75,57');
+
+        return $tpl->render(
+            'CantigaCoreBundle:Stats:area-requests-over-time.js.twig',
+            array(
+                'data' => $renderer->generateData($this->data),
+            )
+        );
+    }
 
 }

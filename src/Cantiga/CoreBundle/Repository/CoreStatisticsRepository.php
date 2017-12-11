@@ -59,7 +59,17 @@ class CoreStatisticsRepository
 			->dataset('requestsRejected')
 			->process($data);
 	}
-	
+
+    public function fetchAreaRequestSummary(Project $project)
+    {
+        return [
+            'allRequest' => $this->conn->fetchColumn('SELECT COUNT(`id`) FROM `'.CoreTables::AREA_REQUEST_TBL.'` WHERE `projectId` ='.$project->getId()),
+            'notSetRequest' => $this->conn->fetchColumn('SELECT COUNT(`id`) FROM `'.CoreTables::AREA_REQUEST_TBL.'` WHERE `requestorId` is null AND `projectId` ='.$project->getId()),
+            'approvedRequest' => $this->conn->fetchColumn('SELECT COUNT(`id`) FROM `'.CoreTables::AREA_REQUEST_TBL.'` WHERE `status`=2 AND `projectId` ='.$project->getId()),
+            'rejectedRequest' => $this->conn->fetchColumn('SELECT COUNT(`id`) FROM `'.CoreTables::AREA_REQUEST_TBL.'` WHERE `status`=3 AND `projectId` ='.$project->getId())
+        ];
+    }
+
 	public function fetchAdminSummary()
 	{
 		return [

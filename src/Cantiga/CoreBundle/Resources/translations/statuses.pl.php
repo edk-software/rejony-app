@@ -5,4 +5,6 @@ return array(
 	'Approved' => 'Przyjęte',
 	'Declined' => 'Odrzucone',
 	'New' => 'Nowy',
+	'Without Auditor' => 'Nie przypisane',
+	'All' => 'Wszystkie',
 );

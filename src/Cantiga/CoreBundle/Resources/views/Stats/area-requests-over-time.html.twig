@@ -1,3 +1,34 @@
-<div class="chart">
-	<canvas id="area-requests-over-time" style="height:230px"></canvas>
+
+<div class="box-body">
+	<div class="chart">
+		<canvas id="area-requests-over-time" style="height:230px"></canvas>
+	</div>
+</div>
+<div class="box-footer">
+	<div class="row">
+		<div class="col-sm-3 col-xs-6">
+			<div class="description-block border-right">
+				<h5 class="description-header">{{ summary['notSetRequest'] }}</h5>
+				<span class="description-text">{{ 'Without Auditor' | trans({}, 'statuses') }}</span>
+			</div>
+		</div>
+		<div class="col-sm-3 col-xs-6">
+			<div class="description-block border-right">
+				<h5 class="description-header">{{ summary['approvedRequest'] }}</h5>
+				<span class="description-text">{{ 'Approved' | trans({}, 'statuses') }}</span>
+			</div>
+		</div>
+		<div class="col-sm-3 col-xs-6">
+			<div class="description-block border-right">
+				<h5 class="description-header">{{ summary['rejectedRequest'] }}</h5>
+				<span class="description-text">{{ 'Declined' | trans({}, 'statuses') }}</span>
+			</div>
+		</div>
+		<div class="col-sm-3 col-xs-6">
+			<div class="description-block">
+				<h5 class="description-header">{{ summary['allRequest'] }}</h5>
+				<span class="description-text">{{ 'All' | trans({}, 'statuses') }}</span>
+			</div>
+		</div>
+	</div>
 </div>

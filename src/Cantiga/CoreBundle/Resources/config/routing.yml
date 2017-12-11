@@ -74,6 +74,9 @@ _project_button_controller:
 _project_stats_area_controller:
     resource: "@CantigaCoreBundle/Controller/ProjectStatsAreaController.php"
     type:     annotation
+_project_stats_area_request_controller:
+    resource: "@CantigaCoreBundle/Controller/ProjectStatsAreaRequestController.php"
+    type:     annotation
 _project_area_request_controller:
     resource: "@CantigaCoreBundle/Controller/ProjectAreaRequestController.php"
     type:     annotation

@@ -125,6 +125,7 @@ class WorkspaceListener implements WorkspaceSourceInterface
 		
 		if ($project->getAreasAllowed()) {
 			$workspace->addWorkItem('request', new WorkItem('project_area_request_index', 'Area requests'));
+            $workspace->addWorkItem('request', new WorkItem('project_stats_area_request_index', 'Area request statistics'));
 			$workspace->addWorkItem('area', new WorkItem('area_mgmt_index', 'Areas list'));
 		}
 		$workspace->addWorkItem('data', new WorkItem('project_buttons', 'Magic buttons'));
