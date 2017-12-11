@@ -44,8 +44,8 @@ class ProjectMilestoneSummaryController extends ProjectPageController
 	{
 		$this->repository = $this->get(self::REPOSITORY_NAME);
 		$this->breadcrumbs()
-			->workgroup('summary')
-			->entryLink($this->trans('Milestones', [], 'pages'), 'project_milestone_summary', ['slug' => $this->getSlug()]);
+			->workgroup('milestone')
+			->entryLink($this->trans('Milestones summary', [], 'pages'), 'project_milestone_summary', ['slug' => $this->getSlug()]);
 	}
 	
 	/**

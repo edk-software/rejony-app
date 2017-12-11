@@ -104,7 +104,7 @@ class WorkspaceListener implements WorkspaceSourceInterface
 		$project = $workspace->getProject();
         if ($this->authChecker->isGranted('PLACE_MEMBER')) {
             $workspace->addWorkgroup(new Workgroup('request', 'Area requests', 'plus-square-o', 1));
-            $workspace->addWorkgroup(new Workgroup('area', 'Areas', 'flag-o', 2));
+            $workspace->addWorkgroup(new Workgroup('area', 'Areas', 'flag-o', 3));
         }
 		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 9));
 

@@ -45,7 +45,7 @@ class AreaMilestoneEditorController extends AreaPageController
 	{
 		$this->repository = $this->get(self::REPOSITORY_NAME);
 		$this->breadcrumbs()
-			->workgroup('area')
+			->workgroup('milestone')
 			->entryLink($this->trans('Milestones', [], 'pages'), 'area_milestone_editor', ['slug' => $this->getSlug()]);
 	}
 

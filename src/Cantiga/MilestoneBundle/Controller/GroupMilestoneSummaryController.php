@@ -45,7 +45,7 @@ class GroupMilestoneSummaryController extends GroupPageController
 	{
 		$this->repository = $this->get(self::REPOSITORY_NAME);
 		$this->breadcrumbs()
-			->workgroup('summary')
+			->workgroup('milestone')
 			->entryLink($this->trans('Milestones', [], 'pages'), 'group_milestone_summary', ['slug' => $this->getSlug()]);
 	}
 	

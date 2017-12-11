@@ -45,7 +45,7 @@ class ProjectMilestoneEditorController extends ProjectPageController
 	{
 		$this->repository = $this->get(self::REPOSITORY_NAME);
 		$this->breadcrumbs()
-			->workgroup('data')
+			->workgroup('milestone')
 			->entryLink($this->trans('Milestones', [], 'pages'), 'project_milestone_editor', ['slug' => $this->getSlug()]);
 	}
 

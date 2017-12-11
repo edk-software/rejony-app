@@ -19,6 +19,7 @@
 namespace Cantiga\MilestoneBundle\EventListener;
 
 use Cantiga\CoreBundle\Api\WorkItem;
+use Cantiga\CoreBundle\Api\Workgroup;
 use Cantiga\CoreBundle\Event\WorkspaceEvent;
 
 /**
@@ -30,8 +31,9 @@ class WorkspaceListener
 	{
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('milestone')) {
-			$workspace->addWorkItem('summary', new WorkItem('project_milestone_summary', 'Milestones'));
-			$workspace->addWorkItem('data', new WorkItem('project_milestone_editor', 'Milestones'));
+            $workspace->addWorkgroup(new Workgroup('milestone', 'Milestones', 'tasks', 3));
+            $workspace->addWorkItem('milestone', new WorkItem('project_milestone_editor', 'Milestones'));
+			$workspace->addWorkItem('milestone', new WorkItem('project_milestone_summary', 'Milestones summary'));
 			$workspace->addWorkItem('manage', new WorkItem('project_milestone_index', 'Milestones'));
 			$workspace->addWorkItem('manage', new WorkItem('project_milestone_status_rule_index', 'Status rules'));
 		}
@@ -41,8 +43,9 @@ class WorkspaceListener
 	{
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('milestone')) {
-			$workspace->addWorkItem('summary', new WorkItem('group_milestone_summary', 'Milestones'));
-			$workspace->addWorkItem('data', new WorkItem('group_milestone_editor', 'Milestones'));
+            $workspace->addWorkgroup(new Workgroup('milestone', 'Milestones', 'tasks', 3));
+            $workspace->addWorkItem('milestone', new WorkItem('group_milestone_editor', 'Milestones'));
+			$workspace->addWorkItem('milestone', new WorkItem('group_milestone_summary', 'Milestones'));
 		}
 	}
 	
@@ -50,7 +53,8 @@ class WorkspaceListener
 	{
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('milestone')) {
-			$workspace->addWorkItem('area', new WorkItem('area_milestone_editor', 'Milestones'));
+            $workspace->addWorkgroup(new Workgroup('milestone', 'Milestones', 'tasks', 3));
+			$workspace->addWorkItem('milestone', new WorkItem('area_milestone_editor', 'Milestones'));
 		}
 	}
 }

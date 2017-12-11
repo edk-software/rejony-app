@@ -45,7 +45,7 @@ class GroupMilestoneEditorController extends GroupPageController
 	{
 		$this->repository = $this->get(self::REPOSITORY_NAME);
 		$this->breadcrumbs()
-			->workgroup('data')
+			->workgroup('milestone')
 			->entryLink($this->trans('Milestones', [], 'pages'), 'group_milestone_editor', ['slug' => $this->getSlug()]);
 	}
 
