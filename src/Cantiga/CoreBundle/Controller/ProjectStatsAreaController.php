@@ -37,8 +37,8 @@ class ProjectStatsAreaController extends ProjectPageController
 	public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
 	{
 		$this->breadcrumbs()
-			->workgroup('request')
-			->entryLink($this->trans('Area request statistics', [], 'pages'), 'project_stats_area_index', ['slug' => $this->getSlug()]);
+			->workgroup('area')
+			->entryLink($this->trans('Area statistics', [], 'pages'), 'project_stats_area_index', ['slug' => $this->getSlug()]);
 	}
 
 	/**

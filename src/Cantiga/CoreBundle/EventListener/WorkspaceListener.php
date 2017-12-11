@@ -118,15 +118,11 @@ class WorkspaceListener implements WorkspaceSourceInterface
 		if ($this->authChecker->isGranted('PLACE_MANAGER')) {
 			$workspace->addWorkgroup(new Workgroup('manage', 'Manage', 'wrench', 10));
 		}
-		
-		if ($project->getAreasAllowed()) {
-			$workspace->addWorkItem('statistics', new WorkItem('project_stats_area_index', 'Area statistics'));
-		}
-		
 		if ($project->getAreasAllowed()) {
 			$workspace->addWorkItem('request', new WorkItem('project_area_request_index', 'Area requests'));
             $workspace->addWorkItem('request', new WorkItem('project_stats_area_request_index', 'Area request statistics'));
 			$workspace->addWorkItem('area', new WorkItem('area_mgmt_index', 'Areas list'));
+            $workspace->addWorkItem('area', new WorkItem('project_stats_area_index', 'Area statistics'));
 		}
 		$workspace->addWorkItem('data', new WorkItem('project_buttons', 'Magic buttons'));
 		$workspace->addWorkItem('data', new WorkItem('group_mgmt_index', 'Groups'));
