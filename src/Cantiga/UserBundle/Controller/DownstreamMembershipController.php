@@ -57,7 +57,7 @@ class DownstreamMembershipController extends WorkspaceController
 		$this->managedPlace = $this->findManagedPlace($currentPlace, $this->placeType, $this->id);
 
 		$this->breadcrumbs()
-			->workgroup('area')
+			->workgroup('community')
 			->entryLink($this->trans($this->managedPlace->getTypeName().'sType', [], 'pages'), $this->placeType.'_mgmt_index', ['slug' => $this->getSlug()])
 			->link($this->managedPlace->getName(), $this->placeType.'_mgmt_info', ['slug' => $this->getSlug(), 'id' => $this->managedPlace->getId()])
 			->link($this->trans($this->managedPlace->getTypeName().' members', [], 'pages'), 'downstream_membership_index', ['slug' => $this->getSlug(), 'placeType' => $this->placeType, 'id' => $this->id]);

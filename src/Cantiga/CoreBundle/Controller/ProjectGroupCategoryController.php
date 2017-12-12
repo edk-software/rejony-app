@@ -68,7 +68,7 @@ class ProjectGroupCategoryController extends ProjectPageController
 			->setRemoveQuestion('Do you really want to remove the group category \'0\'?');
 
 		$this->breadcrumbs()
-			->workgroup('data')
+			->workgroup('community')
 			->entryLink($this->trans('Group categories', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 	}
 

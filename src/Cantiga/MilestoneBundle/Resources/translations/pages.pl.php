@@ -1,6 +1,7 @@
 <?php
 return [
 	'Milestones' => 'Zadania',
+	'My Milestones' => 'Moje zadania',
     'Milestones summary' => 'Zestawienie zadań',
 	'Create a new milestone' => 'Utwórz nowe zadanie',
 	'Edit milestone: 0' => 'Edytuj zadanie: 0',

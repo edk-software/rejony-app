@@ -30,7 +30,7 @@ class WorkspaceListener
 	{
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('course')) {
-			$workspace->addWorkItem('summary', new WorkItem('project_course_summary_index', 'Course results'));
+			$workspace->addWorkItem('knowlede', new WorkItem('project_course_summary_index', 'Course results'));
 			$workspace->addWorkItem('manage', new WorkItem('project_course_index', 'Courses'));
 		}
 	}
@@ -39,7 +39,7 @@ class WorkspaceListener
 	{
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('course')) {
-			$workspace->addWorkItem('summary', new WorkItem('group_course_summary_index', 'Course results'));
+			$workspace->addWorkItem('knowlede', new WorkItem('group_course_summary_index', 'Course results'));
 		}
 	}
 	
@@ -47,8 +47,8 @@ class WorkspaceListener
 	{
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('course')) {
-			$workspace->addWorkItem('summary', new WorkItem('area_course_results', 'Course results'));
-			$workspace->addWorkItem('area', new WorkItem('area_course_index', 'Courses'));
+			$workspace->addWorkItem('knowlede', new WorkItem('area_course_results', 'Course results'));
+			$workspace->addWorkItem('knowlede', new WorkItem('area_course_index', 'Courses'));
 		}
 	}
 }

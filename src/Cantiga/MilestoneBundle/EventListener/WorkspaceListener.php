@@ -32,7 +32,7 @@ class WorkspaceListener
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('milestone')) {
             $workspace->addWorkgroup(new Workgroup('milestone', 'Milestones', 'tasks', 3));
-            $workspace->addWorkItem('milestone', new WorkItem('project_milestone_editor', 'Milestones'));
+            $workspace->addWorkItem('milestone', new WorkItem('project_milestone_editor', 'My Milestones'));
 			$workspace->addWorkItem('milestone', new WorkItem('project_milestone_summary', 'Milestones summary'));
 			$workspace->addWorkItem('manage', new WorkItem('project_milestone_index', 'Milestones'));
 			$workspace->addWorkItem('manage', new WorkItem('project_milestone_status_rule_index', 'Status rules'));
@@ -44,8 +44,8 @@ class WorkspaceListener
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('milestone')) {
             $workspace->addWorkgroup(new Workgroup('milestone', 'Milestones', 'tasks', 3));
-            $workspace->addWorkItem('milestone', new WorkItem('group_milestone_editor', 'Milestones'));
-			$workspace->addWorkItem('milestone', new WorkItem('group_milestone_summary', 'Milestones'));
+            $workspace->addWorkItem('milestone', new WorkItem('group_milestone_editor', 'My Milestones'));
+			$workspace->addWorkItem('milestone', new WorkItem('group_milestone_summary', 'Milestones summary'));
 		}
 	}
 	
@@ -54,7 +54,7 @@ class WorkspaceListener
 		$workspace = $event->getWorkspace();
 		if ($workspace->getProject()->supportsModule('milestone')) {
             $workspace->addWorkgroup(new Workgroup('milestone', 'Milestones', 'tasks', 3));
-			$workspace->addWorkItem('milestone', new WorkItem('area_milestone_editor', 'Milestones'));
+			$workspace->addWorkItem('milestone', new WorkItem('area_milestone_editor', 'My Milestones'));
 		}
 	}
 }

@@ -12,8 +12,10 @@ return [
 	'Requests' => 'Zgłoszenia',
 	'Places' => 'Miejsca',
 	'Summary' => 'Zestawienia',
-	
-	// Help pages
+    'Knowledge and materials' => 'Wiedza i materiały',
+
+
+    // Help pages
 	'Help' => 'Pomoc',
 	'Introduction to the system' => 'Wprowadzenie do systemu',
 	'User profile' => 'Profil użytkownika',

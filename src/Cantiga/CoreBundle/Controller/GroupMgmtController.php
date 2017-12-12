@@ -68,7 +68,7 @@ class GroupMgmtController extends WorkspaceController
 			->setRemoveQuestion('Do you really want to remove group \'0\'?');
 
 		$this->breadcrumbs()
-			->workgroup('data')
+			->workgroup('community')
 			->entryLink($this->trans('Groups', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 		$this->get(self::REPOSITORY_NAME)->setProject($this->getActiveProject());
 	}

@@ -39,7 +39,7 @@ class ProjectStatsParticipantController extends ProjectPageController
 	public function indexAction(Request $request)
 	{
 		$this->breadcrumbs()
-			->workgroup('statistics')
+			->workgroup('participants')
 			->entryLink($this->trans('Participant statistics', [], 'pages'), 'project_stats_participant_index', ['slug' => $this->getSlug()]);
 
 
@@ -82,7 +82,7 @@ class ProjectStatsParticipantController extends ProjectPageController
 				}
 			}
 			$this->breadcrumbs()
-				->workgroup('area')
+				->workgroup('participants')
 				->entryLink($this->trans('Areas list', [], 'pages'), 'area_mgmt_index', ['slug' => $this->getSlug()])
 				->link($area->getName(), 'area_mgmt_info', ['slug' => $this->getSlug(), 'id' => $area->getId()])
 				->link($this->trans('Participant statistics', [], 'pages'), 'project_area_stats', ['slug' => $this->getSlug(), 'id' => $area->getId()]);
@@ -98,7 +98,7 @@ class ProjectStatsParticipantController extends ProjectPageController
 	public function projectTotalDailyParticipantSummaryAction(Request $request)
 	{
 		$this->breadcrumbs()
-			->workgroup('summary')
+			->workgroup('participants')
 			->entryLink($this->trans('Participants', [], 'pages'), 'project_participant_summary', ['slug' => $this->getSlug()]);
 		
 		$repo = $this->get('wio.edk.repo.participant');

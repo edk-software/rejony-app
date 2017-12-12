@@ -54,7 +54,7 @@ class AreaCourseResultController extends AreaPageController
 			->setInfoPage('area_course_info');
 
 		$this->breadcrumbs()
-			->workgroup('summary')
+			->workgroup('knowledge')
 			->entryLink($this->trans('Course results', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 	}
 

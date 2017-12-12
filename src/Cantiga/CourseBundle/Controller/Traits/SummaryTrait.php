@@ -53,7 +53,7 @@ trait SummaryTrait
 			->setPageSubtitle('View the course results');
 
 		$this->breadcrumbs()
-			->workgroup('summary')
+			->workgroup('knowledge')
 			->entryLink($this->trans('Course results', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 	}
 
