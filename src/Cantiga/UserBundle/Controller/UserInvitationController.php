@@ -29,6 +29,7 @@ use Cantiga\UserBundle\Repository\InvitationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Cantiga\CoreBundle\CoreTexts;
 
 /**
  * @Route("/user/invitations")
@@ -76,11 +77,13 @@ class UserInvitationController extends UserPageController
 			$invitation = $this->getInvitationRepository()->getItem($id, $this->getUser());
 			$project = $this->getContactRepository()->getPlaceProject($invitation->getPlace());
 			$contactData = $this->getContactRepository()->findContactData($project, $this->getUser());
-			
+            $text = $this->getTextRepository()->getText(CoreTexts::PROCESSING_PERSONAL_DATA, $request);
+
 			$form = $this->createForm(
 				ContactDataForm::class, $contactData, [
 					'action' => $this->generateUrl('user_invitation_accept', ['id' => $id]),
-                    'isUserRequestForm' => false
+                    'isUserRequestForm' => false,
+                    'processingDataText' => $text->getContent()
 				]
 			);
 			$form->handleRequest($request);

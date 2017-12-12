@@ -25,6 +25,7 @@
 					{{ form_row(form.email) }}
 					{{ form_row(form.telephone) }}
 					{{ form_row(form.notes) }}
+                    {{ form_row(form.isProcessingData) }}
 				</div>
 				<div class="box-footer">
 					{{ form_widget(form.save) }}
@@ -33,4 +34,7 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block javascripts_inline %}
+    {{ use_icheck() }}
 {% endblock %}
