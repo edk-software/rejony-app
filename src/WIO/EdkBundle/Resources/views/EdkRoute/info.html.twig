@@ -9,85 +9,96 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="row" id="ppp">
-        <div class="col-md-7 col-sm-6 col-xs-12">
-            <h4>{{ 'Route details: 0' | trans([item.name], 'edk') }}</h4>
-            <div class="box">
-                <div class="box-body box-status">
-                    <div class="status-line">
-                        {% if item.approved %}
-                            <div class="status-item status-success">{{ 'Approved' | trans({}, 'edk') }}</div>
-                        {% else %}
-                            <div class="status-item status-danger">{{ 'Unapproved' | trans({}, 'edk') }}</div>
-                        {% endif %}
-                        <div class="status-actions">
-                            {% if not isArea %}
-                                {% if not isGroup %}
-                                    {% if item.approved %}
-                                        <div class="btn-group">
-                                            <a class="btn btn-default btn-sm"
-                                               href="{{ spath(revokePage, {'id': item.id}) }}">{{ 'Revoke' | trans([], 'general') }}</a>
-                                        </div>
-                                    {% else %}
-                                        <div class="btn-group">
-                                            <a class="btn btn-primary btn-sm"
-                                               href="{{ spath(approvePage, {'id': item.id}) }}">{{ 'Approve' | trans([], 'general') }}</a>
-                                        </div>
-                                    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ item.name }}</h3>
+                    <div class="box-tools pull-right">
+                        <a href="{{ spath(indexPage) }}" class="btn btn-default btn-sm">
+                            <i class="fa fa-fa-arrow-circle-o-left"></i> {{ 'Routes list' | trans([], 'pages') }}
+                        </a>
+                        {% if not isArea %}
+                            {% if not isGroup %}
+                                {% if item.approved %}
+                                    <div class="btn-group">
+                                        <a class="btn btn-danger btn-sm"
+                                           href="{{ spath(revokePage, {'id': item.id}) }}">
+                                            <i class="fa fa-close"></i> {{ 'Revoke' | trans([], 'general') }}
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="btn-group">
+                                        <a class="btn btn-success btn-sm"
+                                           href="{{ spath(approvePage, {'id': item.id}) }}"><i
+                                                    class="fa fa-check"></i> {{ 'Approve' | trans([], 'general') }}</a>
+                                    </div>
                                 {% endif %}
                             {% endif %}
-                            <div class="btn-group">
-                                <button type="button"
-                                        class="btn btn-default btn-sm">{{ 'Manage' | trans([], 'general') }}</button>
-                                <button type="button" class="btn btn-default btn-sm dropdown-toggle"
-                                        data-toggle="dropdown" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">{{ 'Toggle dropdown' | trans([], 'general') }}</span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ spath(editPage, {'id': item.id }) }}">{{ 'Edit' | trans({}, 'general') }}</a>
-                                    </li>
-                                    {% if item.canRemove() %}
-                                        <li>
-                                            <a href="{{ spath(removePage, {'id': item.id }) }}">{{ 'Remove' | trans({}, 'general') }}</a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                            <a href="{{ spath(indexPage) }}"
-                               class="btn btn-default btn-sm">{{ 'Back' | trans([], 'general') }}</a>
-                        </div>
+                        {% endif %}
+                        <a class="btn btn-primary btn-sm" href="{{ spath(editPage, {'id': item.id }) }}"><i
+                                    class="fa fa-pencil"></i> {{ 'Edit' | trans({}, 'general') }}</a>
+                        {% if item.canRemove() %}
+                            <a class="btn btn-danger btn-sm" href="{{ spath(removePage, {'id': item.id }) }}"><i
+                                        class="fa fa-trash"></i> {{ 'Remove' | trans({}, 'general') }}</a>
+                        {% endif %}
                     </div>
-                    <div class="status-info">
-                        {% if not isArea %}
-                            <div class="info-item">
-                                <h4><i class="fa fa-cube"></i> {{ 'Area' | trans({}, 'edk') }}</h4>
-                                <span class="value"><a
-                                            href="{{ spath(areaInfoPage, {'id': item.area.id }) }}">{{ item.area.name }}</a></span>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="col-md-3">
+                        <strong><i class="fa fa-clock-o"></i> {{ 'Created at' | trans({}, 'edk') }}</strong>
+                        <p>{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }}
+                            ({{ ago(item.createdAt) }})</p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong><i class="fa fa-pencil"></i> {{ 'Updated at' | trans({}, 'edk') }}</strong>
+                        <p>{{ format_time(TimeFormatter.FORMAT_LONG, item.updatedAt) }}
+                            ({{ ago(item.updatedAt) }})</p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong><i class="fa fa-check"></i> {{ 'Approved at' | trans({}, 'edk') }}</strong>
+                        <p>{{ format_time(TimeFormatter.FORMAT_LONG, item.approvedAt) }}
+                            ({{ ago(item.approvedAt) }})</p>
+                    </div>
+                    <div class="col-md-3 no-padding">
+                        {% if item.approved %}
+                            <div class="info-box bg-green no-margin">
+                                <span class="info-box-icon"><i class="fa fa-check"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
+                                    <span class="info-box-number">
+                                            {% if item.routeType == 0 %}
+                                                {{ 'FullRoute' | trans({}, 'edk') }}
+                                        {% else %}
+                                                {{ 'RouteInspiredByEWC' | trans({}, 'edk') }}
+                                            {% endif %}
+                                        </span>
+                                    <span class="progress-description">{{ 'Approved' | trans({}, 'edk') }}</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="info-box bg-red no-margin">
+                                <span class="info-box-icon"><i class="fa fa-close"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
+                                    <span class="info-box-number">
+                                            {% if item.routeType == 0 %}
+                                                {{ 'FullRoute' | trans({}, 'edk') }}
+                                            {% else %}
+                                                {{ 'RouteInspiredByEWC' | trans({}, 'edk') }}
+                                            {% endif %}
+                                        </span>
+                                    <span class="progress-description">{{ 'Unapproved' | trans({}, 'edk') }}</span>
+                                </div>
                             </div>
                         {% endif %}
-                        <div class="info-item">
-                            <h4><i class="fa fa-adjust"></i> {{ 'Route type' | trans({}, 'edk') }}</h4>
-                            {% if item.routeType == 0 %}
-                                <span class="value">{{ 'FullRoute' | trans({}, 'edk') }}</span>
-                            {% else %}
-                                <span class="value">{{ 'RouteInspiredByEWC' | trans({}, 'edk') }}</span>
-                            {% endif %}
-                        </div>
-                        <div class="info-item">
-                            <h4><i class="fa fa-clock-o"></i> {{ 'Created at' | trans({}, 'edk') }}</h4>
-                            <span class="value">{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }}
-                                ({{ ago(item.createdAt) }})</span>
-                        </div>
-                        <div class="info-item">
-                            <h4><i class="fa fa-wrench"></i> {{ 'Last update' | trans }}</h4>
-                            <span class="value">{{ format_time(TimeFormatter.FORMAT_LONG, item.updatedAt) }}
-                                ({{ ago(item.updatedAt) }})</span>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row" id="ppp">
+        <div class="col-md-7 col-sm-6 col-xs-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#route-info" aria-controls="route-info" role="tab"
@@ -96,6 +107,10 @@
                            data-toggle="tab">{{ 'Additional notes' | trans([], 'edk') }}</a></li>
                     <li><a href="#files" aria-controls="files" role="tab"
                            data-toggle="tab">{{ 'Files' | trans([], 'edk') }}</a></li>
+                    {% if not isArea %}
+                        <li><a href="#areas" aria-controls="areas" role="tab"
+                               data-toggle="tab">{{ 'Area' | trans({}, 'edk') }}</a></li>
+                    {% endif %}
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="route-info">
@@ -160,6 +175,12 @@
                             </div>
                         </div>
                     </div>
+                    {% if not isArea %}
+                    <div role="tabpanel" class="tab-pane" id="areas">
+                       <i class="fa fa-cube"></i>
+                        <a href="{{ spath(areaInfoPage, {'id': item.area.id }) }}">{{ item.area.name }}</a>
+                    </div>
+                    {% endif %}
                     <div role="tabpanel" class="tab-pane" id="files">
                         <table class="table table-hover">
                             <tr>
@@ -227,83 +248,84 @@
                             <i class="fa fa-gears"></i> {{ 'Verify' | trans({}, 'edk') }}
                         </button>
                     </div>
-					<div class="col-md-4 col-sm-6 col-xs-12">
-						<div id="singlePath" class="info-box">
-							<span class="info-box-icon bg-gray-light"><i class="fa fa-circle-o"></i></span>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div id="singlePath" class="info-box">
+                            <span class="info-box-icon bg-gray-light"><i class="fa fa-circle-o"></i></span>
 
-							<div class="info-box-content">
-								<span class="info-box-text">{{ 'Single path' | trans({}, 'edk') }}</span>
-								<span class="users-list-date">{{ 'SinglePathDescription' | trans({}, 'edk') }}</span>
-							</div>
-							<!-- /.info-box-content -->
-						</div>
-						<!-- /.info-box -->
-					</div>
-					<div class="col-md-4 col-sm-6 col-xs-12">
-						<div id="pathLength" class="info-box">
-							<span class="info-box-icon bg-gray-light"><i class="fa fa-map-signs"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'Single path' | trans({}, 'edk') }}</span>
+                                <span class="users-list-date">{{ 'SinglePathDescription' | trans({}, 'edk') }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div id="pathLength" class="info-box">
+                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-signs"></i></span>
 
-							<div class="info-box-content">
-								<span class="info-box-text">{{ 'Length' | trans({}, 'edk') }}</span>
-								<span class="info-box-number"></span>
-								<span class="users-list-date">{{ 'RouteLengthDescription' | trans({}, 'edk') }}</span>
-							</div>
-							<!-- /.info-box-content -->
-						</div>
-						<!-- /.info-box -->
-					</div>
-					<div class="col-md-4 col-sm-6 col-xs-12">
-						<div id="routeType" class="info-box">
-							<span class="info-box-icon bg-navy-active disabled"><i class="fa fa-flag-o"></i></span>
-							<input type="hidden" id="normalRouteString" value="{{ 'FullRoute' | trans({}, 'edk') }}" />
-							<input type="hidden" id="inspiredRouteString" value="{{ 'RouteInspiredByEWC' | trans({}, 'edk') }}" />
-							<div class="info-box-content">
-								<span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
-								<span class="info-box-number"></span>
-							</div>
-							<!-- /.info-box-content -->
-						</div>
-						<!-- /.info-box -->
-					</div>
-					<div class="col-md-4 col-sm-6 col-xs-12">
-						<div id="numberOfStations" class="info-box">
-							<span class="info-box-icon bg-gray-light"><i class="fa fa-map-marker"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'Length' | trans({}, 'edk') }}</span>
+                                <span class="info-box-number"></span>
+                                <span class="users-list-date">{{ 'RouteLengthDescription' | trans({}, 'edk') }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div id="routeType" class="info-box">
+                            <span class="info-box-icon bg-navy-active disabled"><i class="fa fa-flag-o"></i></span>
+                            <input type="hidden" id="normalRouteString" value="{{ 'FullRoute' | trans({}, 'edk') }}"/>
+                            <input type="hidden" id="inspiredRouteString"
+                                   value="{{ 'RouteInspiredByEWC' | trans({}, 'edk') }}"/>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
+                                <span class="info-box-number"></span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div id="numberOfStations" class="info-box">
+                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-marker"></i></span>
 
-							<div class="info-box-content">
-								<span class="info-box-text">{{ 'Stations number and naming' | trans({}, 'edk') }}</span>
-								<span class="info-box-number"></span>
-								<span class="users-list-date">{{ 'NumberOfStationsDescription' | trans({}, 'edk') }}</span>
-							</div>
-							<!-- /.info-box-content -->
-						</div>
-						<!-- /.info-box -->
-					</div>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'Stations number and naming' | trans({}, 'edk') }}</span>
+                                <span class="info-box-number"></span>
+                                <span class="users-list-date">{{ 'NumberOfStationsDescription' | trans({}, 'edk') }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
 
-					<div class="col-md-4 col-sm-6 col-xs-12">
-						<div id="stationsOrder" class="info-box">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div id="stationsOrder" class="info-box">
 								<span class="info-box-icon bg-gray-light"><i
-										class="fa fa-sort-numeric-asc"></i></span>
+                                            class="fa fa-sort-numeric-asc"></i></span>
 
-							<div class="info-box-content">
-								<span class="info-box-text">{{ 'Stations order' | trans({}, 'edk') }}</span>
-								<span class="users-list-date">{{ 'StationsOrderDescription' | trans({}, 'edk') }}</span>
-							</div>
-							<!-- /.info-box-content -->
-						</div>
-						<!-- /.info-box -->
-					</div>
-					<div class="col-md-4 col-sm-6 col-xs-12">
-						<div id="stationsOnPath" class="info-box">
-							<span class="info-box-icon bg-gray-light"><i class="fa fa-map-pin"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'Stations order' | trans({}, 'edk') }}</span>
+                                <span class="users-list-date">{{ 'StationsOrderDescription' | trans({}, 'edk') }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div id="stationsOnPath" class="info-box">
+                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-pin"></i></span>
 
-							<div class="info-box-content">
-								<span class="info-box-text">{{ 'Stations location' | trans({}, 'edk') }}</span>
-								<span class="users-list-date">{{ 'StationsOnPathDescription' | trans({}, 'edk') }}</span>
-							</div>
-							<!-- /.info-box-content -->
-						</div>
-						<!-- /.info-box -->
-					</div>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'Stations location' | trans({}, 'edk') }}</span>
+                                <span class="users-list-date">{{ 'StationsOnPathDescription' | trans({}, 'edk') }}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div id="elevationGain" class="info-box">
                             <span class="info-box-icon bg-gray-light"><i class="fa fa-arrow-up"></i></span>
@@ -500,6 +522,7 @@
             });
             ctaLayer.setMap(map);
         }
+
         google.maps.event.addDomListener(window, 'load', initialize);
         {% endraw %}
     </script>
