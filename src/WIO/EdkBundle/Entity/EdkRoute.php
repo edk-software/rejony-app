@@ -58,19 +58,49 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	private $id;
 	private $area;
 	private $name;
+	private $routePatron;
+	private $routeColor;
+	private $routeAuthor;
 	private $routeType;
 	private $routeFrom;
+	private $routeFromDetails;
 	private $routeTo;
+	private $routeToDetails;
 	private $routeCourse;
 	private $routeLength;
 	private $routeAscent;
 	private $routeObstacles;
 	private $createdAt;
+	private $createdBy;
 	private $updatedAt;
+	private $updatedBy;
 	private $approved;
+	private $approvedAt;
+	private $approvedBy;
 	private $descriptionFile;
+    private $descriptionCreatedAt;
+    private $descriptionCreatedBy;
+    private $descriptionUpdatedAt;
+    private $descriptionUpdatedBy;
+    private $descriptionApproved;
+    private $descriptionApprovedAt;
+    private $descriptionApprovedBy;
 	private $mapFile;
+    private $mapCreatedAt;
+    private $mapCreatedBy;
+    private $mapUpdatedAt;
+    private $mapUpdatedBy;
+    private $mapApproved;
+    private $mapApprovedAt;
+    private $mapApprovedBy;
 	private $gpsTrackFile;
+	private $gpsCreatedAt;
+	private $gpsCreatedBy;
+	private $gpsUpdatedAt;
+	private $gpsUpdatedBy;
+	private $gpsApproved;
+	private $gpsApprovedAt;
+	private $gpsApprovedBy;
 
 	/**
 	 * @var UploadedFile
@@ -233,6 +263,21 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this->routeType;
 	}
 
+	public function getRouteColor()
+	{
+		return $this->routeColor;
+	}
+
+	public function getRoutePatron()
+	{
+		return $this->routePatron;
+	}
+
+	public function getRouteAuthor()
+	{
+		return $this->routeAuthor;
+	}
+
 	public function getRouteFrom()
 	{
 		return $this->routeFrom;
@@ -242,6 +287,16 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	{
 		return $this->routeTo;
 	}
+
+    public function getRouteFromDetails()
+    {
+        return $this->routeFromDetails;
+    }
+
+    public function getRouteToDetails()
+    {
+        return $this->routeToDetails;
+    }
 
 	public function getRouteCourse()
 	{
@@ -272,6 +327,11 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	{
 		return $this->updatedAt;
 	}
+
+    public function getApprovedAt()
+    {
+        return $this->approvedAt;
+    }
 
 	public function getApproved()
 	{
@@ -337,11 +397,29 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this;
 	}
 	
-	public function setRouteType($routeType)
+	public function setRoutePatron($value)
 	{
-		$this->routeType = (int) $routeType;
+		$this->routePatron = $value;
 		return $this;
 	}
+
+    public function setRouteColor($value)
+    {
+        $this->routeColor = $value;
+        return $this;
+    }
+
+    public function setRouteType($value)
+    {
+        $this->routeType = $value;
+        return $this;
+    }
+
+    public function setRouteAuthor($value)
+    {
+        $this->routeAuthor = $value;
+        return $this;
+    }
 
 	public function setRouteFrom($routeFrom)
 	{
@@ -354,6 +432,18 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$this->routeTo = $routeTo;
 		return $this;
 	}
+
+    public function setRouteFromDetails($value)
+    {
+        $this->routeFromDetails = $value;
+        return $this;
+    }
+
+    public function setRouteToDetails($value)
+    {
+        $this->routeToDetails = $value;
+        return $this;
+    }
 
 	public function setRouteCourse($routeCourse)
 	{
@@ -394,6 +484,12 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$this->updatedAt = $updatedAt;
 		return $this;
 	}
+
+    public function setApprovedAt($approvedAt)
+    {
+        $this->approvedAt = $approvedAt;
+        return $this;
+    }
 
 	public function setApproved($approved)
 	{
@@ -678,10 +774,11 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$this->approved = (boolean) $conn->fetchColumn('SELECT `approved` FROM `'.EdkTables::ROUTE_TBL.'` WHERE `id` = :id', [':id' => $this->id]);
 		if (!$this->approved) {
 			$this->updatedAt = time();
+			$this->approvedAt = time();
 			$this->approved = true;
 
 			$conn->update(EdkTables::ROUTE_TBL,
-				['updatedAt' => $this->updatedAt, 'approved' => $this->approved],
+				['updatedAt' => $this->updatedAt, 'approvedAt' => $this->approvedAt, 'approved' => $this->approved],
 				['id' => $this->getId()]
 			);
 			return true;
@@ -694,10 +791,11 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$this->approved = (boolean) $conn->fetchColumn('SELECT `approved` FROM `'.EdkTables::ROUTE_TBL.'` WHERE `id` = :id', [':id' => $this->id]);
 		if ($this->approved) {
 			$this->updatedAt = time();
+			$this->approvedAt = time();
 			$this->approved = false;
 
 			$conn->update(EdkTables::ROUTE_TBL,
-				['updatedAt' => $this->updatedAt, 'approved' => $this->approved],
+				['updatedAt' => $this->updatedAt, 'approvedAt' => $this->approvedAt, 'approved' => $this->approved],
 				['id' => $this->getId()]
 			);
 			return true;
