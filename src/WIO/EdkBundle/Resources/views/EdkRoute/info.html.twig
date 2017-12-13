@@ -46,7 +46,7 @@
                 </div>
                 <div class="box-body no-padding">
                     <div class="col-md-3">
-                        <strong><i class="fa fa-clock-o"></i> {{ 'Created at' | trans({}, 'edk') }}</strong>
+                        <strong><i class="fa fa-plus"></i> {{ 'Created at' | trans({}, 'edk') }}</strong>
                         <p>{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }}
                             ({{ ago(item.createdAt) }})</p>
                     </div>
@@ -98,126 +98,157 @@
         </div>
     </div>
     <div class="row" id="ppp">
-        <div class="col-md-7 col-sm-6 col-xs-12">
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#route-info" aria-controls="route-info" role="tab"
-                                          data-toggle="tab">{{ 'Route information' | trans({}, 'edk') }}</a></li>
-                    <li><a href="#notes" aria-controls="notes" role="tab"
-                           data-toggle="tab">{{ 'Additional notes' | trans([], 'edk') }}</a></li>
-                    <li><a href="#files" aria-controls="files" role="tab"
-                           data-toggle="tab">{{ 'Files' | trans([], 'edk') }}</a></li>
-                    {% if not isArea %}
-                        <li><a href="#areas" aria-controls="areas" role="tab"
-                               data-toggle="tab">{{ 'Area' | trans({}, 'edk') }}</a></li>
-                    {% endif %}
-                </ul>
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="route-info">
-                        <table class="table table-hover">
-                            <tbody>
-                            <tr>
-                                <td width="30%">{{ 'Route beginning' | trans({}, 'edk') }}</td>
-                                <td>{{ item.routeFrom }}</td>
-                            </tr>
-                            <tr>
-                                <td width="30%">{{ 'Route end' | trans({}, 'edk') }}</td>
-                                <td>{{ item.routeTo }}</td>
-                            </tr>
-                            <tr>
-                                <td width="30%">{{ 'Route length' | trans({}, 'edk') }}</td>
-                                <td>{{ item.routeLength }} km</td>
-                            </tr>
-                            <tr>
-                                <td width="30%">{{ 'Route ascent' | trans({}, 'edk') }}</td>
-                                <td>{{ item.routeAscent }} m</td>
-                            </tr>
-                            <tr>
-                                <td width="30%">{{ 'Route course' | trans({}, 'edk') }}</td>
-                                <td>{{ item.routeCourse }}</td>
-                            </tr>
-                            <tr>
-                                <td width="30%">{{ 'Additional obstacles' | trans({}, 'edk') }}</td>
-                                <td>{{ item.routeObstacles }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
+        <div class="col-md-8">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-crosshairs"></i> {{ 'Base information' | trans({}, 'edk') }}</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="notes">
-                        <p class="lead">{{ 'RouteAdditionalNoteInfoText' | trans([], 'edk') }}</p>
-                        <div id="note-location"></div>
-                        <div class="modal fade" id="note-modal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="{{ 'Close' | trans([], 'general') }}"><span
-                                                    aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="note-name"></h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p class="text-small text-muted"><i
-                                                    class="fa fa-question"></i> {{ 'EditorFormattingHint' | trans([], 'edk') }}
-                                        </p>
-                                        <hr/>
-                                        <form class="form">
-                                            <div class="form-group">
+                </div>
+                <div class="box-body">
+                    <dl class="dl-horizontal no-margin">
+                        <dt>{{ 'Route name' | trans({}, 'edk') }}</dt>
+                        <dd>{{ item.name }}</dd>
+                        <dt>{{ 'Route patron' | trans({}, 'edk') }}</dt>
+                        <dd>{{ item.routePatron }}</dd>
+                        <dt>{{ 'Route color' | trans({}, 'edk') }}</dt>
+                        <dd>{{ item.routeColor }}</dd>
+                        <dt>{{ 'Route author' | trans({}, 'edk') }}</dt>
+                        <dd>{{ item.routeAuthor }}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-globe"></i> {{ 'Route characteristic' | trans({}, 'edk') }}</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <dl class="dl-horizontal no-margin">
+                        <dt>{{ 'Route beginning' | trans({}, 'edk') }}</dt>
+                        <dd>{{  item.routeFrom }} <span class="users-list-date">{{ item.routeFromDetails }}</span></dd>
+                        <dt>{{ 'Route end' | trans({}, 'edk') }}</dt>
+                        <dd>{{ item.routeTo }} <span class="users-list-date">{{ item.routeToDetails }}</span></dd>
+                        <dt>{{ 'Route length' | trans({}, 'edk') }}</dt>
+                        <dd>{{ item.routeLength }} km</dd>
+                        <dt>{{ 'Route ascent' | trans({}, 'edk') }}</dt>
+                        <dd>{{ item.routeAscent }} m</dd>
+                        {#<dt>{{ 'Continent' | trans({}, 'edk') }}</dt>#}
+                        {#<dd>-</dd>#}
+                        {#<dt>{{ 'Country' | trans({}, 'edk') }}</dt>#}
+                        {#<dd>-</dd>#}
+                        {#<dt>{{ 'Region' | trans({}, 'edk') }}</dt>#}
+                        {#<dd>-</dd>#}
+                        {#<dt>{{ 'Place' | trans({}, 'edk') }}</dt>#}
+                        {#<dd>-</dd>#}
+                    </dl>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#route-course" aria-controls="route-info" role="tab"
+                                              data-toggle="tab">{{ 'Route course' | trans({}, 'edk') }}</a></li>
+                        <li ><a href="#route-info" aria-controls="route-info" role="tab"
+                                data-toggle="tab">{{ 'Route brief' | trans({}, 'edk') }}</a></li>
+                        <li><a href="#notes" aria-controls="notes" role="tab"
+                               data-toggle="tab">{{ 'Route additional information' | trans([], 'edk') }}</a></li>
+                        <li><a href="#files" aria-controls="files" role="tab"
+                               data-toggle="tab">{{ 'Files' | trans([], 'edk') }}</a></li>
+                        {% if not isArea %}
+                            <li><a href="#areas" aria-controls="areas" role="tab"
+                                   data-toggle="tab">{{ 'Area' | trans({}, 'edk') }}</a></li>
+                        {% endif %}
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="route-course">
+                            <p>{{ item.routeCourse }}</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane active" id="route-info">
+                            <p>{{ item.routeObstacles }}</p>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="notes">
+                            <p class="lead">{{ 'RouteAdditionalNoteInfoText' | trans([], 'edk') }}</p>
+                            <div id="note-location"></div>
+                            <div class="modal fade" id="note-modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="{{ 'Close' | trans([], 'general') }}"><span
+                                                        aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="note-name"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="text-small text-muted"><i
+                                                        class="fa fa-question"></i> {{ 'EditorFormattingHint' | trans([], 'edk') }}
+                                            </p>
+                                            <hr/>
+                                            <form class="form">
+                                                <div class="form-group">
                                                 <textarea name="note-content-editor"
                                                           id="note-content-editor"></textarea>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary"
-                                                id="note-modal-save">{{ 'Save' | trans({}, 'general') }}</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary"
+                                                    id="note-modal-save">{{ 'Save' | trans({}, 'general') }}</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {% if not isArea %}
-                    <div role="tabpanel" class="tab-pane" id="areas">
-                       <i class="fa fa-cube"></i>
-                        <a href="{{ spath(areaInfoPage, {'id': item.area.id }) }}">{{ item.area.name }}</a>
-                    </div>
-                    {% endif %}
-                    <div role="tabpanel" class="tab-pane" id="files">
-                        <table class="table table-hover">
-                            <tr>
-                                <td>{{ 'RouteDescriptionFileUpload' | trans([], 'edk') }}</td>
-                                {% if item.descriptionFile %}
-                                    <td>
-                                        <a href="{{ url('public_edk_download_description', {'slug': item.publicAccessSlug }) }}"
-                                           class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
-                                {% else %}
-                                    <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <td>{{ 'RouteMapFileUpload' | trans([], 'edk') }}</td>
-                                {% if item.mapFile %}
-                                    <td><a href="{{ url('public_edk_download_map', {'slug': item.publicAccessSlug }) }}"
-                                           class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
-                                {% else %}
-                                    <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <td>{{ 'RouteGPSTraceFileUpload' | trans([], 'edk') }}</td>
-                                {% if item.gpsTrackFile %}
-                                    <td><a href="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}"
-                                           class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
-                                {% else %}
-                                    <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
-                                {% endif %}
-                            </tr>
-                        </table>
+                        {% if not isArea %}
+                            <div role="tabpanel" class="tab-pane" id="areas">
+                                <i class="fa fa-cube"></i>
+                                <a href="{{ spath(areaInfoPage, {'id': item.area.id }) }}">{{ item.area.name }}</a>
+                            </div>
+                        {% endif %}
+                        <div role="tabpanel" class="tab-pane" id="files">
+                            <table class="table table-hover">
+                                <tr>
+                                    <td>{{ 'RouteDescriptionFileUpload' | trans([], 'edk') }}</td>
+                                    {% if item.descriptionFile %}
+                                        <td>
+                                            <a href="{{ url('public_edk_download_description', {'slug': item.publicAccessSlug }) }}"
+                                               class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
+                                    {% else %}
+                                        <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>{{ 'RouteMapFileUpload' | trans([], 'edk') }}</td>
+                                    {% if item.mapFile %}
+                                        <td><a href="{{ url('public_edk_download_map', {'slug': item.publicAccessSlug }) }}"
+                                               class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
+                                    {% else %}
+                                        <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>{{ 'RouteGPSTraceFileUpload' | trans([], 'edk') }}</td>
+                                    {% if item.gpsTrackFile %}
+                                        <td><a href="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}"
+                                               class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
+                                    {% else %}
+                                        <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
+                                    {% endif %}
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
-        <div class="col-md-5 col-sm-6 col-xs-12">
-            {{ macro.chat_box('Comments' | trans, 'route-comments') }}
+        <div class="col-md-4">
             <div class="box">
                 <div class="box-body">
                     <div id="map-canvas" style="width: 100%; height: 400px;"
@@ -227,7 +258,9 @@
                     </div>
                 </div>
             </div>
+            {{ macro.chat_box('Comments' | trans, 'route-comments') }}
         </div>
+
     </div>
     <!-- /.row -->
     <div class="row">
@@ -381,7 +414,7 @@
                 <div class="box-footer">
                     <div class="col-md-12">
                         <div id="profilTrasy">{{ 'Elevation chart' | trans({}, 'edk') }}</div>
-                        <canvas id="elevationChart"></canvas>
+                        <canvas id="elevationChart" style="height: 150px; width: 100%"></canvas>
                     </div>
                 </div>
             </div>
