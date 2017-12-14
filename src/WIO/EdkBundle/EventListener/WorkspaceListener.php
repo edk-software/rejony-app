@@ -99,10 +99,10 @@ class WorkspaceListener
 			$workspace->addWorkItem('routes', new WorkItem('edk_route_index', 'Routes'));
 			$workspace->addWorkItem('participants', new WorkItem('edk_reg_settings_index', 'Registration settings'));
 			$workspace->addWorkItem('participants', new WorkItem('area_edk_message_index', 'Messages'));
+            if ($this->authChecker->isGranted('PLACE_PD_ADMIN')) {
+                $workspace->addWorkItem('participants', new WorkItem('area_edk_participant_index', 'Participants'));
+            }
 			$workspace->addWorkItem('participants', new WorkItem('area_stats_participant_index', 'Participant statistics'));
-			if ($this->authChecker->isGranted('PLACE_PD_ADMIN')) {
-				$workspace->addWorkItem('participants', new WorkItem('area_edk_participant_index', 'Participants'));
-			}
 		}
 	}
 	

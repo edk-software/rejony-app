@@ -69,26 +69,35 @@ class ParticipantsOnRouteChart implements StatsInterface
 	public function renderStatistics(TwigEngine $tpl)
 	{
 		return $tpl->render('WioEdkBundle:Stats:participants-on-route-chart.js.twig', array(
-			'data' => json_encode($this->data),
-		));
+            'data' => $this->data['values'],
+            'labels' => $this->data['labels'],
+            'colors' => $this->data['colors'],
+            'highlights' => $this->data['highlights'],
+        ));
 	}
 	
 	private function enhanceData($data)
 	{
 		$paletteGen = new PaletteGenerator();
 		$palette = $paletteGen->generatePalette(sizeof($data), 138, 86, 226);
-		
-		$chartData = [];
+
+        $labels = [];
+        $values = [];
+        $colors = [];
+        $highlights = [];
 		$i = 0;
 		foreach ($data as $route) {
 			$color = $palette[$i++];
-			$chartData[] = [
-				'label' => $route['name'],
-				'value' => $route['participantNum'],
-				'color' => $color['c'],
-				'highlight' => $color['h'],
-			];
+            $labels[] = '"'.$route['name'].'"';
+            $values[] = $route['participantNum'];
+            $colors[] = '"'.$color['c'].'"';
+            $highlights[] = '"'.$color['h'].'"';
 		}
-		return $chartData;
+        return array(
+            'labels' => implode(', ', $labels),
+            'values' => implode(', ', $values),
+            'colors' => implode(', ', $colors),
+            'highlights' => implode(', ', $highlights),
+        );
 	}
 }

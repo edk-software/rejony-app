@@ -66,7 +66,10 @@ class RouteFilesChart implements StatsInterface
 	public function renderStatistics(TwigEngine $tpl)
 	{
 		return $tpl->render('WioEdkBundle:Stats:route-files-chart.js.twig', array(
-			'data' => json_encode($this->data),
+            'data' => $this->data['values'],
+            'labels' => $this->data['labels'],
+            'colors' => $this->data['colors'],
+            'highlights' => $this->data['highlights'],
 		));
 	}
 	
@@ -74,18 +77,24 @@ class RouteFilesChart implements StatsInterface
 	{
 		$paletteGen = new PaletteGenerator();
 		$palette = $paletteGen->generatePalette(sizeof($data), 138, 86, 226);
-		
-		$chartData = [];
+
+        $labels = [];
+        $values = [];
+        $colors = [];
+        $highlights = [];
 		$i = 0;
 		foreach ($data as $item) {
 			$color = $palette[$i++];
-			$chartData[] = [
-				'label' => $this->translator->trans($item['name'], [], 'edk'),
-				'value' => $item['value'],
-				'color' => $color['c'],
-				'highlight' => $color['h'],
-			];
+            $labels[] = '"'.addslashes($this->translator->trans($item['name'], [], 'edk')).'"';
+            $values[] = $item['value'];
+            $colors[] = '"'.$color['c'].'"';
+            $highlights[] = '"'.$color['h'].'"';
 		}
-		return $chartData;
+        return array(
+            'labels' => implode(', ', $labels),
+            'values' => implode(', ', $values),
+            'colors' => implode(', ', $colors),
+            'highlights' => implode(', ', $highlights),
+        );
 	}
 }

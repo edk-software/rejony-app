@@ -69,7 +69,10 @@ class ParticipantWhereLearntChart implements StatsInterface
 	public function renderStatistics(TwigEngine $tpl)
 	{
 		return $tpl->render('WioEdkBundle:Stats:where-learnt-chart.js.twig', array(
-			'data' => json_encode($this->data),
+			'data' => $this->data['values'],
+			'labels' => $this->data['labels'],
+			'colors' => $this->data['colors'],
+			'highlights' => $this->data['highlights'],
 		));
 	}
 	
@@ -78,20 +81,27 @@ class ParticipantWhereLearntChart implements StatsInterface
 		$options = WhereLearntAbout::getItems();
 		$paletteGen = new PaletteGenerator();
 		$palette = $paletteGen->generatePalette(sizeof($options), 138, 86, 226);
-		
-		$chartData = [];
+
+        $labels = [];
+        $values = [];
+        $colors = [];
+        $highlights = [];
+
 		foreach ($options as $option) {
 			if (!empty($data[$option->getId()])) {
 				$color = $this->chooseColor($palette, $option->getId());
-				$chartData[] = [
-					'value' => $data[$option->getId()],
-					'label' => $this->translator->trans($option->getName(), [], 'edk'),
-					'color' => $color['c'],
-					'highlight' => $color['h']
-				];
+                $labels[] = '"'.addslashes($this->translator->trans($option->getName(), [], 'edk')).'"';
+                $values[] = $data[$option->getId()];
+                $colors[] = '"'.$color['c'].'"';
+                $highlights[] = '"'.$color['h'].'"';
 			}
 		}
-		return $chartData;
+		return array(
+            'labels' => implode(', ', $labels),
+            'values' => implode(', ', $values),
+            'colors' => implode(', ', $colors),
+            'highlights' => implode(', ', $highlights),
+            );
 	}
 	
 	private function chooseColor($palette, $id)

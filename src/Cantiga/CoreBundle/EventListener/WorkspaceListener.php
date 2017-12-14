@@ -159,7 +159,7 @@ class WorkspaceListener implements WorkspaceSourceInterface
 
         $workspace->addWorkgroup(new Workgroup('knowledge', 'Knowledge and materials', 'book', 1));
 		$workspace->addWorkgroup(new Workgroup('community', 'Community', 'users', 9));
-		$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 8));
+//		$workspace->addWorkgroup(new Workgroup('summary', 'Summary', 'table', 8));
 		$workspace->addWorkgroup(new Workgroup('area', 'Area', 'flag-o', 3));
 		if ($this->authChecker->isGranted('PLACE_MANAGER')) {
 			$workspace->addWorkgroup(new Workgroup('manage', 'Manage', 'wrench', 10));
