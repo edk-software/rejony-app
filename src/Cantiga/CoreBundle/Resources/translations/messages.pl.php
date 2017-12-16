@@ -91,7 +91,7 @@ return array(
 	// User area requesting
 	'Request a new area' => 'Zgłoś nowy rejon',
 	'Area name' => 'Nazwa rejonu',
-	'Area place' => 'Miejcowość w której chcesz utworzyć rejon',
+	'Area place' => 'Miejscowość w której chcesz utworzyć rejon',
 	'Last update' => 'Ostatnia zmiana',
 	'Comments' => 'Komentarze',
 	'Request date' => 'Data zgłoszenia',
