@@ -76,6 +76,7 @@ return array(
 	'StationaryCoursePreferenceLabel' => 'Jestem zainteresowany terminem jednodniowego szkolenia EDK w dniu:',
 	'ProjectMgmtExperiencesHelp' => 'Popatrz na to szeroko, jako na doświadczenie z pracy, uczelni, szkoły, wolontariatu (max. 400 znaków)',
 	'Max400Chars' => 'Max. 400 znaków',
+	'Max10000' => 'Max. 10 000',
 	'None of the above' => 'Żaden z powyższych',
 	'Stationary course' => 'Szkolenie',
 	

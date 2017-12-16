@@ -26,6 +26,7 @@ use Cantiga\Metamodel\CustomForm\DefaultCustomFormRenderer;
 use Cantiga\Metamodel\CustomForm\DefaultCustomFormSummary;
 use Cantiga\CoreBundle\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -60,7 +61,7 @@ class AreaRequestModel2018 implements CustomFormModelInterface
 			new Range(['min' => 20])
 		]));
 		$builder->add('routeAscent', NumberType::class, array('label' => 'Route ascent (m)', 'constraints' => [
-			new Range(['min' => 0, 'max' => 5000])
+			new Range(['min' => 1, 'max' => 5000])
 		]));
 
 		$builder->add('isParticipant', BooleanType::class, ['label' => 'IsParticipantFormLabel', 'required' => true, 'disabled' => false]);
@@ -77,8 +78,8 @@ class AreaRequestModel2018 implements CustomFormModelInterface
             new NotNull,
             new Length(['min' => 10, 'max' => 400])
         ]));
-		$builder->add('participantCount', NumberType::class, array('label' => 'ParticipantCountFormLabel', 'constraints' => [
-            new Range(['min' => 1])
+		$builder->add('participantCount', IntegerType::class, array('label' => 'ParticipantCountFormLabel', 'attr' => ['help_text' => 'Max10000'], 'constraints' => [
+            new Range(['min' => 1, 'max' => 10000])
         ]));
 		$builder->add('stationaryCourse', ChoiceType::class, ['label' => 'StationaryCoursePreferenceLabel', 'choices' => array_flip($this->stationaryCourseTypes()), 'multiple' => true, 'expanded' => true, 'constraints' => new Count(
 				['min' => 1, 'minMessage' => 'Please select at least one option']

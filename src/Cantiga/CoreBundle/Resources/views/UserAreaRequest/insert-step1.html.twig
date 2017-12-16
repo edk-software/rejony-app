@@ -1,27 +1,29 @@
 {% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
 
 {% block page_title %}
-	{{ 'Request a new area' | trans([], 'pages') }}
+    {{ 'Request a new area' | trans([], 'pages') }}
 {% endblock %}
 
 {% block page_content %}
-	<div class="row">
-		{% include 'CantigaCoreBundle:UserAreaRequest:insert-steps.html.twig' with { currentStep: 1, disablePrevious: false, projectId: null } %}
-		{% for project in availableProjects %}
-			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-				<div class="small-box bg-green">
-					<div class="inner">
-						<h3>{{ project.name }}</h3>
-						<p>{{ project.description }}</p>
-					</div>
-					<div class="icon">
-						<i class="fa fa-thumbs-o-up"></i>
-					</div>
-					<a href="{{ path('user_area_request_create', { 'step': 2, 'projectId': project.id } ) }}" class="small-box-footer">
-						{{ 'RegisterAreaText' | trans([], 'dashboard') }} <i class="fa fa-arrow-circle-right"></i>
-					</a>
-				</div>
-			</div>
-		{% endfor %}
-	</div>
+    <div class="row">
+        {% include 'CantigaCoreBundle:UserAreaRequest:insert-steps.html.twig' with { currentStep: 1, disablePrevious: false, projectId: null } %}
+        {% for project in availableProjects %}
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <a href="{{ path('user_area_request_create', { 'step': 2, 'projectId': project.id } ) }}">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>{{ project.name }}</h3>
+                            <p>{{ project.description }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-thumbs-o-up"></i>
+                        </div>
+                        <div class="small-box-footer">
+                            {{ 'RegisterAreaText' | trans([], 'dashboard') }} <i class="fa fa-arrow-circle-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

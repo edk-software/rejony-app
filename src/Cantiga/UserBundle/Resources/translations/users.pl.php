@@ -11,6 +11,7 @@ return [
 	'See profile' => 'Zobacz profil',
     'Submit request' => 'Wyślij zgłoszenie',
     'Save' => 'Zapisz',
+    'Require' => 'To pole jest wymagane',
 
 	'The credentials have been changed.' => 'Dane logowania zostały zmienione.',
 	'There is no such credentials set to update.' => 'Nie znaleziono wskazanego zestawu danych logowania do zmiany.',

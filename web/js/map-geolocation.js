@@ -16,7 +16,6 @@ function initMapCore() {
 
 function findLocation() {
     var defaultPosition = getDefaultLatLng();
-    debugger;
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
