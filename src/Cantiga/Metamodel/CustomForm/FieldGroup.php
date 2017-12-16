@@ -27,6 +27,7 @@ class FieldGroup implements \IteratorAggregate
 {
 	private $name;
 	private $description;
+	private $icon;
 	private $fields = array();
 	
 	public function __construct($name, $description)
@@ -54,7 +55,18 @@ class FieldGroup implements \IteratorAggregate
 	{
 		return $this->fields;
 	}
-	
+
+	public function getIcon()
+	{
+		return $this->icon;
+	}
+
+	function setIcon($icon)
+	{
+		$this->icon = $icon;
+		return $this;
+	}
+
 	public function getIterator()
 	{
 		return new \ArrayIterator($this->fields);

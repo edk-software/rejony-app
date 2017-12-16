@@ -1,6 +1,6 @@
 {% for group in formRenderer %}
 <fieldset>
-	<legend>{{ group.name | trans }}</legend>
+	<legend class="bg-primary"><i class="fa {{ group.icon}}"></i> {{ group.name | trans }}</legend>
 	{% if group.description %}<p>{{ group.description | trans | raw }}</p>{% endif %}
 	<div class="row">
 		{% for field in group.fields %}

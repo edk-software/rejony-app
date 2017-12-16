@@ -45,7 +45,10 @@ class DefaultCustomFormRenderer implements CustomFormRendererInterface, Iterator
 		$this->lastGroup = new FieldGroup($groupName, $groupDescription);
 		$this->structure[] = $this->lastGroup;
 	}
-	
+	public function setIconLastGroup(string $groupIcon)
+    {
+        $this->lastGroup->setIcon($groupIcon);
+    }
 	/**
 	 * Specifies the names of the fields that shall be displayed in the recently created group. The
 	 * method accepts a variadic number of string arguments.
