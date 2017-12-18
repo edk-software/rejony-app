@@ -21,12 +21,10 @@
                         {% if not isArea %}
                             {% if not isGroup %}
                                 {% if item.approved %}
-                                    <div class="btn-group">
-                                        <a class="btn btn-danger btn-sm"
-                                           href="{{ spath(revokePage, {'id': item.id}) }}">
-                                            <i class="fa fa-close"></i> {{ 'Revoke' | trans([], 'general') }}
-                                        </a>
-                                    </div>
+                                    <a class="btn btn-danger btn-sm"
+                                       href="{{ spath(revokePage, {'id': item.id}) }}">
+                                        <i class="fa fa-close"></i> {{ 'Revoke' | trans([], 'general') }}
+                                    </a>
                                 {% else %}
                                     <div class="btn-group">
                                         <a class="btn btn-success btn-sm"
@@ -45,22 +43,22 @@
                     </div>
                 </div>
                 <div class="box-body no-padding">
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-md-6">
                         <strong><i class="fa fa-plus"></i> {{ 'Created at' | trans({}, 'edk') }}</strong>
                         <p>{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }}
                             ({{ ago(item.createdAt) }})</p>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-md-6">
                         <strong><i class="fa fa-pencil"></i> {{ 'Updated at' | trans({}, 'edk') }}</strong>
                         <p>{{ format_time(TimeFormatter.FORMAT_LONG, item.updatedAt) }}
                             ({{ ago(item.updatedAt) }})</p>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-md-6">
                         <strong><i class="fa fa-check"></i> {{ 'Approved at' | trans({}, 'edk') }}</strong>
                         <p>{{ format_time(TimeFormatter.FORMAT_LONG, item.approvedAt) }}
                             ({{ ago(item.approvedAt) }})</p>
                     </div>
-                    <div class="col-md-3 no-padding">
+                    <div class="col-lg-3 col-md-6 no-padding">
                         {% if item.approved %}
                             <div class="info-box bg-green no-margin">
                                 <span class="info-box-icon"><i class="fa fa-check"></i></span>
@@ -69,7 +67,7 @@
                                     <span class="info-box-number">
                                             {% if item.routeType == 0 %}
                                                 {{ 'FullRoute' | trans({}, 'edk') }}
-                                        {% else %}
+                                            {% else %}
                                                 {{ 'RouteInspiredByEWC' | trans({}, 'edk') }}
                                             {% endif %}
                                         </span>
@@ -98,12 +96,14 @@
         </div>
     </div>
     <div class="row" id="ppp">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-crosshairs"></i> {{ 'Base information' | trans({}, 'edk') }}</h3>
+                    <h3 class="box-title"><i class="fa fa-crosshairs"></i> {{ 'Base information' | trans({}, 'edk') }}
+                    </h3>
                     <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
                         </button>
                     </div>
                 </div>
@@ -122,16 +122,18 @@
             </div>
             <div class="box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-globe"></i> {{ 'Route characteristic' | trans({}, 'edk') }}</h3>
+                    <h3 class="box-title"><i class="fa fa-globe"></i> {{ 'Route characteristic' | trans({}, 'edk') }}
+                    </h3>
                     <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
                         </button>
                     </div>
                 </div>
                 <div class="box-body">
                     <dl class="dl-horizontal no-margin">
                         <dt>{{ 'Route beginning' | trans({}, 'edk') }}</dt>
-                        <dd>{{  item.routeFrom }} <span class="users-list-date">{{ item.routeFromDetails }}</span></dd>
+                        <dd>{{ item.routeFrom }} <span class="users-list-date">{{ item.routeFromDetails }}</span></dd>
                         <dt>{{ 'Route end' | trans({}, 'edk') }}</dt>
                         <dd>{{ item.routeTo }} <span class="users-list-date">{{ item.routeToDetails }}</span></dd>
                         <dt>{{ 'Route length' | trans({}, 'edk') }}</dt>
@@ -154,8 +156,8 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#route-course" aria-controls="route-info" role="tab"
                                               data-toggle="tab">{{ 'Route course' | trans({}, 'edk') }}</a></li>
-                        <li ><a href="#route-info" aria-controls="route-info" role="tab"
-                                data-toggle="tab">{{ 'Route brief' | trans({}, 'edk') }}</a></li>
+                        <li><a href="#route-info" aria-controls="route-info" role="tab"
+                               data-toggle="tab">{{ 'Route brief' | trans({}, 'edk') }}</a></li>
                         <li><a href="#notes" aria-controls="notes" role="tab"
                                data-toggle="tab">{{ 'Route additional information' | trans([], 'edk') }}</a></li>
                         <li><a href="#files" aria-controls="files" role="tab"
@@ -226,7 +228,8 @@
                                 <tr>
                                     <td>{{ 'RouteMapFileUpload' | trans([], 'edk') }}</td>
                                     {% if item.mapFile %}
-                                        <td><a href="{{ url('public_edk_download_map', {'slug': item.publicAccessSlug }) }}"
+                                        <td>
+                                            <a href="{{ url('public_edk_download_map', {'slug': item.publicAccessSlug }) }}"
                                                class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
                                     {% else %}
                                         <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
@@ -235,7 +238,8 @@
                                 <tr>
                                     <td>{{ 'RouteGPSTraceFileUpload' | trans([], 'edk') }}</td>
                                     {% if item.gpsTrackFile %}
-                                        <td><a href="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}"
+                                        <td>
+                                            <a href="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}"
                                                class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
                                     {% else %}
                                         <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
@@ -248,9 +252,9 @@
             </div>
 
         </div>
-        <div class="col-md-4">
-            <div class="box">
-                <div class="box-body">
+        <div class="col-md-3">
+            <div class="box box-solid">
+                <div class="box-body no-padding">
                     <div id="map-canvas" style="width: 100%; height: 400px;"
                          data-what="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}"
                          data-where="{{ item.routeFrom }}"

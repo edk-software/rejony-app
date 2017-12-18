@@ -199,10 +199,15 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 		$metadata->addPropertyConstraint('name', new NotBlank());
 		$metadata->addPropertyConstraint('name', new Length(array('min' => 2, 'max' => 50)));
+        $metadata->addPropertyConstraint('routePatron', new Length(array('min' => 2, 'max' => 50)));
+        $metadata->addPropertyConstraint('routeColor', new Length(array('min' => 2, 'max' => 50)));
+        $metadata->addPropertyConstraint('routeAuthor', new Length(array('min' => 2, 'max' => 50)));
 		$metadata->addPropertyConstraint('routeFrom', new NotBlank());
 		$metadata->addPropertyConstraint('routeFrom', new Length(array('min' => 2, 'max' => 50)));
+        $metadata->addPropertyConstraint('routeFromDetails', new Length(array('min' => 2, 'max' => 50)));
 		$metadata->addPropertyConstraint('routeTo', new NotBlank());
 		$metadata->addPropertyConstraint('routeTo', new Length(array('min' => 2, 'max' => 50)));
+        $metadata->addPropertyConstraint('routeToDetails', new Length(array('min' => 2, 'max' => 50)));
 		$metadata->addPropertyConstraint('routeCourse', new NotBlank());
 		$metadata->addPropertyConstraint('routeCourse', new Length(array('min' => 2, 'max' => 500)));
 		$metadata->addPropertyConstraint('routeObstacles', new Length(array('min' => 0, 'max' => 100)));
@@ -717,7 +722,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$this->updatedAt = time();
 		$conn->insert(
 			EdkTables::ROUTE_TBL,
-			DataMappers::pick($this, ['name', 'area', 'routeType', 'routeFrom', 'routeTo', 'routeCourse', 'routeLength', 'routeAscent', 'routeObstacles', 'createdAt', 'updatedAt', 'approved', 'descriptionFile', 'mapFile', 'gpsTrackFile', 'publicAccessSlug', 'importedFrom'])
+			DataMappers::pick($this, ['name', 'area', 'routePatron','routeColor','routeAuthor','routeType', 'routeFrom', 'routeFromDetails', 'routeTo', 'routeToDetails', 'routeCourse', 'routeLength', 'routeAscent', 'routeObstacles', 'createdAt', 'updatedAt', 'approved', 'descriptionFile', 'mapFile', 'gpsTrackFile', 'publicAccessSlug', 'importedFrom'])
 		);
 		$this->id = $conn->lastInsertId();
 		return $this->id;
@@ -741,7 +746,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		
 		$conn->update(
 			EdkTables::ROUTE_TBL,
-			DataMappers::pick($this, ['name', 'routeType', 'routeFrom', 'routeTo', 'routeCourse', 'routeLength', 'routeAscent', 'routeObstacles', 'updatedAt', 'approved', 'descriptionFile', 'mapFile', 'gpsTrackFile', 'publicAccessSlug', 'commentNum']),
+			DataMappers::pick($this, ['name', 'routePatron','routeColor','routeAuthor','routeType', 'routeFrom', 'routeFromDetails', 'routeToDetails','routeTo', 'routeCourse', 'routeLength', 'routeAscent', 'routeObstacles', 'updatedAt', 'approved', 'descriptionFile', 'mapFile', 'gpsTrackFile', 'publicAccessSlug', 'commentNum']),
 			DataMappers::pick($this, ['id'])
 		);
 	}

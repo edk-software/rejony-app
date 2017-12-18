@@ -1,6 +1,7 @@
 <?php
 return [
 	'Create a new route' => 'Utwórz nową trasę',
+	'New route' => 'Nowa trasa',
 	'RouteDescriptionNote' => 'Opis trasy',
 	'RouteRecommendationNote' => 'Rekomendacja',
 	'RouteArrivalNote' => 'Dojazd i powrót',
@@ -39,16 +40,29 @@ return [
 	'Approved' => 'Zatwierdzona',
 	'Unapproved' => 'Niezatwierdzona',
 	'Route beginning' => 'Początek trasy',
+	'Route beginning details' => 'Dokładny początkek trasy',
 	'Route end' => 'Koniec trasy',
+	'Route end details' => 'Dokładny koniec trasy',
 	'Route course' => 'Przebieg',
 	'Route brief' => 'Krótki opis',
 	'Route additional information' => 'Dodatkowe informacje',
-	'(settlement)' => 'Miejscowość',
+	'(settlement)' => 'Miejscowość (np. Kraków)',
+	'(settlement details)' => 'Dokładne miejsce (np. nazwa kościoła)',
 	'Route length (km)' => 'Długość trasy (km)',
 	'Route length' => 'Długość trasy',
 	'Route ascent' => 'Suma podejść',
 	'Route ascent (m)' => 'Suma podejść (m)',
 	'Additional obstacles' => 'Dodatkowe utrudnienia',
+
+    'Patron placeholder' => 'św. Jan Kanty',
+    'Color placeholder' => 'niebieska',
+    'Author placeholder' => 'Jan Janowski',
+    'Name placeholder' => 'Niebieska - św. Jana Kantego',
+    'From placeholder' => 'Kraków',
+    'From Details placeholder' => 'Kościół św. Józefa',
+
+    'Name helptext' => 'Pełna nazwa trasy (np. Niebieska - św. Jana Kantego)',
+    'Author helptext' => 'Osoba która stworzyła trasę',
 
     'Continent' => 'Kontynent',
     'Country' => 'Państwo',
@@ -58,7 +72,8 @@ return [
 	'FullRoute' => 'Trasa EDK',
 	'RouteInspiredByEWC' => 'Droga na wzór EDK',
 	
-	'RouteCourseInfoText' => 'Wymień po kolei nazwy miejscowości i miejsc, przez które przebiega trasa.',
+	'RouteCourseInfoText' => 'Wymień po kolei nazwy miejscowości i miejsc, przez które przebiega trasa. Kolejne oddziel za pomocą "-"',
+	'RouteCoursePlaceholder' => 'Kraków - Wieliczka - Przebieczany - Gdów',
 	'RouteAscentInfoText' => 'Min. 500 metrów dla tras od 30 do 40 km długości.',
 	
 	'NewRouteFileInfoText' => 'Obowiązkowy jest ślad GPS trasy. Pozostałe pliki możesz dodać później, ale muszą się one pojawić przed początkiem EDK.',

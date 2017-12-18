@@ -55,14 +55,23 @@ class EdkRouteForm extends AbstractType
 		
 		$builder
 			->add('routeType', ChoiceType::class, ['label' => 'Route type', 'choices' => array_flip([EdkRoute::TYPE_FULL => 'FullRoute', EdkRoute::TYPE_INSPIRED => 'RouteInspiredByEWC'])])
-			->add('name', TextType::class, array('label' => 'Route name'))
-			->add('routeCourse', TextareaType::class, array('label' => 'Route course', 'attr' => array('help_text' => 'RouteCourseInfoText')))
+			->add('name', TextType::class, array('label' => 'Route name','attr' => array('help_text' => 'Name helptext','placeholder' => 'Name placeholder')))
+            ->add('routePatron', TextType::class, array('label' => 'Route patron','required' => false,'attr' => array('placeholder' => 'Patron placeholder')))
+            ->add('routeColor', TextType::class, array('label' => 'Route color','required' => false,'attr' => array('placeholder' => 'Color placeholder')))
+            ->add('routeAuthor', TextType::class, array('label' => 'Route author','required' => false, 'attr' => array('help_text' => 'Author helptext', 'placeholder' => 'Author placeholder')))
+			->add('routeCourse', TextareaType::class, array('label' => 'Route course', 'attr' => array('help_text' => 'RouteCourseInfoText', 'placeholder'=>'RouteCoursePlaceholder')))
 			->add('routeFrom', TextType::class, 
-				array('label' => 'Route beginning', 'attr' => array('help_text' => '(settlement)'))
+				array('label' => 'Route beginning', 'attr' => array('help_text' => '(settlement)','placeholder' => 'From placeholder'))
 			)
-			->add('routeTo', TextType::class, 
-				array('label' => 'Route end', 'attr' => array('help_text' => '(settlement)'))
-			)
+            ->add('routeFromDetails', TextType::class,
+                array('label' => 'Route beginning details', 'required' => false, 'attr' => array('help_text' => '(settlement details)', 'placeholder' => 'From Details placeholder'))
+            )
+			->add('routeTo', TextType::class,
+                array('label' => 'Route end', 'attr' => array('help_text' => '(settlement)','placeholder' => 'From placeholder'))
+            )
+            ->add('routeToDetails', TextType::class,
+                array('label' => 'Route end details', 'required' => false, 'attr' => array('help_text' => '(settlement details)','placeholder' => 'From Details placeholder'))
+            )
 			->add('routeLength', IntegerType::class, 
 				array('label' => 'Route length (km)')
 			)

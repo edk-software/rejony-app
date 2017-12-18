@@ -1,71 +1,69 @@
 {% extends 'CantigaCoreBundle:layout:common-layout.html.twig' %}
 
 {% block box_header %}
-	<h4>{{ 'Edit: 0' | trans([item.name], 'general') }}</h4>
+    <h4>{{ 'Edit: 0' | trans([item.name], 'general') }}</h4>
 {% endblock %}
 
 {% block box_body %}
+    <div class="col-lg-6 col-md-12 col-lg-offset-3 col-md-offset-0">
+        {{ form_start(form) }}
+        <fieldset>
+            <legend><i class="fa fa-crosshairs"></i> {{ 'Basic information' | trans([], 'edk') }}</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.routePatron) }}
+                    {{ form_row(form.routeColor) }}
+                    {{ form_row(form.routeAuthor) }}
+                    {{ form_row(form.routeType) }}
+                    {% if not isArea %}
+                        {{ form_row(form.area) }}
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-globe"></i> {{ 'Route characteristic' | trans({}, 'edk') }}</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_row(form.routeFrom) }}
+                    {{ form_row(form.routeFromDetails) }}
+                    {{ form_row(form.routeTo) }}
+                    {{ form_row(form.routeToDetails) }}
+                    {{ form_row(form.routeLength) }}
+                    {{ form_row(form.routeAscent) }}
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-map-marker"></i> {{ 'Course and properties' | trans([], 'edk') }}</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_row(form.routeCourse) }}
+                    {{ form_row(form.routeObstacles) }}
+                </div>
+            </div>
+        </fieldset>
 
-	{{ form_start(form) }}
-	<fieldset>
-		<legend>{{ 'Basic information' | trans([], 'edk') }}</legend>
-		<div class="row">
-			<div class="col-md-6">
-				{{ form_row(form.name) }}
-			</div>
-			<div class="col-md-6">
-				{{ form_row(form.routeType) }}
-			</div>
-			<div class="col-md-6">
-				{{ form_row(form.routeFrom) }}
-			</div>
-			<div class="col-md-6">
-				{{ form_row(form.routeTo) }}
-			</div>
-			{% if not isArea %}
-			<div class="col-md-6">
-				{{ form_row(form.area) }}
-			</div>
-			{% endif %}
-		</div>
-	</fieldset>
-	<fieldset>
-		<legend>{{ 'Course and properties' | trans([], 'edk') }}</legend>
-		<div class="row">
-			<div class="col-md-6">
-				{{ form_row(form.routeCourse) }}
-			</div>
-			<div class="col-md-6">
-				{{ form_row(form.routeLength) }}
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-				{{ form_row(form.routeAscent) }}
-			</div>
-			<div class="col-md-6">
-				{{ form_row(form.routeObstacles) }}
-			</div>
-		</div>
-	</fieldset>
-	<fieldset>
-		<legend>{{ 'Files' | trans([], 'edk') }}</legend>
-		<p>{{ 'FileChangeInfoText' | trans([], 'edk') }}</p>
-		<div class="row">
-			<div class="col-md-4">
-				{{ form_row(form.descriptionFileUpload) }}
-			</div>
-			<div class="col-md-4">
-				{{ form_row(form.mapFileUpload) }}
-			</div>
-			<div class="col-md-4">
-				{{ form_row(form.gpsTrackFileUpload) }}
-			</div>
-		</div>
-	</fieldset>
-	{{ form_end(form) }}
+        <fieldset>
+            <legend><i class="fa fa-file-pdf-o"></i> {{ 'Files' | trans([], 'edk') }}</legend>
+            <p>{{ 'FileChangeInfoText' | trans([], 'edk') }}</p>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_row(form.descriptionFileUpload) }}
+                </div>
+                <div class="col-md-12">
+                    {{ form_row(form.mapFileUpload) }}
+                </div>
+                <div class="col-md-12">
+                    {{ form_row(form.gpsTrackFileUpload) }}
+                </div>
+            </div>
+        </fieldset>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
 
 {% block javascripts_inline %}
-{{ use_icheck() }}
+    {{ use_icheck() }}
 {% endblock %}
