@@ -52,6 +52,10 @@
         {% endif %}
     {% endfor %}
 {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/faq.css') }}"/>
+{% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/faq.js') }}"></script>
