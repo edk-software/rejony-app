@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-solid">
-                        <div class="box-header with-border">
+                        <div class="box-header with-border faq-header">
                             <h3 class="box-title">
                                 <i class="fa fa-fw fa-question-circle"></i>
                                 {% if categoryRouteName is defined and slug is defined %}
@@ -19,20 +19,27 @@
                             </h3>
                         </div>
                         <div class="box-body">
-                            <div class="box-group" id="accordion-{{ category.id }}">
+                            <div class="box-group faq-body" id="accordion-{{ category.id }}">
                                 {% for question in category.questionsByLevel(level, false) %}
-                                    <div class="panel box box-primary">
-                                        <div class="box-header with-border">
+                                    <div class="box-header with-border">
+                                        <div class="box-header">
                                             <h4 class="box-title">
                                                 <a data-toggle="collapse" data-parent="#accordion-{{ category.id }}"
                                                    href="#collapse-{{ category.id }}-{{ question.id }}"
-                                                   aria-expanded="false" class="collapsed">{{ question.topic }}</a>
+                                                   aria-expanded="false"
+                                                   class="collapsed faq-link">{{ question.topic }}</a>
+                                                <a data-toggle="collapse" data-parent="#accordion-{{ category.id }}"
+                                                   href="#collapse-{{ category.id }}-{{ question.id }}"
+                                                   aria-expanded="false" class="collapsed faq-button">
+                                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                    <i class="fa fa-times faq-cross" aria-hidden="true"></i></a>
                                             </h4>
                                         </div>
                                         <div id="collapse-{{ category.id }}-{{ question.id }}"
-                                            class="panel-collapse collapse" aria-expanded="false" style="height:0">
+                                             class="collapse" aria-expanded="false" style="height:0">
                                             <div class="box-body">
-                                                {{ question.answer|raw }}
+                                                <h5>{{ 'Answer' | trans({}, 'general') }}</h5>
+                                                <p>{{ question.answer|raw }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -43,5 +50,9 @@
                 </div>
             </div>
         {% endif %}
-    {% endfor %}    
+    {% endfor %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/faq.js') }}"></script>
 {% endblock %}
