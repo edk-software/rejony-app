@@ -73,13 +73,23 @@ return array(
 	'ParticipationDetailsFormLabel' => 'Czy organizowałeś lub brałeś udział w EDK? Jeśli tak, napisz na czym polegało Twoje zaangażowanie.',
 	'ProjectMgmtExperienceFormLabel' => 'Czy posiadasz doświadczenie w zarządzaniu projektem, zarządzaniu ludźmi bądź organizowaniu wydarzeń? Jeśli tak, opisz je krótko.',
 	'ThreeBiggestSuccessesFormLabel' => 'Przedstaw trzy Twoje największe sukcesy związane z Twoją pracą/hobby/działalnością społeczną, w tym jeden który wymagał od Ciebie dodatkowej determinacji i pokonywania wielu trudności.',	
-	'StationaryCoursePreferenceLabel' => 'Jestem zainteresowany terminem jednodniowego szkolenia EDK w dniu:',
+	'StationaryCoursePreferenceLabel' => 'Termin i rodzaj szkolenia',
+	'StationaryCoursePersonLabel' => 'Imię i nazwisko osób uczestniczących w szkoleniu',
+	'StationaryCoursePersonPlace' => 'Anna Nowak; Michał Nowak',
+	'StationaryCoursePersonHelp' => 'Jeśli na szkolenie przyjedziesz sam wpisz tylko swoje imię i nazwisko. W przypadku jeśli w szkoleniu będzie uczestniczyć więcej niż jedna osoba kolejne dane oddziel znakiem \';\'',
+	'StationaryCourseDietLabel' => 'Dieta',
+	'StationaryCourseDetailsLabel' => 'Uwagi',
+	'StationaryCourseDetailsHelp' => 'Pozostałe uwagi dotyczące szkolenia',
+	'StationaryCourseInformationText'=>'Szkolenie stacjonarne jest obowiązkowym elementem dla lidera rejonu. Poniższe dane stanowią zgłoszenie na szkolenie stacjonarne. Opłatę za szkolenie w wysokości 30zł należy uiścić do 3 dni przed wybranym terminem szkolenia. Dane do przelewu znajdują się na stronie głównej.',
+
+    'Experienced Leader' => 'nie będę uczestniczył - byłem liderem w zeszłym roku. Doświadczenie lidera weterana jest bardzo cenne dla nowych liderów. Szkolenia stacjonarne służyć mają także wymianie doświadczeń i rozwojowi projektu, dlatego zachęcamy Cię do wzięcia w nich udziału. Dla lidera weterana przewidziany jest specjalny moduł szkoleniowy.',
+
 	'ProjectMgmtExperiencesHelp' => 'Popatrz na to szeroko, jako na doświadczenie z pracy, uczelni, szkoły, wolontariatu (max. 400 znaków)',
 	'Max400Chars' => 'Max. 400 znaków',
 	'Max10000' => 'Max. 10 000',
 	'None of the above' => 'Żaden z powyższych',
 	'Stationary course' => 'Szkolenie',
-	
+
 	'The route \'0\' has been created.' => 'Trasa "0" została utworzona.',
 	'The route \'0\' has been updated.' => 'Trasa "0" została zmieniona.',
 	'The route \'0\' has been removed.' => 'Trasa "0" została usunięta.',

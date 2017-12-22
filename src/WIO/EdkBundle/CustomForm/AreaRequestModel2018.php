@@ -84,6 +84,16 @@ class AreaRequestModel2018 implements CustomFormModelInterface
 		$builder->add('stationaryCourse', ChoiceType::class, ['label' => 'StationaryCoursePreferenceLabel', 'choices' => array_flip($this->stationaryCourseTypes()), 'multiple' => true, 'expanded' => true, 'constraints' => new Count(
 				['min' => 1, 'minMessage' => 'Please select at least one option']
 			)]);
+        $builder->add('stationaryCoursePerson', TextType::class, array('label' => 'StationaryCoursePersonLabel',  'attr' => array('help_text' => 'StationaryCoursePersonHelp','placeholder' => 'StationaryCoursePersonPlace'), 'constraints' => [
+            new NotNull,
+            new Length(['min' => 10, 'max' => 200])
+        ]));
+        $builder->add('stationaryCourseDiet', ChoiceType::class, ['label' => 'StationaryCourseDietLabel', 'choices' => array_flip($this->stationaryCourseDiet()), 'multiple' => true, 'expanded' => true, 'constraints' => new Count(
+            ['min' => 1, 'minMessage' => 'Please select at least one option']
+        )]);
+        $builder->add('stationaryCourseDetails', TextareaType::class, array('required'   => false, 'label' => 'StationaryCourseDetailsLabel', 'attr' => ['help_text' => 'StationaryCourseDetailsHelp'], 'constraints' => [
+            new Length(['max' => 400])
+        ]));
 	}
 	
 	public function validateForm(array $data, ExecutionContextInterface $context)
@@ -114,8 +124,8 @@ class AreaRequestModel2018 implements CustomFormModelInterface
 
 		$r->group('EWC practise');
 		$r->fields('isParticipant', 'ewcMeaning', 'isAreaCreated', 'whyCreatingArea', 'projectMgmtExperiences','participantCount');
-		$r->group('Stationary course');
-		$r->fields('stationaryCourse');
+		$r->group('Stationary course', 'StationaryCourseInformationText');
+		$r->fields('stationaryCourse', 'stationaryCoursePerson', 'stationaryCourseDiet', 'stationaryCourseDetails');
 		return $r;
 	}
 	
@@ -152,6 +162,21 @@ class AreaRequestModel2018 implements CustomFormModelInterface
 			$code .= '</ul>';
 			return $code;			
 		});
+        $s->present('stationaryCoursePerson', 'StationaryCoursePersonLabel', 'string');
+        $s->present('stationaryCourseDiet', 'StationaryCourseDietLabel', 'callback', function($options) {
+            if (!is_array($options)) {
+                return '---';
+            }
+            $code = '<ul>';
+            $mapping = $this->stationaryCourseDiet();
+            foreach ($options as $option) {
+                $code .= '<li>'.$this->translator->trans($mapping[$option]).'</li>';
+            }
+            $code .= '</ul>';
+            return $code;
+        });
+        $s->present('stationaryCourseDetails', 'StationaryCourseDetailsLabel', 'string');
+        $s->present('participantCount', 'ParticipantCountFormLabel', 'string');
 		return $s;
 	}
 	
@@ -172,13 +197,22 @@ class AreaRequestModel2018 implements CustomFormModelInterface
         public function stationaryCourseTypes()
 	{
 		return [
-            1 => '20.01.2017 - Kraków',
-            2 => '27.01.2017 - Poznań',
-            3 => '10.02.2017 - Wrocław',
-            4 => '10.02.2017 - Warszawa',
-            5 => '17.02.2017 - Kraków',
+            1 => '20.01.2017 - Kraków - szkolenie stacjonarne',
+            2 => '27.01.2017 - Poznań - szkolenie stacjonarne',
+            3 => '10.02.2017 - Wrocław - szkolenie stacjonarne',
+            4 => '10.02.2017 - Warszawa - szkolenie stacjonarne',
+            5 => '17.02.2017 - Kraków - szkolenie stacjonarne',
             6 => 'szkolenie zdalne - rejon zagraniczny',
-            7 => 'nie będe uczestniczył - tworzyłem rejon w zeszłym roku',
+            7 => 'Experienced Leader',
+        ];
+	}
+	public function stationaryCourseDiet()
+	{
+		return [
+            1 => 'mięsna',
+            2 => 'wege',
+            3 => 'bezglutenowa',
+            4 => 'brak'
         ];
 	}
 }
