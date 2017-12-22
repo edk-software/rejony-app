@@ -1,82 +1,91 @@
-<div class="col-lg-3 col-md-5 col-sm-12">
-	<div class="col-lg-12">
-		<div class="info-box">
-			<span class="info-box-icon bg-green"><i class="fa fa-thumbs-o-up"></i></span>
-			<div class="info-box-content">
-				<span class="info-box-text">{{ 'OpenRegistrationsText' | trans([], 'dashboard') }}</span>
-				<span class="info-box-number">{{ areaRegistrationNum }}</span>
-				<span class="info-box-more"><a href="{{ path('user_area_request_create') }}">{{ 'Enter' | trans([], 'general') }}</a></span>
-			</div>
-          </div>
-	</div>
-	<div class="col-lg-12">
-		<div class="info-box">
-			<span class="info-box-icon bg-red"><i class="fa fa-handshake-o"></i></span>
-			<div class="info-box-content">
-				<span class="info-box-text">{{ 'AwaitingInvitationsText' | trans([], 'dashboard') }}</span>
-				<span class="info-box-number">{{ invitationNum }}</span>
-				<span class="info-box-more"><a href="{{ path('user_invitation_index') }}">{{ 'Enter' | trans([], 'general') }}</a></span>
-			</div>
-          </div>
-	</div>
-	<div class="col-lg-12">
-		<div class="info-box">
-			<span class="info-box-icon bg-orange"><i class="fa fa-flag-o"></i></span>
-			<div class="info-box-content">
-				<span class="info-box-text">{{ 'YourAreaRequestsText' | trans([], 'dashboard') }}</span>
-				<span class="info-box-number">{{ areaRequestNum }}</span>
-				<span class="info-box-more"><a href="{{ path('user_area_request_index') }}">{{ 'Enter' | trans([], 'general') }}</a></span>
-			</div>
-          </div>
-	</div>
+<div class="col-sm-12 no-padding">
+    <div class="col-md-4 col-sm-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-plus-square-o"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">{{ 'OpenRegistrationsText' | trans([], 'dashboard') }}</span>
+                <span class="info-box-number">{{ areaRegistrationNum }}</span>
+                <span class="info-box-more"><a
+                            href="{{ path('user_area_request_create') }}">{{ 'Enter' | trans([], 'general') }}</a></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-list"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">{{ 'YourAreaRequestsText' | trans([], 'dashboard') }}</span>
+                <span class="info-box-number">{{ areaRequestNum }}</span>
+                <span class="info-box-more"><a
+                            href="{{ path('user_area_request_index') }}">{{ 'Enter' | trans([], 'general') }}</a></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-handshake-o"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">{{ 'AwaitingInvitationsText' | trans([], 'dashboard') }}</span>
+                <span class="info-box-number">{{ invitationNum }}</span>
+                <span class="info-box-more"><a
+                            href="{{ path('user_invitation_index') }}">{{ 'Enter' | trans([], 'general') }}</a></span>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="col-lg-9 col-md-7 col-sm-12">
-	{% for reg in areaRegistrations %}
-	<div class="col-lg-4 col-md-12">
-		<div class="small-box bg-green">
-			<div class="inner">
-				<h3>{{ reg.name }}</h3>
-				<p>{{ 'AreaRegistrationOpenText' | trans([], 'dashboard') }}</p>
-			</div>
-			<div class="icon">
-				<i class="fa fa-thumbs-o-up"></i>
-			</div>
-			<a href="{{ path('user_area_request_create', { 'step': 2, 'projectId': reg.id } ) }}" class="small-box-footer">
-				{{ 'RegisterAreaText' | trans([], 'dashboard') }} <i class="fa fa-arrow-circle-right"></i>
-			</a>
-          </div>
-	</div>
-	{% endfor %}
-	{% for invitation in invitations %}
-	<div class="col-lg-4 col-md-12">
-		<div class="small-box bg-red">
-			<div class="inner">
-				<h3>{{ invitation.name }}</h3>
-				<p>{{ (invitation.type~'InvitationText') | trans([], 'dashboard') }}</p>
-			</div>
-			<div class="icon">
-				<i class="fa fa-handshake-o"></i>
-			</div>
-			<a href="{{ path('user_invitation_index') }}" class="small-box-footer">
-				{{ 'GotoInvitationText' | trans([], 'dashboard') }} <i class="fa fa-arrow-circle-right"></i>
-			</a>
-          </div>
-	</div>
-	{% endfor %}
-	{% for req in areaRequests %}
-	<div class="col-lg-4 col-md-12">
-		<div class="small-box bg-orange">
-			<div class="inner">
-				<h3>{{ req.name }}</h3>
-				<p>{{ 'YourRequestText' | trans([req.projectName], 'dashboard') }}</p>
-			</div>
-			<div class="icon">
-				<i class="fa fa-flag-o"></i>
-			</div>
-			<a href="{{ path('user_area_request_info', { 'id': req.id } ) }}" class="small-box-footer">
-				{{ 'GotoRequestText' | trans([], 'dashboard') }} <i class="fa fa-arrow-circle-right"></i>
-			</a>
-          </div>
-	</div>
-	{% endfor %}
+<div class="col-sm-12 no-padding">
+    {% for reg in areaRegistrations %}
+        <div class="col-lg-4 col-md-12">
+            <a href="{{ path('user_area_request_create', { 'step': 2, 'projectId': reg.id } ) }}">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>{{ reg.name }}</h3>
+                        <p>{{ 'AreaRegistrationOpenText' | trans([], 'dashboard') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-thumbs-o-up"></i>
+                    </div>
+                    <div class="small-box-footer">
+                        {{ 'RegisterAreaText' | trans([], 'dashboard') }} <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    {% for invitation in invitations %}
+        <div class="col-lg-4 col-md-12">
+            <a href="{{ path('user_invitation_index') }}">
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>{{ invitation.name }}</h3>
+                        <p>{{ (invitation.type~'InvitationText') | trans([], 'dashboard') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-handshake-o"></i>
+                    </div>
+                    <div class="small-box-footer">
+                        {{ 'GotoInvitationText' | trans([], 'dashboard') }} <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    {% for req in areaRequests %}
+        <div class="col-lg-4 col-md-12">
+            <a href="{{ path('user_area_request_info', { 'id': req.id } ) }}">
+                <div class="small-box bg-orange">
+                    <div class="inner">
+                        <h3>{{ req.name }}</h3>
+                        <p>{{ 'YourRequestText' | trans([req.projectName], 'dashboard') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-flag-o"></i>
+                    </div>
+                    <div class="small-box-footer">
+                        {{ 'GotoRequestText' | trans([], 'dashboard') }} <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
 </div>
