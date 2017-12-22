@@ -26,11 +26,14 @@ use Cantiga\CoreBundle\Event\UserEvent;
 use Cantiga\Metamodel\DataTable;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Form\EntityTransformerInterface;
+use Cantiga\Metamodel\MembershipRoleResolver;
 use Cantiga\Metamodel\QueryBuilder;
 use Cantiga\Metamodel\QueryClause;
 use Cantiga\Metamodel\TimeFormatterInterface;
 use Cantiga\Metamodel\Transaction;
+use Cantiga\UserBundle\UserTables;
 use Doctrine\DBAL\Connection;
+use Exception;
 use PDO;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -180,6 +183,27 @@ class AdminUserRepository implements EntityTransformerInterface
 		$stmt->closeCursor();
 		return $result;
 	}
+
+	public function getResponsibleUsers(string $projectSlug): array
+    {
+        $users = [];
+        $results = $this->conn->fetchAll('
+          SELECT u.*
+            FROM ' . CoreTables::USER_TBL . ' u
+            INNER JOIN ' . UserTables::PLACE_MEMBERS_TBL . ' m ON u.`id` = m.`userId`
+            INNER JOIN ' . CoreTables::PLACE_TBL . ' p ON p.`id` = m.`placeId`
+            WHERE p.slug = :placeSlug && m.role != :excludedRole
+            ORDER BY u.name ASC
+        ', [
+            ':excludedRole' => MembershipRoleResolver::ROLE_PROJECT_VISITOR_ID,
+            ':placeSlug' => $projectSlug,
+        ]);
+        foreach ($results as $result) {
+            $users[] = User::fromArray($result);
+        }
+
+        return $users;
+    }
 
 	public function transformToEntity($key)
 	{

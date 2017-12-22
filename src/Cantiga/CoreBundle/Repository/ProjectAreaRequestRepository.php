@@ -196,16 +196,8 @@ class ProjectAreaRequestRepository
 				. 'INNER JOIN `'.CoreTables::USER_TBL.'` u ON u.`id` = c.`userId` '
 				. 'WHERE r.`projectId` = :projectId '
 				. 'ORDER BY c.`createdAt` DESC LIMIT '.$count, [':projectId' => $this->project->getId()]);
-			foreach ($items as &$item) {
-				if (strlen($item['message']) > 150) {
-					$item['truncatedContent'] = substr($item['message'], 0, 150);
-					if (ord($item['truncatedContent']{149}) > 200) {
-						$item['truncatedContent'] = substr($item['message'], 0, 149);
-					}
-					$item['truncatedContent'] .= '...';
-				} else {
-					$item['truncatedContent'] = $item['message'];
-				}
+			foreach ($items as $i => $item) {
+                $items[$i] = $this->prepareRequestComment($item);
 			}
 			return $items;
 		} catch (Exception $ex) {
@@ -213,6 +205,46 @@ class ProjectAreaRequestRepository
 			throw $ex;
 		}
 	}
+
+	public function getLastCommentsFromAreasOfResponsibility(User $responsible): array
+    {
+        $items = $this->conn->fetchAll('
+            SELECT r.`id` AS `requestId`, r.`name` AS `requestName`, u.`name` AS `username`, u.`avatar`,
+                    MAX(c.`createdAt`) AS `createdAt`, c.`message`
+                FROM `' . CoreTables::AREA_REQUEST_TBL . '` r
+                LEFT JOIN `' . CoreTables::AREA_REQUEST_COMMENT_TBL . '` c ON r.`id` = c.`requestId`
+                LEFT JOIN `' . CoreTables::USER_TBL . '` u ON u.`id` = c.`userId`
+                WHERE r.`projectId` = :projectId && r.`responsibleId` = :responsibleId
+                GROUP BY r.`id`
+                ORDER BY r.`name` ASC
+            
+        ', [
+            ':projectId' => $this->project->getId(),
+            ':responsibleId' => $responsible->getId(),
+        ]);
+        foreach ($items as $i => $item) {
+            $items[$i] = $this->prepareRequestComment($item);
+        }
+
+        return $items;
+    }
+
+    private function prepareRequestComment(array $item): array
+    {
+        if (!array_key_exists('message', $item)) {
+            $item['truncatedContent'] = null;
+        } elseif (mb_strlen($item['message']) <= 150) {
+            $item['truncatedContent'] = $item['message'];
+        } else {
+            $item['truncatedContent'] = substr($item['message'], 0, 150);
+            if (ord($item['truncatedContent']{149}) > 200) {
+                $item['truncatedContent'] = substr($item['message'], 0, 149);
+            }
+            $item['truncatedContent'] .= '...';
+        }
+
+        return $item;
+    }
 	
 	public function getRecentRequests($count)
 	{
@@ -253,11 +285,11 @@ class ProjectAreaRequestRepository
 		}
 	}
 	
-	public function startVerification(AreaRequest $item, User $verifier)
+	public function startVerification(AreaRequest $item, User $verifier, User $responsible = null)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			if(!$item->startVerification($this->conn, $verifier)) {
+			if(!$item->startVerification($this->conn, $verifier, $responsible)) {
 				throw new ModelException('Cannot start the verification for this request.');
 			}
 			$this->eventDispatcher->dispatch(CantigaEvents::AREA_REQUEST_VERIFICATION, new AreaRequestEvent($item));

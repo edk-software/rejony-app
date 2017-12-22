@@ -1,0 +1,16 @@
+{% extends 'CantigaCoreBundle:layout:message.html.twig' %}
+
+{% block page_content %}
+	<div class="col-md-offset-4 col-md-4">
+		<div class="box box-warning">
+			<div class="box-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span></button>
+				<h4 class="panel-title">{% block message_title %}{% endblock %}</h4>
+			</div>
+			<div class="box-body">
+                {% block message_body %}{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

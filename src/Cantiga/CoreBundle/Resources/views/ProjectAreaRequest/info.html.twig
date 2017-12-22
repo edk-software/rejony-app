@@ -46,26 +46,43 @@
                         </div>
                     </div>
                     <div class="status-info">
-                        <div class="info-item">
-                            <h4><i class="fa fa-clock-o"></i> {{ 'Request date' | trans }}</h4>
-                            <span class="value">{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }}
-                                ({{ ago(item.createdAt) }})</span>
-                        </div>
-                        <div class="info-item">
-                            <h4><i class="fa fa-wrench"></i> {{ 'Last update' | trans }}</h4>
-                            <span class="value">{{ format_time(TimeFormatter.FORMAT_LONG, item.lastUpdatedAt) }}
-                                ({{ ago(item.lastUpdatedAt) }})</span>
-                        </div>
-                        {% if item.verifier %}
+                        <div style="overflow:hidden">
                             <div class="info-item">
-                                <h4><i class="fa fa-user"></i> {{ 'Verifier' | trans }}</h4>
-                                <span class="value"><a
-                                            href="{{ spath('memberlist_profile', {'id': item.verifier.id }) }}">{{ item.verifier.name }}</a></span>
+                                <h4><i class="fa fa-clock-o"></i> {{ 'Request date' | trans }}</h4>
+                                <span class="value">{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }}
+                                    ({{ ago(item.createdAt) }})</span>
                             </div>
-                        {% endif %}
-                        <div class="info-item">
-                            <h4><i class="fa fa-globe"></i> {{ 'Territory' | trans }}</h4>
-                            <span class="value">{{ item.territory.name }}</span>
+                            <div class="info-item">
+                                <h4><i class="fa fa-wrench"></i> {{ 'Last update' | trans }}</h4>
+                                <span class="value">{{ format_time(TimeFormatter.FORMAT_LONG, item.lastUpdatedAt) }}
+                                    ({{ ago(item.lastUpdatedAt) }})</span>
+                            </div>
+                            <div class="info-item">
+                                <h4><i class="fa fa-globe"></i> {{ 'Territory' | trans }}</h4>
+                                <span class="value">{{ item.territory.name }}</span>
+                            </div>
+                        </div>
+                        <div style="overflow:hidden">
+                            {% if item.verifier %}
+                                <div class="info-item">
+                                    <h4><i class="fa fa-user"></i> {{ 'Verifier' | trans }}</h4>
+                                    <span class="value">
+                                        <a href="{{ spath('memberlist_profile', {'id': item.verifier.id }) }}">
+                                            {{ item.verifier.name }}
+                                        </a>
+                                    </span>
+                                </div>
+                            {% endif %}
+                            {% if item.responsible %}
+                                <div class="info-item">
+                                    <h4><i class="fa fa-user"></i> {{ 'Responsible' | trans }}</h4>
+                                    <span class="value">
+                                        <a href="{{ spath('memberlist_profile', {'id': item.responsible.id }) }}">
+                                            {{ item.responsible.name }}
+                                        </a>
+                                    </span>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

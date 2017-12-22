@@ -181,9 +181,14 @@ services:
             - { name: cantiga.extension, point: core.dashboard.project.right }
             - { name: cantiga.extension, point: core.dashboard.group.right }
             - { name: cantiga.extension, point: core.dashboard.area.right }
-    cantiga.core.dashboard.recent_comments:
-        class:     Cantiga\CoreBundle\Extension\DashboardChatExtension
-        arguments: ["@cantiga.core.repo.project_area_request", "@templating"]
+#    cantiga.core.dashboard.recent_comments:
+#        class:     Cantiga\CoreBundle\Extension\DashboardChatExtension
+#        arguments: ["@cantiga.core.repo.project_area_request", "@templating"]
+#        tags:
+#            - { name: cantiga.extension, point: core.dashboard.project.central }
+    cantiga.core.dashboard.comments_in_areas_of_responsibility:
+        class:     Cantiga\CoreBundle\Extension\DashboardResponsibilitiesExtension
+        arguments: ["@cantiga.core.repo.project_area_request", "@templating", "@translator"]
         tags:
             - { name: cantiga.extension, point: core.dashboard.project.central }
     cantiga.core.dashboard.recent_requests:

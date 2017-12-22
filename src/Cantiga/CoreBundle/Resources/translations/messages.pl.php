@@ -110,6 +110,8 @@ return array(
 	// Project dashboard
 	'Recent chat activity in requests' => 'Najnowsze rozmowy w zgłoszeniach rejonów',
 	'Recent area requests' => 'Najnowsze zgłoszenia rejonów',
+    'Messages in linked area requests' => 'Wiadomości w przypisanych zgłoszeniach',
+	'No comments' => 'Brak wiadomości',
 	
 	// Project area groups
 	'Create a new group' => 'Utwórz nową grupę',
@@ -143,9 +145,12 @@ return array(
 	'Request information' => 'Informacje o zgłoszeniu',
 	'Requestor' => 'Zgłaszający',
 	'Start verification' => 'Zacznij weryfikację',
+	'Verification start' => 'Rozpoczęcie weryfikacji',
 	'The verification has been started.' => 'Weryfikacja została rozpoczęta.',
 	'Cannot start the verification for this request.' => 'Nie można zacząć weryfikacji dla tego zgłoszenia.',
 	'Verifier' => 'Weryfikujący',
+	'Responsible' => 'Odpowiedzialny',
+	'Responsible user' => 'Odpowiedzialny użytkownik',
 	'CustomTextDisplayedToThisRequest' => 'Tekst wyświetlany pod oknem rozmowy w zgłoszeniach z tym statusem:',
 	'Member since' => 'Data rejestracji',
 	'Location' => 'Lokalizacja',

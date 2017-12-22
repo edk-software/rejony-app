@@ -29,21 +29,29 @@ use LogicException;
  * in the database.
  */
 class MembershipRoleResolver implements MembershipRoleResolverInterface
-{	
+{
+    const ROLE_PROJECT_VISITOR_ID = 0;
+    const ROLE_PROJECT_MEMBER_ID = 1;
+    const ROLE_PROJECT_MANAGER_ID = 2;
+    const ROLE_GROUP_MEMBER_ID = 0;
+    const ROLE_AREA_MEMBER_ID = 0;
+    const ROLE_AREA_PERSONAL_DATA_ACCESS_ID = 1;
+    const ROLE_AREA_MANAGER_ID = 2;
+
 	private $roles;
 	
 	public function __construct()
 	{
 		// TODO: Make some more generic configuration in the future and move this out of here.
-		$this->roles['Project'][0] = new MembershipRole(0, 'Visitor', 'PLACE_VISITOR');
-		$this->roles['Project'][1] = new MembershipRole(1, 'Member', 'PLACE_MEMBER', $this->roles['Project'][0]);
-		$this->roles['Project'][2] = new MembershipRole(2, 'Manager', 'PLACE_MANAGER', $this->roles['Project'][1]);
+		$this->roles['Project'][0] = new MembershipRole(self::ROLE_PROJECT_VISITOR_ID, 'Visitor', 'PLACE_VISITOR');
+		$this->roles['Project'][1] = new MembershipRole(self::ROLE_PROJECT_MEMBER_ID, 'Member', 'PLACE_MEMBER', $this->roles['Project'][0]);
+		$this->roles['Project'][2] = new MembershipRole(self::ROLE_PROJECT_MANAGER_ID, 'Manager', 'PLACE_MANAGER', $this->roles['Project'][1]);
 		
-		$this->roles['Group'][0] = new MembershipRole(0, 'Member', 'PLACE_MEMBER');
+		$this->roles['Group'][0] = new MembershipRole(self::ROLE_GROUP_MEMBER_ID, 'Member', 'PLACE_MEMBER');
 		
-		$this->roles['Area'][0] = new MembershipRole(0, 'Member', 'PLACE_MEMBER');
-		$this->roles['Area'][1] = new MembershipRole(1, 'Personal data access', 'PLACE_PD_ADMIN', $this->roles['Area'][0]);
-		$this->roles['Area'][2] = new MembershipRole(2, 'Manager', 'PLACE_MANAGER', $this->roles['Area'][1]);
+		$this->roles['Area'][0] = new MembershipRole(self::ROLE_AREA_MEMBER_ID, 'Member', 'PLACE_MEMBER');
+		$this->roles['Area'][1] = new MembershipRole(self::ROLE_AREA_PERSONAL_DATA_ACCESS_ID, 'Personal data access', 'PLACE_PD_ADMIN', $this->roles['Area'][0]);
+		$this->roles['Area'][2] = new MembershipRole(self::ROLE_AREA_MANAGER_ID, 'Manager', 'PLACE_MANAGER', $this->roles['Area'][1]);
 	}
 
 	public function registerRole(string $itemType, MembershipRole $role)

@@ -1,0 +1,16 @@
+{% extends 'WioEdkBundle:layout:message.html.twig' %}
+
+{% block message_title %}
+    {{ 'Verification start' | trans }}
+{% endblock %}
+
+{% block message_body %}
+    {{ form_start(form) }}
+	<div class="col-md-12">
+        {{ form_row(form.responsibleId) }}
+	</div>
+	<div class="col-md-12">
+        {{ form_row(form.save) }}
+	</div>
+    {{ form_end(form) }}
+{% endblock %}

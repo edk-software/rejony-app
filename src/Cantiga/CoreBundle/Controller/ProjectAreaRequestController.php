@@ -31,13 +31,16 @@ use Cantiga\CoreBundle\CoreSettings;
 use Cantiga\CoreBundle\CoreTexts;
 use Cantiga\CoreBundle\Entity\AreaRequest;
 use Cantiga\CoreBundle\Entity\Message;
+use Cantiga\CoreBundle\Entity\User;
 use Cantiga\Metamodel\Exception\ModelException;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use WIO\EdkBundle\Form\VerificationForm;
 
 /**
  * @Route("/project/{slug}/area-request")
@@ -218,18 +221,51 @@ class ProjectAreaRequestController extends ProjectPageController
     /**
      * @Route("/{id}/verify", name="project_area_request_verify")
      */
-    public function verifyAction($id, Request $request)
+    public function verifyAction(int $id, string $slug, Request $request): Response
     {
         try {
-            $repository = $this->get(self::REPOSITORY_NAME);
-            $item = $repository->getItem($id);
-            $repository->startVerification($item, $this->getUser());
+            $addResponsibleUsers = $this->getParameter('add_responsible_users');
+            /** @var AreaRequest $item */
+            $item = $this
+                ->get(self::REPOSITORY_NAME)
+                ->getItem($id)
+            ;
+            if (!$addResponsibleUsers) {
+                return $this->proceedVerification($item);
+            }
 
-            return $this->showPageWithMessage(
-                'The verification has been started.',
-                $this->crudInfo->getInfoPage(),
-                ['id' => $item->getId(), 'slug' => $this->getSlug()]
-            );
+            $adminUserRepository = $this->get('cantiga.core.repo.admin_user');
+            $responsibleUsers = $adminUserRepository->getResponsibleUsers($slug);
+            $form = $this->createForm(VerificationForm::class, null, [
+                'responsibleUsers' => $responsibleUsers,
+            ]);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $responsibleId = (int) $form
+                    ->get('responsibleId')
+                    ->getData()
+                ;
+                /** @var User $responsible */
+                $responsible = $this
+                    ->get('cantiga.core.repo.admin_user')
+                    ->getItem($responsibleId)
+                ;
+
+                return $this->proceedVerification($item, $responsible);
+            }
+
+            $this
+                ->breadcrumbs()
+                ->link($item->getName(), $this->crudInfo->getInfoPage(), [
+                    'id' => $item->getId(),
+                    'slug' => $this->getSlug(),
+                ])
+            ;
+
+            return $this->render('WioEdkBundle:ProjectVerification:verify.html.twig', [
+                'form' => $form->createView(),
+            ]);
         } catch (ModelException $exception) {
             return $this->showPageWithError(
                 $exception->getMessage(),
@@ -237,6 +273,20 @@ class ProjectAreaRequestController extends ProjectPageController
                 ['slug' => $this->getSlug()]
             );
         }
+    }
+
+    private function proceedVerification(AreaRequest $item, User $responsible = null): Response
+    {
+        $this
+            ->get(self::REPOSITORY_NAME)
+            ->startVerification($item, $this->getUser(), $responsible)
+        ;
+
+        return $this->showPageWithMessage('The verification has been started.',
+            $this->crudInfo->getInfoPage(), [
+                'id' => $item->getId(),
+                'slug' => $this->getSlug(),
+            ]);
     }
 
     /**

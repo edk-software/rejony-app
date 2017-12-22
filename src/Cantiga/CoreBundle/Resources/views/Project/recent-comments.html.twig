@@ -2,7 +2,7 @@
 	<div class="box box-warning direct-chat direct-chat-warning">
 		<div class="box-header with-border">
 			<i class="fa fa-comment"></i>
-			<h3 class="box-title">{{ 'Recent chat activity in requests' | trans }}</h3>
+			<h3 class="box-title">{{ title is defined ? title : 'Recent chat activity in requests' | trans }}</h3>
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
@@ -12,16 +12,26 @@
 
 				<!-- Message. Default to the left -->
 				<div class="direct-chat-msg">
-					<div class="direct-chat-info clearfix">
-						<a href="{{ spath('project_area_request_info', {'id': comment.requestId} ) }}">
-						<span class="direct-chat-name pull-left">{{ comment.username }} - {{ comment.requestName }}</span></a>
-						<span class="direct-chat-timestamp pull-right">{{ ago(comment.createdAt) }}</span>
-					</div>
-					<!-- /.direct-chat-info -->
-					<img class="direct-chat-img" src="{{ asset(avatar(comment, 32)) }}" alt="message user image"><!-- /.direct-chat-img -->
-					<div class="direct-chat-text">
-                        {{ comment.truncatedContent }}
-					</div>
+					{% if comment.truncatedContent %}
+						<div class="direct-chat-info clearfix">
+							<a href="{{ spath('project_area_request_info', {'id': comment.requestId} ) }}">
+								<span class="direct-chat-name pull-left">{{ comment.username }} - {{ comment.requestName }}</span>
+							</a>
+							<span class="direct-chat-timestamp pull-right">{{ ago(comment.createdAt) }}</span>
+						</div>
+						<!-- /.direct-chat-info -->
+						<img class="direct-chat-img" src="{{ asset(avatar(comment, 32)) }}" alt="{{ comment.username }}"><!-- /.direct-chat-img -->
+						<div class="direct-chat-text">
+							{{ comment.truncatedContent }}
+						</div>
+					{% else %}
+						<div class="direct-chat-info clearfix">
+							<a href="{{ spath('project_area_request_info', {'id': comment.requestId} ) }}">
+								<span class="direct-chat-name pull-left">{{ comment.requestName }}</span>
+							</a>
+						</div>
+						<p>{{ 'No comments' | trans }}</p>
+					{% endif %}
 					<!-- /.direct-chat-text -->
 				</div>
 				<!-- /.direct-chat-msg -->

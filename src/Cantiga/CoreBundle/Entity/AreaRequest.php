@@ -47,6 +47,7 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
     private $project;
     private $requestor;
     private $verifier;
+    private $responsible;
     private $territory;
     private $customData;
     private $createdAt;
@@ -64,10 +65,12 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
     {
         $data = $conn->fetchAssoc(
             'SELECT r.*, v.id AS `verifier_id`, v.`name` AS `verifier_name`, '
+            .'rp.`id` AS `responsible_id`, rp.`name` AS `responsible_name`, '
             .'t.`id` AS `territory_id`, t.`name` AS `territory_name`, t.`areaNum` AS `territory_areaNum`, t.`requestNum` as `territory_requestNum` '
             .'FROM `'.CoreTables::AREA_REQUEST_TBL.'` r '
             .'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = r.`territoryId` '
             .'LEFT JOIN `'.CoreTables::USER_TBL.'` v ON v.`id` = r.`verifierId` '
+            .'LEFT JOIN `'.CoreTables::USER_TBL.'` rp ON rp.`id` = r.`responsibleId` '
             .'WHERE r.`id` = :id AND r.`requestorId` = :requestorId',
             [':id' => $id, ':requestorId' => $requestor->getId()]
         );
@@ -81,6 +84,9 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
         if (!empty($data['verifier_id'])) {
             $item->verifier = new Verifier($data['verifier_id'], $data['verifier_name']);
         }
+        if (!empty($data['responsible_id'])) {
+            $item->responsible = new Responsible($data['responsible_id'], $data['responsible_name']);
+        }
         $item->setTerritory($item->oldTerritory = Territory::fromArray($data, 'territory'));
 
         return $item;
@@ -90,10 +96,12 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
     {
         $data = $conn->fetchAssoc(
             'SELECT r.*, v.id AS `verifier_id`, v.`name` AS `verifier_name`, '
+            .'rp.`id` AS `responsible_id`, rp.`name` AS `responsible_name`, '
             .'t.`id` AS `territory_id`, t.`name` AS `territory_name`, t.`areaNum` AS `territory_areaNum`, t.`requestNum` as `territory_requestNum` '
             .'FROM `'.CoreTables::AREA_REQUEST_TBL.'` r '
             .'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = r.`territoryId` '
             .'LEFT JOIN `'.CoreTables::USER_TBL.'` v ON v.`id` = r.`verifierId` '
+            .'LEFT JOIN `'.CoreTables::USER_TBL.'` rp ON rp.`id` = r.`responsibleId` '
             .'WHERE r.`id` = :id AND r.`projectId` = :projectId',
             [':id' => $id, ':projectId' => $project->getId()]
         );
@@ -106,6 +114,9 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
         $item->setRequestor($user);
         if (!empty($data['verifier_id'])) {
             $item->verifier = new Verifier($data['verifier_id'], $data['verifier_name']);
+        }
+        if (!empty($data['responsible_id'])) {
+            $item->responsible = new Responsible($data['responsible_id'], $data['responsible_name']);
         }
         $item->setTerritory($item->oldTerritory = Territory::fromArray($data, 'territory'));
 
@@ -265,6 +276,14 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
     public function getVerifier()
     {
         return $this->verifier;
+    }
+
+    /**
+     * @return Responsible|User
+     */
+    public function getResponsible()
+    {
+        return $this->responsible;
     }
 
     public function getContactData()
@@ -458,7 +477,7 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
         return 0;
     }
 
-    public function startVerification(Connection $conn, User $verifier)
+    public function startVerification(Connection $conn, User $verifier, User $responsible = null)
     {
         $this->status = $conn->fetchColumn(
             'SELECT `status` FROM `'.CoreTables::AREA_REQUEST_TBL.'` WHERE `id` = :id',
@@ -468,6 +487,7 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
             $this->lastUpdatedAt = time();
             $this->status = self::STATUS_VERIFICATION;
             $this->verifier = $verifier;
+            $this->responsible = $responsible;
 
             $conn->update(
                 CoreTables::AREA_REQUEST_TBL,
@@ -475,6 +495,7 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
                     'lastUpdatedAt' => $this->lastUpdatedAt,
                     'status' => $this->status,
                     'verifierId' => $this->verifier->getId(),
+                    'responsibleId' => isset($this->responsible) ? $this->responsible->getId() : null,
                 ],
                 ['id' => $this->getId()]
             );
