@@ -74,9 +74,9 @@ function getMap(elementId, zoomVal, defaultPos) {
     });
 }
 function loadMap(mapElementId, lat, lng, title){
-    loadMap(mapElementId,lat,lng,title,15);
+    loadMapZoom(mapElementId,lat,lng,title,15);
 }
-function loadMap(mapElementId, lat, lng, title, zoomVal) {
+function loadMapZoom(mapElementId, lat, lng, title, zoomVal) {
     var pos = {lat: lat, lng: lng};
     var map = getMap(mapElementId, zoomVal, pos);
     var marker = new google.maps.Marker({

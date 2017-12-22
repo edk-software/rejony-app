@@ -6,8 +6,8 @@ var latId;
 var lngId;
 var searchId;
 
-function initMapCore() {
-    map = new google.maps.Map(document.getElementById('map_canvas'), {
+function initMapCore(mapId) {
+    map = new google.maps.Map(document.getElementById(mapId), {
         center: getDefaultLatLng(),
         styles: getMapStyle(),
         zoom: 9

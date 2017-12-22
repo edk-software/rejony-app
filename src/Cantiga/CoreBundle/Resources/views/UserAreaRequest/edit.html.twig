@@ -21,7 +21,7 @@
                 <script src="{{ asset('js/map-geolocation.js') }}"></script>
                 <script>
                     function initMap() {
-                        initMapCore();
+                        initMapCore('map_canvas');
                         showMarker({lat:{{ item.lat }},lng:{{ item.lng }}}, '{{ item.name }}');
                         registerChangeCoordinates('user_area_request_form_name','user_area_request_form_lat','user_area_request_form_lng');
                     }
