@@ -1,6 +1,6 @@
 <?php
 
-namespace WIO\EdkBundle\Controller;
+namespace Cantiga\KnowledgeBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -19,7 +19,7 @@ trait FaqControllerTrait
     /** @var string */
     private $infoRouteName;
     
-    protected function initializeParams(string $workgroup, int $level, string $indexRouteName, string $infoRouteName)
+    protected function initializeParams(int $level, string $indexRouteName, string $infoRouteName)
     {
         $this->level = $level;
         $this->indexRouteName = $indexRouteName;
@@ -27,19 +27,19 @@ trait FaqControllerTrait
 
         $this
             ->breadcrumbs()
-            ->workgroup($workgroup)
-            ->entryLink($this->trans('Frequently asked questions', [], 'pages'), $this->indexRouteName, [
+            ->workgroup('knowledge')
+            ->entryLink($this->trans('faq.title'), $this->indexRouteName, [
                 'slug' => $this->getSlug(),
             ])
         ;
     }
 
-    public function renderIndex() : Response
+    protected function renderIndex() : Response
     {
-        $repository = $this->get('wio.edk.repo.faq_category');
+        $repository = $this->get('cantiga.knowledge.repo.faq_category');
         $categories = $repository->findBy([]);
 
-        return $this->render('WioEdkBundle:Faq:index.html.twig', [
+        return $this->render('CantigaKnowledgeBundle:Faq:index.html.twig', [
             'categories' => $categories,
             'categoryRouteName' => $this->infoRouteName,
             'level' => $this->level,
@@ -47,9 +47,9 @@ trait FaqControllerTrait
         ]);
     }
 
-    public function renderInfo(int $id) : Response
+    protected function renderInfo(int $id) : Response
     {
-        $repository = $this->get('wio.edk.repo.faq_category');
+        $repository = $this->get('cantiga.knowledge.repo.faq_category');
         $categories = $repository->findBy([
             'id' => $id,
         ]);
@@ -57,7 +57,7 @@ trait FaqControllerTrait
             throw new NotFoundHttpException();
         }
 
-        return $this->render('WioEdkBundle:Faq:index.html.twig', [
+        return $this->render('CantigaKnowledgeBundle:Faq:index.html.twig', [
             'categories' => $categories,
             'level' => $this->level,
         ]);

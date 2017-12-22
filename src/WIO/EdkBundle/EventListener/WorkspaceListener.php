@@ -61,6 +61,7 @@ class WorkspaceListener
 			$workspace->addWorkgroup(new Workgroup('routes', 'Routes', 'map-signs', 4));
 
             $workspace->addWorkItem('knowledge', new WorkItem('project_course_summary_index', 'Course results'));
+			$workspace->addWorkItem('knowledge', new WorkItem('project_materials_index', 'Materials database'));
 			$workspace->addWorkItem('knowledge', new WorkItem('project_faq_index', 'Help'));
             $workspace->addWorkItem('routes', new WorkItem('edk_route_index', 'Routes list'));
 			$workspace->addWorkItem('routes', new WorkItem('project_stats_route_index', 'Route statistics'));
@@ -79,6 +80,7 @@ class WorkspaceListener
 
 
             $workspace->addWorkItem('knowledge', new WorkItem('group_course_summary_index', 'Course results'));
+            $workspace->addWorkItem('knowledge', new WorkItem('group_materials_index', 'Materials database'));
             $workspace->addWorkItem('knowledge', new WorkItem('group_faq_index', 'Help'));
 			$workspace->addWorkItem('routes', new WorkItem('edk_route_index', 'Routes'));
 			$workspace->addWorkItem('participants', new WorkItem('edk_reg_settings_index', 'Registration settings'));
@@ -94,6 +96,7 @@ class WorkspaceListener
 			$workspace->addWorkgroup(new Workgroup('participants', 'Participants', 'male', 5));
 
 			$workspace->addWorkItem('knowledge', new WorkItem('area_course_index', 'On-line courses'));
+			$workspace->addWorkItem('knowledge', new WorkItem('area_materials_index', 'Materials database'));
 			$workspace->addWorkItem('knowledge', new WorkItem('area_faq_index', 'Help'));
 			$workspace->addWorkItem('area', new WorkItem('area_note_index', 'WWW: area information'));
 			$workspace->addWorkItem('routes', new WorkItem('edk_route_index', 'Routes'));

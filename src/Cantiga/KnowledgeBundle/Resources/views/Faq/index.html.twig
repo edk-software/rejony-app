@@ -2,7 +2,7 @@
 
 {% block page_content %}
     {% for category in categories %}
-        {% if category.questionsByLevel(level)|length > 0 %}
+        {% if category.questionsByLevel(level) | length > 0 %}
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-solid">
@@ -38,8 +38,8 @@
                                         <div id="collapse-{{ category.id }}-{{ question.id }}"
                                              class="collapse" aria-expanded="false" style="height:0">
                                             <div class="box-body">
-                                                <h5>{{ 'Answer' | trans({}, 'general') }}</h5>
-                                                <p>{{ question.answer|raw }}</p>
+                                                <h5>{{ 'faq.answer' | trans }}</h5>
+                                                <p>{{ question.answer | raw }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -52,10 +52,12 @@
         {% endif %}
     {% endfor %}
 {% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/faq.css') }}"/>
 {% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/faq.js') }}"></script>

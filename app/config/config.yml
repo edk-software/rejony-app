@@ -80,3 +80,6 @@ cantiga_core:
           secretKey: "%recaptcha_secretKey%"
      map:
           secretKey: "%map_secretKey%"
+
+cantiga_knowledge:
+    materials_path: materials

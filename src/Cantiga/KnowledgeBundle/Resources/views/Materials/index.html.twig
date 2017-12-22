@@ -1,0 +1,41 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-sm-12{{ categories | length > 1 ? ' col-md-6' : '' }}">
+            <div class="box box-solid">
+                {% for category in categories %}
+                    {% if category.filesByLevel(level) | length > 0 %}
+                        <div class="box-body">
+                            <h4 style="background-color:#f7f7f7;font-size:18px;text-align:center;padding:7px 10px;margin-top:0">
+                                {% if categoryRouteName is defined and slug is defined %}
+                                    <a href="{{ path(categoryRouteName, {id: category.id, slug: slug}) }}">
+                                        {{ category.name }}
+                                    </a>
+                                {% else %}
+                                    {{ category.name }}
+                                {% endif %}
+                            </h4>
+                            {% for file in category.filesByLevel(level, false) %}
+                                <div class="media">
+                                    <div class="media-body">
+                                        <div class="clearfix">
+                                            <p class="pull-right">
+                                                <a href="{{ path(fileRouteName, {id: file.id, slug: slug}) }}"
+                                                    class="btn btn-success btn-sm ad-click-event">
+                                                    {{ 'materials.download' | trans }}
+                                                </a>
+                                            </p>
+                                            <h4 style="margin-top:0">{{ file.name }}</h4>
+                                            <p>{{ file.description | raw }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

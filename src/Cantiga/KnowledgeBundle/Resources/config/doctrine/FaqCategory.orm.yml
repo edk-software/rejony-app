@@ -1,0 +1,25 @@
+Cantiga\KnowledgeBundle\Entity\FaqCategory:
+    repositoryClass:                    Cantiga\KnowledgeBundle\Repository\FaqCategoryRepository
+    table:                              cantiga_faq_category
+    type:                               entity
+
+    fields:
+        id:
+            generator:
+                strategy:               AUTO
+            id:                         true
+            type:                       integer
+        name:
+            type:                       string
+
+    oneToMany:
+        questions:
+            cascade:
+                -                       persist
+                -                       remove
+            mappedBy:                   category
+            targetEntity:               Cantiga\KnowledgeBundle\Entity\FaqQuestion
+
+    lifecycleCallbacks:
+        postLoad:
+            -                           initializeCollections

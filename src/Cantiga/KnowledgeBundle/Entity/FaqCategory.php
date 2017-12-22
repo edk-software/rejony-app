@@ -1,16 +1,16 @@
 <?php
 
-namespace WIO\EdkBundle\Entity;
+namespace Cantiga\KnowledgeBundle\Entity;
 
+use Cantiga\KnowledgeBundle\Entity\FaqQuestion as Question;
 use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use WIO\EdkBundle\Entity\EdkFaqQuestion as Question;
 
 /**
- * EDK FAQ category
+ * FAQ category
  */
-class EdkFaqCategory implements IdentifiableInterface
+class FaqCategory implements IdentifiableInterface
 {
     /** @var int */
     private $id;

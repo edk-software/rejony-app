@@ -1,6 +1,6 @@
-WIO\EdkBundle\Entity\EdkFaqQuestion:
-    repositoryClass:                    WIO\EdkBundle\Repository\EdkFaqQuestionRepository
-    table:                              cantiga_edk_faq_question
+Cantiga\KnowledgeBundle\Entity\FaqQuestion:
+    repositoryClass:                    Cantiga\KnowledgeBundle\Repository\FaqQuestionRepository
+    table:                              cantiga_faq_question
     type:                               entity
 
     indexes:
@@ -26,4 +26,4 @@ WIO\EdkBundle\Entity\EdkFaqQuestion:
             cascade:
                 -                       persist
             inversedBy:                 questions
-            targetEntity:               WIO\EdkBundle\Entity\EdkFaqCategory
+            targetEntity:               Cantiga\KnowledgeBundle\Entity\FaqCategory

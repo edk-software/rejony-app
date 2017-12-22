@@ -10,6 +10,8 @@
 /build/
 /vendor/
 /var
+/materials
+!materials/.gitkeep
 /composer.phar
 /nbproject/
 /app/config/parameters_test.yml

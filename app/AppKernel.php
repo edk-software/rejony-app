@@ -41,6 +41,7 @@ class AppKernel extends Kernel
 			new Cantiga\CourseBundle\CantigaCourseBundle(),
 			new Cantiga\ExportBundle\CantigaExportBundle(),
 			new Cantiga\DiscussionBundle\CantigaDiscussionBundle(),
+			new Cantiga\KnowledgeBundle\CantigaKnowledgeBundle(),
 			new WIO\EdkBundle\WioEdkBundle()
 		);
 

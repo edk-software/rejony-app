@@ -1,0 +1,18 @@
+area_faq_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/AreaFaqController.php"
+    type:                               annotation
+area_materials_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/AreaMaterialsController.php"
+    type:                               annotation
+group_faq_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/GroupFaqController.php"
+    type:                               annotation
+group_materials_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/GroupMaterialsController.php"
+    type:                               annotation
+project_faq_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/ProjectFaqController.php"
+    type:                               annotation
+project_materials_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/ProjectMaterialsController.php"
+    type:                               annotation

@@ -1,28 +1,26 @@
 <?php
 
-namespace WIO\EdkBundle\Entity;
+namespace Cantiga\KnowledgeBundle\Entity;
 
+use Cantiga\KnowledgeBundle\Entity\MaterialsCategory as Category;
 use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
-use WIO\EdkBundle\Entity\EdkFaqCategory as Category;
 
 /**
- * EDK FAQ question
+ * Materials file
  */
-class EdkFaqQuestion implements IdentifiableInterface
+class MaterialsFile implements LevelAwareInterface, IdentifiableInterface
 {
-    const LEVEL_ALL = 0;
-    const LEVEL_AREA = 1;
-    const LEVEL_GROUP = 2;
-    const LEVEL_PROJECT = 3;
-
     /** @var int */
     private $id;
 
     /** @var string */
-    private $topic;
+    private $name;
 
     /** @var string */
-    private $answer;
+    private $description;
+
+    /** @var string */
+    private $path;
 
     /** @var Category */
     private $category;
@@ -32,7 +30,7 @@ class EdkFaqQuestion implements IdentifiableInterface
 
     public function __toString() : string
     {
-        return $this->getTopic();
+        return $this->getName();
     }
 
     public function getId() : int
@@ -47,26 +45,38 @@ class EdkFaqQuestion implements IdentifiableInterface
         return $this;
     }
 
-    public function getTopic() : string
+    public function getName() : string
     {
-        return $this->topic;
+        return $this->name;
     }
 
-    public function setTopic(string $topic) : self
+    public function setName(string $name) : self
     {
-        $this->topic = $topic;
+        $this->name = $name;
         
         return $this;
     }
 
-    public function getAnswer() : string
+    public function getDescription() : string
     {
-        return $this->answer;
+        return $this->description;
     }
 
-    public function setAnswer(string $answer) : self
+    public function setDescription(string $description) : self
     {
-        $this->answer = $answer;
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPath() : string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path) : self
+    {
+        $this->path = $path;
         
         return $this;
     }

@@ -1,13 +1,14 @@
 <?php
 
-namespace WIO\EdkBundle\Controller;
+namespace Cantiga\KnowledgeBundle\Controller;
 
 use Cantiga\CoreBundle\Api\Controller\GroupPageController;
+use Cantiga\KnowledgeBundle\Entity\FaqQuestion as Question;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use WIO\EdkBundle\Entity\EdkFaqQuestion;
 
 /**
  * @Route("/group/{slug}/faq")
@@ -19,13 +20,13 @@ class GroupFaqController extends GroupPageController
 
     public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
     {
-        $this->initializeParams('knowledge', EdkFaqQuestion::LEVEL_GROUP, 'group_faq_index', 'group_faq_info');
+        $this->initializeParams(Question::LEVEL_GROUP, 'group_faq_index', 'group_faq_info');
     }
 
     /**
      * @Route("/", name="group_faq_index")
      */
-    public function indexAction()
+    public function indexAction() : Response
     {
         return $this->renderIndex();
     }
@@ -33,7 +34,7 @@ class GroupFaqController extends GroupPageController
     /**
      * @Route("/{id}", name="group_faq_info", requirements={"id": "\d+"})
      */
-    public function infoAction(int $id)
+    public function infoAction(int $id) : Response
     {
         return $this->renderInfo($id);
     }

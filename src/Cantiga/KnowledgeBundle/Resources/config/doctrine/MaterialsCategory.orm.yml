@@ -1,6 +1,6 @@
-WIO\EdkBundle\Entity\EdkFaqCategory:
-    repositoryClass:                    WIO\EdkBundle\Repository\EdkFaqCategoryRepository
-    table:                              cantiga_edk_faq_category
+Cantiga\KnowledgeBundle\Entity\MaterialsCategory:
+    repositoryClass:                    Cantiga\KnowledgeBundle\Repository\MaterialsCategoryRepository
+    table:                              cantiga_materials_category
     type:                               entity
 
     fields:
@@ -13,12 +13,12 @@ WIO\EdkBundle\Entity\EdkFaqCategory:
             type:                       string
 
     oneToMany:
-        questions:
+        files:
             cascade:
                 -                       persist
                 -                       remove
             mappedBy:                   category
-            targetEntity:               WIO\EdkBundle\Entity\EdkFaqQuestion
+            targetEntity:               Cantiga\KnowledgeBundle\Entity\MaterialsFile
 
     lifecycleCallbacks:
         postLoad:

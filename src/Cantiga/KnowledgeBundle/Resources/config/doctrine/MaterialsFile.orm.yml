@@ -1,0 +1,31 @@
+Cantiga\KnowledgeBundle\Entity\MaterialsFile:
+    repositoryClass:                    Cantiga\KnowledgeBundle\Repository\MaterialsFileRepository
+    table:                              cantiga_materials_file
+    type:                               entity
+
+    indexes:
+        F_INDEX_1:
+            columns:
+                -                       level
+
+    fields:
+        id:
+            generator:
+                strategy:               AUTO
+            id:                         true
+            type:                       integer
+        name:
+            type:                       string
+        description:
+            type:                       text
+        path:
+            type:                       string
+        level:
+            type:                       integer
+
+    manyToOne:
+        category:
+            cascade:
+                -                       persist
+            inversedBy:                 files
+            targetEntity:               Cantiga\KnowledgeBundle\Entity\MaterialsCategory

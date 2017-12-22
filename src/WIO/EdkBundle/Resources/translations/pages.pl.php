@@ -20,4 +20,5 @@ return [
     'Frequently asked questions' => 'Najczęściej zadawane pytania',
     'Knowledge and materials' => 'Wiedza i materiały',
     'On-line courses' => 'Szkolenia on-line',
+    'Materials database' => 'Baza materiałów',
 ];

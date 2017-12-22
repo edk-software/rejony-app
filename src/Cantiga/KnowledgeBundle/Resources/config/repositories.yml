@@ -1,0 +1,21 @@
+services:
+    cantiga.knowledge.repo.faq_category:
+        arguments:
+            -                           Cantiga\KnowledgeBundle\Entity\FaqCategory
+        class:                          Cantiga\KnowledgeBundle\Repository\FaqCategoryRepository
+        factory:                        ["@doctrine", getRepository]
+    cantiga.knowledge.repo.faq_question:
+        arguments:
+            -                           Cantiga\KnowledgeBundle\Entity\FaqQuestion
+        class:                          Cantiga\KnowledgeBundle\Repository\FaqQuestionRepository
+        factory:                        ["@doctrine", getRepository]
+    cantiga.knowledge.repo.materials_category:
+        arguments:
+            -                           Cantiga\KnowledgeBundle\Entity\MaterialsCategory
+        class:                          Cantiga\KnowledgeBundle\Repository\MaterialsCategoryRepository
+        factory:                        ["@doctrine", getRepository]
+    cantiga.knowledge.repo.materials_file:
+        arguments:
+            -                           Cantiga\KnowledgeBundle\Entity\MaterialsFile
+        class:                          Cantiga\KnowledgeBundle\Repository\MaterialsFileRepository
+        factory:                        ["@doctrine", getRepository]

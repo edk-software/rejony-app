@@ -65,5 +65,4 @@ return array(
 	// Chat
 	'Type Message ...' => 'Wpisz wiadomość...',
 	'Send' => 'Wyślij',
-    'Answer' => 'Odpowiedź'
 );
