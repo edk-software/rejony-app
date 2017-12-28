@@ -48,21 +48,21 @@
                         <strong><i class="fa fa-pencil"></i> {{ 'Last update' | trans }}</strong>
                         <p>{{ format_time(TimeFormatter.FORMAT_LONG, item.lastUpdatedAt) }}
                             ({{ ago(item.lastUpdatedAt) }})</p>
-                        <strong><i class="fa fa-globe"></i> {{ 'Territory' | trans }}</strong>
-                        <p>{{ item.territory.name }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6">
+                        <p><strong><i class="fa fa-globe"></i> {{ 'Territory' | trans }}</strong> {{ item.territory.name }}</p>
                         {% if item.verifier %}
-                            <strong><i class="fa fa-user"></i> {{ 'Verifier' | trans }}</strong>
-                            <p>
+                            <p><strong><i class="fa fa-user"></i> {{ 'Verifier' | trans }}</strong>
+
                                 <a href="{{ spath('memberlist_profile', {'id': item.verifier.id }) }}">
                                     {{ item.verifier.name }}
                                 </a>
                             </p>
                         {% endif %}
                         {% if item.responsible %}
-                            <strong><i class="fa fa-user"></i> {{ 'Responsible' | trans }}</strong>
                             <p>
+                                <strong><i class="fa fa-user"></i> {{ 'Responsible' | trans }}</strong>
+
                                 <a href="{{ spath('memberlist_profile', {'id': item.responsible.id }) }}">
                                     {{ item.responsible.name }}
                                 </a>
