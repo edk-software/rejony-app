@@ -200,7 +200,7 @@ class CantigaExtension extends Twig_Extension implements Twig_Extension_GlobalsI
 		$i = 0;
 		foreach ($dt->getColumnDefinitions() as $column) {
 			if ($column['name'] == $columnName) {
-				return '{ targets: ' . $i . ', render: function(data, type, row) { return \'<span class="label label-\'+row[\'' . $takeLabel . '\']+\'">\'+row[\'' . $takeText . '\']+\'</span>\'; } }, ';
+				return '{ targets: ' . $i . ', render: function(data, type, row) { return \'<span class="label bg-\'+row[\'' . $takeLabel . '\']+\'">\'+row[\'' . $takeText . '\']+\'</span>\'; } }, ';
 			}
 			$i++;
 		}

@@ -302,13 +302,27 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
     {
         switch ($status) {
             case self::STATUS_NEW:
-                return 'default';
+                return 'blue';
             case self::STATUS_VERIFICATION:
-                return 'primary';
+                return 'purple';
             case self::STATUS_APPROVED:
-                return 'success';
+                return 'green';
             case self::STATUS_REVOKED:
-                return 'danger';
+                return 'red';
+        }
+    }
+
+    public static function statusIcon($status)
+    {
+        switch ($status) {
+            case self::STATUS_NEW:
+                return 'plus';
+            case self::STATUS_VERIFICATION:
+                return 'spinner';
+            case self::STATUS_APPROVED:
+                return 'check';
+            case self::STATUS_REVOKED:
+                return 'remove';
         }
     }
 
@@ -344,6 +358,11 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
     public function getStatusText()
     {
         return self::statusText($this->status);
+    }
+
+    public function getStatusIcon()
+    {
+        return self::statusIcon($this->status);
     }
 
     public function setRequestor($requestor)

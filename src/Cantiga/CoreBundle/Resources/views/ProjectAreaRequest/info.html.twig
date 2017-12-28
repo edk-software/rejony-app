@@ -10,83 +10,80 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="row" id="ppp">
-        <div class="col-lg-7 col-xs-12">
-            <div class="box">
-                <div class="box-body box-status">
-                    <div class="status-line">
-                        <div class="status-item status-{{ item.getStatusLabel() }}">{{ item.getStatusText() | trans({}, 'statuses') }}</div>
-                        <div class="status-actions">
-                            {% if custom.actions %}
-                                <div class="btn-group">
-                                    {% for action in custom.actions %}
-                                        <a class="btn btn-{{ action.type }} btn-sm"
-                                           href="{{ spath(action.route, action.args) }}">{{ action.name }}</a>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                            <div class="btn-group">
-                                {% if item.canRemove() %}
-                                    <button type="button"
-                                            class="btn btn-default btn-sm">{{ 'Actions' | trans([], 'general') }}</button>
-                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle"
-                                            data-toggle="dropdown" aria-expanded="false">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">{{ 'Toggle dropdown' | trans([], 'general') }}</span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <a href="{{ spath('project_area_request_remove', {'id' : item.id }) }}">{{ 'Remove' | trans([], 'general') }}</a>
-                                        </li>
-                                    </ul>
-                                {% endif %}
-                            </div>
-                            <a href="{{ spath('project_area_request_index') }}"
-                               class="btn btn-default btn-sm">{{ 'Back' | trans([], 'general') }}</a>
-                        </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ item.name }}</h3>
+                    <div class="box-tools pull-right">
+                        <a href="{{ spath('project_area_request_index') }}" class="btn btn-default btn-sm">
+                            <i class="fa fa-fa-arrow-circle-o-left"></i> {{ 'Request list' | trans([], 'requests') }}
+                        </a>
+                        {% if custom.actions %}
+                            {% for action in custom.actions %}
+                                <a class="btn btn-{{ action.type }} btn-sm"
+                                   href="{{ spath(action.route, action.args) }}"><i
+                                            class="fa fa-{{ action.ico }}"></i> {{ action.name }}</a>
+                            {% endfor %}
+                        {% endif %}
+                        {% if item.canRemove() %}
+                            <a class="btn btn-danger btn-sm"
+                               href="{{ spath('project_area_request_remove', {'id' : item.id }) }}"><i
+                                        class="fa fa-trash"></i> {{ 'Remove' | trans({}, 'general') }}</a>
+                        {% endif %}
                     </div>
-                    <div class="status-info">
-                        <div style="overflow:hidden">
-                            <div class="info-item">
-                                <h4><i class="fa fa-clock-o"></i> {{ 'Request date' | trans }}</h4>
-                                <span class="value">{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }}
-                                    ({{ ago(item.createdAt) }})</span>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="col-lg-3 col-md-6">
+                        <strong><i class="fa fa-plus"></i> {{ 'Created at' | trans({}, 'messages') }}</strong>
+                        <p>{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }}
+                            ({{ ago(item.createdAt) }}) </br>
+                            <a href="{{ spath('memberlist_profile', {'id': item.requestor.id }) }}">
+                                {{ item.requestor.name }}
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <strong><i class="fa fa-pencil"></i> {{ 'Last update' | trans }}</strong>
+                        <p>{{ format_time(TimeFormatter.FORMAT_LONG, item.lastUpdatedAt) }}
+                            ({{ ago(item.lastUpdatedAt) }})</p>
+                        <strong><i class="fa fa-globe"></i> {{ 'Territory' | trans }}</strong>
+                        <p>{{ item.territory.name }}</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        {% if item.verifier %}
+                            <strong><i class="fa fa-user"></i> {{ 'Verifier' | trans }}</strong>
+                            <p>
+                                <a href="{{ spath('memberlist_profile', {'id': item.verifier.id }) }}">
+                                    {{ item.verifier.name }}
+                                </a>
+                            </p>
+                        {% endif %}
+                        {% if item.responsible %}
+                            <strong><i class="fa fa-user"></i> {{ 'Responsible' | trans }}</strong>
+                            <p>
+                                <a href="{{ spath('memberlist_profile', {'id': item.responsible.id }) }}">
+                                    {{ item.responsible.name }}
+                                </a>
+                            </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-3 col-md-6 no-padding">
+                        <div class="info-box bg-{{ item.getStatusLabel() }} no-margin">
+                            <span class="info-box-icon"><i class="fa fa-{{ item.getStatusIcon() }}"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'Status' | trans({}, 'general') }}</span>
+                                <span class="progress-description">{{ item.getStatusText() | trans({}, 'statuses') }}</span>
                             </div>
-                            <div class="info-item">
-                                <h4><i class="fa fa-wrench"></i> {{ 'Last update' | trans }}</h4>
-                                <span class="value">{{ format_time(TimeFormatter.FORMAT_LONG, item.lastUpdatedAt) }}
-                                    ({{ ago(item.lastUpdatedAt) }})</span>
-                            </div>
-                            <div class="info-item">
-                                <h4><i class="fa fa-globe"></i> {{ 'Territory' | trans }}</h4>
-                                <span class="value">{{ item.territory.name }}</span>
-                            </div>
-                        </div>
-                        <div style="overflow:hidden">
-                            {% if item.verifier %}
-                                <div class="info-item">
-                                    <h4><i class="fa fa-user"></i> {{ 'Verifier' | trans }}</h4>
-                                    <span class="value">
-                                        <a href="{{ spath('memberlist_profile', {'id': item.verifier.id }) }}">
-                                            {{ item.verifier.name }}
-                                        </a>
-                                    </span>
-                                </div>
-                            {% endif %}
-                            {% if item.responsible %}
-                                <div class="info-item">
-                                    <h4><i class="fa fa-user"></i> {{ 'Responsible' | trans }}</h4>
-                                    <span class="value">
-                                        <a href="{{ spath('memberlist_profile', {'id': item.responsible.id }) }}">
-                                            {{ item.responsible.name }}
-                                        </a>
-                                    </span>
-                                </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row" id="ppp">
+        <div class="col-lg-7 col-xs-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#request-info" aria-controls="request-info" role="tab"

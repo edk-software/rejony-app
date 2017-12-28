@@ -377,6 +377,7 @@ class ProjectAreaRequestController extends ProjectPageController
                         'route' => 'project_area_request_verify',
                         'args' => ['id' => $ar->getId()],
                         'name' => $this->trans('Start verification'),
+                        'ico' => 'spinner',
                     ],
                 ];
             case AreaRequest::STATUS_VERIFICATION:
@@ -386,12 +387,14 @@ class ProjectAreaRequestController extends ProjectPageController
                         'route' => 'project_area_request_approve',
                         'args' => ['id' => $ar->getId()],
                         'name' => $this->trans('Approve', [], 'general'),
+                        'ico' => 'check',
                     ],
                     [
                         'type' => 'danger',
                         'route' => 'project_area_request_revoke',
                         'args' => ['id' => $ar->getId()],
                         'name' => $this->trans('Revoke', [], 'general'),
+                        'ico' => 'remove',
                     ],
                 ];
             case AreaRequest::STATUS_APPROVED:

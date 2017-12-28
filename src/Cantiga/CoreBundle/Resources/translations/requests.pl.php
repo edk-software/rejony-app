@@ -19,4 +19,5 @@ return [
 	
 	'ViewRequestLinkName' => 'Przejdź do zgłoszenia',
 
+    'Request list' => 'Lista zgłoszeń',
 ];
