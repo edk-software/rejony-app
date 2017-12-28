@@ -145,7 +145,7 @@
             </div>
         </div>
         <div class="col-lg-5 col-xs-12">
-            {{ macro.chat_box('Feedback' | trans, 'feedback') }}
+            {{ macro.chat_box('Feedback' | trans, 'feedback', item.canComment()) }}
         </div>
         {% if custom.text %}
             <div class="col-lg-5 col-xs-12">
@@ -175,7 +175,8 @@
                 chatboxForm: '#feedback-form',
                 chatboxFeedUrl: '{{ spath('project_area_request_ajax_feed', {'id': item.id} ) }}',
                 chatboxPostUrl: '{{ spath('project_area_request_ajax_post', {'id': item.id} ) }}',
-                avatars: '{{ asset('ph') }}'
+                avatars: '{{ asset('ph') }}',
+                isPreviewMode: {{ item.canComment() ? 'false' : 'true' }},
             });
         });
     </script>

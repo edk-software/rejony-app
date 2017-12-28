@@ -44,6 +44,10 @@
 			}
 		}
 		$(opts['chatboxForm']).submit(function(event) {
+			if (opts['isPreviewMode'])
+			{
+				return;
+			}
 			$.ajax({
 				url: opts['chatboxPostUrl'],
 				method: 'post',
@@ -67,5 +71,6 @@
 		chatboxFeedUrl: null,
 		chatboxPostUrl: null,
 		avatars: null,
+		isPreviewMode: false,
 	};
 }(jQuery));

@@ -350,6 +350,10 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
         ];
     }
 
+    public function canComment()
+    {
+        return $this->status != 2;
+    }
     public function getStatusLabel()
     {
         return self::statusLabel($this->status);

@@ -262,7 +262,7 @@
                     </div>
                 </div>
             </div>
-            {{ macro.chat_box('Comments' | trans, 'route-comments') }}
+            {{ macro.chat_box('Comments' | trans, 'route-comments', 'true') }}
         </div>
 
     </div>
@@ -457,7 +457,8 @@
             chatboxForm: '#route-comments-form',
             chatboxFeedUrl: '{{ spath(ajaxChatFeedPage, {'id': item.id} ) }}',
             chatboxPostUrl: '{{ spath(ajaxChatPostPage, {'id': item.id} ) }}',
-            avatars: '{{ asset('ph') }}'
+            avatars: '{{ asset('ph') }}',
+            isPreviewMode: 'false',
         });
     </script>
     <script>
