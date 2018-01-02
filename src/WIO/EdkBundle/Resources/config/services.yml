@@ -45,6 +45,11 @@ services:
         arguments: ["@translator"]
         tags:
             - { name: cantiga.extension, point: core.form.area, module: edk, description: "EDK area form" }
+    wio.edk.form.area_2018:
+            class:     WIO\EdkBundle\CustomForm\AreaModel2018
+            arguments: ["@translator"]
+            tags:
+                - { name: cantiga.extension, point: core.form.area, module: edk, description: "EDK area form 2018" }
     wio.edk.mailing_listener:
         class: WIO\EdkBundle\EventListener\MailingListener
         arguments: ["@cantiga.mail.sender"]

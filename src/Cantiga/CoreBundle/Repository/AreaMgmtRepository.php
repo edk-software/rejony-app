@@ -32,12 +32,14 @@ use Cantiga\Metamodel\Form\EntityTransformerInterface;
 use Cantiga\Metamodel\QueryBuilder;
 use Cantiga\Metamodel\QueryClause;
 use Cantiga\Metamodel\Transaction;
+use Cantiga\Metamodel\TimeFormatterInterface;
 use Doctrine\DBAL\Connection;
 use Exception;
 use LogicException;
 use PDO;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+
 
 /**
  * Manages the areas in the given parent place (project or group).
@@ -65,13 +67,18 @@ class AreaMgmtRepository implements EntityTransformerInterface
 	 * @var HierarchicalInterface
 	 */
 	private $place;
+    /**
+     * @var TimeFormatterInterface
+     */
+    private $timeFormatter;
 	
-	public function __construct(Connection $conn, Transaction $transaction, EventDispatcherInterface $eventDispatcher, MembershipRoleResolverInterface $roleResolver)
+	public function __construct(Connection $conn, Transaction $transaction, TimeFormatterInterface $timeFormatter, EventDispatcherInterface $eventDispatcher, MembershipRoleResolverInterface $roleResolver)
 	{
 		$this->conn = $conn;
 		$this->transaction = $transaction;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->roleResolver = $roleResolver;
+        $this->timeFormatter = $timeFormatter;
 	}
 	
 	public function setParentPlace(HierarchicalInterface $place)
@@ -96,7 +103,8 @@ class AreaMgmtRepository implements EntityTransformerInterface
 		}
 		$dt->searchableColumn('status', 's.id')
 			->column('memberNum', 'p.memberNum')
-			->column('percentCompleteness', 'i.percentCompleteness');
+			->column('percentCompleteness', 'i.percentCompleteness')
+			->column('eventDate', 'i.eventDate');
 
 		
 		return $dt;
@@ -114,6 +122,7 @@ class AreaMgmtRepository implements EntityTransformerInterface
 			->field('t.name', 'territory')
 			->field('p.memberNum', 'memberNum')
 			->field('i.percentCompleteness', 'percentCompleteness')
+			->field('i.eventDate', 'eventDate')
 			->from(CoreTables::AREA_TBL, 'i')
 			->join(CoreTables::PLACE_TBL, 'p', QueryClause::clause('i.placeId = p.id'))
 			->join(CoreTables::TERRITORY_TBL, 't', QueryClause::clause('i.territoryId = t.id'))
@@ -140,6 +149,7 @@ class AreaMgmtRepository implements EntityTransformerInterface
 		$qb->postprocess(function($row) use($translator) {
 			$row['statusName'] = $translator->trans($row['statusName'], [], 'statuses');
 			$row['percentCompleteness'] .= '%';
+			$row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_DATE_LONG, $row['eventDate']);
 			return $row;
 		});
 		$dataTable->processQuery($qb);

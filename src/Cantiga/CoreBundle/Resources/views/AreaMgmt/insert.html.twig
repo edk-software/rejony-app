@@ -1,29 +1,54 @@
 {% extends 'CantigaCoreBundle:layout:common-layout.html.twig' %}
 
 {% block box_header %}
-	<h4>{{ 'Create a new area' | trans }}</h4>
+    <h4>{{ 'Create a new area' | trans }}</h4>
 {% endblock %}
 
 {% block box_body %}
-	<p>{{ 'CreateAreaText' | trans }}</p>
-	
-	{{ form_start(form) }}
-	<div class="row">
-		<div class="col-md-3 col-xs-12">
-			{{ form_row(form.name) }}
-		</div>
-		<div class="col-md-3 col-xs-12">
-			{{ form_row(form.territory) }}
-		</div>
-		{% if customizableGroup %}
-		<div class="col-md-3 col-xs-12">
-			{{ form_row(form.group) }}
-		</div>
-		{% endif %}
-		<div class="col-md-3 col-xs-12">
-			{{ form_row(form.status) }}
-		</div>
-	</div>
-	{% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
-	{{ form_end(form) }}
+    <p>{{ 'CreateAreaText' | trans }}</p>
+
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-xs-12">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-xs-12">
+                {{ form_row(form.territory) }}
+            </div>
+            <div class="col-md-6 col-xs-12">
+                {{ form_row(form.lat) }}
+            </div>
+            <div class="col-md-6 col-xs-12">
+                {{ form_row(form.lng) }}
+            </div>
+            <div class="col-xs-12">
+                {{ form_row(form.eventDate) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            {% if customizableGroup %}
+                <div class="col-xs-12">
+                    {{ form_row(form.group) }}
+                </div>
+                <div class="col-xs-12">
+                    {{ form_row(form.contract) }}
+                </div>
+                <div class="col-xs-12">
+                    {{ form_row(form.stationaryTraining) }}
+                </div>
+            {% endif %}
+            <div class="col-xs-12">
+                {{ form_row(form.status) }}
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-lg-offset-3 col-md-offset-0">
+        {% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+{% block javascripts_inline %}
+    {{ use_icheck() }}
 {% endblock %}

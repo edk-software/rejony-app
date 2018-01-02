@@ -42,16 +42,23 @@ return array(
 	'ContactPhoneHintText' => 'Uczestnicy powinni mieć możliwość kontaktu z rejonem pod tym numerem.',
 	'FacebookProfileHintText' => 'W formacie "NAZWAMIEJSCOWOSCI.EDK"',
 	
-	'Date of Extreme Way of the Cross*' => 'Data Ekstremalnej Drogi Krzyżowej*',
+	'Date of Extreme Way of the Cross*' => 'Data Ekstremalnej Drogi Krzyżowej',
 	'Area location' => 'Położenie rejonu',
-	'Area location (lattitude)*' => 'Położenie rejonu (szerokość)*',
-	'Area location (longitude)*' => 'Położenie rejonu (długość)*',
+	'Area location (lattitude)*' => 'Położenie rejonu (szerokość)',
+	'Area location (longitude)*' => 'Położenie rejonu (długość)',
 	'Parish city' => 'Miejscowość parafii',
 	
 	'Contact information' => 'Informacje kontaktowe',
 	'Contact telephone' => 'Publiczny telefon kontaktowy',
 	'Area website' => 'Strona internetowa rejonu',
 	'Facebook profile' => 'Nazwa profilu Facebook',
+
+	'Package information' => 'Pakiety',
+	'Package Count Label' => 'Liczba pakietów',
+	'Package Count Help' => 'Orientacyjna ilość zamawianych pakietów',
+	'Package Details Label' => 'Uwagi',
+	'Package Details Help' => 'Twoje uwagi dotyczące zamówienia pakietu',
+
 	
 	'RequiredFieldsForProfilePublicationText' => 'Pola oznaczone jako * są wymagane, aby profil pojawił się na stronie internetowej EDK.',
 

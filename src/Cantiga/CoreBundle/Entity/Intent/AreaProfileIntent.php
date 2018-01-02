@@ -32,6 +32,9 @@ class AreaProfileIntent
 {
 	public $name;
 	public $territory;
+	public $lat;
+	public $lng;
+	public $eventDate;
 	public $customData;
 	private $percentCompleteness;
 	
@@ -51,6 +54,9 @@ class AreaProfileIntent
 		
 		$this->name = $this->area->getName();
 		$this->territory = $this->area->getTerritory();
+		$this->lat = $this->area->getLat();
+		$this->lng = $this->area->getLng();
+		$this->eventDate = $this->area->getEventDate();
 		$this->customData = $this->area->getCustomData();
 	}
 	
@@ -73,6 +79,9 @@ class AreaProfileIntent
 	{
 		$this->area->setName($this->name);
 		$this->area->setTerritory($this->territory);
+		$this->area->setLng($this->lng);
+		$this->area->setLat($this->lat);
+		$this->area->setEventDate($this->eventDate);
 		$this->area->setPercentCompleteness($this->percentCompleteness);
 		$this->area->setCustomData($this->customData);
 		$this->repository->update($this->area);

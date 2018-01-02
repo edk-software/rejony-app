@@ -171,6 +171,7 @@ return array(
 	'Member number' => 'Liczba członków',
 	'Stationary Training' => 'Szkolenie stacjonarne',
 	'Contract' => 'Umowa',
+	'Date' => 'Data',
 	'Create a new area' => 'Utwórz nowy rejon',
 	'CreateAreaText' => 'Możesz tutaj utworzyć nowy rejon z pominięciem fazy zgłoszenia (jeśli projekt takową dopuszcza). Po utworzeniu, do rejonu nie będzie przypisany żaden użytkownik - należy go dodać oddzielnie, wybierając z menu opcję "Członkowie" w informacjach rejonu.',
 	'Edit area: 0' => 'Edytuj rejon: 0',

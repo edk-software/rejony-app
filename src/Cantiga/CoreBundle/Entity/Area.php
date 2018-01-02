@@ -53,6 +53,9 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 	private $percentCompleteness;
 	private $stationaryTraining;
 	private $contract;
+    private $eventDate;
+    private $lat;
+    private $lng;
 
 	private $oldGroup;
 	private $oldStatus;
@@ -313,7 +316,42 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 		$this->territory = $territory;
 		return $this;
 	}
-	
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    public function getEventDate()
+    {
+        return $this->eventDate;
+    }
+
+    public function setEventDate($value)
+    {
+        $this->eventDate = $value;
+
+        return $this;
+    }
+
 	public function getCustomData()
 	{
 		return $this->customData;
@@ -441,7 +479,7 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 		}
 		$conn->insert(
 			CoreTables::AREA_TBL,
-			DataMappers::pick($this, ['name', 'slug', 'project', 'group', 'territory', 'status', 'reporter', 'place', 'createdAt', 'lastUpdatedAt', 'percentCompleteness'], ['customData' => json_encode($this->customData), 'groupName' => $groupName])
+			DataMappers::pick($this, ['name', 'slug', 'project', 'group', 'territory', 'status', 'reporter', 'place', 'createdAt', 'lastUpdatedAt', 'percentCompleteness', 'lat', 'lng', 'eventDate'], ['customData' => json_encode($this->customData), 'groupName' => $groupName])
 		);
 		return $this->id = $conn->lastInsertId();
 	}
@@ -469,7 +507,7 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 		
 		return $conn->update(
 			CoreTables::AREA_TBL,
-			DataMappers::pick($this, ['name', 'group', 'territory', 'status', 'lastUpdatedAt', 'percentCompleteness', 'stationaryTraining', 'contract'], ['customData' => json_encode($this->customData), 'groupName' => $groupName]),
+			DataMappers::pick($this, ['name', 'group', 'territory', 'status', 'lastUpdatedAt', 'percentCompleteness', 'stationaryTraining', 'contract', 'lat', 'lng', 'eventDate'], ['customData' => json_encode($this->customData), 'groupName' => $groupName]),
 			DataMappers::pick($this, ['id'])
 		);
 	}

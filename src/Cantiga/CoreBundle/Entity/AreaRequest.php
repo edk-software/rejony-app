@@ -550,6 +550,9 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
             $area->setProject($this->project);
             $area->setTerritory($this->territory);
             $area->setReporter($this->requestor); // oops, naming inconsistency
+            $area->setLat($this->lat);
+            $area->setLng($this->lng);
+
             $id = $area->insert($conn);
             $conn->update(
                 CoreTables::AREA_REQUEST_TBL,

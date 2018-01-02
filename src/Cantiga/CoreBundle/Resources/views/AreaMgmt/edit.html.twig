@@ -11,19 +11,23 @@
             <div class="col-xs-12">
                 {{ form_row(form.name) }}
             </div>
-            {% if customizableGroup %}
-                <div class="col-xs-12">
-                    {{ form_row(form.group) }}
-                </div>
-            {% endif %}
             <div class="col-xs-12">
                 {{ form_row(form.territory) }}
+            </div>
+            <div class="col-md-6 col-xs-12">
+                {{ form_row(form.lat) }}
+            </div>
+            <div class="col-md-6 col-xs-12">
+                {{ form_row(form.lng) }}
+            </div>
+            <div class="col-xs-12">
+                {{ form_row(form.eventDate) }}
             </div>
         </div>
         {% if customizableGroup %}
             <div class="col-md-6">
                 <div class="col-xs-12">
-                    {{ form_row(form.status) }}
+                    {{ form_row(form.group) }}
                 </div>
                 <div class="col-xs-12">
                     {{ form_row(form.contract) }}
@@ -31,11 +35,16 @@
                 <div class="col-xs-12">
                     {{ form_row(form.stationaryTraining) }}
                 </div>
+                <div class="col-xs-12">
+                    {{ form_row(form.status) }}
+                </div>
             </div>
         {% endif %}
     </div>
-    {% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
-    {{ form_end(form) }}
+    <div class="col-lg-6 col-md-12 col-lg-offset-3 col-md-offset-0">
+        {% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
 {% block javascripts_inline %}
     {{ use_icheck() }}
