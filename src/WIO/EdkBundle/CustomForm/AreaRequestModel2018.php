@@ -176,7 +176,6 @@ class AreaRequestModel2018 implements CustomFormModelInterface
             return $code;
         });
         $s->present('stationaryCourseDetails', 'StationaryCourseDetailsLabel', 'string');
-        $s->present('participantCount', 'ParticipantCountFormLabel', 'string');
 		return $s;
 	}
 	
@@ -197,11 +196,11 @@ class AreaRequestModel2018 implements CustomFormModelInterface
         public function stationaryCourseTypes()
 	{
 		return [
-            1 => '20.01.2017 - Kraków - szkolenie stacjonarne',
-            2 => '27.01.2017 - Poznań - szkolenie stacjonarne',
-            3 => '10.02.2017 - Wrocław - szkolenie stacjonarne',
-            4 => '10.02.2017 - Warszawa - szkolenie stacjonarne',
-            5 => '17.02.2017 - Kraków - szkolenie stacjonarne',
+            1 => '20.01.2018 - Kraków - szkolenie stacjonarne',
+            2 => '27.01.2018 - Poznań - szkolenie stacjonarne',
+            3 => '10.02.2018 - Wrocław - szkolenie stacjonarne',
+            4 => '10.02.2018 - Warszawa - szkolenie stacjonarne',
+            5 => '17.02.2018 - Kraków - szkolenie stacjonarne',
             6 => 'szkolenie zdalne - rejon zagraniczny',
             7 => 'Experienced Leader',
         ];
