@@ -17,8 +17,10 @@
     <link rel="icon" type="image/x-icon" href="{{ asset(Branding.LOGO_FILE) }}" />
     {%  block javascripts_head %}
     {% endblock %}
+  	{{ google_tag_manager_head() }}
   </head>
   <body>
+  {{ google_tag_manager_body() }}
 	  <header>
 		  <div class="container">
 			  <div class="logo col-md-4">
@@ -83,5 +85,6 @@
 	{% endblock %}
 	{% block javascripts_inline %}
 	{% endblock %}
+  {{ google_tag_manager_body_end() }}
   </body>
 </html>

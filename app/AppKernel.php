@@ -34,6 +34,7 @@ class AppKernel extends Kernel
 			new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 			new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
 			new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Xynnn\GoogleTagManagerBundle\GoogleTagManagerBundle(),
 			new Cantiga\CoreBundle\CantigaCoreBundle(),
 			new Cantiga\UserBundle\CantigaUserBundle(),
 			new Cantiga\LinksBundle\CantigaLinksBundle(),

@@ -19,7 +19,8 @@
         "sensio/framework-extra-bundle": "^3.0.16",
         "incenteev/composer-parameter-handler": "~2.1",
         "doctrine/doctrine-migrations-bundle": "^1.0",
-        "doctrine/orm": "^2.5"
+        "doctrine/orm": "^2.5",
+        "xynnn/google-tag-manager-bundle": "~2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0.6"
