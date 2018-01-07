@@ -67,7 +67,7 @@ class DataRoutes
 	 * @param string $key The link will be saved in the row under this name.
 	 * @param string $routeName The name of Symfony route used for building the link.
 	 * @param array $args Arguments for the router.
-	 * @return Cantiga\Metamodel\DataRoutes
+	 * @return self
 	 */
 	public function link($key, $routeName, array $args = array())
 	{
@@ -82,6 +82,7 @@ class DataRoutes
 	 * 
 	 * @param string $key The link will be saved in the row under this name.
 	 * @param callback $callback Callback to generate the actual URL
+     * @return self
 	 */
 	public function linkGenerator($key, $callback)
 	{
