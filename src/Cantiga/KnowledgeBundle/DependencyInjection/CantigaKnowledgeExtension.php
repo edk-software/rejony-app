@@ -14,6 +14,7 @@ class CantigaKnowledgeExtension extends Extension implements PrependExtensionInt
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('repositories.yml');
+        $loader->load('services.yml');
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);

@@ -3,19 +3,22 @@
 namespace Cantiga\KnowledgeBundle\Entity;
 
 use Cantiga\KnowledgeBundle\Entity\MaterialsFile as File;
-use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Materials category
  */
-class MaterialsCategory implements IdentifiableInterface
+class MaterialsCategory implements EntityInterface
 {
     /** @var int */
     private $id;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank
+     */
     private $name;
 
     /** @var ArrayCollection */
@@ -31,27 +34,27 @@ class MaterialsCategory implements IdentifiableInterface
 
     public function __toString() : string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 
-    public function getId() : int
+    public function getId() //: ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : self
+    public function setId($id) : self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    public function getName() : string
+    public function getName() //: ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name) : self
+    public function setName($name) : self
     {
         $this->name = $name;
         

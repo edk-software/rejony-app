@@ -321,9 +321,9 @@ class RouteController extends WorkspaceController
 		try {
 			$edkRoute = $this->crudInfo->getRepository()->getItem($id);
 			return new JsonResponse(['success' => 1, 
-									 'type' => $edkRoute->getRouteType(),
-									 'length' => $edkRoute->getRouteLength(),
-									 'ascent' => $edkRoute->getRouteAscent()]);
+									 'type' => (int)$edkRoute->getRouteType(),
+									 'length' => (int)$edkRoute->getRouteLength(),
+									 'ascent' => (int)$edkRoute->getRouteAscent()]);
 		} catch (Exception $exception) {
 			return new JsonResponse(['success' => 0,
 									 'error' => $exception->getMessage()]);

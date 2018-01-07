@@ -11,5 +11,5 @@ interface LevelAwareInterface
 
     public function getLevel();
 
-    public function setLevel(int $level);
+    public function setLevel($level);
 }

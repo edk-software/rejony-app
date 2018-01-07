@@ -26,10 +26,11 @@ use Cantiga\CoreBundle\Api\Controller\RedirectHandlingInterface;
  */
 abstract class AbstractAction
 {
+    /** @var CRUDInfo */
 	protected $info;
 	protected $slug;
 	protected $breadcrumbs;
-	protected $vars;
+	protected $vars = [];
 	
 	/**
 	 * Creates an additional variable passed to the template.

@@ -1,0 +1,32 @@
+{% extends 'CantigaCoreBundle:layout:list-layout.html.twig' %}
+
+{% block box_header %}
+    <i class="fa fa-lightbulb-o"></i>
+    <h3 class="box-title">{{ 'admin.faq_categories.title' | trans }}</h3>
+{% endblock %}
+
+{% block column_list %}
+    <tr>
+        <th width="30">#</th>
+        <th>{{ 'admin.faq.name' | trans }}</th>
+        <th width="80">{{ 'admin.actions' | trans }}</th>
+    </tr>
+{% endblock %}
+
+{% block box_footer %}
+    <a href="{{ path('admin_faq_category_insert') }}" class="btn btn-success btn-sm" role="button">
+        {{ 'admin.insert' | trans }}
+    </a>
+{% endblock %}
+
+{% block custom_datatable_config %}
+    ajax: "{{ path('admin_faq_category_ajax_list') }}",
+    columnDefs: [
+        {{ dt_col_link(dataTable, 'name', 'info_link') }}
+        {{ dt_actions(dataTable, [
+            { link: 'info_link', name: 'admin.info' | trans, label: 'btn-primary' },
+            { link: 'edit_link', name: 'admin.edit' | trans, label: 'btn-primary' },
+            { link: 'remove_link', name: 'admin.remove' | trans, label: 'btn-danger' },
+        ]) }}
+    ]
+{% endblock %}

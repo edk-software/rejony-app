@@ -1,0 +1,37 @@
+{% extends 'CantigaCoreBundle:layout:list-layout.html.twig' %}
+
+{% block box_header %}
+    <i class="fa fa-lightbulb-o"></i>
+    <h3 class="box-title">{{ 'admin.faq_questions.title' | trans }}</h3>
+{% endblock %}
+
+{% block column_list %}
+    <tr>
+        <th width="30">#</th>
+        <th>{{ 'admin.faq.topic' | trans }}</th>
+        <th width="80">{{ 'admin.actions' | trans }}</th>
+    </tr>
+{% endblock %}
+
+{% block box_footer %}
+    <a href="{{ path('admin_faq_category_info', { id: categoryId }) }}" class="btn btn-default btn-sm"
+       role="button">
+        {{ 'admin.back' | trans }}
+    </a>
+    <a href="{{ path('admin_faq_question_insert', { categoryId: categoryId }) }}" class="btn btn-success btn-sm"
+        role="button">
+        {{ 'admin.insert' | trans }}
+    </a>
+{% endblock %}
+
+{% block custom_datatable_config %}
+    ajax: "{{ path('admin_faq_question_ajax_list', { categoryId: categoryId }) }}",
+    columnDefs: [
+        {{ dt_col_link(dataTable, 'name', 'info_link') }}
+        {{ dt_actions(dataTable, [
+            { link: 'info_link', name: 'admin.info' | trans, label: 'btn-primary' },
+            { link: 'edit_link', name: 'admin.edit' | trans, label: 'btn-primary' },
+            { link: 'remove_link', name: 'admin.remove' | trans, label: 'btn-danger' },
+        ]) }}
+    ]
+{% endblock %}
