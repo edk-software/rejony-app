@@ -1,3 +1,38 @@
+admin.actions:                          Actions
+admin.back:                             Back
+admin.cancel:                           Cancel
+admin.edit:                             Edit
+admin.faq.answer:                       Answer
+admin.faq.category:                     Category
+admin.faq.name:                         Name
+admin.faq.questions:                    Questions
+admin.faq.topic:                        Topic
+admin.faq_categories.edit:              Edit FAQ category
+admin.faq_categories.info:              FAQ category's details
+admin.faq_categories.insert:            Create a new FAQ category
+admin.faq_categories.subtitle:          Manage FAQ categories
+admin.faq_categories.title:             FAQ categories
+admin.faq_questions.edit:               Edit FAQ question
+admin.faq_questions.info:               FAQ question's details
+admin.faq_questions.insert:             Create a new FAQ question
+admin.faq_questions.subtitle:           Manage FAQ questions
+admin.faq_questions.title:              §FAQ questions
+admin.info:                             Info
+admin.insert:                           Insert
+admin.item_not_found:                   Item not found.
+admin.level:                            Level
+admin.level.all:                        all
+admin.level.area:                       area
+admin.level.group:                      group
+admin.level.project:                    project
+admin.menu.faq_categories:              FAQ categories
+admin.menu.knowledge:                   Knowledge
+admin.menu.materials_categories:        Materials' categories
+admin.remove:                           Remove
+admin.save:                             Save
+admin.yes:                              Yes
+admin.remove_question:                  Do you really want to remove '0' item?
+
 faq.answer:                             Answer
 faq.title:                              Frequently asked questions
 

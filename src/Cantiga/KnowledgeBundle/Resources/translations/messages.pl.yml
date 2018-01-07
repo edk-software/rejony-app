@@ -1,3 +1,38 @@
+admin.actions:                          Akcje
+admin.back:                             Wstecz
+admin.cancel:                           Anuluj
+admin.edit:                             Edytuj
+admin.faq.answer:                       Odpowiedź
+admin.faq.category:                     Kategoria
+admin.faq.name:                         Nazwa
+admin.faq.questions:                    Pytania
+admin.faq.topic:                        Temat
+admin.faq_categories.edit:              Edytuj kategorię FAQ
+admin.faq_categories.info:              Szczegóły kategorii FAQ
+admin.faq_categories.insert:            Stwórz nową kategorię FAQ
+admin.faq_categories.subtitle:          Zarządzaj kategoriami FAQ
+admin.faq_categories.title:             Kategorie FAQ
+admin.faq_questions.edit:               Edytuj pytanie FAQ
+admin.faq_questions.info:               Szczegóły pytania FAQ
+admin.faq_questions.insert:             Stwórz nowe pytanie FAQ
+admin.faq_questions.subtitle:           Zarządzaj pytaniami FAQ
+admin.faq_questions.title:              Pytania FAQ
+admin.info:                             Info
+admin.insert:                           Dodaj
+admin.item_not_found:                   Nie znaleziono elementu.
+admin.level:                            Poziom
+admin.level.all:                        wszystkie
+admin.level.area:                       rejon
+admin.level.group:                      grupa
+admin.level.project:                    projekt
+admin.menu.faq_categories:              Kategorie FAQ
+admin.menu.knowledge:                   Wiedza
+admin.menu.materials_categories:        Kategorie materiałów
+admin.remove:                           Usuń
+admin.save:                             Zapisz
+admin.yes:                              Tak
+admin.remove_question:                  Czy na pewno chcesz usunąć element '0'?
+
 faq.answer:                             Odpowiedź
 faq.title:                              Najczęściej zadawane pytania
 

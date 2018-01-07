@@ -1,3 +1,10 @@
+admin_faq_category_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/AdminFaqCategoryController.php"
+    type:                               annotation
+admin_faq_question_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/AdminFaqQuestionController.php"
+    type:                               annotation
+
 area_faq_controller:
     resource:                           "@CantigaKnowledgeBundle/Controller/AreaFaqController.php"
     type:                               annotation

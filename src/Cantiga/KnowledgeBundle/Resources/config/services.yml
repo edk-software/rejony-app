@@ -1,0 +1,12 @@
+services:
+    cantiga.knowledge.workspace_listener:
+        arguments:
+          - "@security.authorization_checker"
+          - "@security.token_storage"
+          - "@cantiga.user.membership.finder"
+          - "@cantiga.project.settings"
+        calls:
+          - [setTranslator, ["@translator"]]
+        class: Cantiga\KnowledgeBundle\EventListener\WorkspaceListener
+        tags:
+            - { name: kernel.event_listener, event: cantiga.workspace.admin, method: onAdminWorkspace }

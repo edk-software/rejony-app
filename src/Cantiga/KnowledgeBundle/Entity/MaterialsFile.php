@@ -3,85 +3,101 @@
 namespace Cantiga\KnowledgeBundle\Entity;
 
 use Cantiga\KnowledgeBundle\Entity\MaterialsCategory as Category;
-use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
+use Cantiga\KnowledgeBundle\Validator\Constraints as CantigaAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Materials file
  */
-class MaterialsFile implements LevelAwareInterface, IdentifiableInterface
+class MaterialsFile implements EntityInterface, LevelAwareInterface
 {
     /** @var int */
     private $id;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank
+     */
     private $name;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank
+     * @CantigaAssert\HtmlString(
+     *     allowableTags = { "<b>", "<p>", "<br>", "<u>", "<i>", "<a>", "<ul>", "<ol>", "<li>", "<strong>", "<span>" }
+     * )
+     */
     private $description;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank
+     */
     private $path;
 
     /** @var Category */
     private $category;
 
-    /** @var int */
+    /**
+     * @var int
+     * @Assert\GreaterThanOrEqual(0)
+     */
     private $level = 0;
 
     public function __toString() : string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 
-    public function getId() : int
+    public function getId() //: ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : self
+    public function setId($id) : self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    public function getName() : string
+    public function getName() //: ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name) : self
+    public function setName($name) : self
     {
         $this->name = $name;
         
         return $this;
     }
 
-    public function getDescription() : string
+    public function getDescription() //: ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description) : self
+    public function setDescription($description) : self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getPath() : string
+    public function getPath() //: ?string
     {
         return $this->path;
     }
 
-    public function setPath(string $path) : self
+    public function setPath($path) : self
     {
         $this->path = $path;
         
         return $this;
     }
 
-    public function getCategory() : Category
+    public function getCategory() //: ?Category
     {
         return $this->category;
     }
@@ -93,12 +109,12 @@ class MaterialsFile implements LevelAwareInterface, IdentifiableInterface
         return $this;
     }
 
-    public function getLevel() : int
+    public function getLevel() //: ?int
     {
         return $this->level;
     }
 
-    public function setLevel(int $level) : self
+    public function setLevel($level) : self
     {
         $this->level = $level;
         
