@@ -108,7 +108,7 @@ services:
          class: WIO\EdkBundle\Extension\AreaRequestGrabberButton
          arguments: ["@database_connection"]
          tags:
-            - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get area requests" }
+            - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get area course data" }
     wio.edk.stats.route_length:
         class: WIO\EdkBundle\Statistics\RouteLengthHistogram
         arguments: ["@database_connection"]
