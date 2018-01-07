@@ -50,7 +50,7 @@ class DataTable
 	 * 
 	 * @param string $name Data set column name
 	 * @param string $dbColumn Column reference in SQL query.
-	 * @return Cantiga\Metamodel\DataTable
+	 * @return self
 	 */
 	public function id($name, $dbColumn)
 	{
@@ -63,7 +63,7 @@ class DataTable
 	 * 
 	 * @param string $name Data set column name
 	 * @param string $dbColumn Column reference in SQL query.
-	 * @return Cantiga\Metamodel\DataTable
+	 * @return self
 	 */
 	public function column($name, $dbColumn)
 	{
@@ -78,7 +78,7 @@ class DataTable
 	 * 
 	 * @param string $name Data set column name
 	 * @param string $dbColumn Column reference in SQL query.
-	 * @return Cantiga\Metamodel\DataTable
+	 * @return self
 	 */
 	public function searchableColumn($name, $dbColumn)
 	{
@@ -91,7 +91,7 @@ class DataTable
 	 * greater flexibility in choosing, what we want to see.
 	 * 
 	 * @param \Cantiga\Metamodel\DataFilterInterface $filter
-	 * @return Cantiga\Metamodel\DataTable
+	 * @return self
 	 */
 	public function filter(DataFilterInterface $filter)
 	{
@@ -179,7 +179,7 @@ class DataTable
 	 * The method shall be used in the repositories to produce the part of the <tt>WHERE</tt>
 	 * clause that will be used for fetching the data from the database.
 	 * 
-	 * @param Cantiga\Metamodel\QueryElement $custom
+	 * @param \Cantiga\Metamodel\QueryElement $custom
 	 * @return QueryOperator
 	 */
 	public function buildFetchingCondition(QueryElement $custom = null)
@@ -196,7 +196,7 @@ class DataTable
 	 * The method shall be used in the repositories to produce the part of the <tt>WHERE</tt>
 	 * clause that will be used for counting the number of available rows.
 	 * 
-	 * @param Cantiga\Metamodel\QueryElement $custom
+	 * @param \Cantiga\Metamodel\QueryElement $custom
 	 * @return QueryOperator
 	 */
 	public function buildCountingCondition(QueryElement $custom = null)
