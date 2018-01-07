@@ -104,6 +104,11 @@ services:
          arguments: ["@database_connection"]
          tags:
             - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get contacts to area leaders" }
+    wio.edk.button.area_request_grabber:
+         class: WIO\EdkBundle\Extension\AreaRequestGrabberButton
+         arguments: ["@database_connection"]
+         tags:
+            - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get area requests" }
     wio.edk.stats.route_length:
         class: WIO\EdkBundle\Statistics\RouteLengthHistogram
         arguments: ["@database_connection"]

@@ -46,8 +46,41 @@ class AreaRequestModel2018 implements CustomFormModelInterface
 	{
 		$this->translator = $translator;
 	}
-	
-	public function constructForm(FormBuilderInterface $builder)
+
+    public static function GetExportArray($customData)
+    {
+        $data = json_decode($customData,true);
+        return array(
+            'isParticipant' => self::getValue($data, 'isParticipant'),
+            'isAreaCreated' =>  self::getValue($data, 'isAreaCreated'),
+            'stationaryCourse'=> self::getValueFromArray($data, 'stationaryCourse', self::stationaryCourseTypes()),
+            'stationaryCoursePerson'=> self::getValue($data, 'stationaryCoursePerson'),
+            'stationaryCourseDiet'=> self::getValue($data, 'stationaryCourseDiet', self::stationaryCourseDiet()),
+            'stationaryCourseDetails'=> self::getValue($data, 'stationaryCourseDetails')
+            );
+    }
+
+    private static function getValue($array, $key)
+    {
+        if (empty($array) || !array_key_exists($key,$array))
+            return "---";
+        return $array[$key];
+    }
+    private static function getValueFromArray($array, $key ,$mapping)
+    {
+        $data = self::getValue($array, $key);
+        if (!is_array($data)) {
+            return $data;
+        }
+        $output = "";
+        foreach ($data as $option) {
+            $output .= (string)$mapping[$option];
+            $output .= "~";
+        }
+        return $output;
+    }
+
+    public function constructForm(FormBuilderInterface $builder)
 	{
 		$builder->add('routeFrom', TextType::class, array('label' => 'Beginning of the route',  'attr' => array('placeholder' => 'Beginning of the route help'), 'constraints' => [
 			new NotNull,
@@ -193,7 +226,7 @@ class AreaRequestModel2018 implements CustomFormModelInterface
             return 'Inspired by Extreme Way of the Cross';
 	}
 	
-        public function stationaryCourseTypes()
+        public static function stationaryCourseTypes()
 	{
 		return [
             1 => '20.01.2018 - Kraków - szkolenie stacjonarne',
@@ -205,7 +238,7 @@ class AreaRequestModel2018 implements CustomFormModelInterface
             7 => 'Experienced Leader',
         ];
 	}
-	public function stationaryCourseDiet()
+	public static function stationaryCourseDiet()
 	{
 		return [
             1 => 'mięsna',
