@@ -39,6 +39,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use WIO\EdkBundle\Entity\EdkRoute;
 use WIO\EdkBundle\Form\EdkRouteForm;
+use WIO\EdkBundle\EdkTexts;
 
 /**
  * @Route("/s/{slug}/routes")
@@ -124,8 +125,9 @@ class RouteController extends WorkspaceController
 	/**
 	 * @Route("/{id}/info", name="edk_route_info")
 	 */
-	public function infoAction($id, Membership $membership)
+	public function infoAction($id, Membership $membership, Request $request)
 	{
+        $text = $this->getTextRepository()->getTextOrFalse(EdkTexts::ROUTE_INFO_TEXT, $request, $this->getActiveProject());
 		$action = new InfoAction($this->crudInfo);
 		$action->slug($this->getSlug())
 			->set('ajaxReloadPage', self::API_RELOAD_PAGE)
@@ -135,6 +137,7 @@ class RouteController extends WorkspaceController
 			->set('areaInfoPage', self::AREA_INFO_PAGE)
             ->set('user', $this->getUser())
             ->set('isGroup', $this->isGroup($membership))
+            ->set('infoText', $text)
 			->set('isArea', $this->isArea($membership));
 		if (!$this->isArea($membership)) {
 			$action->set('approvePage', self::APPROVE_PAGE)->set('revokePage', self::REVOKE_PAGE);

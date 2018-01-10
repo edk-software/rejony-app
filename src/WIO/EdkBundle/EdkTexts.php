@@ -30,4 +30,5 @@ class EdkTexts
 	
 	const NOTIFICATION_MAIL = 'edk:notification';
 	const REGISTRATION_MAIL = 'edk:registration';
+	const ROUTE_INFO_TEXT = 'edk:route-info-text';
 }

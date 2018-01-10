@@ -9,6 +9,12 @@
 {% endblock %}
 
 {% block page_content %}
+    {% if infoText %}
+        <div class="callout callout-info">
+            <h4>{{ infoText.title}}</h4>
+            <p>{{infoText.content | raw }}</p>
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-solid">

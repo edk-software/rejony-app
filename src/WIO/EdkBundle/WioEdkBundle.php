@@ -35,6 +35,7 @@ class WioEdkBundle extends Bundle
 		CustomForms::registerService('edk:area-form', 'wio.edk.form.area');
 		
 		AppTexts::registerName(EdkTexts::REGISTRATION_SETTINGS_TEXT);
+		AppTexts::registerName(EdkTexts::ROUTE_INFO_TEXT);
 		AppTexts::registerName(EdkTexts::MESSAGE_TEXT);
 		AppTexts::registerName(EdkTexts::PARTICIPANT_TEXT);
 		AppTexts::registerName(EdkTexts::REGISTRATION_FORM_TEXT);
