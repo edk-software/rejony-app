@@ -45,7 +45,8 @@ class WioEdkBundle extends Bundle
 		
 		AppMails::registerName(EdkTexts::NOTIFICATION_MAIL);
 		AppMails::registerName(EdkTexts::REGISTRATION_MAIL);
-		
+		AppMails::registerName(EdkTexts::PROJECT_MESSAGE);
+
 		Activators::registerActivator('route.approved');
 	}
 }

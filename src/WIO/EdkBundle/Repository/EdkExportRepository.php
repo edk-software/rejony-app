@@ -19,6 +19,7 @@
 namespace WIO\EdkBundle\Repository;
 
 use Cantiga\CoreBundle\CoreTables;
+use Cantiga\UserBundle\UserTables;
 use Cantiga\ExportBundle\Entity\ExportBlock;
 use Doctrine\DBAL\Connection;
 use PDO;
@@ -104,7 +105,25 @@ class EdkExportRepository
 		}
 		return $block;
 	}
-	
+
+	public function getUsersByProject($projectId)
+    {
+        $stmt = $this->conn->prepare('SELECT distinct u.`email` '
+            . 'FROM `'.CoreTables::AREA_TBL.'` a '
+            . 'INNER JOIN `'.UserTables::PLACE_MEMBERS_TBL.'` m ON m.`placeId` = a.`placeId` '
+            . 'INNER JOIN `'.CoreTables::USER_TBL.'` u ON u.`id` = m.`userId` '
+            . 'INNER JOIN `'.CoreTables::AREA_STATUS_TBL.'` s ON s.`id` = a.`statusId` '
+            . 'WHERE a.`projectId` = :projectId ');
+        $stmt->bindValue(':projectId', $projectId);
+        $stmt->execute();
+        $users = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = $row['email'];
+        }
+        $stmt->closeCursor();
+        return $users;
+    }
+
 	public function prepareMailSummary()
 	{
 		$stmt = $this->conn->query('SELECT a.`id`, a.`name`, t.`locale`, p.`modules`, s.`name` AS `statusName` FROM `'.CoreTables::AREA_TBL.'` a '
