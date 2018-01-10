@@ -55,7 +55,7 @@ class AreaRequestModel2018 implements CustomFormModelInterface
             'isAreaCreated' =>  self::getValue($data, 'isAreaCreated'),
             'stationaryCourse'=> self::getValueFromArray($data, 'stationaryCourse', self::stationaryCourseTypes()),
             'stationaryCoursePerson'=> self::getValue($data, 'stationaryCoursePerson'),
-            'stationaryCourseDiet'=> self::getValue($data, 'stationaryCourseDiet', self::stationaryCourseDiet()),
+            'stationaryCourseDiet'=> self::getValueFromArray($data, 'stationaryCourseDiet', self::stationaryCourseDiet()),
             'stationaryCourseDetails'=> self::getValue($data, 'stationaryCourseDetails')
             );
     }
