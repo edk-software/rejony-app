@@ -86,7 +86,7 @@ return array(
 	'StationaryCoursePersonHelp' => 'Jeśli na szkolenie przyjedziesz sam wpisz tylko swoje imię i nazwisko. W przypadku jeśli w szkoleniu będzie uczestniczyć więcej niż jedna osoba kolejne dane oddziel znakiem \';\'',
 	'StationaryCourseDietLabel' => 'Dieta',
 	'StationaryCourseDetailsLabel' => 'Uwagi',
-	'StationaryCourseDetailsHelp' => 'Pozostałe uwagi dotyczące szkolenia',
+	'StationaryCourseDetailsHelp' => 'Pozostałe uwagi dotyczące szkolenia. Jeśli na szkolenie przyjeżdża kilka osób wpisz, czy ich dieta różni się od wybranej wcześniej.',
 	'StationaryCourseInformationText'=>'Szkolenie stacjonarne jest obowiązkowym elementem dla lidera rejonu. Poniższe dane stanowią zgłoszenie na szkolenie stacjonarne. Opłatę za szkolenie w wysokości 30zł należy uiścić do 3 dni przed wybranym terminem szkolenia. Dane do przelewu znajdują się na stronie głównej.',
 
     'Experienced Leader' => 'nie będę uczestniczył - byłem liderem w zeszłym roku. Doświadczenie lidera weterana jest bardzo cenne dla nowych liderów. Szkolenia stacjonarne służyć mają także wymianie doświadczeń i rozwojowi projektu, dlatego zachęcamy Cię do wzięcia w nich udziału. Dla lidera weterana przewidziany jest specjalny moduł szkoleniowy.',
