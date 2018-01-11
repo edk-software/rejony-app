@@ -21,7 +21,7 @@ class EditAction extends AbstractAction
     }
 
     public function run(CantigaController $controller, Request $request, array $queryIds, array $routeIds,
-        callable $paramsFilter = null)
+        callable $beforeUpdate = null, callable $paramsFilter = null)
     {
         $this->setUrlArgs($routeIds);
         /** @var Repository $repository */
@@ -37,6 +37,9 @@ class EditAction extends AbstractAction
         ]));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if (is_callable($beforeUpdate)) {
+                $beforeUpdate($item);
+            }
             $repository->update($item, true);
             $controller
                 ->get('session')

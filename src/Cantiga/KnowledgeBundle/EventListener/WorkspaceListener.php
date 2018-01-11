@@ -21,10 +21,12 @@ class WorkspaceListener
     public function onAdminWorkspace(WorkspaceEvent $event)
     {
         $workspace = $event->getWorkspace();
-        $workgroup = new Workgroup('knowledge', $this->translator->trans('admin.menu.knowledge'), 'book', 4);
-        $workspace->addWorkgroup($workgroup);
+        $workspace->addWorkgroup(new Workgroup('knowledge', $this->translator->trans('admin.menu.knowledge'), 'book',
+            4));
 
-        $workItem = new WorkItem('admin_faq_category_index', $this->translator->trans('admin.menu.faq_categories'));
-        $workspace->addWorkItem('knowledge', $workItem);
+        $workspace->addWorkItem('knowledge', new WorkItem('admin_faq_category_index',
+            $this->translator->trans('admin.menu.faq_categories')));
+        $workspace->addWorkItem('knowledge', new WorkItem('admin_materials_category_index',
+            $this->translator->trans('admin.menu.materials_categories')));
     }
 }

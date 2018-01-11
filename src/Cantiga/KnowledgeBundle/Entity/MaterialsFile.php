@@ -16,22 +16,33 @@ class MaterialsFile implements EntityInterface, LevelAwareInterface
 
     /**
      * @var string
-     * @Assert\NotBlank
+     * @Assert\NotBlank(
+     *     groups = { "add", "edit" }
+     * )
      */
     private $name;
 
     /**
      * @var string
-     * @Assert\NotBlank
+     * @Assert\NotBlank(
+     *     groups = { "add", "edit" }
+     * )
      * @CantigaAssert\HtmlString(
-     *     allowableTags = { "<b>", "<p>", "<br>", "<u>", "<i>", "<a>", "<ul>", "<ol>", "<li>", "<strong>", "<span>" }
+     *     allowableTags = { "<b>", "<p>", "<br>", "<u>", "<i>", "<a>", "<ul>", "<ol>", "<li>", "<strong>", "<span>" },
+     *     groups = { "add", "edit" }
      * )
      */
     private $description;
 
     /**
      * @var string
-     * @Assert\NotBlank
+     * @Assert\File(
+     *     groups = { "add" },
+     *     mimeTypes = { "application/pdf" }
+     * )
+     * @Assert\NotBlank(
+     *     groups = { "add", "edit" }
+     * )
      */
     private $path;
 
@@ -40,7 +51,10 @@ class MaterialsFile implements EntityInterface, LevelAwareInterface
 
     /**
      * @var int
-     * @Assert\GreaterThanOrEqual(0)
+     * @Assert\GreaterThanOrEqual(
+     *     groups = { "add", "edit" },
+     *     value = 0
+     * )
      */
     private $level = 0;
 

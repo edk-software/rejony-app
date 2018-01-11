@@ -8,13 +8,15 @@ use Cantiga\KnowledgeBundle\Action\EditAction;
 use Cantiga\KnowledgeBundle\Action\InfoAction;
 use Cantiga\KnowledgeBundle\Action\InsertAction;
 use Cantiga\KnowledgeBundle\Action\RemoveAction;
-use Cantiga\KnowledgeBundle\Entity\FaqCategory;
-use Cantiga\KnowledgeBundle\Entity\FaqQuestion;
-use Cantiga\KnowledgeBundle\Form\AdminFaqQuestionForm;
-use Cantiga\KnowledgeBundle\Repository\FaqCategoryRepository;
-use Cantiga\KnowledgeBundle\Repository\FaqQuestionRepository;
+use Cantiga\KnowledgeBundle\Entity\MaterialsCategory;
+use Cantiga\KnowledgeBundle\Entity\MaterialsFile;
+use Cantiga\KnowledgeBundle\Form\AdminMaterialsFileForm;
+use Cantiga\KnowledgeBundle\Repository\MaterialsCategoryRepository;
+use Cantiga\KnowledgeBundle\Repository\MaterialsFileRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,12 +24,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * @Route("/admin/faq/{categoryId}/questions")
+ * @Route("/admin/materials/{categoryId}/files")
  * @Security("has_role('ROLE_ADMIN')")
  */
-class AdminFaqQuestionController extends AdminPageController
+class AdminMaterialsFileController extends AdminPageController
 {
-    const REPOSITORY_NAME = 'cantiga.knowledge.repo.faq_question';
+    use FileReturnTrait;
+
+    const REPOSITORY_NAME = 'cantiga.knowledge.repo.materials_file';
 
     /** @var CRUDInfo */
     private $crudInfo;
@@ -36,38 +40,38 @@ class AdminFaqQuestionController extends AdminPageController
     {
         $this->crudInfo = $this
             ->newCrudInfo(self::REPOSITORY_NAME)
-            ->setTemplateLocation('CantigaKnowledgeBundle:AdminFaq/Question:')
-            ->setItemNameProperty('topic')
-            ->setPageTitle('admin.faq_questions.title')
-            ->setPageSubtitle('admin.faq_questions.subtitle')
-            ->setIndexPage('admin_faq_question_index')
-            ->setInfoPage('admin_faq_question_info')
-            ->setInsertPage('admin_faq_question_insert')
-            ->setEditPage('admin_faq_question_edit')
-            ->setRemovePage('admin_faq_question_remove')
+            ->setTemplateLocation('CantigaKnowledgeBundle:AdminMaterials/File:')
+            ->setItemNameProperty('name')
+            ->setPageTitle('admin.materials_files.title')
+            ->setPageSubtitle('admin.materials_files.subtitle')
+            ->setIndexPage('admin_materials_file_index')
+            ->setInfoPage('admin_materials_file_info')
+            ->setInsertPage('admin_materials_file_insert')
+            ->setEditPage('admin_materials_file_edit')
+            ->setRemovePage('admin_materials_file_remove')
             ->setRemoveQuestion('admin.remove_question')
         ;
 
         $this
             ->breadcrumbs()
             ->workgroup('knowledge')
-            ->entryLink($this->trans('admin.faq_questions.title'), $this->crudInfo->getIndexPage(), [
+            ->entryLink($this->trans('admin.materials_files.title'), $this->crudInfo->getIndexPage(), [
                 'categoryId' => $request->attributes->getInt('categoryId'),
             ])
         ;
     }
         
     /**
-     * @Route("/", name="admin_faq_question_index")
+     * @Route("/", name="admin_materials_file_index")
      */
     public function indexAction(Request $request, int $categoryId) : Response
     {
         $category = $this->getCategoryIfExists($categoryId);
-        /** @var FaqQuestionRepository $repository */
+        /** @var MaterialsFileRepository $repository */
         $repository = $this->get(self::REPOSITORY_NAME);
         $dataTable = $repository->createDataTable();
 
-        return $this->render('CantigaKnowledgeBundle:AdminFaq/Question:index.html.twig', [
+        return $this->render('CantigaKnowledgeBundle:AdminMaterials/File:index.html.twig', [
             'category' => $category,
             'dataTable' => $dataTable,
             'locale' => $request->getLocale(),
@@ -77,7 +81,7 @@ class AdminFaqQuestionController extends AdminPageController
     }
     
     /**
-     * @Route("/ajax-list", name="admin_faq_question_ajax_list")
+     * @Route("/ajax-list", name="admin_materials_file_ajax_list")
      */
     public function ajaxListAction(Request $request, int $categoryId) : JsonResponse
     {
@@ -97,7 +101,7 @@ class AdminFaqQuestionController extends AdminPageController
                 'id' => '::id',
             ])
         ;
-        /** @var FaqQuestionRepository $repository */
+        /** @var MaterialsFileRepository $repository */
         $repository = $this->get(self::REPOSITORY_NAME);
         $dataTable = $repository->createDataTable();
         $dataTable->process($request);
@@ -108,13 +112,13 @@ class AdminFaqQuestionController extends AdminPageController
     }
     
     /**
-     * @Route("/{id}/info", name="admin_faq_question_info")
+     * @Route("/{id}/info", name="admin_materials_file_info")
      */
     public function infoAction(int $categoryId, int $id) : Response
     {
         $category = $this->getCategoryIfExists($categoryId);
         $action = new InfoAction($this->crudInfo);
-        $action->set('levels', AdminFaqQuestionForm::getLevels());
+        $action->set('levels', AdminMaterialsFileForm::getLevels());
 
         return $action->run($this, [
             'category' => $category,
@@ -126,22 +130,35 @@ class AdminFaqQuestionController extends AdminPageController
     }
      
     /**
-     * @Route("/insert", name="admin_faq_question_insert")
+     * @Route("/insert", name="admin_materials_file_insert")
      */
     public function insertAction(Request $request, int $categoryId) : Response
     {
         $category = $this->getCategoryIfExists($categoryId);
-        $question = new FaqQuestion();
-        $question->setCategory($category);
-        $action = new InsertAction($this->crudInfo, $question, AdminFaqQuestionForm::class, [
+        $file = new MaterialsFile();
+        $file->setCategory($category);
+        $action = new InsertAction($this->crudInfo, $file, AdminMaterialsFileForm::class, [
             'categories' => $this->getCategories(),
+            'isNew' => true,
+            'validation_groups' => [
+                'add',
+            ],
         ]);
-        $action->set('form_title', $this->trans('admin.faq_questions.insert'));
+        $action->set('form_title', $this->trans('admin.materials_files.insert'));
 
         return $action->run($this, $request, [
             'categoryId' => $categoryId,
-        ], null, function (FaqQuestion $question, array $params) : array {
-            $params['categoryId'] = $question
+        ], function (MaterialsFile $file) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $file->getPath();
+            $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
+            $uploadedFile->move(
+                $this->returnFilePath(),
+                $fileName
+            );
+            $file->setPath($fileName);
+        }, function (MaterialsFile $file, array $params) : array {
+            $params['categoryId'] = $file
                 ->getCategory()
                 ->getId()
             ;
@@ -151,15 +168,19 @@ class AdminFaqQuestionController extends AdminPageController
     }
     
     /**
-     * @Route("/{id}/edit", name="admin_faq_question_edit")
+     * @Route("/{id}/edit", name="admin_materials_file_edit")
      */
     public function editAction(Request $request, int $categoryId, int $id) : Response
     {
         $category = $this->getCategoryIfExists($categoryId);
-        $action = new EditAction($this->crudInfo, AdminFaqQuestionForm::class, [
+        $action = new EditAction($this->crudInfo, AdminMaterialsFileForm::class, [
             'categories' => $this->getCategories(),
+            'isNew' => false,
+            'validation_groups' => [
+                'edit',
+            ],
         ]);
-        $action->set('form_title', $this->trans('admin.faq_questions.edit'));
+        $action->set('form_title', $this->trans('admin.materials_files.edit'));
 
         return $action->run($this, $request, [
             'category' => $category,
@@ -167,8 +188,8 @@ class AdminFaqQuestionController extends AdminPageController
         ], [
             'categoryId' => $categoryId,
             'id' => $id,
-        ], null, function (FaqQuestion $question, array $params) : array {
-            $params['categoryId'] = $question
+        ], null, function (MaterialsFile $file, array $params) : array {
+            $params['categoryId'] = $file
                 ->getCategory()
                 ->getId()
             ;
@@ -178,7 +199,7 @@ class AdminFaqQuestionController extends AdminPageController
     }
     
     /**
-     * @Route("/{id}/remove", name="admin_faq_question_remove")
+     * @Route("/{id}/remove", name="admin_materials_file_remove")
      */
     public function removeAction(Request $request, int $categoryId, int $id) : Response
     {
@@ -191,14 +212,27 @@ class AdminFaqQuestionController extends AdminPageController
         ], [
             'categoryId' => $categoryId,
             'id' => $id,
-        ]);
+        ], function (MaterialsFile $file) {
+            $fs = new Filesystem();
+            $fs->remove([
+                $this->returnFilePath($file->getPath()),
+            ]);
+        });
+    }
+
+    /**
+     * @Route("/{id}/get", name="admin_materials_file_get")
+     */
+    public function getAction(int $categoryId, int $id) : Response
+    {
+        return $this->returnFile($id, $categoryId);
     }
 
     private function getCategories() : array
     {
-        /** @var FaqCategoryRepository $categoryRepository */
-        $categoryRepository = $this->get(AdminFaqCategoryController::REPOSITORY_NAME);
-        /** @var FaqCategory[] $categories */
+        /** @var MaterialsCategoryRepository $categoryRepository */
+        $categoryRepository = $this->get(AdminMaterialsCategoryController::REPOSITORY_NAME);
+        /** @var MaterialsCategory[] $categories */
         $categories = $categoryRepository->findBy([], [
             'name' => 'asc',
         ]);
@@ -206,11 +240,11 @@ class AdminFaqQuestionController extends AdminPageController
         return $categories;
     }
 
-    private function getCategoryIfExists(int $id) : FaqCategory
+    private function getCategoryIfExists(int $id) : MaterialsCategory
     {
-        /** @var FaqCategoryRepository $categoryRepository */
-        $categoryRepository = $this->get(AdminFaqCategoryController::REPOSITORY_NAME);
-        /** @var FaqCategory|null $category */
+        /** @var MaterialsCategoryRepository $categoryRepository */
+        $categoryRepository = $this->get(AdminMaterialsCategoryController::REPOSITORY_NAME);
+        /** @var MaterialsCategory|null $category */
         $category = $categoryRepository->findOneBy([
             'id' => $id,
         ]);

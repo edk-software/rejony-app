@@ -17,6 +17,7 @@ admin.faq_questions.info:               Szczegóły pytania FAQ
 admin.faq_questions.insert:             Stwórz nowe pytanie FAQ
 admin.faq_questions.subtitle:           Zarządzaj pytaniami FAQ
 admin.faq_questions.title:              Pytania FAQ
+admin.faq_questions.title_category:     Pytania FAQ dla kategorii "%name%"
 admin.info:                             Info
 admin.insert:                           Dodaj
 admin.item_not_found:                   Nie znaleziono elementu.
@@ -25,6 +26,22 @@ admin.level.all:                        wszystkie
 admin.level.area:                       rejon
 admin.level.group:                      grupa
 admin.level.project:                    projekt
+admin.materials.category:               Kategoria
+admin.materials.description:            Opis
+admin.materials.name:                   Nazwa
+admin.materials.file:                   Plik
+admin.materials.files:                  Pliki
+admin.materials_categories.edit:        Edytuj kategorię materiałów
+admin.materials_categories.info:        Szczegóły kategorii materiałów
+admin.materials_categories.insert:      Stwórz nową kategorię materiałów
+admin.materials_categories.subtitle:    Zarządzaj kategoriami materiałów
+admin.materials_categories.title:       Kategorie materiałów
+admin.materials_files.edit:             Edytuj plik materiałów
+admin.materials_files.info:             Szczegóły pliku materiałów
+admin.materials_files.insert:           Stwórz nowy plik materiałów
+admin.materials_files.subtitle:         Zarządzaj plikami materiałów
+admin.materials_files.title:            Pliki materiałów
+admin.materials_files.title_category:   Pliki materiałów dla kategorii "%name%"
 admin.menu.faq_categories:              Kategorie FAQ
 admin.menu.knowledge:                   Wiedza
 admin.menu.materials_categories:        Kategorie materiałów

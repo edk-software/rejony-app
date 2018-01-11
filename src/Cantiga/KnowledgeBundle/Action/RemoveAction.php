@@ -18,7 +18,8 @@ class RemoveAction extends AbstractAction
         $this->info = $crudInfo;
     }
 
-    public function run(CantigaController $controller, Request $request, array $queryIds, array $routeIds)
+    public function run(CantigaController $controller, Request $request, array $queryIds, array $routeIds,
+        callable $beforeRemove = null)
     {
         $this->setUrlArgs($routeIds);
         /** @var Repository $repository */
@@ -32,6 +33,9 @@ class RemoveAction extends AbstractAction
         $answer = $request->query->get('answer');
         switch ($answer) {
             case self::CONFIRM_YES:
+                if (is_callable($beforeRemove)) {
+                    $beforeRemove($item);
+                }
                 $repository->delete($item, true);
                 return $this->onSuccess($controller, $controller->trans($this->info->getItemRemovedMessage(), [
                     $this->getName($item),
