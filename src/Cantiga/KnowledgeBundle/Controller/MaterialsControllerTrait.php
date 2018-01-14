@@ -9,11 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * Materials controller trait
- */
 trait MaterialsControllerTrait
 {
+    use FileReturnTrait;
+
     /** @var int */
     private $level;
 
@@ -73,37 +72,5 @@ trait MaterialsControllerTrait
             'level' => $this->level,
             'slug' => $this->getSlug(),
         ]);
-    }
-
-    protected function returnFile(int $id) : Response
-    {
-        $repository = $this->get('cantiga.knowledge.repo.materials_file');
-        /** @var File $file */
-        $file = $repository->findOneBy([
-            'id' => $id,
-        ]);
-        if (!isset($file)) {
-            throw new NotFoundHttpException();
-        }
-
-        $rootDir = $this
-            ->get('kernel')
-            ->getRootDir()
-        ;
-        $filePath = implode('/', [
-            $rootDir,
-            '..',
-            trim($this->getParameter('cantiga_knowledge.materials_path'), '/'),
-            $file->getPath(),
-        ]);
-        $fileParts = explode('/', $filePath);
-        $fileName = array_pop($fileParts);
-        $response = new BinaryFileResponse($filePath);
-        $mimeTypeGuesser = new FileinfoMimeTypeGuesser();
-        $contentType = $mimeTypeGuesser->isSupported() ? $mimeTypeGuesser->guess($filePath) : 'text/plain';
-        $response->headers->set('Content-Type', $contentType);
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
-
-        return $response;
     }
 }

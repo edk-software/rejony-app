@@ -8,9 +8,9 @@ use Cantiga\KnowledgeBundle\Action\EditAction;
 use Cantiga\KnowledgeBundle\Action\InfoAction;
 use Cantiga\KnowledgeBundle\Action\InsertAction;
 use Cantiga\KnowledgeBundle\Action\RemoveAction;
-use Cantiga\KnowledgeBundle\Entity\FaqCategory;
-use Cantiga\KnowledgeBundle\Form\AdminFaqCategoryForm;
-use Cantiga\KnowledgeBundle\Repository\FaqCategoryRepository;
+use Cantiga\KnowledgeBundle\Entity\MaterialsCategory;
+use Cantiga\KnowledgeBundle\Form\AdminMaterialsCategoryForm;
+use Cantiga\KnowledgeBundle\Repository\MaterialsCategoryRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,12 +19,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * @Route("/admin/faq")
+ * @Route("/admin/materials")
  * @Security("has_role('ROLE_ADMIN')")
  */
-class AdminFaqCategoryController extends AdminPageController
+class AdminMaterialsCategoryController extends AdminPageController
 {
-    const REPOSITORY_NAME = 'cantiga.knowledge.repo.faq_category';
+    const REPOSITORY_NAME = 'cantiga.knowledge.repo.materials_category';
 
     /** @var CRUDInfo */
     private $crudInfo;
@@ -33,35 +33,35 @@ class AdminFaqCategoryController extends AdminPageController
     {
         $this->crudInfo = $this
             ->newCrudInfo(self::REPOSITORY_NAME)
-            ->setTemplateLocation('CantigaKnowledgeBundle:AdminFaq/Category:')
+            ->setTemplateLocation('CantigaKnowledgeBundle:AdminMaterials/Category:')
             ->setItemNameProperty('name')
-            ->setPageTitle('admin.faq_categories.title')
-            ->setPageSubtitle('admin.faq_categories.subtitle')
-            ->setIndexPage('admin_faq_category_index')
-            ->setInfoPage('admin_faq_category_info')
-            ->setInsertPage('admin_faq_category_insert')
-            ->setEditPage('admin_faq_category_edit')
-            ->setRemovePage('admin_faq_category_remove')
-            ->setRemoveQuestion('admin.remove_question')
+            ->setPageTitle('admin.materials_categories.title')
+            ->setPageSubtitle('admin.materials_categories.subtitle')
+            ->setIndexPage('admin_materials_category_index')
+            ->setInfoPage('admin_materials_category_info')
+            ->setInsertPage('admin_materials_category_insert')
+            ->setEditPage('admin_materials_category_edit')
+            ->setRemovePage('admin_materials_category_remove')
+            ->setRemoveQuestion('admin.remove_file')
         ;
         
         $this
             ->breadcrumbs()
             ->workgroup('knowledge')
-            ->entryLink($this->trans('admin.faq_categories.title'), $this->crudInfo->getIndexPage())
+            ->entryLink($this->trans('admin.materials_categories.title'), $this->crudInfo->getIndexPage())
         ;
     }
         
     /**
-     * @Route("/", name="admin_faq_category_index")
+     * @Route("/", name="admin_materials_category_index")
      */
     public function indexAction(Request $request) : Response
     {
-        /** @var FaqCategoryRepository $repository */
+        /** @var MaterialsCategoryRepository $repository */
         $repository = $this->get(self::REPOSITORY_NAME);
         $dataTable = $repository->createDataTable();
 
-        return $this->render('CantigaKnowledgeBundle:AdminFaq/Category:index.html.twig', [
+        return $this->render('CantigaKnowledgeBundle:AdminMaterials/Category:index.html.twig', [
             'dataTable' => $dataTable,
             'locale' => $request->getLocale(),
             'pageSubtitle' => $this->crudInfo->getPageSubtitle(),
@@ -70,7 +70,7 @@ class AdminFaqCategoryController extends AdminPageController
     }
     
     /**
-     * @Route("/ajax-list", name="admin_faq_category_ajax_list")
+     * @Route("/ajax-list", name="admin_materials_category_ajax_list")
      */
     public function ajaxListAction(Request $request) : JsonResponse
     {
@@ -85,11 +85,11 @@ class AdminFaqCategoryController extends AdminPageController
             ->link('remove_link', $this->crudInfo->getRemovePage(), [
                 'id' => '::id',
             ])
-            ->link('questions_link', 'admin_faq_question_index', [
+            ->link('files_link', 'admin_materials_file_index', [
                 'categoryId' => '::id',
             ])
         ;
-        /** @var FaqCategoryRepository $repository */
+        /** @var MaterialsCategoryRepository $repository */
         $repository = $this->get(self::REPOSITORY_NAME);
         $dataTable = $repository->createDataTable();
         $dataTable->process($request);
@@ -98,7 +98,7 @@ class AdminFaqCategoryController extends AdminPageController
     }
     
     /**
-     * @Route("/{id}/info", name="admin_faq_category_info")
+     * @Route("/{id}/info", name="admin_materials_category_info")
      */
     public function infoAction(int $id) : Response
     {
@@ -112,23 +112,23 @@ class AdminFaqCategoryController extends AdminPageController
     }
      
     /**
-     * @Route("/insert", name="admin_faq_category_insert")
+     * @Route("/insert", name="admin_materials_category_insert")
      */
     public function insertAction(Request $request) : Response
     {
-        $action = new InsertAction($this->crudInfo, new FaqCategory(), AdminFaqCategoryForm::class);
-        $action->set('form_title', $this->trans('admin.faq_categories.insert'));
+        $action = new InsertAction($this->crudInfo, new MaterialsCategory(), AdminMaterialsCategoryForm::class);
+        $action->set('form_title', $this->trans('admin.materials_categories.insert'));
 
         return $action->run($this, $request);
     }
     
     /**
-     * @Route("/{id}/edit", name="admin_faq_category_edit")
+     * @Route("/{id}/edit", name="admin_materials_category_edit")
      */
     public function editAction(Request $request, int $id) : Response
     {
-        $action = new EditAction($this->crudInfo, AdminFaqCategoryForm::class);
-        $action->set('form_title', $this->trans('admin.faq_categories.edit'));
+        $action = new EditAction($this->crudInfo, AdminMaterialsCategoryForm::class);
+        $action->set('form_title', $this->trans('admin.materials_categories.edit'));
 
         return $action->run($this, $request, [
             'id' => $id,
@@ -138,7 +138,7 @@ class AdminFaqCategoryController extends AdminPageController
     }
     
     /**
-     * @Route("/{id}/remove", name="admin_faq_category_remove")
+     * @Route("/{id}/remove", name="admin_materials_category_remove")
      */
     public function removeAction(Request $request, int $id) : Response
     {

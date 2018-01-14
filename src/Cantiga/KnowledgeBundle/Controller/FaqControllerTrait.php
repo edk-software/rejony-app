@@ -5,9 +5,6 @@ namespace Cantiga\KnowledgeBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * FAQ controller trait
- */
 trait FaqControllerTrait
 {
     /** @var int */

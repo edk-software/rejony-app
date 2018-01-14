@@ -1,1 +1,3 @@
 "The only allowed HTML tags are {{ tags }}.": "Jedyne dozwolone tagi HTML to {{ tags }}."
+"Tag {{ tag }} has been closed before opening.": "Tag {{ tag }} został zamknięty przed otwarciem."
+"Tag {{ tag }} hasn't been closed.":    "Tag {{ tag }} nie został zamknięty."

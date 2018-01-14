@@ -45,6 +45,6 @@ class ProjectMaterialsController extends ProjectPageController
      */
     public function fileAction(int $id) : Response
     {
-        return $this->returnFile($id);
+        return $this->returnFile($id, null, $this->level);
     }
 }

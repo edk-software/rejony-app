@@ -4,6 +4,12 @@ admin_faq_category_controller:
 admin_faq_question_controller:
     resource:                           "@CantigaKnowledgeBundle/Controller/AdminFaqQuestionController.php"
     type:                               annotation
+admin_materials_category_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/AdminMaterialsCategoryController.php"
+    type:                               annotation
+admin_materials_file_controller:
+    resource:                           "@CantigaKnowledgeBundle/Controller/AdminMaterialsFileController.php"
+    type:                               annotation
 
 area_faq_controller:
     resource:                           "@CantigaKnowledgeBundle/Controller/AreaFaqController.php"

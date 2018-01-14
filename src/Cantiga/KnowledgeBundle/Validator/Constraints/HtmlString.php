@@ -9,7 +9,9 @@ use Symfony\Component\Validator\Constraint;
  */
 class HtmlString extends Constraint
 {
-    public $message = 'The only allowed HTML tags are {{ tags }}.';
+    public $messageImproperTags = 'The only allowed HTML tags are {{ tags }}.';
+    public $messageTagIncorrectlyClosed = 'Tag {{ tag }} has been closed before opening.';
+    public $messageTagUnclosed = 'Tag {{ tag }} hasn\'t been closed.';
     public $allowableTags = [];
 
     public function getDefaultOption()

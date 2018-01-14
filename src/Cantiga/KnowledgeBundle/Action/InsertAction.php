@@ -24,7 +24,7 @@ class InsertAction extends AbstractAction
     }
 
     public function run(CantigaController $controller, Request $request, array $routeIds = [],
-        callable $paramsFilter = null)
+        callable $beforeInsert = null, callable $paramsFilter = null)
     {
         $this->setUrlArgs($routeIds);
         /** @var Repository $repository */
@@ -37,6 +37,9 @@ class InsertAction extends AbstractAction
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (is_callable($beforeInsert)) {
+                $beforeInsert($item);
+            }
             $repository->insert($item, true);
             $controller
                 ->get('session')
