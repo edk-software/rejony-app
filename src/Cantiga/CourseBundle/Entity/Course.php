@@ -447,7 +447,7 @@ class Course implements InsertableEntityInterface, EditableEntityInterface, Remo
 	public function generatePresentationCode()
 	{
 		if(preg_match('/docs.google.com\/presentation\/d\/([a-zA-Z0-9\-\_]+)\/(.*)/', $this->presentationLink, $matches)) {
-			return '<iframe src="http://docs.google.com/presentation/embed?id='.$matches[1].'&amp;start=false&amp;loop=false&amp;" frameborder="0" width="800" height="520" allowfullscreen="true"></iframe>';
+			return '<iframe src="https://docs.google.com/presentation/embed?id='.$matches[1].'&amp;start=false&amp;loop=false&amp;" frameborder="0" width="800" height="520" allowfullscreen="true"></iframe>';
 		} else if(strpos($this->presentationLink, 'http://prezi.com/embed/') !== false) {
 			return '<iframe frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true" width="800" height="520" src="'.$this->presentationLink.'"></iframe>';
 		} else {
