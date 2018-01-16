@@ -13,6 +13,7 @@ return [
 	'Places' => 'Miejsca',
 	'Summary' => 'Zestawienia',
     'Knowledge and materials' => 'Wiedza i materiały',
+    'Faq' => 'FAQ - pomoc',
 
 
     // Help pages
