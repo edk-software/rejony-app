@@ -101,6 +101,8 @@ return array(
 	'The area request has been created.' => 'Zgłoszenie rejonu zostało dodane.',
 	'The area request has been updated.' => 'Zgłoszenie rejonu zostało zaktualizowane.',
 	'Feedback' => 'Informacja zwrotna',
+	'Chat' => 'Czat',
+
 	'Do you really want to remove \'0\' request?' => 'Czy na pewno chcesz usunąć zgłoszenie rejonu "0"?',
 	'Do you really want to revoke the request \'0\'? This operation cannot be undone.' => 'Czy na pewno chcesz odrzucić zgłoszenie rejonu "0"? Ta operacja nie może być cofnięta.',
 	'Do you want to approve the request \'0\'? This operation cannot be undone.' => 'Czy na pewno chcesz zatwierdzić zgłoszenie rejonu "0"? Ta operacja nie może być cofnięta.',
