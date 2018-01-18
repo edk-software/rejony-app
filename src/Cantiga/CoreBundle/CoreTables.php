@@ -26,6 +26,7 @@ class CoreTables
 	const APP_TEXT_TBL = 'cantiga_texts';
 	const AREA_REQUEST_TBL = 'cantiga_area_requests';
 	const AREA_REQUEST_COMMENT_TBL = 'cantiga_area_request_comments';
+	const AREA_COMMENT_TBL = 'cantiga_area_comments';
 	const AREA_TBL = 'cantiga_areas';
 	const AREA_STATUS_TBL = 'cantiga_area_statuses';
 	const GROUP_TBL = 'cantiga_groups';

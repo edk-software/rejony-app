@@ -31,7 +31,6 @@ use Symfony\Component\HttpFoundation\Request;
 class PlaceDashboardController extends WorkspaceController
 {
 	use DashboardTrait;
-
 	/**
 	 * @Route("/dashboard", name="place_dashboard")
 	 */
@@ -42,20 +41,23 @@ class PlaceDashboardController extends WorkspaceController
 				$topExtensions = CoreExtensions::PROJECT_DASHBOARD_TOP;
 				$rightExtensions = CoreExtensions::PROJECT_DASHBOARD_RIGHT;
 				$centralExtensions = CoreExtensions::PROJECT_DASHBOARD_CENTRAL;
+				$view = 'CantigaCoreBundle:Place:dashboard.html.twig';
 				break;
 			case 'Group':
 				$topExtensions = CoreExtensions::GROUP_DASHBOARD_TOP;
 				$rightExtensions = CoreExtensions::GROUP_DASHBOARD_RIGHT;
 				$centralExtensions = CoreExtensions::GROUP_DASHBOARD_CENTRAL;
+				$view = 'CantigaCoreBundle:Place:dashboard.html.twig';
 				break;
 			case 'Area':
 				$topExtensions = CoreExtensions::AREA_DASHBOARD_TOP;
 				$rightExtensions = CoreExtensions::AREA_DASHBOARD_RIGHT;
 				$centralExtensions = CoreExtensions::AREA_DASHBOARD_CENTRAL;
+				$view = 'CantigaCoreBundle:Area:dashboard.html.twig';
 				break;
 		}
 		
-		return $this->render('CantigaCoreBundle:Place:dashboard.html.twig', array(
+		return $this->render($view, array(
 			'user' => $this->getUser(),
 			'place' => $membership->getPlace(),
 			'topExtensions' => $this->renderExtensions($request, $this->findDashboardExtensions($topExtensions)),

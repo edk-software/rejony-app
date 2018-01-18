@@ -131,6 +131,9 @@ services:
     cantiga.core.repo.area_mgmt:
         class:     Cantiga\CoreBundle\Repository\AreaMgmtRepository
         arguments: ["@database_connection", "@cantiga.transaction", "@cantiga.time", "@event_dispatcher", "@cantiga.roles"]
+    cantiga.core.repo.area_comment:
+        class:     Cantiga\CoreBundle\Repository\AreaCommentRepository
+        arguments: ["@database_connection", "@cantiga.transaction", "@cantiga.time"]
     cantiga.core.repo.project_area_status:
         class:     Cantiga\CoreBundle\Repository\ProjectAreaStatusRepository
         arguments: ["@database_connection", "@cantiga.transaction"]

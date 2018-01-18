@@ -38,6 +38,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Cantiga\CoreBundle\Entity\Message;
 
 /**
  * @Route("/s/{slug}/areas")
@@ -48,6 +49,7 @@ class AreaMgmtController extends WorkspaceController
 	use InformationTrait;
 
 	const REPOSITORY_NAME = 'cantiga.core.repo.area_mgmt';
+	const REPOSITORY_COMMENT_NAME = 'cantiga.core.repo.area_comment';
 	const FILTER_NAME = 'cantiga.core.filter.area';
 	const API_LIST_LINK = 'area_mgmt_api_list';
 	const API_MEMBERS_LINK = 'area_mgmt_api_members';
@@ -237,4 +239,35 @@ class AreaMgmtController extends WorkspaceController
 			$this->customizableGroup = false;
 		}
 	}
+
+    /**
+     * @Route("/{id}/ajax-feed", name="area_chat_ajax_feed")
+     */
+    public function ajaxFeedAction($id, Request $request)
+    {
+        try {
+            $repository = $this->get(self::REPOSITORY_COMMENT_NAME);
+
+            return new JsonResponse($repository->getFeedback($id));
+        } catch (Exception $ex) {
+            return new JsonResponse(['status' => 0]);
+        }
+    }
+
+    /**
+     * @Route("/{id}/ajax-post", name="area_chat_ajax_post")
+     */
+    public function ajaxPostAction($id, Request $request)
+    {
+        try {
+            $repository = $this->get(self::REPOSITORY_COMMENT_NAME);
+            $message = $request->get('message');
+            if (!empty($message)) {
+                $repository->addMessage($id, new Message($this->getUser(), $message));
+            }
+            return new JsonResponse($repository->getFeedback($id));
+        } catch (Exception $ex) {
+            return new JsonResponse(['status' => 0]);
+        }
+    }
 }

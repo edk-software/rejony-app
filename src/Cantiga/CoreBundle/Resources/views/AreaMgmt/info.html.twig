@@ -117,7 +117,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5 col-sm-6 col-xs-12">
+        <div class="col-lg-5 col-xs-12">
+            {{ macro.chat_box('Chat' | trans, 'feedback', 'true') }}
+        </div>
+        <div class="col-lg-5 col-xs-12">
             {{ custom.extensions | raw }}
         </div>
     </div>
@@ -127,6 +130,7 @@
     {{ parent() }}
     <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/members-display.js') }}"></script>
+    <script src="{{ asset('js/chatbox.js') }}"></script>
 {% endblock %}
 
 {% block javascripts_inline %}
@@ -137,6 +141,20 @@
                 table: '#member-table',
                 tab: 'members',
                 avatars: '{{ asset('ph') }}'
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ppp').chatbox({
+                chatboxSummary: '#feedback-summary',
+                chatboxBody: '#feedback-body',
+                chatboxForm: '#feedback-form',
+                chatboxFeedUrl: '{{ spath('area_chat_ajax_feed', {'id': item.id} ) }}',
+                chatboxPostUrl: '{{ spath('area_chat_ajax_post', {'id': item.id} ) }}',
+                avatars: '{{ asset('ph') }}',
+                isPreviewMode: false,
             });
         });
     </script>
