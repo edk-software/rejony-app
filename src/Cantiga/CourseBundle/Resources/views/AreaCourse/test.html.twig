@@ -22,7 +22,7 @@
 					<p class="lead">{{'Remaining time' | trans([], 'course') }}: <span id="test-timer" data-time-min="{{testTime}}">value</span></p>
 				</div>
 				{% for fieldName in fieldNames %}
-				<div class="col-md-6 col-sm-12">
+				<div class="col-sm-12">
 					{{ form_row(form.offsetGet(fieldName)) }}
 				</div>
 				{% endfor %}
