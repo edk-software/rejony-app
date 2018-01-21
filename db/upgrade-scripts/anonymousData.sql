@@ -9,7 +9,7 @@ UPDATE
       cantiga_edk_participants
   ) t1
 SET
-  t.email = concat('user', t1.id, '@edk.org.pl'),
+  t.email = concat('user+', t1.id, '@edk.org.pl'),
   t.lastName = t1.lastN,
   t.firstName = t1.firstN
 WHERE
@@ -25,10 +25,12 @@ UPDATE
       cantiga_users
   ) t1
 SET
-  t.email = concat(t1.login, '@edk.org.pl'),
+  t.email = concat('login+',t1.id, '@edk.org.pl'),
   t.login = t1.login,
   t.name = t1.login,
-  t.avatar = NULL
+  t.avatar = NULL,
+  t.password = 'c0vl2Nq/4I6gOwFbH32Qe/UadsPSG5VVaVyyh4/6duQ=',
+  t.salt = 'ffda6bdf3973428d3d5d0c6521a336cb55ab7369'
 WHERE
   t.id = t1.id;
 
