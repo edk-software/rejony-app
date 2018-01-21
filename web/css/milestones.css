@@ -1,0 +1,135 @@
+
+.milestones > ul {
+	padding: 0 10px 0 10px;
+}
+
+.milestones > ul > li {
+	padding: 0 !important;
+}
+
+.milestones > div{
+	display: flex;
+	justify-content: flex-end;
+	padding:10px 10px 0 10px;
+}
+
+.milestones > div > *{
+	margin-left: 20px;
+}
+
+.milestone-header  {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.milestone-header >span {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.milestone-header > span > i{
+	margin-left: 20px;
+}
+
+.milestone-header:hover{
+	cursor:pointer;
+}
+
+#milestone_1 > .milestone-header{
+	pointer-events: none;
+}
+
+#milestone_1 > .milestone-header > span > h5{
+	margin:0;
+	font-size: 18px;
+}
+
+#milestone_1 > .milestone-header > h5 > h6{
+	margin:1px;
+}
+
+#milestone_1 > .milestone-header > span > i{
+	display: none;
+}
+
+.milestone-body-description{
+
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: bottom;
+}
+
+.milestone-body-description > span {
+	display: flex;
+	flex-direction: column;
+}
+
+.milestone-body-description > a {
+	align-self: flex-end;
+}
+
+.milestone-body-description > span > a{
+	margin-bottom: 10px;
+	margin-right: auto;
+}
+
+.milestone-body-description > .btn{
+	margin-bottom: 20px;
+}
+
+.milestone-body-description > span >p{
+	margin: 20px 0 20px 0;
+}
+
+.milestone-body-confirm{
+	display: none;
+}
+
+.milestone-body-confirm > h5{
+	margin:35px 0 35px 0;
+}
+
+.milestone-body-confirm > span{
+	display: flex;
+	justify-content: flex-end;
+}
+
+.milestone-body-confirm span > a{
+	margin: 0 0 20px 20px;
+}
+
+.milestone:not(#milestone_1) > .milestone-body{
+	display: none;
+}
+
+.milestones > ul >li:nth-child(n+6){
+	display: none;
+}
+
+.milestone-status{
+	display: none;
+}
+
+/*.milestones-show-button.show-all:after{*/
+	/*content: 'Rozwiń wszystkie';*/
+/*}*/
+
+/*.milestones-show-button.hide-all:after{*/
+	/*content: 'Ukryj zadania';*/
+/*}*/
+
+/*.milestones-ended-button.show-ended:after{*/
+	/*content: 'Pokaż zakończone';*/
+/*}*/
+
+/*.milestones-ended-button.hide-ended:after{*/
+	/*content: 'Ukryj zakończone';*/
+/*}*/
+
+
+
+

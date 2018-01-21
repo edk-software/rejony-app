@@ -216,22 +216,20 @@ class MilestoneStatusRepository
 	public function findNearestMilestones(Place $place, Project $project, $timestamp): array
 	{
 		$args = [':placeId' => $place->getId(), ':projectId' => $project->getId(), ':now' => $timestamp];
-		$pastMilestones = array_reverse($this->conn->fetchAll('SELECT m.`id`, m.`name`, m.`deadline`, s.`progress`, 0 AS `future` '
+		$milestones = array_reverse($this->conn->fetchAll('SELECT m.`id`, m.`name`, m.`description`, m.`deadline`, s.`progress`, m.`deadline` > :now AS `future`, IF(s.`completedAt` IS NULL,0,1) as completed '
 				. 'FROM `'.MilestoneTables::MILESTONE_TBL.'` m '
 				. 'INNER JOIN `'.MilestoneTables::MILESTONE_STATUS_TBL.'` s ON m.`id` = s.`milestoneId` '
-				. 'WHERE s.`entityId` = :placeId AND m.`projectId` = :projectId AND m.`deadline` < :now '
-				. 'ORDER BY m.`deadline` DESC, m.`displayOrder` DESC LIMIT 2', $args));
-		$futureMilestoneLimit = 5 - sizeof($pastMilestones);
-		$futureMilestones = $this->conn->fetchAll('SELECT m.`id`, m.`name`, m.`deadline`, s.`progress`, 1 AS `future` '
-				. 'FROM `'.MilestoneTables::MILESTONE_TBL.'` m '
-				. 'INNER JOIN `'.MilestoneTables::MILESTONE_STATUS_TBL.'` s ON m.`id` = s.`milestoneId` '
-				. 'WHERE s.`entityId` = :placeId AND m.`projectId` = :projectId AND m.`deadline` > :now '
-				. 'ORDER BY m.`deadline`, m.`displayOrder` LIMIT '.$futureMilestoneLimit, $args);
-		$final = array_merge($pastMilestones, $futureMilestones);
-		foreach ($final as &$item) {
+				. 'WHERE s.`entityId` = :placeId AND m.`projectId` = :projectId '
+				. 'ORDER BY completed DESC, future DESC, m.`deadline` DESC, s.`progress` DESC, m.`displayOrder` DESC', $args));
+		$orderId = 1;
+		foreach ($milestones as &$item) {
 			$item['progressColor'] = Milestone::getProgressColor($item['progress']);
+			$item['orderId'] = $orderId;
+			$item['hasMaterials'] = false;
+			$item['hasFaq'] = false;
+			$orderId++;
 		}
-		return $final;
+		return $milestones;
 	}
 	
 	public function isAllowed(Place $entity, HierarchicalInterface $who, $editable = false)

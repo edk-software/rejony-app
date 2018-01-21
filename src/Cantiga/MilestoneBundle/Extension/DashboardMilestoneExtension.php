@@ -57,10 +57,21 @@ class DashboardMilestoneExtension implements DashboardExtensionInterface
 	public function render(CantigaController $controller, Request $request, Workspace $workspace, Project $project = null)
 	{
 		$place = $this->membershipStorage->getMembership()->getPlace()->getPlace();
-		return $this->templating->render('CantigaMilestoneBundle:Dashboard:milestone-progress.html.twig', [
+		switch ($place->getType())
+        {
+            case 'Area':
+                $view = 'CantigaMilestoneBundle:Dashboard:area-milestone-progress.html.twig';
+                break;
+            default:
+                $view = 'CantigaMilestoneBundle:Dashboard:milestone-progress.html.twig';
+                break;
+        }
+		return $this->templating->render($view, [
 			'milestones' => $this->repository->findNearestMilestones($place, $project, time()),
 			'progress' => $this->repository->computeTotalProgress($place, $project),
 			'milestoneEditorPage' => lcfirst($place->getType()).'_milestone_editor',
+            'placeName' => $place->getName(),
+            'canUpdate' => false,
 		]);
 	}
 }

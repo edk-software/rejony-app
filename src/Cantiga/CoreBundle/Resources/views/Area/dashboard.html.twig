@@ -46,6 +46,7 @@
     {{ parent() }}
 	<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 	<script src="{{ asset('js/chatbox.js') }}"></script>
+	<script src="{{ asset('js/milestones.js') }}"></script>
 {% endblock %}
 {% block javascripts_inline %}
 	<script type="text/javascript">
@@ -62,4 +63,8 @@
         });
 	</script>
 {% endblock %}
+    {% block stylesheets %}
+        {{ parent() }}
+		<link rel="stylesheet" href="{{ asset('css/milestones.css') }}"/>
+    {% endblock %}
 
