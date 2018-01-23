@@ -1,0 +1,40 @@
+{% extends 'CantigaCoreBundle:layout:list-layout.html.twig' %}
+
+{% block data_filter %}
+	{% include 'CantigaCoreBundle:Filter:area-filter.html.twig' with { 'filter': filter, 'filterForm': filterForm } only %}
+{% endblock %}
+
+{% block column_list %}
+<tr>
+	<th width="30" data-priority="1">#</th>
+	<th data-priority="0">{{ 'Name' | trans }}</th>
+	<th width="80" data-priority="2">{{ 'Status' | trans }}</th>
+	<th width="80" data-priority="3">{{ 'Date' | trans }}</th>
+	<th width="80" data-priority="3">{{ 'Contract' | trans }}</th>
+	<th width="80" data-priority="3">{{ 'Stationary training' | trans([],'edk')}}</th>
+	<th width="80" data-priority="3">{{ 'Online test' | trans }}</th>
+	<th width="80" data-priority="3">{{ 'Profile' | trans }}</th>
+	<th width="10" data-priority="3"><i class="fa fa-map-signs text-blue" data-toggle="tooltip" title="{{ 'Route Count' | trans([],'edk') }}"></i></th>
+	<th width="10" data-priority="3"><i class="fa fa-check text-green" data-toggle="tooltip" title="{{ 'Route Approved' | trans([],'edk') }}"></i></th>
+	<th width="10" data-priority="3"><i class="fa fa-map-marker text-blue" data-toggle="tooltip" title="{{ 'GPS Count' | trans([],'edk') }}"></i></th>
+	<th width="10" data-priority="3"><i class="fa fa-map-marker text-green" data-toggle="tooltip" title="{{ 'GPS Approved' | trans([],'edk') }}"></i></th>
+	<th width="10" data-priority="3"><i class="fa fa-file-pdf-o text-blue" data-toggle="tooltip" title="{{ 'Description Count' | trans([],'edk') }}"></i></th>
+	<th width="10" data-priority="3"><i class="fa fa-file-pdf-o text-green" data-toggle="tooltip" title="{{ 'Description Approved' | trans([],'edk') }}"></i></th>
+	<th width="10" data-priority="3"><i class="fa fa-map text-blue" data-toggle="tooltip" title="{{ 'Map Count' | trans([],'edk') }}"></i></th>
+	<th width="10" data-priority="3"><i class="fa fa-map text-green" data-toggle="tooltip" title="{{ 'Map Approved' | trans([],'edk') }}"></i></th>
+	<th width="10" data-priority="3"><i class="fa fa-star text-yellow" data-toggle="tooltip" title="{{ 'Route Certification' | trans([],'edk') }}"></i></th>
+	<th width="120" data-priority="0">{{ 'Actions' | trans({}, 'general') }}</th>
+</tr>
+{% endblock %}
+
+{% block custom_datatable_config %}
+	ajax: "{{ spath(ajaxListPage, filter.createParamArray()) | raw }}",
+	columnDefs: [
+		{{ dt_col_label(dataTable, 'status', 'statusName', 'statusLabel') }}
+    	{{ dt_col_boolean(dataTable, 'contract') }}
+    	{{ dt_col_boolean(dataTable, 'stationaryTraining') }}
+		{{ dt_actions(dataTable, [
+			{ 'link': 'info_link', 'name': 'Info' | trans({}, 'general'), 'label': 'btn-primary' }
+		]) }}
+	]
+{% endblock %}

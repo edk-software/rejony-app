@@ -267,4 +267,16 @@ return [
 	'ShowingOnlyRegisteredViaOurSystemText' => 'Wykres pokazuje tylko ludzi zapisanych przez system zapisów EDK. Liczby uczestników zapisanych innymi kanałami nie są tu uwzględniane.',
 	'EditorStartTypingPlaceholder' => 'Kliknij tutaj i zacznij pisać...',	
 	'EditorFormattingHint' => 'Zaznacz tekst lub kliknij podwójnie na słowie, aby dodać formatowanie.',
+
+    'Stationary training' => 'Szkolenie',
+    'Online test' => 'Testy',
+    'Route Count' => 'Wszystkie trasy',
+    'Route Approved' => 'Zatwierdzone trasy',
+    'GPS Count' => 'Wprowadzone ślady',
+    'GPS Approved' => 'Zatwierdzone ślady',
+    'Description Count' => 'Wprowadzone opisy',
+    'Description Approved' => 'Zatwierdzone opisy',
+    'Map Count' => 'Wprowadzone mapy',
+    'Map Approved' => 'Zatwierdzone mamy',
+    'Route Certification' => 'Trasy certyfikowane',
 ];

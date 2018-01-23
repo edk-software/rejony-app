@@ -20,6 +20,9 @@ services:
     wio.edk.repo.participant:
         class:     WIO\EdkBundle\Repository\EdkParticipantRepository
         arguments: ["@database_connection", "@cantiga.transaction", "@event_dispatcher", "@cantiga.time"]
+    wio.edk.repo.area_summary:
+        class:     WIO\EdkBundle\Repository\AreaSummaryRepository
+        arguments: ["@database_connection", "@cantiga.transaction", "@cantiga.time", "@event_dispatcher", "@cantiga.roles"]
     wio.edk.extension.area_information_map:
         class:     WIO\EdkBundle\Extension\AreaInformationMapExtension
         arguments: ["@templating"]
