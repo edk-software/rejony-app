@@ -88,6 +88,7 @@ return array(
 	'StationaryCourseDetailsLabel' => 'Uwagi',
 	'StationaryCourseDetailsHelp' => 'Pozostałe uwagi dotyczące szkolenia. Jeśli na szkolenie przyjeżdża kilka osób wpisz, czy ich dieta różni się od wybranej wcześniej.',
 	'StationaryCourseInformationText'=>'Szkolenie stacjonarne jest obowiązkowym elementem dla lidera rejonu. Poniższe dane stanowią zgłoszenie na szkolenie stacjonarne. Opłatę za szkolenie w wysokości 30zł należy uiścić do 3 dni przed wybranym terminem szkolenia. Dane do przelewu znajdują się na stronie głównej.',
+    'Online course' => 'szkolenie zdalne - rejon zagraniczny',
 
     'Experienced Leader' => 'nie będę uczestniczył - byłem liderem w zeszłym roku. Doświadczenie lidera weterana jest bardzo cenne dla nowych liderów. Szkolenia stacjonarne służyć mają także wymianie doświadczeń i rozwojowi projektu, dlatego zachęcamy Cię do wzięcia w nich udziału.',
 

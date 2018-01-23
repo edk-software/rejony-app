@@ -22,8 +22,27 @@ return array(
 	'ThreeBiggestSuccessesFormLabel' => 'Describe your three biggest successes related to work/hobby/volunteering, including one that was exceptionally hard to you.',	
 	'ProjectMgmtExperiencesHelp' => 'Take a broad perspective: experiences from your studies, school, work, etc. (max. 400 characters)',
 	'Max400Chars' => 'Max. 400 characters',
+    'Max10000' => 'Max. 10 000',
 	
 	'RouteLengthHistogram' => 'Route length histogram',
 	'RouteAscentHistogram' => 'Route ascent histogram',
 	'ImportRoutesQuestionText' => 'Do you want to import the missing routes and their files from the previous project?',
+
+    'IsParticipantFormLabel' => 'Have you walked EWC?',
+    'EWCMeaningFormLabel' => 'What does EWC means to you? how do you understand it?',
+    'IsAreaCreatedFormLabel' => 'Have you created the region of the Extreme Way of the Cross before?',
+    'WhyCreatingAreaFormLabel' => '',
+    'ProjectMgmtFormLabel' => 'Describe your managment skills shortly.',
+    'ParticipantCountFormLabel' => 'What number of participants do you expect in your region?',
+
+    'StationaryCoursePreferenceLabel' => 'Course type',
+    'StationaryCoursePersonLabel' => 'Name and surname of persons participating in the training',
+    'StationaryCoursePersonPlace' => 'Anna Nowak; Michał Nowak',
+    'StationaryCoursePersonHelp' => '',
+    'StationaryCourseDietLabel' => 'Diet',
+    'StationaryCourseDetailsLabel' => 'Remarks',
+    'StationaryCourseDetailsHelp' => '',
+    'StationaryCourseInformationText'=>'',
+    'Online course' => 'Course on-line',
+
 );

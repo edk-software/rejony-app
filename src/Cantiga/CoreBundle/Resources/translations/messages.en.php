@@ -36,6 +36,11 @@ return array(
 	'E-mail' => 'E-mail',
 	'Phone number' => 'Phone number',
 	'CustomTextDisplayedToThisRequest' => 'Text displayed under the feedback box in the requests with this status:',
+
+
+    'PlaceholderName' => 'e.g. London',
+    'Lat' => 'Lattitude',
+    'Lng' => 'Longitude',
 	
 	// Project area
 	'GroupUnassigned' => 'Unassigned',

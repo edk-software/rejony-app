@@ -234,7 +234,7 @@ class AreaRequestModel2018 implements CustomFormModelInterface
             3 => '10.02.2018 - Wrocław - szkolenie stacjonarne',
             4 => '10.02.2018 - Warszawa - szkolenie stacjonarne',
             5 => '17.02.2018 - Kraków - szkolenie stacjonarne',
-            6 => 'szkolenie zdalne - rejon zagraniczny',
+            6 => 'Online course',
             7 => 'Experienced Leader',
         ];
 	}

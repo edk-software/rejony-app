@@ -9,6 +9,7 @@ return [
 	'Note' => 'Note',
 	'Phone number' => 'Phone number',
 	'See profile' => 'See profile',
+    'RoleHint' => 'Enter your role here',
 	
 	'The credentials have been changed.' => 'The credentials have been changed.',
 	'There is no such credentials set to update.' => 'There is no such credentials set to update.',
