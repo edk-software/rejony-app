@@ -43,6 +43,10 @@
 							<td width="30%">{{ 'Deadline' | trans }}</td>
 							<td>{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.deadline) }}</td>
 						</tr>
+						<tr>
+							<td width="30%">{{ 'IsRequire' | trans }}</td>
+							<td>{{item.isRequire }}</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

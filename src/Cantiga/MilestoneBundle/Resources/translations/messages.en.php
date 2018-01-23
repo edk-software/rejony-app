@@ -3,6 +3,7 @@ return [
 	'Deadline' => 'Deadline',
 	'Where shown?' => 'Where shown?',
 	'Display order' => 'Display order',
+    'IsRequire' => 'Require milestone',
 	'The milestone \'0\' has been created.' => 'The milestone \'0\' has been created.',
 	'The milestone \'0\' has been updated.' => 'The milestone \'0\' has been updated.',
 	'The milestone \'0\' has been removed.' => 'The milestone \'0\' has been removed.',

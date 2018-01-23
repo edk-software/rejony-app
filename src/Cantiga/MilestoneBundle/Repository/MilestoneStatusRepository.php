@@ -194,7 +194,7 @@ class MilestoneStatusRepository
 	{
 		$this->transaction->requestTransaction();
 		try {
-			$stmt = $this->conn->prepare('SELECT m.`id`, m.`name`, m.`type`, m.`description`, m.`deadline`, s.`progress`, s.`completedAt` '
+			$stmt = $this->conn->prepare('SELECT m.`id`, m.`name`, m.`type`, m.`description`, m.`deadline`, m.`isRequire`, s.`progress`, s.`completedAt` '
 				. 'FROM `'.MilestoneTables::MILESTONE_TBL.'` m '
 				. 'INNER JOIN `'.MilestoneTables::MILESTONE_STATUS_TBL.'` s ON m.`id` = s.`milestoneId` '
 				. 'WHERE s.`entityId` = :entityId AND m.`projectId` = :projectId  '

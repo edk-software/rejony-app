@@ -28,8 +28,11 @@
 					<div class="col-lg-6 col-xs-12">
 						{{ form_row(form.displayOrder) }}
 					</div>
-					<div class="col-lg-6 col-xs-12">
+					<div class="col-lg-3 col-xs-12">
 						{{ form_row(form.deadline) }}
+					</div>
+					<div class="col-lg-3 col-xs-12">
+                        {{ form_row(form.isRequire) }}
 					</div>
 				</div>
 			</div>
@@ -40,4 +43,7 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+{% block javascripts_inline %}
+    {{ use_icheck() }}
 {% endblock %}

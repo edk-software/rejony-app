@@ -18,6 +18,7 @@
  */
 namespace Cantiga\MilestoneBundle\Form;
 
+use Cantiga\CoreBundle\Form\Type\BooleanType;
 use Cantiga\MilestoneBundle\Entity\Milestone;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -52,6 +53,7 @@ class MilestoneForm extends AbstractType
 		}
 		$builder
 			->add('deadline', DateType::class, array('label' => 'Deadline', 'input' => 'timestamp', 'required' => false))
+            ->add('isRequire', BooleanType::class, ['label' => 'IsRequire'])
 			->add('save', SubmitType::class, ['label' => 'Save', 'translation_domain' => 'general']);
 	}
 

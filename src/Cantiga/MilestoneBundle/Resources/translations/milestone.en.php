@@ -6,6 +6,7 @@ return [
 	'Milestone' => 'Milestone',
 	'Progress' => 'Progress',
 	'Deadline' => 'Deadline',
+    'IsRequire' => 'Require milestone',
 	'Completed at' => 'Completed at',
 	'Complete' => 'Complete',
 	'Update' => 'Update',

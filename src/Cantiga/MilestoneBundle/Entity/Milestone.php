@@ -52,6 +52,7 @@ class Milestone implements IdentifiableInterface, InsertableEntityInterface, Edi
 	private $type;
 	private $entityType;
 	private $deadline;
+	private $isRequire;
 	
 	public static function fetchByProject(Connection $conn, $id, Project $project)
 	{
@@ -156,9 +157,20 @@ class Milestone implements IdentifiableInterface, InsertableEntityInterface, Edi
 		return $this->deadline;
 	}
 
-	public function setProject(Project $project)
+    public function getIsRequire()
+    {
+        return $this->isRequire;
+    }
+
+    public function setProject($project)
+    {
+        $this->project = $project;
+        return $this;
+    }
+
+	public function setIsRequire($value)
 	{
-		$this->project = $project;
+		$this->isRequire = $value;
 		return $this;
 	}
 
@@ -232,7 +244,7 @@ class Milestone implements IdentifiableInterface, InsertableEntityInterface, Edi
 	{
 		$conn->insert(
 			MilestoneTables::MILESTONE_TBL,
-			DataMappers::pick($this, ['name', 'description', 'project', 'displayOrder', 'type', 'entityType', 'deadline'])
+			DataMappers::pick($this, ['name', 'description', 'project', 'displayOrder', 'type', 'entityType', 'isRequire','deadline'])
 		);
 		$this->id = $conn->lastInsertId();
 		
@@ -268,7 +280,7 @@ class Milestone implements IdentifiableInterface, InsertableEntityInterface, Edi
 	{		
 		return $conn->update(
 			MilestoneTables::MILESTONE_TBL,
-			DataMappers::pick($this, ['name', 'description', 'displayOrder', 'type', 'deadline']),
+			DataMappers::pick($this, ['name', 'description', 'displayOrder', 'type', 'isRequire', 'deadline']),
 			DataMappers::pick($this, ['id'])
 		);
 	}
@@ -425,6 +437,7 @@ class Milestone implements IdentifiableInterface, InsertableEntityInterface, Edi
 			'name' => $this->name,
 			'description' => $this->description,
 			'deadline' => $this->deadline,
+			'isRequire' => $this->isRequire,
 			'type' => $this->type,
 			'progress' => $progress,
 			'completedAt' => $completedAt

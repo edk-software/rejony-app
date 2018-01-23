@@ -157,6 +157,7 @@
 			tr.append($('<td/>').append(milestone['name']));
 			tr.append($('<td/>').append('<div class="progress progress-xs">'+renderProgressBar(milestone['progress'])+'</div>'));
 			tr.append($('<td/>').append(renderLabel(milestone['progress'])));
+			tr.append($('<td style="text-align: center" />').append(renderBoolean(milestone['isRequire'])));
 			tr.append($('<td/>').append(milestone['deadline']));
 			tr.append($('<td/>').append(milestone['completedAt']));
 			
@@ -215,7 +216,13 @@
 				return '<span class="badge bg-green">'+progress+'%</span>';
 			}
 		}
-		
+
+		function renderBoolean(value) {
+			if(value ==1){
+				return '<span class="glyphicon glyphicon-ok"></span>';
+			}
+			else return '';
+        }
 		function getSelectedItem() {
 			if (opts['selector']) {
 				return root.find('#selectItem').val();
