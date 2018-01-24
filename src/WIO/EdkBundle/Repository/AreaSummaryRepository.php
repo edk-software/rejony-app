@@ -106,16 +106,11 @@ class AreaSummaryRepository implements EntityTransformerInterface
             ->column('course', 'c.passedCourseNum')
 			->column('percentCompleteness', 'i.percentCompleteness')
 			->column('routesCount', 'r.routesCount')
-            ->column('routesApproved', 'r.routesApproved')
             ->column('gpsCount', 'r.gpsCount')
-            ->column('gpsApproved', 'r.gpsApproved')
             ->column('descriptionCount', 'r.descriptionCount')
-            ->column('descriptionApproved', 'r.descriptionApproved')
             ->column('mapCount', 'r.mapCount')
-            ->column('mapApproved', 'r.mapApproved')
+            ->column('routesApproved', 'r.routesApproved')
             ->column('routesCertification', 'r.routesCertification');
-
-		
 		return $dt;
 	}
 	
@@ -137,11 +132,8 @@ class AreaSummaryRepository implements EntityTransformerInterface
 			->field('r.routesCount', 'routesCount')
 			->field('r.routesApproved', 'routesApproved')
             ->field('r.gpsCount', 'gpsCount')
-            ->field('r.gpsApproved', 'gpsApproved')
             ->field('r.descriptionCount', 'descriptionCount')
-            ->field('r.descriptionApproved', 'descriptionApproved')
             ->field('r.mapCount', 'mapCount')
-            ->field('r.mapApproved', 'mapApproved')
             ->field('r.routesCertification', 'routesCertification')
 			->from(CoreTables::AREA_TBL, 'i')
 			->join(CoreTables::AREA_STATUS_TBL, 's', QueryClause::clause('i.statusId = s.id'))
@@ -169,8 +161,12 @@ class AreaSummaryRepository implements EntityTransformerInterface
 		$qb->postprocess(function($row) use($translator) {
 			$row['statusName'] = $translator->trans($row['statusName'], [], 'statuses');
 			$row['percentCompleteness'] .= '%';
-			$row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_DATE_LONG, $row['eventDate']);
 			$row['course'] = $row['passedCourse'].'/'.$row['mandatoryCourse'];
+            if (!empty($row['eventDate'])) {
+                $row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_DATE_LONG, $row['eventDate']);
+            } else {
+                $row['eventDate'] = '---';
+            }
 			return $row;
 		});
 		$dataTable->processQuery($qb);

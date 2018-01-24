@@ -149,7 +149,11 @@ class AreaMgmtRepository implements EntityTransformerInterface
 		$qb->postprocess(function($row) use($translator) {
 			$row['statusName'] = $translator->trans($row['statusName'], [], 'statuses');
 			$row['percentCompleteness'] .= '%';
-			$row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_DATE_LONG, $row['eventDate']);
+            if (!empty($row['eventDate'])) {
+                $row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_DATE_LONG, $row['eventDate']);
+            } else {
+                $row['eventDate'] = '---';
+            }
 			return $row;
 		});
 		$dataTable->processQuery($qb);
