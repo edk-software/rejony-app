@@ -1,7 +1,7 @@
 <?php
 return array(
 	'Deadline' => 'Termin ukończenia',
-    'IsRequire'=> 'Zadanie obowiązkowe',
+    'IsRequire'=> 'Obowiązkowe',
 	'Where shown?' => 'Gdzie pokazywany?',
 	'Display order' => 'Kolejność pokazywania',
 	'The milestone \'0\' has been created.' => 'Zadanie "0" zostało utworzone.',

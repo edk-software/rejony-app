@@ -6,6 +6,7 @@ return [
 	'Milestone' => 'Zadanie',
 	'Progress' => 'Postęp',
 	'Deadline' => 'Termin ukończenia',
+    'IsRequire' => 'Obowiązkowe',
 	'Completed at' => 'Ukończono',
 	'Complete' => 'Zrobione',
 	'Update' => 'Zaktualizuj',
