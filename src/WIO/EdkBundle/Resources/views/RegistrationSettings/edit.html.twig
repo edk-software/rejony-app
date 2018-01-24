@@ -42,16 +42,16 @@
 			</div>
 		</div>
 	</fieldset>
-	<fieldset>
-		<legend>{{ 'Registration via external website' | trans([], 'edk') }}</legend>
-		<p>{{ 'RegistrationViaExternalWebsiteText' | trans([], 'edk') }}</p>
-		<div class="row">
-			<div class="col-md-6 col-xs-12">
-				{{ form_row(form.externalRegistrationUrl) }}
-			</div>
-		</div>
-	</fieldset>
-	<p>{{ 'OtherRegistrationTypesText' | trans([], 'edk') }}</p>
+	{#<fieldset>#}
+		{#<legend>{{ 'Registration via external website' | trans([], 'edk') }}</legend>#}
+		{#<p>{{ 'RegistrationViaExternalWebsiteText' | trans([], 'edk') }}</p>#}
+		{#<div class="row">#}
+			{#<div class="col-md-6 col-xs-12">#}
+				{#{{ form_row(form.externalRegistrationUrl) }}#}
+			{#</div>#}
+		{#</div>#}
+	{#</fieldset>#}
+	{#<p>{{ 'OtherRegistrationTypesText' | trans([], 'edk') }}</p>#}
 	{{ form_end(form) }}
 {% endblock %}
 

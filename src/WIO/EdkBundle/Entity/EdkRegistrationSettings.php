@@ -118,8 +118,8 @@ class EdkRegistrationSettings implements IdentifiableInterface, EditableEntityIn
 		return [
 			'RegistrationTypeNo' => self::TYPE_NO,
 			'RegistrationTypeEdkWebsite' => self::TYPE_EDK_WEBSITE,
-			'RegistrationTypeOtherWebsite' => self::TYPE_OTHER_WEBSITE,
-			'RegistrationTypeOther' => self::TYPE_OTHER,
+			//'RegistrationTypeOtherWebsite' => self::TYPE_OTHER_WEBSITE,
+			//'RegistrationTypeOther' => self::TYPE_OTHER,
 			'RegistrationTypeClosed' => self::TYPE_CLOSED
 		];
 	}

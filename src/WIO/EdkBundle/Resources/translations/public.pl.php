@@ -50,7 +50,7 @@ return [
 	'HowManyTimesField' => 'Ile razy byłeś do tej pory na EDK?',
 	'WhyParticipateField' => 'Dlaczego chcesz przejść EDK?',
 	'Additional information' => 'Dodatkowe informacje',
-	'NumberRegisteredPeopleField' => 'Liczba zapisywanych osób',
+	'NumberRegisteredPeopleField' => 'Liczba zarejestrowanych osób',
 	'NumberRegisteredPeopleHintText' => 'Od 1 do maksymalnej ilości osób w zgłoszeniu ustawionej dla tej trasy.',
 	'Legal issues' => 'Zgody',
 	'Register' => 'Wyślij',
@@ -63,7 +63,7 @@ return [
 	'Ascent' => 'Suma podejść',
 	'Other obstacles' => 'Inne utrudnienia',
 	'Estimated number of participants' => 'Przewidywana liczba uczestników',
-	'Registered participants' => 'Zapisanych uczestników',
+	'Registered participants' => 'Zarejestrowanych uczestników',
 	
 	'EmailNotRequiredHelpText' => 'E-mail nie jest obowiązkowy przy dodawaniu uczestnika przez Panel.',	
 	'AgeHelpText' => 'Podawanie powyżej wieku służy jedynie celom statystycznym. Należy pamiętać, że osoby niepełnoletnie przebywaja pod władzą rodzicielską i ich wyruszenie na EDK może odbywać się wyłącznieza zgodą opiekunów prawnych.',
@@ -90,14 +90,14 @@ return [
 
 	'Thank you!' => 'Dziękujemy!',
 	'Your access code' => 'Twój kod dostępu',
-	'RegistrationSuccessfulText' => 'Dziękujemy, udało Ci się zapisać na EDK! Na podany adres e-mail zostało wysłane potwierdzenie, przypomnienie o najważniejszych zasadach EDK oraz informacje o wybranej trasie.',
+	'RegistrationSuccessfulText' => 'Dziękujemy, udało Ci się zarejestrować na EDK! Na podany adres e-mail zostało wysłane potwierdzenie, przypomnienie o najważniejszych zasadach EDK oraz informacje o wybranej trasie.',
 	'AccessKeyInformation' => 'W bardzo rzadkich przypadkach może się zdarzyć, że potwierdzenie nie dojdzie. Dlatego zapisz sobie poniższy kod - umożliwi Ci on sprawdzenie informacji o Twoim zgłoszeniu.',
 	'UnregisterNotificationText' => 'Jeśli rezygnujesz z udziału w EDK, prosimy pamiętać o anulowaniu zgłoszenia przy pomocy odnośnika w mailu lub powyższego kodu.',
 	'ThisIsInspiredWayText' => 'To jest trasa "na wzór EDK". Oznacza to, że nie spełnia ona wszystkich standardów prawdziwej EDK, np. jest zbyt krótka, zbyt łatwa.',
-	'RegistrationOverErrorMsg' => 'Przykro nam, ale wygląda na to, że właśnie skończyły się miejsca na wybranej przez Ciebie trasie albo minął czas zapisów.',
+	'RegistrationOverErrorMsg' => 'Przykro nam, ale wygląda na to, że właśnie przekroczono limit rejestracji na wybranej przez Ciebie trasie albo minął czas rejestracji.',
 	
 	'Check your registration' => 'Sprawdź swoje zgłoszenie',
-	'CheckYourRegistrationText' => 'Jeżeli nie dostałeś lub zgubiłeś e-mail z potwierdzeniem zapisania się, możesz wciąż sprawdzić jego stan, o ile masz zapisany kod dostępu, który wyświetlił Ci się tuż po dokonaniu zapisu. Możesz tutaj także usunąć swoje zgłoszenie.',
+	'CheckYourRegistrationText' => 'Jeżeli nie dostałeś lub zgubiłeś e-mail z potwierdzeniem rejestracji, możesz wciąż sprawdzić jego stan, o ile masz zapisany kod dostępu, który wyświetlił Ci się tuż po dokonaniu zapisu. Możesz tutaj także usunąć swoje zgłoszenie.',
 	'I want to check my status' => 'Chcę sprawdzić status mojego zgłoszenia',
 	'I want to remove my request' => 'Chcę usunąć moje zgłoszenie',
 	'Execute' => 'Wykonaj',
@@ -107,9 +107,9 @@ return [
 	'Route' => 'Trasa',
 	'Registration date' => 'Data zgłoszenia',
 	
-	'There is no registration for this route available.' => 'Dla tej trasy zapisy nie są włączone.',
+	'There is no registration for this route available.' => 'Dla tej trasy rejestracja nie jest włączona.',
 	
-	'RequestRemovedMsg' => 'Twoje zgłoszenie zostało usunięte z listy zapisanych.',
+	'RequestRemovedMsg' => 'Twoje zgłoszenie zostało usunięte z listy zarejestorwanych.',
 	'ParticipantNotFoundErrMsg' => 'Przepraszamy, ale podane zgłoszenie nie zostało znalezione.',
 	
 	'BeginningInformationNotPublishedYet' => 'Ten rejon nie opublikował jeszcze żadnych informacji na temat rozpoczęcia EDK.',

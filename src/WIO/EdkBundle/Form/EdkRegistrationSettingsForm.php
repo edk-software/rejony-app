@@ -62,7 +62,7 @@ class EdkRegistrationSettingsForm extends AbstractType
 				'model_timezone' => 'UTC',
 				'required' => false
 			))
-			->add('externalRegistrationUrl', UrlType::class, ['label' => 'External registration URL', 'attr' => ['help_text' => 'ExternalRegistrationUrlHint'], 'required' => false])
+			//->add('externalRegistrationUrl', UrlType::class, ['label' => 'External registration URL', 'attr' => ['help_text' => 'ExternalRegistrationUrlHint'], 'required' => false])
 			->add('externalParticipantNum', NumberType::class, ['label' => 'Number of participants registered externally', 'attr' => ['help_text' => 'ExternalParticipantNumHint'], 'required' => false])
 			->add('participantLimit', NumberType::class, array('label' => 'Expected number of participants', 'required' => false))
 			->add('allowLimitExceed', BooleanType::class, array('label' => 'Allow exceeding the participant limit', 'attr' => array('help_text' => 'AllowLimitExceedHint'), 'required' => false))

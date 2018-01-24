@@ -113,7 +113,7 @@ return array(
 	'The extension of the uploaded map is invalid.' => 'Rozszerzenie wgranego pliku z mapą jest nieprawidłowe (używaj małych liter).',
 	'The extension of the uploaded description is invalid.' => 'Rozszerzenie wgranego pliku z opisem jest nieprawidłowe (używaj małych liter).',
 	
-	'The registration settings \'0\' have been updated.' => 'Ustawienia zapisów trasy "0" zostały zmienione.',
+	'The registration settings \'0\' have been updated.' => 'Ustawienia rejestracji trasy "0" zostały zmienione.',
 	
 	'The participant \'0\' has been created.' => 'Uczestnik "0" został dodany.',
 	'The participant \'0\' has been updated.' => 'Dane uczestnika "0" zostały zmienione.',
