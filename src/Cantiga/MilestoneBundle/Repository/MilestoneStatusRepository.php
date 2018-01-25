@@ -225,13 +225,25 @@ class MilestoneStatusRepository
 		foreach ($milestones as &$item) {
 			$item['progressColor'] = Milestone::getProgressColor($item['progress']);
 			$item['orderId'] = $orderId;
-			$item['hasMaterials'] = false;
+			$materials = $this->getMilestoneMaterials($item['id']);
+			$item['hasMaterials'] = !empty($materials);
+			$item['materials'] = $materials;
 			$item['hasFaq'] = false;
 			$orderId++;
 		}
 		return $milestones;
 	}
-	
+	private function getMilestoneMaterials($milestoneId)
+    {
+        $args = [':milestoneId' => $milestoneId];
+        $materials = array_reverse($this->conn->fetchAll('SELECT m.`id`, m.`name`, m.`description`, c.`url`, c.`materialType`, c.`description` '
+            . 'FROM `'.MilestoneTables::MILESTONE_MATERIALS_TBL.'` c '
+            . 'LEFT JOIN `cantiga_materials_file` m ON m.`id` = c.`materialId` '
+            . 'WHERE c.`milestoneId` = :milestoneId '
+            . 'ORDER BY c.priority', $args));
+        return $materials;
+    }
+
 	public function isAllowed(Place $entity, HierarchicalInterface $who, $editable = false)
 	{
 		$this->transaction->requestTransaction();

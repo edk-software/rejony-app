@@ -72,6 +72,8 @@ class DashboardMilestoneExtension implements DashboardExtensionInterface
 			'milestoneEditorPage' => lcfirst($place->getType()).'_milestone_editor',
             'placeName' => $place->getName(),
             'canUpdate' => false,
+            'slug' => $this->membershipStorage->getMembership()->getPlace()->getSlug(),
+            'fileRouteName' => 'area_materials_file',
 		]);
 	}
 }

@@ -30,17 +30,28 @@
 										<span>
 										<p>{{ milestone.description }}</p>
                                             {% if milestone.hasFaq %}
-                                                <a href="#"><i class="fa fa-question-circle"
-                                                               aria-hidden="true"></i> {{ 'Milestone questions' | trans([], 'milestone') }}</a>
+                                                <h5><i class="fa fa-question-circle"
+                                                               aria-hidden="true"></i> {{ 'Milestone questions' | trans([], 'milestone') }}</h5>
                                             {% endif %}
                                             {% if milestone.hasMaterials %}
-                                                <a href="#"><i class="fa fa-cloud-download"
-                                                               aria-hidden="true"></i> {{ 'Milestone materials' | trans([], 'milestone') }}</a>
+                                                <h5><i class="fa fa-cloud-download"
+                                                               aria-hidden="true"></i> {{ 'Milestone materials' | trans([], 'milestone') }}</h5>
+                                                {% for material in milestone.materials %}
+                                                {% if material.materialType == 0 %}
+                                                <a href="{{ path(fileRouteName, {id: material.id, slug: slug}) }}">
+                                                    {{ material.name }}
+                                                </a>
+                                                    {% else %}
+                                                    <a href="{{ material.url}}" target="_blank">
+                                                    {{ material.description}}
+                                                </a>
+                                                    {% endif %}
+                                                {% endfor %}
                                             {% endif %}
 										</span>
                                     {% if canUpdate %}
-                                        <a href="#"
-                                           class="btn btn-success milestones-confirm-button">{{ 'Complete' | trans([], 'milestone') }}</a>
+                                        <h5 href="#"
+                                           class="btn btn-success milestones-confirm-button">{{ 'Complete' | trans([], 'milestone') }}</h5>
                                     {% endif %}
                                 </div>
                                 {% if canUpdate %}
