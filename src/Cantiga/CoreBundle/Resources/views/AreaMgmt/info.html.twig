@@ -9,15 +9,17 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="row" id="ppp">
-        <div class="col-md-7 col-sm-6 col-xs-12">
-
-            <div class="box">
-                <div class="box-header">
-                    <h4 class="box-title">{{ item.name }} <span
-                                class="label label-{{ item.status.label }}">{{ item.status.name | trans({}, 'statuses') }}</span>
-                    </h4>
-                    <div class="pull-right box-tools">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ item.name }}</h3>
+                    <div class="box-tools pull-right">
+                        <a href="{{ spath('area_mgmt_index') }}" class="btn btn-default btn-sm">
+                            <i class="fa fa-fa-arrow-circle-o-left"></i> {{ 'Back' | trans([], 'general') }}
+                        </a>
+                        <a class="btn btn-primary btn-sm" href="{{ spath('area_mgmt_edit', {'id': item.id }) }}"><i
+                                    class="fa fa-pencil"></i> {{ 'Edit' | trans({}, 'general') }}</a>
                         <div class="btn-group">
                             <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"
                                     aria-expanded="false">
@@ -26,56 +28,67 @@
                                 <li>
                                     <a href="{{ spath('downstream_membership_index', {'id': item.id, 'placeType': 'area' }) }}">{{ 'Members' | trans({}, 'general') }}</a>
                                 </li>
-                                <li>
-                                    <a href="{{ spath('area_mgmt_edit', {'id': item.id }) }}">{{ 'Edit' | trans({}, 'general') }}</a>
-                                </li>
                                 {{ macro.render_context_menu(custom.links) }}
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="{{ spath('area_mgmt_index') }}">{{ 'Back' | trans([], 'general') }}</a>
-                                </li>
 
                             </ul>
                         </div>
+
                     </div>
                 </div>
-                <div class="box-body">
-                    <div class="col-md-6 no-padding">
-                        <strong><i class="fa fa-globe margin-r-5"></i> {{ 'Territory' | trans }}</strong>
-                        <p class="text-muted">{{ item.territory.name }}</p>
-                        <hr>
-                        <strong><i class="fa fa-user margin-r-5"></i> {{ 'Member number' | trans }}</strong>
-                        <p class="text-muted">{{ item.place.memberNum }}</p>
+                <div class="box-body no-padding">
+                    <div class="col-lg-3 col-md-6">
+                        <strong><i class="fa fa-calendar margin-r-5"></i> {{ 'Extreme Way date' | trans([], 'public') }}</strong>
+                        <p>{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.eventDate) }}</p>
+
                     </div>
-                    <div class="col-md-6 no-padding">
-                        <strong><i class="fa fa-flag-o margin-r-5"></i> {{ 'Group' | trans }}</strong>
-                        <p class="text-muted">
+                    <div class="col-lg-3 col-md-6">
+                        <p>
+                            <strong><i class="fa fa-globe"></i> {{ 'Territory' | trans }}</strong>
+                            {{ item.territory.name }}
+                        </p>
+                        <p>
+                            <strong><i class="fa fa-flag-o"></i> {{ 'Group' | trans }}</strong>
                             {% if item.group %}<a
                                 href="{{ spath('group_mgmt_info', {'id': item.group.id}) }}">{{ item.group.name }}</a>
                             {% else %}
                                 <em>{{ 'GroupUnassigned' | trans }}</em>
                             {% endif %}
                         </p>
-                        <hr>
-                        <strong>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <p>
+                            <strong><i class="fa fa-graduation-cap"></i> {{ 'Stationary Training' | trans }} </strong>
                             {% if item.stationaryTraining %}
-                                <i class="fa fa-check margin-r-5"></i>
+                                <i class="fa fa-check"></i>
                             {% else %}
-                                <i class="fa fa-close margin-r-5"></i>
+                                <i class="fa fa-close"></i>
                             {% endif %}
-                            {{ 'Stationary Training' | trans }}
-                        </strong><br>
-                        <strong>
+
+                        </p>
+                        <p>
+                            <strong><i class="fa fa-file-text"></i> {{ 'Contract' | trans }}</strong>
                             {% if item.contract %}
-                                <i class="fa fa-check margin-r-5"></i>
+                                <i class="fa fa-check"></i>
                             {% else %}
-                                <i class="fa fa-close margin-r-5"></i>
+                                <i class="fa fa-close"></i>
                             {% endif %}
-                            {{ 'Contract' | trans }}
-                        </strong>
+                        </p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 no-padding">
+                        <div class="info-box bg-{{ item.status.label }} no-margin">
+                            <span class="info-box-icon"><i class="fa fa-home"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ 'Status' | trans({}, 'general') }}</span>
+                                <span class="progress-description">{{ item.status.name | trans({}, 'statuses') }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row" id="ppp">
+        <div class="col-md-7 col-sm-6 col-xs-12">
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -120,7 +133,9 @@
         <div class="col-lg-5 col-xs-12">
             {{ macro.chat_box('Chat' | trans, 'feedback', 'true') }}
         </div>
-        <div class="col-lg-5 col-xs-12">
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
             {{ custom.extensions | raw }}
         </div>
     </div>
@@ -128,7 +143,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+    {#<script src="{{ asset('js/jquery-ui.min.js') }}"></script>#}
     <script src="{{ asset('js/members-display.js') }}"></script>
     <script src="{{ asset('js/chatbox.js') }}"></script>
 {% endblock %}
