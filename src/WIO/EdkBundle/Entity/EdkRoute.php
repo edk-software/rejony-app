@@ -448,7 +448,82 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this->commentNum;
 	}
 
-	public function setId($id)
+    public function getGpsStatus()
+{
+    return $this->gpsStatus;
+}
+
+    public function getGpsCreatedAt()
+    {
+        return $this->gpsCreatedAt;
+    }
+
+    public function getGpsCreatedBy()
+    {
+        return $this->gpsCreatedBy;
+    }
+
+    public function getGpsUpdatedAt()
+    {
+        return $this->gpsUpdatedAt;
+    }
+
+    public function getGpsUpdatedBy()
+    {
+        return $this->gpsUpdatedBy;
+    }
+
+    public function getMapStatus()
+    {
+        return $this->mapStatus;
+    }
+
+    public function getMapCreatedAt()
+    {
+        return $this->mapCreatedAt;
+    }
+
+    public function getMapCreatedBy()
+    {
+        return $this->mapCreatedBy;
+    }
+
+    public function getMapUpdatedAt()
+    {
+        return $this->mapUpdatedAt;
+    }
+
+    public function getMapUpdatedBy()
+    {
+        return $this->mapUpdatedBy;
+    }
+
+    public function getDescriptionStatus()
+    {
+        return $this->descriptionStatus;
+    }
+
+    public function getDescriptionCreatedAt()
+    {
+        return $this->descriptionCreatedAt;
+    }
+
+    public function getDescriptionCreatedBy()
+    {
+        return $this->descriptionCreatedBy;
+    }
+
+    public function getDescriptionUpdatedAt()
+    {
+        return $this->descriptionUpdatedAt;
+    }
+
+    public function getDescriptionUpdatedBy()
+    {
+        return $this->descriptionUpdatedBy;
+    }
+
+    public function setId($id)
 	{
 		DataMappers::noOverwritingId($this->id);
 		$this->id = $id;
@@ -614,7 +689,97 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		DataMappers::noOverwritingField($this->commentNum);
 		$this->commentNum = $commentNum;
 	}
-	
+
+    public function setDescriptionStatus($descriptionStatus)
+    {
+        $this->descriptionStatus = $descriptionStatus;
+        return $this;
+    }
+
+    public function setDescriptionCreatedAt($descriptionCreatedAt)
+    {
+        $this->descriptionCreatedAt = $descriptionCreatedAt;
+        return $this;
+    }
+
+    public function setDescriptionCreatedBy($descriptionCreatedBy)
+    {
+        $this->descriptionCreatedBy = $descriptionCreatedBy;
+        return $this;
+    }
+
+    public function setDescriptionUpdatedAt($descriptionUpdatedAt)
+    {
+        $this->descriptionUpdatedAt = $descriptionUpdatedAt;
+        return $this;
+    }
+
+    public function setDescriptionUpdatedBy($descriptionUpdatedBy)
+    {
+        $this->descriptionUpdatedBy = $descriptionUpdatedBy;
+        return $this;
+    }
+
+    public function setGpsStatus($gpsStatus)
+    {
+        $this->gpsStatus = $gpsStatus;
+        return $this;
+    }
+
+    public function setGpsCreatedAt($gpsCreatedAt)
+    {
+        $this->gpsCreatedAt = $gpsCreatedAt;
+        return $this;
+    }
+
+    public function setGpsCreatedBy($gpsCreatedBy)
+    {
+        $this->gpsCreatedBy = $gpsCreatedBy;
+        return $this;
+    }
+
+    public function setGpsUpdatedAt($gpsUpdatedAt)
+    {
+        $this->gpsUpdatedAt = $gpsUpdatedAt;
+        return $this;
+    }
+
+    public function setGpsUpdatedBy($gpsUpdatedBy)
+    {
+        $this->gpsUpdatedBy = $gpsUpdatedBy;
+        return $this;
+    }
+
+    public function setMapStatus($mapStatus)
+    {
+        $this->mapStatus = $mapStatus;
+        return $this;
+    }
+
+    public function setMapCreatedAt($mapCreatedAt)
+    {
+        $this->mapCreatedAt = $mapCreatedAt;
+        return $this;
+    }
+
+    public function setMapCreatedBy($mapCreatedBy)
+    {
+        $this->mapCreatedBy = $mapCreatedBy;
+        return $this;
+    }
+
+    public function setMapUpdatedAt($mapUpdatedAt)
+    {
+        $this->mapUpdatedAt = $mapUpdatedAt;
+        return $this;
+    }
+
+    public function setMapUpdatedBy($mapUpdatedBy)
+    {
+        $this->mapUpdatedBy = $mapUpdatedBy;
+        return $this;
+    }
+    
 	function getImportedFrom()
 	{
 		return $this->importedFrom;
@@ -722,7 +887,28 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	{
 		$repository->downloadFile($this->gpsTrackFile, 'edk-gps-route-' . $this->id . '.kml', 'application/vnd.google-earth.kml+xml', $response);
 	}
-	
+	private function insertDescription(FileRepositoryInterface $fileRepository)
+    {
+        $this->descriptionStatus = self::STATUS_NEW;
+        $this->descriptionCreatedAt = time();
+        $this->descriptionUpdatedAt = time();
+        $this->descriptionFile = $fileRepository->storeFile($this->getDescriptionFileUpload());
+    }
+
+    private function insertMap(FileRepositoryInterface $fileRepository)
+    {
+        $this->mapStatus = self::STATUS_NEW;
+        $this->mapCreatedAt = time();
+        $this->mapUpdatedAt = time();
+        $this->mapFile = $fileRepository->storeFile($this->getMapFileUpload());
+    }
+    private function insertGps(FileRepositoryInterface $fileRepository)
+    {
+        $this->gpsStatus = self::STATUS_NEW;
+        $this->gpsCreatedAt = time();
+        $this->gpsUpdatedAt = time();
+        $this->gpsTrackFile = $fileRepository->storeFile($this->getGpsTrackFileUpload());
+    }
 	public function storeFiles(FileRepositoryInterface $fileRepository)
 	{
 		if (!$this->getGpsTrackFileUpload() instanceof UploadedFile) {
@@ -737,12 +923,12 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$this->verifyMIMEOfKML();
 
 		if($this->getDescriptionFileUpload() instanceof UploadedFile) {
-			$this->descriptionFile = $fileRepository->storeFile($this->getDescriptionFileUpload());
+		    $this->insertDescription($fileRepository);
 		}
 		if($this->getMapFileUpload() instanceof UploadedFile) {
-			$this->mapFile = $fileRepository->storeFile($this->getMapFileUpload());
+			$this->insertMap($fileRepository);
 		}
-		$this->gpsTrackFile = $fileRepository->storeFile($this->getGpsTrackFileUpload());
+		$this->insertGps($fileRepository);
 	}
 	
 	public function updateFiles(FileRepositoryInterface $fileRepository)
@@ -757,19 +943,26 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 		if (null !== $this->getDescriptionFileUpload()) {
 			if(null === $this->descriptionFile) {
-				$this->descriptionFile = $fileRepository->storeFile($this->getDescriptionFileUpload());
+			    $this->insertDescription($fileRepository);
 			} else {
-				$this->descriptionFile = $fileRepository->replaceFile($this->descriptionFile, $this->getDescriptionFileUpload());
+                $this->descriptionStatus = self::STATUS_NEW;
+                $this->descriptionUpdatedAt = time();
+                $this->descriptionFile = $fileRepository->replaceFile($this->descriptionFile, $this->getDescriptionFileUpload());
 			}
 		}
 		if (null !== $this->getMapFileUpload()) {
 			if(null === $this->mapFile) {
-				$this->mapFile = $fileRepository->storeFile($this->getMapFileUpload());
+                $this->insertMap($fileRepository);
 			} else {
+                $this->mapStatus = self::STATUS_NEW;
+                $this->mapUpdatedAt = time();
 				$this->mapFile = $fileRepository->replaceFile($this->mapFile, $this->getMapFileUpload());
 			}
 		}
 		if (null !== $this->getGpsTrackFileUpload()) {
+            $this->gpsStatus = self::STATUS_NEW;
+            $this->approved = false;
+            $this->gpsUpdatedAt = time();
 			$this->gpsTrackFile = $fileRepository->replaceFile($this->gpsTrackFile, $this->getGpsTrackFileUpload());
 		}
 	}
@@ -787,7 +980,40 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$this->updatedAt = time();
 		$conn->insert(
 			EdkTables::ROUTE_TBL,
-			DataMappers::pick($this, ['name', 'area', 'routePatron','routeColor','routeAuthor','routeType', 'routeFrom', 'routeFromDetails', 'routeTo', 'routeToDetails', 'routeCourse', 'routeLength', 'routeAscent', 'routeObstacles', 'createdAt', 'updatedAt', 'approved', 'descriptionFile', 'mapFile', 'gpsTrackFile', 'publicAccessSlug', 'importedFrom'])
+			DataMappers::pick($this,
+                [
+                    'name',
+                    'area',
+                    'routePatron',
+                    'routeColor',
+                    'routeAuthor',
+                    'routeType',
+                    'routeFrom',
+                    'routeFromDetails',
+                    'routeTo',
+                    'routeToDetails',
+                    'routeCourse',
+                    'routeLength',
+                    'routeAscent',
+                    'routeObstacles',
+                    'createdAt',
+                    'updatedAt',
+                    'approved',
+                    'descriptionFile',
+                    'mapFile',
+                    'gpsTrackFile',
+                    'publicAccessSlug',
+                    'importedFrom',
+                    'gpsStatus',
+                    'gpsCreatedAt',
+                    'gpsUpdatedAt',
+                    'mapStatus',
+                    'mapCreatedAt',
+                    'mapUpdatedAt',
+                    'descriptionStatus',
+                    'descriptionCreatedAt',
+                    'descriptionUpdatedAt'
+                ])
 		);
 		$this->id = $conn->lastInsertId();
 		return $this->id;
@@ -811,7 +1037,37 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		
 		$conn->update(
 			EdkTables::ROUTE_TBL,
-			DataMappers::pick($this, ['name', 'routePatron','routeColor','routeAuthor','routeType', 'routeFrom', 'routeFromDetails', 'routeToDetails','routeTo', 'routeCourse', 'routeLength', 'routeAscent', 'routeObstacles', 'updatedAt', 'approved', 'descriptionFile', 'mapFile', 'gpsTrackFile', 'publicAccessSlug', 'commentNum']),
+			DataMappers::pick($this, [
+			    'name',
+                'routePatron',
+                'routeColor',
+                'routeAuthor',
+                'routeType',
+                'routeFrom',
+                'routeFromDetails',
+                'routeToDetails',
+                'routeTo',
+                'routeCourse',
+                'routeLength',
+                'routeAscent',
+                'routeObstacles',
+                'updatedAt',
+                'approved',
+                'descriptionFile',
+                'mapFile',
+                'gpsTrackFile',
+                'publicAccessSlug',
+                'commentNum',
+                'gpsStatus',
+                'gpsCreatedAt',
+                'gpsUpdatedAt',
+                'mapStatus',
+                'mapCreatedAt',
+                'mapUpdatedAt',
+                'descriptionStatus',
+                'descriptionCreatedAt',
+                'descriptionUpdatedAt'
+            ]),
 			DataMappers::pick($this, ['id'])
 		);
 	}
@@ -843,12 +1099,11 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	{
 		$this->approved = (boolean) $conn->fetchColumn('SELECT `approved` FROM `'.EdkTables::ROUTE_TBL.'` WHERE `id` = :id', [':id' => $this->id]);
 		if (!$this->approved) {
-			$this->updatedAt = time();
 			$this->approvedAt = time();
 			$this->approved = true;
 
 			$conn->update(EdkTables::ROUTE_TBL,
-				['updatedAt' => $this->updatedAt, 'approvedAt' => $this->approvedAt, 'approved' => $this->approved],
+				['approvedAt' => $this->approvedAt, 'approved' => $this->approved],
 				['id' => $this->getId()]
 			);
 			return true;
@@ -860,12 +1115,11 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	{
 		$this->approved = (boolean) $conn->fetchColumn('SELECT `approved` FROM `'.EdkTables::ROUTE_TBL.'` WHERE `id` = :id', [':id' => $this->id]);
 		if ($this->approved) {
-			$this->updatedAt = time();
 			$this->approvedAt = time();
 			$this->approved = false;
 
 			$conn->update(EdkTables::ROUTE_TBL,
-				['updatedAt' => $this->updatedAt, 'approvedAt' => $this->approvedAt, 'approved' => $this->approved],
+				['approvedAt' => $this->approvedAt, 'approved' => $this->approved],
 				['id' => $this->getId()]
 			);
 			return true;
