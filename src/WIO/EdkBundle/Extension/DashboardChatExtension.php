@@ -54,13 +54,13 @@ class DashboardChatExtension implements DashboardExtensionInterface
 	
 	public function getPriority()
 	{
-		return self::PRIORITY_MEDIUM - 10;
+		return self::PRIORITY_MEDIUM+10;
 	}
 
 	public function render(CantigaController $controller, Request $request, Workspace $workspace, Project $project = null)
 	{
 		$item = $this->membershipStorage->getMembership()->getPlace();
 		$this->repository->setRootEntity($item);
-		return $this->templating->render('WioEdkBundle:Extension:recent-comments.html.twig', ['routeInfoPath' => 'edk_route_info', 'comments' => $this->repository->getRecentCommentActivity(8)]);
+		return $this->templating->render('WioEdkBundle:Extension:recent-comments.html.twig', ['routeInfoPath' => 'edk_route_info', 'comments' => $this->repository->getRecentCommentActivity(2)]);
 	}
 }
