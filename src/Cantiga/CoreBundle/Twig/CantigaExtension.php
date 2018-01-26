@@ -115,6 +115,7 @@ class CantigaExtension extends Twig_Extension implements Twig_Extension_GlobalsI
 			new Twig_SimpleFunction('use_icheck', [$this, 'useICheck'], array('is_safe' => array('html'))),
 			new Twig_SimpleFunction('boolean_mark', [$this, 'booleanMark'], array('is_safe' => array('html'))),
 			new Twig_SimpleFunction('empty_boolean_mark', [$this, 'emptyBooleanMark'], array('is_safe' => array('html'))),
+			new Twig_SimpleFunction('icon_color_mark', [$this, 'iconColorMark'], array('is_safe' => array('html'))),
 			new Twig_SimpleFunction('callback_transform', [$this, 'callbackTransform'], array('is_safe' => array('html'))),
 			new Twig_SimpleFunction('spath', [$this, 'spath']),
 			new Twig_SimpleFunction('launch', [$this, 'launch'], array('is_safe' => array('html'))),
@@ -294,10 +295,17 @@ class CantigaExtension extends Twig_Extension implements Twig_Extension_GlobalsI
 	public function emptyBooleanMark($value)
 	{
 		if ($value) {
-			return '<p class="text-center"><span class="glyphicon glyphicon-ok"></span></p>';
+			return '<span class="fa fa-check text-green"></span>';
 		}
 		return '';
 	}
+    public function iconColorMark($faIco, $textColor, $tooltip)
+    {
+        if ($faIco) {
+            return '<i class="fa '.$faIco.' text-'.$textColor.'" data-toggle="tooltip" title="'.$tooltip.'" data-original-title="'.$tooltip.'"></i>';
+        }
+        return '';
+    }
 
 	public function callbackTransform($value, $callback)
 	{

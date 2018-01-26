@@ -1,15 +1,16 @@
-<div class="box">
+<div class="box box-solid">
 	<div class="box-header">
-		<h4>{{ 'Routes' | trans([], 'edk') }}</h4>
+		<h4 class="box-title"><i class="fa fa-map-signs"></i> {{ 'Routes' | trans([], 'edk') }}</h4>
 	</div>
 	<div class="box-body">
-		<table class="table table-hover">
+		<table class="table">
 			<tbody>
 				{% for route in routes %}
 				<tr>
-					<td>{{ route.id }}</td>
 					<td><a href="{{ spath(routeLink, {'id': route.id } ) }}">{{ route.name }}</a></td>
+					<td>{{ route.routeLength}}</td>
 					<td>{{ empty_boolean_mark(route.approved) }}</td>
+					<td>{{ icon_color_mark(route.gps.ico, route.gps.textColor, route.gps.tooltip) }} {{ icon_color_mark(route.description.ico, route.description.textColor, route.description.tooltip) }} {{ icon_color_mark(route.map.ico, route.map.textColor, route.map.tooltip) }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>

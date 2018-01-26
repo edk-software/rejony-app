@@ -24,6 +24,7 @@ use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
 use Cantiga\CoreBundle\Entity\Message;
 use Cantiga\CoreBundle\Entity\Project;
+use Cantiga\CoreBundle\Entity\LabelColor;
 use Cantiga\Metamodel\Capabilities\EditableEntityInterface;
 use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
 use Cantiga\Metamodel\Capabilities\InsertableEntityInterface;
@@ -55,6 +56,15 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	const TYPE_FULL = 0;
 	const TYPE_INSPIRED = 1;
 
+    const STATUS_NONE= 0;
+    const STATUS_NEW = 1;
+    const STATUS_APPROVED = 2;
+    const STATUS_REVOKED = 3;
+
+    const ICO_MAP = 'fa-map';
+    const ICO_DESCRIPTION = 'fa-file-pdf-o';
+    const ICO_GPS = 'fa-map-marker';
+
 	private $id;
 	private $area;
 	private $name;
@@ -82,7 +92,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
     private $descriptionCreatedBy;
     private $descriptionUpdatedAt;
     private $descriptionUpdatedBy;
-    private $descriptionApproved;
+    private $descriptionStatus;
     private $descriptionApprovedAt;
     private $descriptionApprovedBy;
 	private $mapFile;
@@ -90,7 +100,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
     private $mapCreatedBy;
     private $mapUpdatedAt;
     private $mapUpdatedBy;
-    private $mapApproved;
+    private $mapStatus;
     private $mapApprovedAt;
     private $mapApprovedBy;
 	private $gpsTrackFile;
@@ -98,7 +108,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	private $gpsCreatedBy;
 	private $gpsUpdatedAt;
 	private $gpsUpdatedBy;
-	private $gpsApproved;
+	private $gpsStatus;
 	private $gpsApprovedAt;
 	private $gpsApprovedBy;
 
@@ -187,7 +197,62 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		DataMappers::fromArray($item, $array, $prefix);
 		return $item;
 	}
-	
+
+	public static function getMapMark(TranslatorInterface $translator, $status)
+    {
+        return [
+            'ico' => self::ICO_MAP,
+            'textColor' => self::getColorByState($status),
+            'tooltip' => $translator->trans(self::getTooltip($status), [], 'edk')
+        ];
+    }
+
+    public static function getDescriptionMark(TranslatorInterface $translator, $status)
+    {
+        return [
+            'ico' => self::ICO_DESCRIPTION,
+            'textColor' => self::getColorByState($status),
+            'tooltip' => $translator->trans(self::getTooltip($status), [], 'edk')
+        ];
+    }
+
+    public static function getGpsMark(TranslatorInterface $translator, $status)
+    {
+        return [
+            'ico' => self::ICO_GPS,
+            'textColor' => self::getColorByState($status),
+            'tooltip' => $translator->trans(self::getTooltip($status), [], 'edk')
+        ];
+    }
+
+    public static function getColorByState($status)
+    {
+        switch ($status) {
+            case self::STATUS_NONE:
+                return LabelColor::STATUS_NONE;
+            case self::STATUS_NEW:
+                return LabelColor::STATUS_NEW;
+            case self::STATUS_APPROVED:
+                return LabelColor::STATUS_APPROVED;
+            case self::STATUS_REVOKED:
+                return LabelColor::STATUS_REVOKED;
+        }
+    }
+
+    public static function getTooltip($status)
+    {
+        switch ($status) {
+            case self::STATUS_NEW:
+                return 'New';
+            case self::STATUS_NONE:
+                return 'Blank';
+            case self::STATUS_APPROVED:
+                return 'Approved';
+            case self::STATUS_REVOKED:
+                return 'Declined';
+        }
+    }
+
 	public static function getRelationships()
 	{
 		return ['area'];

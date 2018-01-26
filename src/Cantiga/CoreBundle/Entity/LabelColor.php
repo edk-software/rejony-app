@@ -15,6 +15,7 @@ class LabelColor
     const STATUS_VERIFICATION = 'purple';
     const STATUS_APPROVED = 'green';
     const STATUS_REVOKED = 'red';
+    const STATUS_NONE = 'gray';
 
     const LABEL_OK = 'green';
     const LABEL_WARNING = 'orange';

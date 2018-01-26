@@ -4,7 +4,7 @@ imports:
 services:
     wio.edk.repo.route:
         class:     WIO\EdkBundle\Repository\EdkRouteRepository
-        arguments: ["@database_connection", "@cantiga.transaction", "@event_dispatcher", "@cantiga.time", "@cantiga.files"]
+        arguments: ["@database_connection", "@cantiga.transaction", "@event_dispatcher", "@cantiga.time", "@cantiga.files", "@translator"]
     wio.edk.repo.export:
         class:     WIO\EdkBundle\Repository\EdkExportRepository
         arguments: ["@database_connection"]

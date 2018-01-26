@@ -40,6 +40,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use WIO\EdkBundle\EdkTables;
 use WIO\EdkBundle\Entity\EdkRoute;
 use PDO;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class EdkRouteRepository
 {
@@ -67,14 +68,17 @@ class EdkRouteRepository
 	 * @var Project|Group|Area
 	 */
 	private $root;
+    /** @var TranslatorInterface */
+    private $translator;
 	
-	public function __construct(Connection $conn, Transaction $transaction, EventDispatcherInterface $eventDispatcher, TimeFormatterInterface $timeFormatter, FileRepositoryInterface $fileRepository)
+	public function __construct(Connection $conn, Transaction $transaction, EventDispatcherInterface $eventDispatcher, TimeFormatterInterface $timeFormatter, FileRepositoryInterface $fileRepository,  TranslatorInterface $translator)
 	{
 		$this->conn = $conn;
 		$this->transaction = $transaction;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->timeFormatter = $timeFormatter;
 		$this->fileRepository = $fileRepository;
+		$this->translator = $translator;
 	}
 	
 	public function setRootEntity(HierarchicalInterface $root)
@@ -134,7 +138,7 @@ class EdkRouteRepository
 			
 
 		$qb->postprocess(function($row) {
-			$row['routeLength'] .= ' km';
+			$row['routeLength'] = self::postprocessLength($row['routeLength']);
 			$row['updatedAtText'] = $this->timeFormatter->ago($row['updatedAt']);
 			$row['removable'] = !$row['approved'];
 			return $row;
@@ -158,9 +162,27 @@ class EdkRouteRepository
 	
 	public function findRouteSummary(Area $area)
 	{
-		return $this->conn->fetchAll('SELECT `id`, `name`, `approved` FROM `'.EdkTables::ROUTE_TBL.'` WHERE `areaId` = :id', [':id' => $area->getId()]);
+        $this->transaction->requestTransaction();
+        try {
+            $items = $this->conn->fetchAll('SELECT `id`, `name`, `approved`, `gpsStatus`, `descriptionStatus`, `mapStatus`, `routeLength` FROM `'.EdkTables::ROUTE_TBL.'` WHERE `areaId` = :id', [':id' => $area->getId()]);
+            foreach ($items as &$item) {
+                $item['routeLength'] = $this->postprocessLength($item['routeLength']);
+                $item['map'] =  EdkRoute::getMapMark($this->translator,$item['mapStatus']);
+                $item['gps'] =  EdkRoute::getGpsMark($this->translator,$item['gpsStatus']);
+                $item['description'] =  EdkRoute::getDescriptionMark($this->translator,$item['descriptionStatus']);
+            }
+            return $items;
+        } catch (Exception $ex) {
+            $this->transaction->requestRollback();
+            throw $ex;
+        }
 	}
-	
+
+	private function postprocessLength($value)
+    {
+        return $value.=' km';
+    }
+
 	public function getItem($id): EdkRoute
 	{
 		$this->transaction->requestTransaction();
@@ -301,17 +323,21 @@ class EdkRouteRepository
 		}
 	}
 	
-	public function getRecentlyChangedRoutes($count)
+	public function getRecentlyChangedRoutes()
 	{
 		$this->transaction->requestTransaction();
 		try {
-			$items = $this->conn->fetchAll('SELECT r.`id`, r.`name`, a.`name` AS `areaName`, r.`updatedAt` '
+			$items = $this->conn->fetchAll('SELECT r.`id`, r.`name`, r.`approved`, r.`gpsStatus`, r.`descriptionStatus`, r.`mapStatus`, r.`routeLength`, a.`name` AS `areaName`, r.`updatedAt` '
 				. 'FROM `'.EdkTables::ROUTE_TBL.'` r '
 				. 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON r.`areaId` = a.`id` '
 				. $this->createWhereClause()
-				. 'ORDER BY r.`updatedAt` DESC LIMIT '.$count, [':itemId' => $this->root->getId()]);
+				. 'ORDER BY r.`updatedAt` DESC', [':itemId' => $this->root->getId()]);
 			foreach ($items as &$item) {
 				$item['updatedAt'] = $this->timeFormatter->ago($item['updatedAt']);
+                $item['routeLength'] = $this->postprocessLength($item['routeLength']);
+                $item['map'] =  EdkRoute::getMapMark($this->translator,$item['mapStatus']);
+                $item['gps'] =  EdkRoute::getGpsMark($this->translator,$item['gpsStatus']);
+                $item['description'] =  EdkRoute::getDescriptionMark($this->translator,$item['descriptionStatus']);
 			}
 			return $items;
 		} catch (Exception $ex) {
