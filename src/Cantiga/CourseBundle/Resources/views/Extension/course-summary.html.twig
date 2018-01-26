@@ -1,6 +1,6 @@
 			{% if progress %}
 			<div class="col-lg-2 col-md-4 col-xs-6">
-				<div class="small-box bg-green">
+				<div class="small-box bg-{{ progress.labelColor }}">
 					<div class="inner">
 						<h3>{{ progress.passedCourseNum }}/{{ progress.mandatoryCourseNum }}</h3>
 
@@ -12,3 +12,18 @@
 				</div>
 			</div>
 			{% endif %}
+			<div class="col-lg-2 col-md-4 col-xs-6">
+				<div class="small-box bg-{{ stationaryTrainingLabelColor }}">
+					<div class="inner">
+                        {% if stationaryTraining %}
+							<h3><i class="fa fa-check"></i></h3>
+						{% else %}
+							<h3><i class="fa fa-close"></i></h3>
+						{% endif %}
+						<p>{{ 'Stationary training' | trans([], 'course') }}</p>
+					</div>
+					<div class="icon">
+						<i class="fa fa-graduation-cap"></i>
+					</div>
+				</div>
+			</div>

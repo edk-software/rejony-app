@@ -302,13 +302,13 @@ class AreaRequest implements IdentifiableInterface, InsertableEntityInterface, E
     {
         switch ($status) {
             case self::STATUS_NEW:
-                return 'blue';
+                return LabelColor::STATUS_NEW;
             case self::STATUS_VERIFICATION:
-                return 'purple';
+                return LabelColor::STATUS_VERIFICATION;
             case self::STATUS_APPROVED:
-                return 'green';
+                return LabelColor::STATUS_APPROVED;
             case self::STATUS_REVOKED:
-                return 'red';
+                return LabelColor::STATUS_REVOKED;
         }
     }
 

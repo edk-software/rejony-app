@@ -54,7 +54,12 @@ class AreaSummaryExtension implements DashboardExtensionInterface
 	public function render(CantigaController $controller, Request $request, Workspace $workspace, Project $project = null)
 	{
 		$area = $this->membershipStorage->getMembership()->getPlace();
-		return $this->templating->render('CantigaCoreBundle:Area:area-summary.html.twig', ['area' => $area, 'bgcolor' => $this->translateColor($area)]);
+		return $this->templating->render('CantigaCoreBundle:Area:area-summary.html.twig',
+            [
+                'area' => $area,
+                'bgcolor' => $this->translateColor($area),
+                'mygroup' => 'area_my_group'
+            ]);
 	}
 	
 	private function translateColor(Area $area)

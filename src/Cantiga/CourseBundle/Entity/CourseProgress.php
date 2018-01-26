@@ -19,6 +19,7 @@
 namespace Cantiga\CourseBundle\Entity;
 
 use Cantiga\CoreBundle\Entity\Area;
+use Cantiga\CoreBundle\Entity\LabelColor;
 use Cantiga\Metamodel\Capabilities\InsertableEntityInterface;
 use Cantiga\CourseBundle\CourseTables;
 use Doctrine\DBAL\Connection;
@@ -131,4 +132,11 @@ class CourseProgress implements InsertableEntityInterface
 		$this->passedCourseNum = $data['passedCourseNum'];
 		$this->failedCourseNum = $data['failedCourseNum'];
 	}
+
+	public function getLabelColor()
+    {
+        if ($this->passedCourseNum == $this->mandatoryCourseNum)
+            return LabelColor::LABEL_OK;
+        return LabelColor::LABEL_WARNING;
+    }
 }

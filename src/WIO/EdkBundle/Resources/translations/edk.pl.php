@@ -279,4 +279,5 @@ return [
     'Map Count' => 'Mapy',
     'Map Approved' => 'Zatwierdzone mapy',
     'Route Certification' => 'Certyfikat',
+    'Public profile' => 'Informacje o rejonie',
 ];

@@ -425,6 +425,12 @@ class Area implements IdentifiableInterface, InsertableEntityInterface, Editable
 		return $this->percentCompleteness;
 	}
 
+    public function getPercentCompletenessLabel()
+    {
+        return $this->percentCompleteness < 50 ? LabelColor::LABEL_ERROR :
+            ($this->percentCompleteness < 80 ? LabelColor::LABEL_WARNING : LabelColor::LABEL_OK);
+    }
+
 	public function setPercentCompleteness($percentCompleteness)
 	{
 		if ($percentCompleteness > 100) {

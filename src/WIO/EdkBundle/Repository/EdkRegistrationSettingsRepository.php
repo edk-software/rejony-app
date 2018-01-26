@@ -188,11 +188,12 @@ class EdkRegistrationSettingsRepository implements EditableRepositoryInterface, 
 	{
 		$this->transaction->requestTransaction();
 		try {
-			return $this->conn->fetchColumn('SELECT SUM(s.`participantNum`) + SUM(s.`externalParticipantNum`) '
+			$count = $this->conn->fetchColumn('SELECT SUM(s.`participantNum`) + SUM(s.`externalParticipantNum`) '
 				. 'FROM `'.EdkTables::REGISTRATION_SETTINGS_TBL.'` s '
 				. 'INNER JOIN `'.EdkTables::ROUTE_TBL.'` r ON r.`id` = s.`routeId` '
 				. 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON r.`areaId` = a.`id` '
 				. $this->createWhereClause(), [':itemId' => $this->root->getId()]);
+			return empty($count) ? 0 : $count;
 		} catch (Exception $ex) {
 			$this->transaction->requestRollback();
 			throw $ex;

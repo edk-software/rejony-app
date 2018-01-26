@@ -121,8 +121,9 @@ return array(
 	'Group details: 0' => 'Szczegóły grupy: 0',
 	
 	// Area dashboard
-	'Your status' => 'Twój status',
-	
+	'Your status' => 'Status rejonu',
+	'Your group' => 'Twoja grupa:',
+
 	// Area group information
 	'AreaNotAssignedToGroupMsg' => 'Ten rejon nie jest jeszcze przydzielony do żadnej grupy. Kiedy zostanie przydzielony, znajdziesz tutaj wszystkie informacje o swojej grupie.',
 	

@@ -163,10 +163,7 @@ class AreaMgmtController extends WorkspaceController
 				$html = $this->renderInformationExtensions(CoreExtensions::AREA_INFORMATION, $request, $item);
 				$formModel = $this->extensionPointFromSettings(CoreExtensions::AREA_FORM, CoreSettings::AREA_FORM);
 				return [
-					'progressBarColor' => (
-						$item->getPercentCompleteness() < 50 ? 'red' :
-						($item->getPercentCompleteness() < 80 ? 'orange' : 'green')
-					),
+					'progressBarColor' => $item->getPercentCompletenessLabel(),
 					'summary' => $formModel->createSummary(),
 					'extensions' => $html,
 					'links' => $event->getLinks()

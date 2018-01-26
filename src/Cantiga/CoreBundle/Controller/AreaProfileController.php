@@ -68,7 +68,7 @@ class AreaProfileController extends AreaPageController
 			->template('CantigaCoreBundle:AreaProfile:editor.html.twig')
 			->redirect($this->generateUrl('area_profile_editor', ['slug' => $this->getSlug()]))
 			->formSubmittedMessage('AreaProfileSaved')
-			->set('progressBarColor', $area->getPercentCompleteness() < 50 ? 'red' : ($area->getPercentCompleteness() < 80 ? 'orange' : 'green'))
+			->set('progressBarColor', $area->getPercentCompletenessLabel())
 			->set('percentCompleteness', $area->getPercentCompleteness())
 			->set('text', $text)
 			->customForm($formModel)
