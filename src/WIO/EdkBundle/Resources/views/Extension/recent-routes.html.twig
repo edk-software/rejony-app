@@ -12,8 +12,8 @@
 						<td><a href="{{ spath(routeInfoPath, {'id': route.id} ) }}">{{ route.name }}</a></td>
 						<td>{{ empty_boolean_mark(route.approved) }}</td>
 						<td>{{ icon_color_mark(route.gps.ico, route.gps.textColor, route.gps.tooltip) }} {{ icon_color_mark(route.description.ico, route.description.textColor, route.description.tooltip) }} {{ icon_color_mark(route.map.ico, route.map.textColor, route.map.tooltip) }}</td>
-						<td width="25%">{{ route.areaName }}</td>
-						<td width="25%">{{ route.updatedAt }}</td>
+						<td>{{ route.areaName }}</td>
+						<td>{{ route.updatedAt }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>	
