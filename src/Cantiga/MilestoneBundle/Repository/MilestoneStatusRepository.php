@@ -220,7 +220,7 @@ class MilestoneStatusRepository
 				. 'FROM `'.MilestoneTables::MILESTONE_TBL.'` m '
 				. 'INNER JOIN `'.MilestoneTables::MILESTONE_STATUS_TBL.'` s ON m.`id` = s.`milestoneId` '
 				. 'WHERE s.`entityId` = :placeId AND m.`projectId` = :projectId '
-				. 'ORDER BY completed DESC, future DESC, m.`deadline` DESC, s.`progress` DESC, m.`displayOrder` ', $args));
+				. 'ORDER BY completed DESC, future DESC, m.`deadline` DESC, s.`progress` DESC, m.`displayOrder` DESC', $args));
 		$orderId = 1;
 		foreach ($milestones as &$item) {
 			$item['progressColor'] = Milestone::getProgressColor($item['progress']);
