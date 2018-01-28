@@ -4,6 +4,7 @@ namespace Cantiga\KnowledgeBundle\Controller;
 
 use Cantiga\CoreBundle\Api\Controller\AdminPageController;
 use Cantiga\CoreBundle\Api\Actions\CRUDInfo;
+use Cantiga\CoreBundle\Controller\Traits\SlugifyTrait;
 use Cantiga\KnowledgeBundle\Action\EditAction;
 use Cantiga\KnowledgeBundle\Action\InfoAction;
 use Cantiga\KnowledgeBundle\Action\InsertAction;
@@ -30,6 +31,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class AdminMaterialsFileController extends AdminPageController
 {
     use FileReturnTrait;
+    use SlugifyTrait;
 
     const REPOSITORY_NAME = 'cantiga.knowledge.repo.materials_file';
 
@@ -151,7 +153,7 @@ class AdminMaterialsFileController extends AdminPageController
         ], function (MaterialsFile $file) {
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $file->getPath();
-            $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
+            $fileName = $this->createFileName($uploadedFile, $file->getName());
             $uploadedFile->move(
                 $this->returnFilePath(),
                 $fileName
@@ -253,5 +255,17 @@ class AdminMaterialsFileController extends AdminPageController
         }
 
         return $category;
+    }
+
+    private function createFileName(UploadedFile $uploadedFile, string $name) : string {
+        $counter = 0;
+        $nameSlug = $this->slugify($name);
+        $extension = $uploadedFile->guessExtension();
+        do {
+            $counter++;
+            $fileName = $nameSlug . ($counter > 1 ? '-' . $counter : '') . '.' . $extension;
+        } while (file_exists($this->returnFilePath($fileName)));
+
+        return $fileName;
     }
 }
