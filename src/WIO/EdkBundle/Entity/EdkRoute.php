@@ -1079,13 +1079,13 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	
 	public function cleanupFiles(FileRepositoryInterface $fileRepository)
 	{
-		if (null !== $this->descriptionFile) {
+		if (null !== $this->descriptionFile && !empty($this->descriptionFile)) {
 			$fileRepository->removeFile($this->descriptionFile);
 		}
-		if (null !== $this->mapFile) {
+		if (null !== $this->mapFile && !empty($this->descriptionFile)) {
 			$fileRepository->removeFile($this->mapFile);
 		}
-		if (null !== $this->gpsTrackFile) {
+		if (null !== $this->gpsTrackFile && !empty($this->descriptionFile)) {
 			$fileRepository->removeFile($this->gpsTrackFile);
 		}
 	}
