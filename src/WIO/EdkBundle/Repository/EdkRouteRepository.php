@@ -141,7 +141,7 @@ class EdkRouteRepository
 			$row['routeLength'] = self::postprocessLength($row['routeLength']);
 			$row['updatedAtText'] = $this->timeFormatter->ago($row['updatedAt']);
 			$row['removable'] = !$row['approved'];
-			return $row;
+            return $row;
 		});
 		
 		$recordsTotal = QueryBuilder::copyWithoutFields($qb)
@@ -221,7 +221,7 @@ class EdkRouteRepository
 			$item = EdkRoute::fetchBySlug($this->conn, $slug);
 			if(false === $item) {
 				$this->transaction->requestRollback();
-				throw new ItemNotFoundException('The specified item has not been found.', $id);
+				throw new ItemNotFoundException('The specified item has not been found.', $slug);
 			}
 			return $item;
 		} catch(Exception $ex) {
@@ -397,7 +397,29 @@ class EdkRouteRepository
 			throw $ex;
 		}
 	}
-	
+	public function getRotesByProject(Project $project)
+    {
+        $data = $this->conn->fetchAll('SELECT r.`name`, a.`id`, a.`name` as area '
+            . 'FROM `'.EdkTables::ROUTE_TBL.'` r '
+            . 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON a.`id` = r.`areaId` '
+            . 'WHERE a.projectId = :rootId ORDER BY a.`name` ', [':rootId' => $project->getId()]);
+        $collect = [];
+        foreach ($data as $route) {
+            if (array_key_exists($route['id'],$collect))
+            {
+                $collect[$route['id']]['routes'].='; '. $route['name'];
+            }
+            else
+            {
+                $collect[$route['id']]['id'] = $route['id'];
+                $collect[$route['id']]['area'] = $route['area'];
+                $collect[$route['id']]['routes'] = $route['name'];
+            }
+        }
+        return $collect;
+
+    }
+
 	public function countRouteFiles(Project $project)
 	{
 		$data = $this->conn->fetchAll('SELECT r.`descriptionFile`, r.`mapFile` '
@@ -425,7 +447,7 @@ class EdkRouteRepository
 		return $types;
 	}
 	
-	public function importFrom(HierarchicalInterface $source, HierarchicalInterface $destination)
+	public function importFrom(Area $source, Area $destination)
 	{
 		$this->transaction->requestTransaction();
 		try {
@@ -441,8 +463,13 @@ class EdkRouteRepository
 					$item = new EdkRoute();
 					$item->setArea($destination);
 					$item->setName($route['name']);
+					$item->setRoutePatron($route['routePatron']);
+					$item->setRouteColor($route['routeColor']);
+					$item->setRouteAuthor($route['routeAuthor']);
 					$item->setRouteFrom($route['routeFrom']);
+					$item->setRouteFromDetails($route['routeFromDetails']);
 					$item->setRouteTo($route['routeTo']);
+					$item->setRouteToDetails($route['routeToDetails']);
 					$item->setRouteCourse($route['routeCourse']);
 					$item->setRouteLength($route['routeLength']);
 					$item->setRouteAscent($route['routeAscent']);
@@ -451,12 +478,15 @@ class EdkRouteRepository
 					
 					if (!empty($route['gpsTrackFile'])) {
 						$item->setGpsTrackFile($this->fileRepository->duplicateFile($route['gpsTrackFile']));
+						$item->setGpsStatus($route['gpsStatus']);
 					}
 					if (!empty($route['mapFile'])) {
 						$item->setMapFile($this->fileRepository->duplicateFile($route['mapFile']));
+                        $item->setMapStatus($route['mapStatus']);
 					}
 					if (!empty($route['descriptionFile'])) {
 						$item->setDescriptionFile($this->fileRepository->duplicateFile($route['descriptionFile']));
+                        $item->setDescriptionStatus($route['descriptionStatus']);
 					}
 					
 					$item->setImportedFrom($route['id']);
