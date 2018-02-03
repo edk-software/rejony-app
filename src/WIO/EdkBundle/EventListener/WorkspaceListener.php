@@ -114,6 +114,7 @@ class WorkspaceListener
 	public function onProjectAreaInfo(ContextMenuEvent $event)
 	{
 		$event->addLink('Participant statistics', 'project_area_stats', ['id' => $event->getEntity()->getId()]);
+		$event->addLink('Import routes', 'edk_area_route_import', ['areaId' => $event->getEntity()->getId()]);
 	}
 
     public function onUiHelp(ShowHelpEvent $event)

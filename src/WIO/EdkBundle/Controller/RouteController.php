@@ -30,6 +30,7 @@ use Cantiga\CoreBundle\Api\Controller\WorkspaceController;
 use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
 use Cantiga\CoreBundle\Entity\Message;
+use Cantiga\CoreBundle\Entity\Project;
 use Cantiga\Metamodel\Exception\ModelException;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,6 +40,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use WIO\EdkBundle\Entity\EdkRoute;
 use WIO\EdkBundle\Form\EdkRouteForm;
+use WIO\EdkBundle\Form\AreaRoutesImportForm;
 use WIO\EdkBundle\EdkTexts;
 
 /**
@@ -290,7 +292,58 @@ class RouteController extends WorkspaceController
 			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 		}
 	}
-	
+
+	private function importRoutes(Area $source, Area $destination)
+    {
+        $this
+            ->get(self::REPOSITORY_NAME)
+           ->importFrom($source, $destination);
+
+        return $this->showPageWithMessage('Import completed',
+            $this->crudInfo->getIndexPage(), [
+                'slug' => $this->getSlug(),
+            ]);
+    }
+    /**
+     * @Route("/{areaId}/import_area_routes", name="edk_area_route_import")
+     * @Security("is_granted('MEMBEROF_PROJECT') and is_granted('PLACE_MANAGER')")
+     */
+    public function importRouteToArea($areaId, Request $request, Membership $membership)
+    {
+        try {
+            $repository = $this->get(self::REPOSITORY_NAME);
+            $sourceProject = $this->get('cantiga.core.repo.archived_project')
+                ->getItem($membership->getPlace()->getParentProject()->getId());
+            $areaRoutes = $repository->getRotesByProject($sourceProject);
+
+            $form = $this->createForm(AreaRoutesImportForm::class, null, [
+                'areasRoutes' => $areaRoutes,
+            ]);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $fromAreaId = (int) $form
+                    ->get('areaId')
+                    ->getData();
+
+                $destinationPlace = $this->getAreaRepository( $membership->getPlace())->getItem($areaId);
+                $sourcePlace = $this->getAreaRepository($sourceProject)->getItem($fromAreaId);
+
+                return $this->importRoutes($sourcePlace, $destinationPlace);
+            }
+
+            return $this->render('WioEdkBundle:EdkRoute:import.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } catch (ModelException $exception) {
+            return $this->showPageWithError(
+                $exception->getMessage(),
+                $this->crudInfo->getIndexPage(),
+                ['slug' => $this->getSlug()]
+            );
+        }
+    }
+
 	/**
 	 * @Route("/import", name="edk_route_import")
 	 * @Security("is_granted('MEMBEROF_AREA') and is_granted('PLACE_MANAGER')")
@@ -351,10 +404,15 @@ class RouteController extends WorkspaceController
 	{
 		$item = $membership->getPlace();
 		if (!($item instanceof Area)) {
-			$repository = $this->get('cantiga.core.repo.area_mgmt');
-			$repository->setParentPlace($item);
-			return $repository;
+			return $this->getAreaRepository($item);
 		}
 		return null;
 	}
+
+	private function getAreaRepository(Project $place)
+    {
+        $repository = $this->get('cantiga.core.repo.area_mgmt');
+        $repository->setParentPlace($place);
+        return $repository;
+    }
 }

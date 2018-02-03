@@ -44,5 +44,8 @@ return array(
     'StationaryCourseDetailsHelp' => '',
     'StationaryCourseInformationText'=>'',
     'Online course' => 'Course on-line',
+    'Import completed' => 'Import success',
+    'Import routes' => 'Import routes',
+    'Select area' => 'Select place',
 
 );

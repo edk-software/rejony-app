@@ -41,4 +41,5 @@ return [
 
     'MapPinHelp' => 'Help',
     'SearchInMap' => 'Search',
+    'Import routes' => 'Import routes',
 ];

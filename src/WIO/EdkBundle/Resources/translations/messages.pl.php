@@ -123,4 +123,7 @@ return array(
 	'Get contacts to area leaders' => 'Pobierz kontakty do liderów rejonów',
 	'Get area course data' => 'Pobierz dane nt. szkoleń',
 	'ImportRoutesQuestionText' => 'Czy chcesz zaimportować brakujące trasy oraz ich pliki z poprzedniego projektu?',
+	'Import completed' => 'Trasy zostały zaimportowane pomyślnie.',
+	'Import routes' => 'Import tras',
+	'Select area' => 'Wybierz rejon',
 );
