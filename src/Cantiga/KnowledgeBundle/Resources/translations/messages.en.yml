@@ -42,9 +42,9 @@ admin.materials_files.insert:           Create a new materials file
 admin.materials_files.subtitle:         Manage materials' files
 admin.materials_files.title:            Materials' files
 admin.materials_files.title_category:   Materials' files for "%name%" category
-admin.menu.faq_categories:              FAQ categories
+admin.menu.faq:                         FAQ
 admin.menu.knowledge:                   Knowledge
-admin.menu.materials_categories:        Materials' categories
+admin.menu.materials:                   Materials
 admin.remove:                           Remove
 admin.save:                             Save
 admin.yes:                              Yes

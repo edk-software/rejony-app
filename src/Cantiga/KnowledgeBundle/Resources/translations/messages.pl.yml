@@ -42,9 +42,9 @@ admin.materials_files.insert:           Stwórz nowy plik materiałów
 admin.materials_files.subtitle:         Zarządzaj plikami materiałów
 admin.materials_files.title:            Pliki materiałów
 admin.materials_files.title_category:   Pliki materiałów dla kategorii "%name%"
-admin.menu.faq_categories:              Kategorie FAQ
+admin.menu.faq:                         FAQ
 admin.menu.knowledge:                   Wiedza
-admin.menu.materials_categories:        Kategorie materiałów
+admin.menu.materials:                   Materiały
 admin.remove:                           Usuń
 admin.save:                             Zapisz
 admin.yes:                              Tak

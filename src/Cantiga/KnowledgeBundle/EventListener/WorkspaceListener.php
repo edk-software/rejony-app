@@ -25,8 +25,8 @@ class WorkspaceListener
             4));
 
         $workspace->addWorkItem('knowledge', new WorkItem('admin_faq_category_index',
-            $this->translator->trans('admin.menu.faq_categories')));
+            $this->translator->trans('admin.menu.faq')));
         $workspace->addWorkItem('knowledge', new WorkItem('admin_materials_category_index',
-            $this->translator->trans('admin.menu.materials_categories')));
+            $this->translator->trans('admin.menu.materials')));
     }
 }
