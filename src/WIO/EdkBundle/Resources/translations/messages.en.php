@@ -47,5 +47,6 @@ return array(
     'Import completed' => 'Import success',
     'Import routes' => 'Import routes',
     'Select area' => 'Select place',
+    'Messages in linked areas' => 'Messages in linked areas'
 
 );

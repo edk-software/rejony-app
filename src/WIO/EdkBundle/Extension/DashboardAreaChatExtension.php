@@ -16,49 +16,62 @@
  * along with Foobar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-namespace Cantiga\CoreBundle\Extension;
+namespace WIO\EdkBundle\Extension;
 
+use Cantiga\Components\Hierarchy\MembershipStorageInterface;
 use Cantiga\CoreBundle\Api\Controller\CantigaController;
 use Cantiga\CoreBundle\Api\Workspace;
-use Cantiga\CoreBundle\CoreSettings;
 use Cantiga\CoreBundle\Entity\Project;
-use Cantiga\CoreBundle\Repository\ProjectAreaRequestRepository;
+use Cantiga\CoreBundle\Extension\DashboardExtensionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\EngineInterface;
+use Cantiga\CoreBundle\Repository\AreaCommentRepository;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * Shows the most recent area requests.
+ * Shows the most recently changed routes.
  *
  * @author Tomasz Jędrzejewski
  */
-class DashboardRequestExtension implements DashboardExtensionInterface
+class DashboardAreaChatExtension implements DashboardExtensionInterface
 {
 	/**
-	 * @var ProjectAreaRequestRepository
+	 * @var AreaCommentRepository
 	 */
 	private $repository;
 	/**
 	 * @var EngineInterface
 	 */
 	private $templating;
+    /** @var TranslatorInterface */
+    private $translator;
 	
-	public function __construct(ProjectAreaRequestRepository $repository, EngineInterface $templating)
+	public function __construct(AreaCommentRepository $repository, EngineInterface $templating, TranslatorInterface $translator)
 	{
 		$this->repository = $repository;
 		$this->templating = $templating;
+        $this->translator = $translator;
 	}
 	
 	public function getPriority()
 	{
-		return self::PRIORITY_HIGH-1;
+		return self::PRIORITY_HIGH;
 	}
 
 	public function render(CantigaController $controller, Request $request, Workspace $workspace, Project $project = null)
 	{
-		if ($controller->getProjectSettings()->get(CoreSettings::DASHOBARD_SHOW_REQUESTS)->getValue()) {
-			$this->repository->setActiveProject($project);
-			return $this->templating->render('CantigaCoreBundle:Project:recent-area-requests.html.twig', ['requests' => $this->repository->getRecentRequests(5)]);
-		}
-		return '';
+        $user = $controller->getUser();
+        if (isset($user)) {
+            $comments = $this->repository->getLastCommentsFromAreasOfGroup($project, $user);
+            if (count($comments) > 0) {
+                return $this->templating->render(
+                    'WioEdkBundle:Extension:recent-area-comments.html.twig',
+                    [
+                        'comments' => $comments,
+                        'title' => $this->translator->trans('Messages in linked areas'),
+                    ]
+                );
+            }
+        }
 	}
 }

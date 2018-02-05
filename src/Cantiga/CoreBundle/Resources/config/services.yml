@@ -198,7 +198,7 @@ services:
         class:     Cantiga\CoreBundle\Extension\DashboardRequestExtension
         arguments: ["@cantiga.core.repo.project_area_request", "@templating"]
         tags:
-            - { name: cantiga.extension, point: core.dashboard.project.central }
+            - { name: cantiga.extension, point: core.dashboard.project.right }
     cantiga.core.dashboard.area_summary:
         class: Cantiga\CoreBundle\Extension\AreaSummaryExtension
         arguments: ["@templating", "@cantiga.user.membership.storage"]

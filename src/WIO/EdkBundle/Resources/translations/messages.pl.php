@@ -126,4 +126,5 @@ return array(
 	'Import completed' => 'Trasy zostały zaimportowane pomyślnie.',
 	'Import routes' => 'Import tras',
 	'Select area' => 'Wybierz rejon',
+    'Messages in linked areas' => 'Wiadomości w powiązanych rejonach'
 );

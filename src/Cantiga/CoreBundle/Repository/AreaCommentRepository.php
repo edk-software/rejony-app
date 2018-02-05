@@ -21,8 +21,11 @@ namespace Cantiga\CoreBundle\Repository;
 
 use Cantiga\CoreBundle\CoreTables;
 use Cantiga\CoreBundle\Entity\Message;
+use Cantiga\CoreBundle\Entity\User;
+use Cantiga\CoreBundle\Entity\Project;
 use Cantiga\Metamodel\Transaction;
 use Cantiga\Metamodel\TimeFormatterInterface;
+use Cantiga\UserBundle\UserTables;
 use Doctrine\DBAL\Connection;
 use Exception;
 use PDO;
@@ -116,6 +119,50 @@ class AreaCommentRepository
                 ]
             );
         }
+    }
+
+    public function getLastCommentsFromAreasOfGroup(Project $project, User $user)
+    {
+        $items = $this->conn->fetchAll('
+            SELECT a.`id` AS `areaId`, a.`name` AS `areaName`, u.`name` AS `username`, u.`avatar`,
+                    MAX(c.`createdAt`) AS `createdAt`, c.`message`
+                FROM `' . UserTables::PLACE_MEMBERS_TBL . '` pm
+                JOIN `' . CoreTables::PLACE_TBL . '` p ON pm.`placeId` = p.`id`
+                JOIN `' . CoreTables::GROUP_TBL . '` g ON g.`placeId` = p.`id`
+                JOIN `' . CoreTables::AREA_TBL . '` a ON a.`groupId` = g.`id`
+                JOIN  (SELECT MAX(`id`) as cid, `areaId` FROM `'.CoreTables::AREA_COMMENT_TBL.'` GROUP BY `areaId`) lastC ON lastC.`areaId` = a.`id` 
+                JOIN `' . CoreTables::AREA_COMMENT_TBL . '` c ON c.`id` = lastC.`cid`
+                JOIN `' . CoreTables::USER_TBL . '` u ON u.`id` = c.`userId`
+                WHERE pm.`userId` = :userId && p.`type`=\'Group\' && p.`rootPlaceId`=:projectPlaceId 
+                GROUP BY a.`id`
+                ORDER BY a.`name` ASC
+            
+        ', [
+            ':projectPlaceId' => $project->getPlace()->getId(),
+            ':userId' => $user->getId(),
+        ]);
+        foreach ($items as $i => $item) {
+            $items[$i] = $this->prepareRequestComment($item);
+        }
+
+        return $items;
+
+    }
+    private function prepareRequestComment(array $item): array
+    {
+        if (!array_key_exists('message', $item)) {
+            $item['truncatedContent'] = null;
+        } elseif (mb_strlen($item['message']) <= 150) {
+            $item['truncatedContent'] = $item['message'];
+        } else {
+            $item['truncatedContent'] = substr($item['message'], 0, 150);
+            if (ord($item['truncatedContent']{149}) > 200) {
+                $item['truncatedContent'] = substr($item['message'], 0, 149);
+            }
+            $item['truncatedContent'] .= '...';
+        }
+
+        return $item;
     }
 
 }
