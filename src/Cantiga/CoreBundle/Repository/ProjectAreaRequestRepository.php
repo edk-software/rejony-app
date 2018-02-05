@@ -210,9 +210,10 @@ class ProjectAreaRequestRepository
     {
         $items = $this->conn->fetchAll('
             SELECT r.`id` AS `requestId`, r.`name` AS `requestName`, u.`name` AS `username`, u.`avatar`,
-                    MAX(c.`createdAt`) AS `createdAt`, c.`message`
+                   c.`createdAt` AS `createdAt`, c.`message`
                 FROM `' . CoreTables::AREA_REQUEST_TBL . '` r
-                LEFT JOIN `' . CoreTables::AREA_REQUEST_COMMENT_TBL . '` c ON r.`id` = c.`requestId`
+                LEFT JOIN  (SELECT MAX(`id`) as cid, `requestId` FROM `'.CoreTables::AREA_REQUEST_COMMENT_TBL.'` GROUP BY `requestId`) lastC ON lastC.`requestId` = r.`id` 
+                LEFT JOIN `' . CoreTables::AREA_REQUEST_COMMENT_TBL . '` c ON c.`id` = lastC.`cid`
                 LEFT JOIN `' . CoreTables::USER_TBL . '` u ON u.`id` = c.`userId`
                 WHERE r.`projectId` = :projectId && r.`responsibleId` = :responsibleId
                 GROUP BY r.`id`
