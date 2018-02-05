@@ -61,7 +61,7 @@ class MaterialsCategory implements EntityInterface
         return $this;
     }
 
-    public function getFiles() : ArrayCollection
+    public function getFiles() : Collection
     {
         return $this->files;
     }

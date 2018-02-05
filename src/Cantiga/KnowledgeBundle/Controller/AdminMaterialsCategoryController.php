@@ -13,6 +13,7 @@ use Cantiga\KnowledgeBundle\Form\AdminMaterialsCategoryForm;
 use Cantiga\KnowledgeBundle\Repository\MaterialsCategoryRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class AdminMaterialsCategoryController extends AdminPageController
 {
+    use FileReturnTrait;
+
     const REPOSITORY_NAME = 'cantiga.knowledge.repo.materials_category';
 
     /** @var CRUDInfo */
@@ -42,7 +45,7 @@ class AdminMaterialsCategoryController extends AdminPageController
             ->setInsertPage('admin_materials_category_insert')
             ->setEditPage('admin_materials_category_edit')
             ->setRemovePage('admin_materials_category_remove')
-            ->setRemoveQuestion('admin.remove_file')
+            ->setRemoveQuestion('admin.remove_question')
         ;
         
         $this
@@ -148,6 +151,18 @@ class AdminMaterialsCategoryController extends AdminPageController
             'id' => $id,
         ], [
             'id' => $id,
-        ]);
+        ], function (MaterialsCategory $category) {
+            foreach ($category->getFiles() as $file) {
+                $fs = new Filesystem();
+                $fs->remove([
+                    $this->returnFilePath($file->getPath()),
+                ]);
+                // @TODO: Remove this method when Doctrine ORM mapping will be ready
+                $this
+                    ->get('cantiga.milestone.repo.status')
+                    ->removeMilestoneMaterialsByMaterial($file->getId())
+                ;
+            }
+        });
     }
 }

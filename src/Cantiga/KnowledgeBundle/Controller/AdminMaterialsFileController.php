@@ -219,6 +219,11 @@ class AdminMaterialsFileController extends AdminPageController
             $fs->remove([
                 $this->returnFilePath($file->getPath()),
             ]);
+            // @TODO: Remove this method when Doctrine ORM mapping will be ready
+            $this
+                ->get('cantiga.milestone.repo.status')
+                ->removeMilestoneMaterialsByMaterial($file->getId())
+            ;
         });
     }
 
