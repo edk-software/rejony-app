@@ -19,7 +19,6 @@
 namespace Cantiga\MilestoneBundle\Repository;
 
 use Cantiga\Components\Hierarchy\HierarchicalInterface;
-use Cantiga\Components\Hierarchy\MembershipEntityInterface;
 use Cantiga\CoreBundle\CoreTables;
 use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
@@ -34,6 +33,7 @@ use Cantiga\MilestoneBundle\Entity\Milestone;
 use Cantiga\MilestoneBundle\MilestoneSettings;
 use Cantiga\MilestoneBundle\MilestoneTables;
 use Doctrine\DBAL\Connection;
+use Exception;
 use LogicException;
 use PDO;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -233,7 +233,8 @@ class MilestoneStatusRepository
 		}
 		return $milestones;
 	}
-	private function getMilestoneMaterials($milestoneId)
+
+    private function getMilestoneMaterials($milestoneId)
     {
         $args = [':milestoneId' => $milestoneId];
         $materials = array_reverse($this->conn->fetchAll('SELECT m.`id`, m.`name`, m.`description`, c.`url`, c.`materialType`, c.`description` '
@@ -242,6 +243,19 @@ class MilestoneStatusRepository
             . 'WHERE c.`milestoneId` = :milestoneId '
             . 'ORDER BY c.priority', $args));
         return $materials;
+    }
+
+    // @TODO: Remove this method when Doctrine ORM mapping will be ready
+    public function removeMilestoneMaterialsByMaterial(int $materialId): self
+    {
+        try {
+            $this->conn->delete(MilestoneTables::MILESTONE_MATERIALS_TBL, [
+                'materialId' => $materialId,
+            ]);
+            return $this;
+        } catch (Exception $exception) {
+            throw $exception;
+        }
     }
 
 	public function isAllowed(Place $entity, HierarchicalInterface $who, $editable = false)
