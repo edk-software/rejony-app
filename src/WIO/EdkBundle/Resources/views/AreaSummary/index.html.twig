@@ -15,11 +15,11 @@
 	<th width="20" data-priority="3">{{ 'Online test' |  trans([],'edk') }}</i></th>
 	<th width="10" data-priority="3">{{ 'Profile' | trans }}</th>
 	<th width="10" data-priority="3">{{ 'Route Count' | trans([],'edk') }}</th>
-	<th width="10" data-priority="3">{{ 'GPS Count' | trans([],'edk') }}</th>
-	<th width="10" data-priority="3">{{ 'Description Count' | trans([],'edk') }}</th>
-	<th width="10" data-priority="3">{{ 'Map Count' | trans([],'edk') }}</th>
-	<th width="10" data-priority="3">{{ 'Route Approved' | trans([],'edk') }}</th>
-	<th width="10" data-priority="3">{{ 'Route Certification' | trans([],'edk') }}</th>
+	<th width="10" data-priority="3"></th>
+	<th width="10" data-priority="3"></th>
+	<th width="10" data-priority="3"></th>
+	<th width="10" data-priority="3"></th>
+	<th width="10" data-priority="3"></th>
 	<th width="40" data-priority="0">{{ 'Actions' | trans({}, 'general') }}</th>
 </tr>
 {% endblock %}
@@ -30,6 +30,11 @@
 		{{ dt_col_label(dataTable, 'status', 'statusName', 'statusLabel') }}
     	{{ dt_col_boolean(dataTable, 'contract') }}
     	{{ dt_col_boolean(dataTable, 'stationaryTraining') }}
+    	{{ dt_col_icon(dataTable, 'gpsCount', 'fa fa-map-marker') }}
+    	{{ dt_col_icon(dataTable, 'descriptionCount', 'fa fa-file-pdf-o') }}
+    	{{ dt_col_icon(dataTable, 'mapCount', 'fa fa-map') }}
+    	{{ dt_col_icon(dataTable, 'routesCertification', 'fa fa-star') }}
+    	{{ dt_col_icon(dataTable, 'routesApproved', 'fa fa-check') }}
 		{{ dt_actions(dataTable, [
 			{ 'link': 'info_link', 'name': 'Info' | trans({}, 'general'), 'label': 'btn-primary' }
 		]) }}
