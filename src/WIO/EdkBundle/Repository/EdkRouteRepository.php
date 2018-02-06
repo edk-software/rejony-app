@@ -103,8 +103,11 @@ class EdkRouteRepository
 			->searchableColumn('routeTo', 'i.routeTo')
 			->column('routeLength', 'i.routeLength')
 			->column('updatedAt', 'i.updatedAt')
-			->column('approved', 'i.approved')
-			->column('commentNum', 'i.commentNum');
+			->column('gpsStatus', 'i.gpsStatus')
+			->column('descriptionStatus', 'i.descriptionStatus')
+            ->column('mapStatus', 'i.mapStatus')
+            ->column('approved', 'i.approved')
+            ->column('commentNum', 'i.commentNum');
 		return $dt;
 	}
 	
@@ -124,8 +127,11 @@ class EdkRouteRepository
 			->field('i.routeTo', 'routeTo')
 			->field('i.routeLength', 'routeLength')
 			->field('i.updatedAt', 'updatedAt')
-			->field('i.approved', 'approved')
-			->field('i.commentNum', 'commentNum')
+            ->field('i.gpsStatus', 'gpsStatus')
+            ->field('i.descriptionStatus', 'descriptionStatus')
+			->field('i.mapStatus', 'mapStatus')
+            ->field('i.approved', 'approved')
+            ->field('i.commentNum', 'commentNum')
 			->from(EdkTables::ROUTE_TBL, 'i');
 		
 		if ($this->root instanceof Area) {
@@ -141,6 +147,9 @@ class EdkRouteRepository
 			$row['routeLength'] = self::postprocessLength($row['routeLength']);
 			$row['updatedAtText'] = $this->timeFormatter->ago($row['updatedAt']);
 			$row['removable'] = !$row['approved'];
+            $row['mapStatus'] =  EdkRoute::getMapMark($this->translator,$row['mapStatus']);
+            $row['gpsStatus'] =  EdkRoute::getGpsMark($this->translator,$row['gpsStatus']);
+            $row['descriptionStatus'] =  EdkRoute::getDescriptionMark($this->translator,$row['descriptionStatus']);
             return $row;
 		});
 		

@@ -106,6 +106,8 @@ class CantigaExtension extends Twig_Extension implements Twig_Extension_GlobalsI
 			new Twig_SimpleFunction('dt_col_label', [$this, 'dataTableLabel'], array('is_safe' => array('html'))),
 			new Twig_SimpleFunction('dt_col_rewrite', [$this, 'dataTableRewrite'], array('is_safe' => array('html'))),
 			new Twig_SimpleFunction('dt_col_boolean', [$this, 'dataTableBoolean'], array('is_safe' => array('html'))),
+			new Twig_SimpleFunction('dt_col_icon', [$this, 'dataTableIcon'], array('is_safe' => array('html'))),
+			new Twig_SimpleFunction('dt_col_icon_format', [$this, 'dataTableIconFormatting'], array('is_safe' => array('html'))),
 			new Twig_SimpleFunction('dt_col_progress', [$this, 'dataTableProgress'], array('is_safe' => array('html'))),
 			new Twig_SimpleFunction('avatar', [$this, 'avatar']),
 			new Twig_SimpleFunction('format_time', [$this, 'formatTime']),
@@ -219,6 +221,41 @@ class CantigaExtension extends Twig_Extension implements Twig_Extension_GlobalsI
 		}
 		return '';
 	}
+    public function dataTableIcon(DataTable $dt, $columnName, $icoValue)
+    {
+        $i = 0;
+        foreach ($dt->getColumnDefinitions() as $column) {
+            if ($column['name'] == $columnName) {
+                return '{ targets: '.$i.', render: function(data, type, row) 
+                {
+                    return \'<i class="'.$icoValue.'"></i> '.'\'+row[\'' . $columnName . '\']+\''.'\';
+                    
+                },
+                createdCell: function(td, cellData, rowData, row, col) { $(td).addClass(\'text-center\'); }},';
+            }
+            $i++;
+        }
+        return '';
+    }
+    public function dataTableIconFormatting(DataTable $dt, $columnName, $icoValue, $colorValue, $tooltipValue)
+    {
+        $i = 0;
+        foreach ($dt->getColumnDefinitions() as $column) {
+            if ($column['name'] == $columnName) {
+                return '{ targets: '.$i.', render: function(data, type, row) 
+                {
+                    return \'<i class="fa \''.
+                    '+row[\''.$columnName.'\'][\''.$icoValue.'\']+'.
+                    ' \' text-\''.'+row[\''.$columnName.'\'][\''.$colorValue.'\']+'.
+                    '\'" data-toggle="tooltip" title="\''.'+row[\''.$columnName.'\'][\''.$tooltipValue.'\']+'.'\'" data-original-title="\''.'+row[\''.$columnName.'\'][\''.$tooltipValue.'\']+'.'\'"></i>\';
+                    
+                },
+                createdCell: function(td, cellData, rowData, row, col) { $(td).addClass(\'text-center\'); }},';
+            }
+            $i++;
+        }
+        return '';
+    }
 
 	public function dataTableProgress(DataTable $dt, $columnName, $color)
 	{
