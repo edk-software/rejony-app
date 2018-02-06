@@ -36,8 +36,10 @@ class UserRegistrationIntent
 	public $repeatPassword;
 	public $email;
 	public $language;
-	public $acceptRules;
-	
+	public $acceptTermsOfUse;
+	public $allowPersonalData;
+	public $marketingAgreement;
+
 	private $repository;
 	
 	public function __construct(UserRegistrationRepository $repository)
@@ -62,11 +64,16 @@ class UserRegistrationIntent
 	
 	public function validate(ExecutionContextInterface $context)
 	{
-		if (!$this->acceptRules) {
-			$context->buildViolation('You must accept the terms of service.')->addViolation();
+		if (!$this->acceptTermsOfUse) {
+			$context->buildViolation('You have to accept the terms of use.')->addViolation();
 			return false;
 		}
-		
+
+		if (!$this->allowPersonalData) {
+			$context->buildViolation('You have to allow to use your personal data.')->addViolation();
+			return false;
+		}
+
 		if ($this->password != $this->repeatPassword) {
 			$context->buildViolation('The specified passwords are not identical!')->atPath('password')->addViolation();
 			return false;
@@ -86,6 +93,7 @@ class UserRegistrationIntent
 		$item->getPasswordBuilder()->specifyPassword($this->password);
 		$item->setEmail($this->email);
 		$item->setLanguage($this->language);
+		$item->setMarketingAgreement($this->marketingAgreement);
 		
 		$this->repository->register($item);	
 	}

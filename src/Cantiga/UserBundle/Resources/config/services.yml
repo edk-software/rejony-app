@@ -35,6 +35,7 @@ services:
     cantiga.user.workspace_listener:
         class: Cantiga\UserBundle\EventListener\WorkspaceListener
         tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onControllerSelected }
             - { name: kernel.event_listener, event: cantiga.workspace.project, method: onProjectWorkspace }
             - { name: kernel.event_listener, event: cantiga.workspace.group, method: onGroupWorkspace }
             - { name: kernel.event_listener, event: cantiga.workspace.area, method: onAreaWorkspace }

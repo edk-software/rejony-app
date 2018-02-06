@@ -86,9 +86,25 @@ class AuthController extends CantigaController
 			$intent = new UserRegistrationIntent($repository);
 			$intent->email = $request->get('fromMail', '');
 
+            $marketingAgreementLabel = $this
+                ->getTextRepository()
+                ->getText(CoreTexts::MARKETING_AGREEMENT, $request)
+                ->getContent()
+            ;
+			$personalDataLabel = $this
+                ->getTextRepository()
+                ->getText(CoreTexts::PROCESSING_PERSONAL_DATA, $request)
+                ->getContent()
+            ;
 			$form = $this->createForm(UserRegistrationForm::class, $intent, [
 				'action' => $this->generateUrl('cantiga_auth_register'),
-				'languageRepository' => $langRepo
+				'languageRepository' => $langRepo,
+                'marketingAgreementLabel' => strip_tags($marketingAgreementLabel),
+                'personalDataLabel' => strip_tags($personalDataLabel),
+                'termsOfUseLabel' => sprintf(
+                    $this->trans('I have read and accept <a href="%s" target="_blank">the terms of use</a>.'),
+                    $this->generateUrl('cantiga_auth_terms')
+                ),
 			]);
 			$form->handleRequest($request);
 

@@ -58,6 +58,9 @@ class User implements UserInterface, IdentifiableInterface, InsertableEntityInte
 	private $lastVisit;
 	private $avatar;
 	private $registeredAt;
+	private $termsOfUseAcceptedAt;
+	private $personalDataAllowedAt;
+	private $marketingAgreementAt;
 	private $placeNum;
 
 	private $location;
@@ -93,6 +96,8 @@ class User implements UserInterface, IdentifiableInterface, InsertableEntityInte
 		$user->active = 1;
 		$user->admin = 0;
 		$user->registeredAt = time();
+		$user->personalDataAllowedAt = null;
+		$user->marketingAgreementAt = null;
 		$user->placeNum = 0;
 		$user->settingsLanguage = $lang;
 		$user->settingsTimezone = 'UTC';
@@ -345,6 +350,61 @@ class User implements UserInterface, IdentifiableInterface, InsertableEntityInte
 		return $this->registeredAt;
 	}
 
+    public function setRegisteredAt($registeredAt)
+    {
+        DataMappers::noOverwritingField($this->registeredAt);
+        $this->registeredAt = $registeredAt;
+        return $this;
+    }
+
+	public function getTermsOfUseAcceptedAt()
+	{
+		return $this->termsOfUseAcceptedAt;
+	}
+
+    public function isTermsOfUseAccepted()
+    {
+        return isset($this->termsOfUseAcceptedAt);
+    }
+
+    public function setTermsOfUseAcceptedAt($termsOfUseAcceptedAt)
+    {
+        $this->termsOfUseAcceptedAt = $termsOfUseAcceptedAt;
+        return $this;
+    }
+
+	public function getPersonalDataAllowedAt()
+	{
+		return $this->personalDataAllowedAt;
+	}
+
+    public function isPersonalDataAllowed()
+    {
+        return isset($this->personalDataAllowedAt);
+    }
+
+    public function setPersonalDataAllowedAt($personalDataAllowedAt)
+    {
+        $this->personalDataAllowedAt = $personalDataAllowedAt;
+        return $this;
+    }
+
+	public function getMarketingAgreementAt()
+	{
+		return $this->marketingAgreementAt;
+	}
+
+    public function hasMarketingAgreement()
+    {
+        return isset($this->marketingAgreementAt);
+    }
+
+    public function setMarketingAgreementAt($marketingAgreementAt)
+    {
+        $this->marketingAgreementAt = $marketingAgreementAt;
+        return $this;
+    }
+
 	public function getPlaceNum()
 	{
 		return $this->placeNum;
@@ -354,13 +414,6 @@ class User implements UserInterface, IdentifiableInterface, InsertableEntityInte
 	{
 		DataMappers::noOverwritingField($this->placeNum);
 		$this->placeNum = $placeNum;
-		return $this;
-	}
-	
-	public function setRegisteredAt($registeredAt)
-	{
-		DataMappers::noOverwritingField($this->registeredAt);
-		$this->registeredAt = $registeredAt;
 		return $this;
 	}
 
@@ -440,7 +493,8 @@ class User implements UserInterface, IdentifiableInterface, InsertableEntityInte
 		$this->registeredAt = time();
 		$conn->insert(
 			CoreTables::USER_TBL,
-			DataMappers::pick($this, ['login', 'name', 'email', 'password', 'salt', 'active', 'admin', 'avatar', 'registeredAt'])
+			DataMappers::pick($this, ['login', 'name', 'email', 'password', 'salt', 'active', 'admin', 'avatar',
+                'registeredAt', 'termsOfUseAcceptedAt', 'personalDataAllowedAt', 'marketingAgreementAt'])
 		);
 		$id = $conn->lastInsertId();
 		$data = DataMappers::pick($this, ['location', 'settingsLanguage', 'settingsTimezone']);
@@ -453,7 +507,8 @@ class User implements UserInterface, IdentifiableInterface, InsertableEntityInte
 	{
 		$conn->update(
 			CoreTables::USER_TBL,
-			DataMappers::pick($this, ['name', 'email', 'active', 'admin', 'avatar']),
+			DataMappers::pick($this, ['name', 'email', 'active', 'admin', 'avatar', 'termsOfUseAcceptedAt',
+                'personalDataAllowedAt', 'marketingAgreementAt']),
 			DataMappers::id($this)
 		);
 	}

@@ -18,11 +18,39 @@
  */
 namespace Cantiga\UserBundle\EventListener;
 
+use Cantiga\Components\Workspace\WorkspaceAwareInterface;
+use Cantiga\CoreBundle\Api\Controller\CantigaController;
 use Cantiga\CoreBundle\Api\WorkItem;
+use Cantiga\CoreBundle\Entity\User;
 use Cantiga\CoreBundle\Event\WorkspaceEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 class WorkspaceListener
 {
+    public function onControllerSelected(FilterControllerEvent $event)
+    {
+        $controller = $event->getController();
+        if (is_array($controller)) {
+            $controller = $controller[0];
+        }
+        if ($controller instanceof CantigaController && $controller instanceof WorkspaceAwareInterface) {
+            /** @var User $user */
+            $user = $controller->getUser();
+            $route = $event
+                ->getRequest()
+                ->get('_route')
+            ;
+            if (isset($user) && (!$user->isTermsOfUseAccepted() || !$user->isPersonalDataAllowed()) &&
+                $route !== 'user_profile_agreements') {
+                $event->setController(function () use ($controller) {
+                    return new RedirectResponse($controller->generateUrl('user_profile_agreements'));
+                });
+            }
+        }
+
+    }
+
 	public function onProjectWorkspace(WorkspaceEvent $event)
 	{
 		$workspace = $event->getWorkspace();

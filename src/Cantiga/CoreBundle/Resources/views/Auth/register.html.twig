@@ -64,24 +64,29 @@
                 {{ recaptcha.generateHtmlCode() | raw }}
 			</div>
 			<div class="row">
-				<div class="col-xs-1">
-					<div class="checkbox icheck" name="acceptRules">
-						<label>
-                            {{ form_widget(form.acceptRules) }}
-						</label>
-					</div>
+				<div class="col-xs-12">
+                    {{ form_row(form.acceptTermsOfUse, { attr: { class: 'icheck' } }) }}
 				</div>
-				<div class="col-xs-6">
-					<label for="{{ form.acceptRules.vars.id }}"
-						   style="font-weight: normal">{{ 'I have read and accept the terms of use' | trans }}</label>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+                    {{ form_row(form.allowPersonalData, { attr: { class: 'icheck' } }) }}
 				</div>
-				<!-- /.col -->
-				<div class="col-xs-4">
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+                    {{ form_row(form.marketingAgreement, { attr: { class: 'icheck' } }) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4 col-xs-offset-7">
 					<button type="submit" class="btn btn-primary btn-block btn-flat">{{ 'Register' | trans }}</button>
 				</div>
 			</div>
-			<p class="login-box-msg"><a href="{{ path('cantiga_auth_terms') }}">{{ 'Terms of use' | trans }}</a> &bull;
-				<a href="{{ path('cantiga_auth_login') }}" class="text-center">{{ 'Back to login' | trans }}</a></p>
+			<p class="login-box-msg" style="padding-top:20px">
+				<a href="{{ path('cantiga_auth_terms') }}">{{ 'Terms of use' | trans }}</a> &bull;
+				<a href="{{ path('cantiga_auth_login') }}" class="text-center">{{ 'Back to login' | trans }}</a>
+			</p>
             {{ form_end(form) }}
 		</div>
 	</div>

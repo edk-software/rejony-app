@@ -39,6 +39,7 @@ class UserRegistration implements IdentifiableInterface, InsertableEntityInterfa
 	private $email;
 	private $language;
 	private $provisionKey;
+	private $marketingAgreement;
 	private $requestTime;
 	private $requestIp;
 	/**
@@ -145,6 +146,17 @@ class UserRegistration implements IdentifiableInterface, InsertableEntityInterfa
 		return $this;
 	}
 
+	public function getMarketingAgreement()
+	{
+		return (bool) $this->marketingAgreement;
+	}
+
+	public function setMarketingAgreement($marketingAgreement)
+	{
+		$this->marketingAgreement = (int) $marketingAgreement;
+		return $this;
+	}
+
 	public function getSalt()
 	{
 		return $this->salt;
@@ -200,7 +212,7 @@ class UserRegistration implements IdentifiableInterface, InsertableEntityInterfa
 			throw new UserRegistrationException('The specified login cannot be used.');
 		}
 		
-		$conn->insert(CoreTables::USER_REGISTRATION_TBL, DataMappers::pick($this, ['name', 'login', 'password', 'salt', 'email', 'language', 'provisionKey', 'requestIp', 'requestTime']));
+		$conn->insert(CoreTables::USER_REGISTRATION_TBL, DataMappers::pick($this, ['name', 'login', 'password', 'salt', 'email', 'language', 'provisionKey', 'marketingAgreement', 'requestIp', 'requestTime']));
 		return $this->id = $conn->lastInsertId();
 	}
 	
@@ -223,6 +235,9 @@ class UserRegistration implements IdentifiableInterface, InsertableEntityInterfa
 			$user->setEmail($this->getEmail());
 			$user->setSettingsLanguage($this->getLanguage());
 			$user->setSettingsTimezone($timezone);
+			$user->setTermsOfUseAcceptedAt($this->getRequestTime());
+			$user->setPersonalDataAllowedAt($this->getRequestTime());
+			$user->setMarketingAgreementAt($this->getMarketingAgreement() ? $this->getRequestTime() : null);
 			return $user;
 		} else {
 			throw new UserRegistrationException('Invalid provision key.');

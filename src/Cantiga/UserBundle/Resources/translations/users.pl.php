@@ -72,6 +72,7 @@ return [
 	// contact data editor
 	'ChangeLocationTitle' => 'Zmień swoją lokalizację',
 	'EnterLocationPlaceholder' => 'Wpisz swoją lokalizację',
+	'AgreementsTitle' => 'Ustaw swoje zgody',
 	'WhoCanSeeContactsTitle' => 'Kto widzi moje dane kontaktowe?',
 	'CanViewHead' => 'Może widzieć',
 	'CannotViewHead' => 'Nie może widzieć',

@@ -67,6 +67,7 @@ return [
 	// contact data editor
 	'ChangeLocationTitle' => 'Change your location',
 	'EnterLocationPlaceholder' => 'Enter your location',
+	'AgreementsTitle' => 'Set your agreements',
 	'WhoCanSeeContactsTitle' => 'Who can see my contact data?',
 	'CanViewHead' => 'Can view',
 	'CannotViewHead' => 'Cannot view',

@@ -17,11 +17,11 @@
 					<i class="fa fa-map-marker"></i>
 					<h3 class="box-title">{{ 'ChangeLocationTitle' | trans([], 'users') }}</h3>
 				</div>
-				<form role="form" class="form">
+				<form role="form" id="location-update-form" class="form">
 					<div class="box-body">
 						<div class="form-group">
 							<label for="contact-location">{{ 'Location' | trans([], 'users') }}</label>
-							<input type="location" class="form-control" id="contact-location" value="{{ location }}" placeholder="{{ 'EnterLocationPlaceholder' | trans({}, 'users') }}">
+							<input type="location" name="location" class="form-control" id="contact-location" value="{{ location }}" placeholder="{{ 'EnterLocationPlaceholder' | trans({}, 'users') }}">
 						</div>
 					</div>
 					<div class="box-footer">
@@ -29,6 +29,26 @@
 					</div>
 				</form>
 				<div class="overlay" style="display: none" id="location-overlay">
+					<i class="fa fa-refresh fa-spin"></i>
+				</div>
+			</div>
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<i class="fa fa-map-marker"></i>
+					<h3 class="box-title">{{ 'AgreementsTitle' | trans([], 'users') }}</h3>
+				</div>
+				<form role="form" id="agreements-update-form" class="form">
+					<div class="box-body">
+						<div class="form-group">
+							<input type="checkbox" name="marketing_agreement" id="contact-marketing-agreement" value="true"{% if hasMarketingAgreement %} checked="checked"{% endif %}>
+							<label for="contact-marketing-agreement" style="display:inline">{{ marketingAgreementLabel }}</label>
+						</div>
+					</div>
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary" id="agreements-update-btn" id="update-agreements-btn">{{ 'Update' | trans({}, 'general') }}</button>
+					</div>
+				</form>
+				<div class="overlay" style="display:none" id="agreements-overlay">
 					<i class="fa fa-refresh fa-spin"></i>
 				</div>
 			</div>
@@ -153,6 +173,7 @@
 			contactReloadUrl: '{{ spath('user_profile_contact_data_api_projects') }}',
 			contactUpdateUrl: '{{ spath('user_profile_contact_data_api_project_update') }}',
 			contactLocationUrl: '{{ spath('user_profile_contact_data_api_location_update') }}',
+			contactAgreementsUrl: '{{ spath('user_profile_contact_data_api_agreements_update') }}',
 			lang: {
 				update: '{{ 'Update' | trans({}, 'general') }}'
 			}

@@ -59,23 +59,21 @@
 			});
 			modal.modal({keyboard: true, show: true});
 		}
-		
-		function installLocationUpdater() {
-			root.find('#location-update-btn').unbind('click').click(function() {
-				var formdata = new FormData();
-				formdata.append('location', root.find('#contact-location').val());
-				$.ajax({
-					url: opts['contactLocationUrl'],
-					method: 'POST',
-					data: formdata,
-					processData: false,
-					contentType: false,
-					success: function (result) {
-						startWait('#location-overlay');
-						updateState(result);
-						stopWait('#location-overlay');
-					}
-				});
+
+		function installSectionUpdater(url, formSelector, buttonSelector, overlaySelector) {
+			var form = root.find(formSelector);
+            form.on('submit', function (event) {
+				event.preventDefault();
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        startWait(overlaySelector);
+                        updateState(result);
+                        stopWait(overlaySelector);
+                    }
+                });
 			});
 		}
 		
@@ -125,12 +123,18 @@
 				if (data.projects) {
 					updateAllProjects(data.projects);
 				}
-				if (data.location) {
+				if (typeof data.location === 'string') {
 					markGesture(root.find('#contact-location'), 'fa-thumbs-up');
 				}
+				if (typeof data.marketing_agreement === 'boolean') {
+					markGesture(root.find('#contact-marketing-agreement'), 'fa-thumbs-up');
+				}
 			} else {
-				if (data.location) {
+				if (typeof data.location === 'string') {
 					markGesture(root.find('#contact-location'), 'fa-thumbs-down');
+				}
+				if (typeof data.marketing_agreement === 'boolean') {
+					markGesture(root.find('#contact-marketing-agreement'), 'fa-thumbs-down');
 				}
 			}
 		}
@@ -147,8 +151,23 @@
 				element.popover('destroy');
 			}, 1000);
 		}
-		
-		installLocationUpdater();
+
+        $.each({
+            location: {
+                button: '#location-update-btn',
+				form: '#location-update-form',
+                overlay: '#location-overlay',
+                url: opts['contactLocationUrl']
+            },
+            agreements: {
+                button: '#agreements-update-btn',
+                form: '#agreements-update-form',
+                overlay: '#agreements-overlay',
+                url: opts['contactAgreementsUrl']
+            }
+        }, function (key, data) {
+            installSectionUpdater(data.url, data.form, data.button, data.overlay);
+        });
 		reloadAction();
 		return this;
 	};
@@ -158,7 +177,7 @@
 		contactUpdateUrl: null,
 		contactLocationUrl: null,
 		lang: {
-			update: 'Update',
+			update: 'Update'
 		}
 	};
 }(jQuery));

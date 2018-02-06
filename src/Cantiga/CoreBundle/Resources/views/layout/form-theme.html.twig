@@ -281,8 +281,8 @@
 
         {% if inline is defined and inline %}
             {{ checkboxdata|raw }}
-        {% else%}
-            <div class="checkbox">{{ checkboxdata|raw }}</div>
+        {% else %}
+            <div class="checkbox {{ attr.class|default('') }}">{{ checkboxdata|raw }}</div>
         {% endif %}
 
         {{ block('form_help') }}

@@ -20,9 +20,12 @@ namespace Cantiga\UserBundle\Controller;
 
 use Cantiga\CoreBundle\Api\Actions\FormAction;
 use Cantiga\CoreBundle\Api\Controller\UserPageController;
+use Cantiga\CoreBundle\CoreTexts;
+use Cantiga\CoreBundle\Entity\User;
 use Cantiga\Metamodel\Exception\ModelException;
 use Cantiga\UserBundle\Form\UserChangeEmailForm;
 use Cantiga\UserBundle\Form\UserChangePasswordForm;
+use Cantiga\UserBundle\Form\UserAgreementsForm;
 use Cantiga\UserBundle\Form\UserPhotoUploadForm;
 use Cantiga\UserBundle\Form\UserSettingsForm;
 use Cantiga\UserBundle\Intent\EmailChangeIntent;
@@ -56,8 +59,16 @@ class ProfileController extends UserPageController
 	public function contactDataAction(Request $request)
 	{
 		$this->breadcrumbs()->entryLink($this->trans('Contact data', [], 'pages'), 'user_profile_contact_data');
-		return $this->render(self::TEMPLATE_LOCATION.':contact-data.html.twig', [
-			'location' => $this->getUser()->getLocation()
+		$user = $this->getUser();
+        $marketingAgreementLabel = $this
+            ->getTextRepository()
+            ->getText(CoreTexts::MARKETING_AGREEMENT, $request)
+            ->getContent()
+        ;
+        return $this->render(self::TEMPLATE_LOCATION . ':contact-data.html.twig', [
+			'location' => $user->getLocation(),
+			'hasMarketingAgreement' => $user->hasMarketingAgreement(),
+			'marketingAgreementLabel' => $marketingAgreementLabel,
 		]);
 	}
 
@@ -120,6 +131,32 @@ class ProfileController extends UserPageController
 			return new JsonResponse(['success' => 1, 'location' => $location]);
 		} catch (\Exception $exception) {
 			return new JsonResponse(['success' => 0]);
+		}
+	}
+
+	/**
+	 * @Route("/contact-data/agreements", name="user_profile_contact_data_api_agreements_update")
+	 * @Method({"POST"})
+	 */
+	public function apiAgreementsUpdateAction(Request $request)
+	{
+		try {
+            $marketingAgreement = $request->request->getBoolean('marketing_agreement');
+
+            $user = $this->getUser();
+			$user->setMarketingAgreementAt($marketingAgreement ? time() : null);
+
+            $repository = $this->get(self::REPOSITORY);
+			$repository->update($user);
+
+			return new JsonResponse([
+                'marketing_agreement' => $user->hasMarketingAgreement(),
+                'success' => 1,
+            ]);
+		} catch (\Exception $exception) {
+			return new JsonResponse([
+			    'success' => 0,
+            ]);
 		}
 	}
 	
@@ -228,4 +265,58 @@ class ProfileController extends UserPageController
 	{
 		return $this->get('cantiga.user.repo.contact');
 	}
+
+    /**
+     * @Route("/agreements", name="user_profile_agreements")
+     */
+    public function agreementsAction(Request $request)
+    {
+        /** @var User|null $user */
+        $user = $this->getUser();
+        if (!isset($user)) {
+            return $this->redirectToRoute('cantiga_auth_login');
+        }
+        if ($user->isTermsOfUseAccepted() && $user->isPersonalDataAllowed()) {
+            return $this->redirectToRoute('cantiga_home_page');
+        }
+        $textRepository = $this->getTextRepository();
+        $marketingAgreementLabel = $textRepository
+            ->getText(CoreTexts::MARKETING_AGREEMENT, $request)
+            ->getContent()
+        ;
+        $personalDataLabel = $textRepository
+            ->getText(CoreTexts::PROCESSING_PERSONAL_DATA, $request)
+            ->getContent()
+        ;
+        $form = $this->createForm(UserAgreementsForm::class, null, [
+            'action' => $this->generateUrl('user_profile_agreements'),
+            'marketingAgreementLabel' => strip_tags($marketingAgreementLabel),
+            'personalDataLabel' => strip_tags($personalDataLabel),
+            'termsOfUseLabel' => sprintf(
+                $this->trans('I have read and accept <a href="%s" target="_blank">the terms of use</a>.'),
+                $this->generateUrl('cantiga_auth_terms')
+            ),
+            'user' => $user,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $time = time();
+            $user
+                ->setTermsOfUseAcceptedAt($time)
+                ->setPersonalDataAllowedAt($time)
+                ->setMarketingAgreementAt($data['marketingAgreement'] ? $time : null)
+            ;
+            $this
+                ->get('cantiga.user.repo.profile')
+                ->update($user)
+            ;
+            return $this->redirectToRoute('cantiga_home_page');
+        }
+
+        return $this->render('CantigaUserBundle:Profile:agreements.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

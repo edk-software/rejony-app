@@ -11,7 +11,7 @@ return array(
 	'Unique login' => 'Unikalny login',
 	'Password' => 'Hasło',
 	'Repeat password' => 'Powtórz hasło',
-	'I have read and accept the terms of use' => 'Przeczytałem i akceptuję zasady',
+	'I have read and accept <a href="%s" target="_blank">the terms of use</a>.' => 'Przeczytałem i akceptuję <a href="%s" target="_blank">zasady korzystania</a>.',
 	'Terms of use' => 'Zasady korzystania',
 	'Back to login' => 'Powrót do logowania',
 	'Please log in' => 'Zaloguj się', 

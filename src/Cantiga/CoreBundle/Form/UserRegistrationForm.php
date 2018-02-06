@@ -33,7 +33,7 @@ class UserRegistrationForm extends AbstractType
 {
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefined(['languageRepository']);
+		$resolver->setDefined(['languageRepository', 'termsOfUseLabel', 'personalDataLabel', 'marketingAgreementLabel']);
 		$resolver->setRequired(['languageRepository']);
 		$resolver->addAllowedTypes('languageRepository', LanguageRepository::class);
 	}
@@ -47,8 +47,10 @@ class UserRegistrationForm extends AbstractType
 			->add('repeatPassword', PasswordType::class, array('label' => 'Repeat password', 'attr' => ['placeholder' => 'Repeat password']))
 			->add('email', EmailType::class, array('label' => 'E-mail address', 'attr' => ['placeholder' => 'E-mail']))
 			->add('language', ChoiceType::class, array('label' => 'Language', 'choices' => $options['languageRepository']->getFormChoices()))
-			->add('acceptRules', CheckboxType::class);
-		
+			->add('acceptTermsOfUse', CheckboxType::class, array('label' => $options['termsOfUseLabel']))
+			->add('allowPersonalData', CheckboxType::class, array('label' => $options['personalDataLabel']))
+			->add('marketingAgreement', CheckboxType::class, array('label' => $options['marketingAgreementLabel'], 'required' => false));
+
 		$builder->get('language')->addModelTransformer(new EntityTransformer($options['languageRepository']));
 	}
 

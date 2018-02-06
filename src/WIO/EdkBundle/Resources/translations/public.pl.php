@@ -66,7 +66,7 @@ return [
 	'Registered participants' => 'Zarejestrowanych uczestników',
 	
 	'EmailNotRequiredHelpText' => 'E-mail nie jest obowiązkowy przy dodawaniu uczestnika przez Panel.',	
-	'AgeHelpText' => 'Podawanie powyżej wieku służy jedynie celom statystycznym. Należy pamiętać, że osoby niepełnoletnie przebywaja pod władzą rodzicielską i ich wyruszenie na EDK może odbywać się wyłącznieza zgodą opiekunów prawnych.',
+	'AgeHelpText' => 'Podawanie powyżej wieku służy jedynie celom statystycznym. Należy pamiętać, że osoby niepełnoletnie przebywaja pod władzą rodzicielską i ich wyruszenie na EDK może odbywać się wyłącznie za zgodą opiekunów prawnych.',
 	
 	'male' => 'mężczyzna',
 	'female' => 'kobieta',
