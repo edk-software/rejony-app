@@ -5,6 +5,7 @@ namespace Cantiga\UserBundle\Form;
 use Cantiga\CoreBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,6 +28,15 @@ class UserAgreementsForm extends AbstractType
 	    /** @var User $user */
 	    $user = $options['user'];
 		$builder
+            ->add('email', HiddenType::class, [
+                'data' => $user->getEmail()
+            ])
+            ->add('username', HiddenType::class, [
+                'data' => $user->getUsername()
+            ])
+            ->add('login', HiddenType::class, [
+                'data' => $user->getLogin()
+            ])
 			->add('acceptTermsOfUse', CheckboxType::class, [
                 'constraints' => [
                     new NotBlank(),
