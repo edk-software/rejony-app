@@ -44,8 +44,11 @@ class CantigaCoreBundle extends Bundle
 		AppTexts::registerName(CoreTexts::AREA_REQUEST_REVOKED_INFO_TEXT);
 		AppTexts::registerName(CoreTexts::AREA_REQUEST_CREATION_STEP2_TEXT);
 		AppTexts::registerName(CoreTexts::TERMS_OF_USE_TEXT);
+		AppTexts::registerName(CoreTexts::TERMS_OF_USE_LABEL);
+		AppTexts::registerName(CoreTexts::TERMS_OF_USE_LINK);
 		AppTexts::registerName(CoreTexts::LOGIN_TEXT);
 		AppTexts::registerName(CoreTexts::PROCESSING_PERSONAL_DATA);
+		AppTexts::registerName(CoreTexts::PERSONAL_DATA_INFO);
 		AppTexts::registerName(CoreTexts::MARKETING_AGREEMENT);
 		AppTexts::registerName(CoreTexts::DASHBOARD_ADMIN_TEXT);
 		AppTexts::registerName(CoreTexts::DASHBOARD_USER_TEXT);

@@ -19,13 +19,14 @@
 				<div class="form-group">
 					{{ form_row(form.marketingAgreement) }}
 				</div>
-				<div class="row">
+				<div class="row margin-bottom">
 					<div class="col-xs-6 col-xs-offset-6">
 						{{ form_widget(form.save) }}
 						<a href="{{ path('cantiga_auth_logout') }}" class="btn btn-default">{{ 'Sign out'|trans({}, 'pages') }}</a>
 					</div>
 				</div>
             {{ form_end(form) }}
+			<small>{{ personalDataInfo | raw }}</small>
 		</div>
 	</div>
 {% endblock %}

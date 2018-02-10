@@ -29,10 +29,17 @@ class CoreTexts
 	const AREA_REQUEST_VERIFICATION_INFO_TEXT = 'cantiga:area-request:verification';
 	const AREA_REQUEST_APPROVED_INFO_TEXT = 'cantiga:area-request:approved';
 	const AREA_REQUEST_REVOKED_INFO_TEXT = 'cantiga:area-request:revoked';
+
 	const TERMS_OF_USE_TEXT = 'cantiga:terms-of-use';
+	const TERMS_OF_USE_LABEL = 'cantiga:terms-of-use-label';
+	const TERMS_OF_USE_LINK = 'cantiga:terms-of-use-link';
+
 	const LOGIN_TEXT = 'cantiga:login';
+
 	const PROCESSING_PERSONAL_DATA = 'cantiga:processing-data';
+	const PERSONAL_DATA_INFO = 'cantiga:processing-data-info';
 	const MARKETING_AGREEMENT = 'cantiga:marketing-agreement';
+
 	const DASHBOARD_USER_TEXT = 'cantiga:dashboard:user';
 	const DASHBOARD_ADMIN_TEXT = 'cantiga:dashboard:admin';
 	const DASHBOARD_PROJECT_TEXT = 'cantiga:dashboard:project';

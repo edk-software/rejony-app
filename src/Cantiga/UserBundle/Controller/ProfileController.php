@@ -280,22 +280,37 @@ class ProfileController extends UserPageController
             return $this->redirectToRoute('cantiga_home_page');
         }
         $textRepository = $this->getTextRepository();
+
+        $termsOfUseLink = $textRepository
+            ->getText(CoreTexts::TERMS_OF_USE_LINK, $request)
+        ;
+        $termsOfUseUrl = $termsOfUseLink->isEmpty() ? $this->generateUrl('cantiga_auth_terms') : $termsOfUseLink->getContent();
+        $termsOfUse = $textRepository
+            ->getText(CoreTexts::TERMS_OF_USE_LABEL, $request)
+        ;
+        $termsOfUseLabel = !$termsOfUse->isEmpty() ? $termsOfUse->getContent(): sprintf(
+            $this->trans('I have read and accept <a href="%s" target="_blank">the terms of use</a>.'),
+            $termsOfUseUrl
+        );
         $marketingAgreementLabel = $textRepository
             ->getText(CoreTexts::MARKETING_AGREEMENT, $request)
             ->getContent()
         ;
-        $personalDataLabel = $textRepository
+        $termsOfEditionLabel = $textRepository
             ->getText(CoreTexts::PROCESSING_PERSONAL_DATA, $request)
+            ->getContent()
+        ;
+
+
+        $personalDataInfo = $textRepository
+            ->getText(CoreTexts::PERSONAL_DATA_INFO, $request)
             ->getContent()
         ;
         $form = $this->createForm(UserAgreementsForm::class, null, [
             'action' => $this->generateUrl('user_profile_agreements'),
             'marketingAgreementLabel' => strip_tags($marketingAgreementLabel),
-            'personalDataLabel' => strip_tags($personalDataLabel),
-            'termsOfUseLabel' => sprintf(
-                $this->trans('I have read and accept <a href="%s" target="_blank">the terms of use</a>.'),
-                $this->generateUrl('cantiga_auth_terms')
-            ),
+            'personalDataLabel' => $termsOfEditionLabel,
+            'termsOfUseLabel' => $termsOfUseLabel,
             'user' => $user,
         ]);
         $form->handleRequest($request);
@@ -317,6 +332,7 @@ class ProfileController extends UserPageController
 
         return $this->render('CantigaUserBundle:Profile:agreements.html.twig', [
             'form' => $form->createView(),
+            'personalDataInfo' => $personalDataInfo,
         ]);
     }
 }

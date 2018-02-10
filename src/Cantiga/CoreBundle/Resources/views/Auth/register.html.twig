@@ -4,17 +4,6 @@
 	<script src="{{ recaptcha_api_url }}"></script>
 {% endblock %}
 
-{% block javascripts_inline %}
-	<script>
-	  $(function () {
-		$('input').iCheck({
-		  checkboxClass: 'icheckbox_square-blue',
-		  radioClass: 'iradio_square-blue',
-		  increaseArea: '20%' // optional
-		});
-	  });
-	</script>
-{% endblock %}
 
 {% block page_content %}
 	{% include 'CantigaCoreBundle:layout:flash.html.twig' %}
@@ -65,17 +54,17 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
-                    {{ form_row(form.acceptTermsOfUse, { attr: { class: 'icheck' } }) }}
+                    {{ form_row(form.acceptTermsOfUse) }}
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
-                    {{ form_row(form.allowPersonalData, { attr: { class: 'icheck' } }) }}
+                    {{ form_row(form.allowPersonalData) }}
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
-                    {{ form_row(form.marketingAgreement, { attr: { class: 'icheck' } }) }}
+                    {{ form_row(form.marketingAgreement) }}
 				</div>
 			</div>
 			<div class="row">
@@ -84,10 +73,12 @@
 				</div>
 			</div>
 			<p class="login-box-msg" style="padding-top:20px">
-				<a href="{{ path('cantiga_auth_terms') }}">{{ 'Terms of use' | trans }}</a> &bull;
+				<a href="{{ termsOfUseUrl | raw }}" target="_blank">{{ 'Terms of use' | trans }}</a> &bull;
 				<a href="{{ path('cantiga_auth_login') }}" class="text-center">{{ 'Back to login' | trans }}</a>
 			</p>
             {{ form_end(form) }}
+
+			<small>{{ personalDataInfo | raw }}</small>
 		</div>
 	</div>
 {% endblock %}

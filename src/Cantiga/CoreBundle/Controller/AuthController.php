@@ -86,25 +86,41 @@ class AuthController extends CantigaController
 			$intent = new UserRegistrationIntent($repository);
 			$intent->email = $request->get('fromMail', '');
 
+
+            $termsOfUseLink = $this
+                ->getTextRepository()
+                ->getText(CoreTexts::TERMS_OF_USE_LINK, $request)
+            ;
+            $termsOfUseLinkUrl = $termsOfUseLink->isEmpty() ? $this->generateUrl('cantiga_auth_terms') : $termsOfUseLink->getContent();
+            $termsOfUse = $this
+                ->getTextRepository()
+                ->getText(CoreTexts::TERMS_OF_USE_LABEL, $request)
+            ;
+            $termsOfUseLabel = !$termsOfUse->isEmpty() ? $termsOfUse->getContent() : sprintf(
+                $this->trans('I have read and accept <a href="%s" target="_blank">the terms of use</a>.'),
+                $termsOfUseLinkUrl
+            );
+            $termOfEditionLabel = $this
+                ->getTextRepository()
+                ->getText(CoreTexts::PROCESSING_PERSONAL_DATA, $request)
+                ->getContent()
+            ;
             $marketingAgreementLabel = $this
                 ->getTextRepository()
                 ->getText(CoreTexts::MARKETING_AGREEMENT, $request)
                 ->getContent()
             ;
-			$personalDataLabel = $this
+            $personalDataInfo = $this
                 ->getTextRepository()
-                ->getText(CoreTexts::PROCESSING_PERSONAL_DATA, $request)
+                ->getText(CoreTexts::PERSONAL_DATA_INFO, $request)
                 ->getContent()
             ;
 			$form = $this->createForm(UserRegistrationForm::class, $intent, [
 				'action' => $this->generateUrl('cantiga_auth_register'),
 				'languageRepository' => $langRepo,
                 'marketingAgreementLabel' => strip_tags($marketingAgreementLabel),
-                'personalDataLabel' => strip_tags($personalDataLabel),
-                'termsOfUseLabel' => sprintf(
-                    $this->trans('I have read and accept <a href="%s" target="_blank">the terms of use</a>.'),
-                    $this->generateUrl('cantiga_auth_terms')
-                ),
+                'personalDataLabel' => $termOfEditionLabel,
+                'termsOfUseLabel' => $termsOfUseLabel,
 			]);
 			$form->handleRequest($request);
 
@@ -120,6 +136,8 @@ class AuthController extends CantigaController
 				'item' => $intent,
 				'form' => $form->createView(),
                 'recaptcha' => $recaptcha,
+                'termsOfUseUrl' => $termsOfUseLinkUrl,
+                'personalDataInfo' => $personalDataInfo
 			]);
 		} catch(ModelException $exception) {
 			$this->get('session')->getFlashBag()->add('error', $this->trans($exception->getMessage()));
