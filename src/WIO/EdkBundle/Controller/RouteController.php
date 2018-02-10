@@ -20,6 +20,7 @@ namespace WIO\EdkBundle\Controller;
 
 use Cantiga\Components\Hierarchy\Entity\Membership;
 use Cantiga\Components\Hierarchy\Importer\ImporterInterface;
+use Cantiga\Components\Hierarchy\HierarchicalInterface;
 use Cantiga\CoreBundle\Api\Actions\CRUDInfo;
 use Cantiga\CoreBundle\Api\Actions\EditAction;
 use Cantiga\CoreBundle\Api\Actions\InfoAction;
@@ -30,7 +31,6 @@ use Cantiga\CoreBundle\Api\Controller\WorkspaceController;
 use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
 use Cantiga\CoreBundle\Entity\Message;
-use Cantiga\CoreBundle\Entity\Project;
 use Cantiga\Metamodel\Exception\ModelException;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -409,7 +409,7 @@ class RouteController extends WorkspaceController
 		return null;
 	}
 
-	private function getAreaRepository(Project $place)
+	private function getAreaRepository(HierarchicalInterface $place)
     {
         $repository = $this->get('cantiga.core.repo.area_mgmt');
         $repository->setParentPlace($place);
