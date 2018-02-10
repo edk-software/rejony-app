@@ -38,7 +38,7 @@ class MaterialsFile implements EntityInterface, LevelAwareInterface
      * @var string
      * @Assert\File(
      *     groups = { "add" },
-     *     mimeTypes = { "application/pdf", "application/zip" }
+     *     mimeTypes = { "application/pdf", "application/zip", "text/rtf" }
      * )
      * @Assert\NotBlank(
      *     groups = { "add", "edit" }
