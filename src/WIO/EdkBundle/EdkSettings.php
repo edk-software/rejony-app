@@ -21,6 +21,7 @@ namespace WIO\EdkBundle;
 class EdkSettings
 {
 	const PUBLISHED_AREA_STATUS = 'edk_published_area_status';
+	const MIRROR_URL = 'edk_mirror_url';
 	const GUIDE_MIRROR_URL = 'edk_guide_mirror_url';
 	const MAP_MIRROR_URL = 'edk_map_mirror_url';
 	const GPS_MIRROR_URL = 'edk_gps_mirror_url';

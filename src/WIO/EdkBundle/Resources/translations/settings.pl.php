@@ -4,4 +4,5 @@ return [
 	'Guide mirror URL' => 'URL do lustrzanej lokalizacji opisów tras',
 	'Map mirror URL' => 'URL do lustrzanej lokalizacji map',
 	'GPS mirror URL' => 'URL do lustrzanej lokalizacji śladów',
+	'Mirror URL' => 'URL do lustrzanej lokalizacji plików',
 ];
