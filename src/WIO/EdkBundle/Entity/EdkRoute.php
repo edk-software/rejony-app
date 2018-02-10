@@ -1101,9 +1101,10 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		if (!$this->approved) {
 			$this->approvedAt = time();
 			$this->approved = true;
+			$this->gpsStatus = self::STATUS_APPROVED;
 
 			$conn->update(EdkTables::ROUTE_TBL,
-				['approvedAt' => $this->approvedAt, 'approved' => $this->approved],
+				['approvedAt' => $this->approvedAt, 'approved' => $this->approved, 'gpsStatus'=>$this->gpsStatus],
 				['id' => $this->getId()]
 			);
 			return true;
