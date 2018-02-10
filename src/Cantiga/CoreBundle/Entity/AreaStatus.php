@@ -32,6 +32,7 @@ class AreaStatus implements IdentifiableInterface, InsertableEntityInterface, Ed
 	private $name;
 	private $label;
 	private $isDefault;
+	private $isPublish;
 	private $areaNum;
 	private $project;
 	
@@ -136,6 +137,17 @@ class AreaStatus implements IdentifiableInterface, InsertableEntityInterface, Ed
 		return $this;
 	}
 
+    public function getIsPublish()
+    {
+        return $this->isPublish;
+    }
+
+    public function setIsPublish($isPublish)
+    {
+        $this->isPublish = $isPublish;
+        return $this;
+    }
+
 	public function insert(Connection $conn)
 	{
 		if ($this->isDefault) {
@@ -143,7 +155,7 @@ class AreaStatus implements IdentifiableInterface, InsertableEntityInterface, Ed
 		}
 		$conn->insert(
 			CoreTables::AREA_STATUS_TBL,
-			DataMappers::pick($this, ['name', 'label', 'isDefault', 'project'])
+			DataMappers::pick($this, ['name', 'label', 'isDefault', 'project', 'isPublish'])
 		);
 		return $conn->lastInsertId();
 	}
@@ -155,7 +167,7 @@ class AreaStatus implements IdentifiableInterface, InsertableEntityInterface, Ed
 		}
 		return $conn->update(
 			CoreTables::AREA_STATUS_TBL,
-			DataMappers::pick($this, ['name', 'label', 'isDefault', 'project']),
+			DataMappers::pick($this, ['name', 'label', 'isDefault', 'project', 'isPublish']),
 			DataMappers::pick($this, ['id'])
 		);
 	}

@@ -31,6 +31,7 @@ class ProjectAreaStatusForm extends AbstractType
 		$builder
 			->add('name', TextType::class, ['label' => 'Name'])
 			->add('label', TextType::class, ['label' => 'CSS Label'])
+			->add('isPublish', BooleanType::class, ['label' => 'Is published'])
 			->add('isDefault', BooleanType::class, ['label' => 'Is default?'])
 			->add('save', SubmitType::class, ['label' => 'Save']);
 	}

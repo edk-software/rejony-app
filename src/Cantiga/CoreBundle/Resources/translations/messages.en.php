@@ -15,8 +15,10 @@ return array(
 	
 	'Your workspaces' => 'Your workspaces',
 	'You are a member of:' => 'You are a member of:',
-	
-	'ArchiveDescriptionText' => 'Completed projects and places in these projects land in the archive. Here you can view and access them.',
+    'Is published' => 'Is published status?',
+
+
+    'ArchiveDescriptionText' => 'Completed projects and places in these projects land in the archive. Here you can view and access them.',
 	
 	// Area group information
 	'AreaNotAssignedToGroupMsg' => 'This area is not assigned to any group yet. Once the assignment is done, you will find here the information about the group you are a member of.',

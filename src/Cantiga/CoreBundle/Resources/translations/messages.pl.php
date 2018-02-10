@@ -194,6 +194,7 @@ return array(
 	'Area number' => 'Liczba rejonów',
 	'Default?' => 'Domyślny?',
 	'Is default?' => 'Domyślny?',
+	'Is published' => 'Czy rejon z tym statusem jest publiczny?',
 	'Translation to current language' => 'Tłumaczenie na bieżący język',
 	
 	// Project territories
