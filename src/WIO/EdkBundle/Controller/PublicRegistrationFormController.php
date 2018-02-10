@@ -18,6 +18,7 @@
  */
 namespace WIO\EdkBundle\Controller;
 
+use Cantiga\CoreBundle\CoreTexts;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
 use DateInterval;
@@ -172,6 +173,7 @@ class PublicRegistrationFormController extends PublicEdkController
 			'text' => $text,
 			'slug' => $this->project->getSlug(),
 			'currentPage' => self::CURRENT_PAGE,
+			'personalDataInfo' => $this->getTextRepository()->getText(CoreTexts::PERSONAL_DATA_INFO, $request, $this->project)->getContent(),
 		));
 		return $response;
 	}
@@ -222,9 +224,9 @@ class PublicRegistrationFormController extends PublicEdkController
 	private function buildTexts(Request $request): array
 	{
 		return [
-			1 => strip_tags($this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS1_TEXT, $request, $this->project)->getContent()),
-			2 => strip_tags($this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS2_TEXT, $request, $this->project)->getContent()),
-			3 => strip_tags($this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS3_TEXT, $request, $this->project)->getContent())
+			1 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS1_TEXT, $request, $this->project)->getContent(),
+			2 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS2_TEXT, $request, $this->project)->getContent(),
+			3 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS3_TEXT, $request, $this->project)->getContent()
 		];
 	}
 }
