@@ -57,24 +57,8 @@ class AreaSummaryExtension implements DashboardExtensionInterface
 		return $this->templating->render('CantigaCoreBundle:Area:area-summary.html.twig',
             [
                 'area' => $area,
-                'bgcolor' => $this->translateColor($area),
+                'bgcolor' => $area->getStatus()->getLabel(),
                 'mygroup' => 'area_my_group'
             ]);
-	}
-	
-	private function translateColor(Area $area)
-	{
-		switch ($area->getStatus()->getLabel()) {
-			case 'success':
-				return 'green';
-			case 'warning':
-				return 'orange';
-			case 'danger':
-				return 'red';
-			case 'primary':
-				return 'blue';
-			default:
-				return 'grey';
-		}
 	}
 }
