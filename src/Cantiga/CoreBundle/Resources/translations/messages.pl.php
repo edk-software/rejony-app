@@ -237,6 +237,7 @@ return array(
 	'Modules' => 'Moduły',
 	'Project' => 'Projekt',
 	'Parent project' => 'Nadrzędny projekt',
+	'Edition' => 'Identyfikator edycji',
 	'Areas allowed?' => 'Obsługa rejonów?',
 	'Area registration allowed?' => 'Rejestracja rejonów?',
 	'Created at' => 'Utworzono',

@@ -28,6 +28,10 @@
 							<td>{{ item.description }}</td>
 						</tr>
 						<tr>
+							<td width="30%">{{ 'Edition' | trans }}</td>
+							<td>{{ item.editionId }}</td>
+						</tr>
+						<tr>
 							<td width="30%">{{ 'Created at' | trans }}</td>
 							<td>{{ format_time(TimeFormatter.FORMAT_DATE_LONG, item.createdAt) }} ({{ ago(item.createdAt) }})</td>
 						</tr>

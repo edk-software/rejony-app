@@ -43,6 +43,7 @@ class Project implements IdentifiableInterface, InsertableEntityInterface, Edita
 	private $name;
 	private $slug;
 	private $description;
+	private $editionId;
 	private $parentProject = null;
 	private $modules = [];
 	private $areasAllowed = false;
@@ -291,8 +292,20 @@ class Project implements IdentifiableInterface, InsertableEntityInterface, Edita
 	}
 
 	public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getEditionId()
 	{
-		$this->slug = $slug;
+		return $this->editionId;
+	}
+
+	public function setEditionId($editionId)
+	{
+		$this->editionId = $editionId;
 		return $this;
 	}
 
@@ -459,7 +472,7 @@ class Project implements IdentifiableInterface, InsertableEntityInterface, Edita
 		
 		$conn->insert(
 			CoreTables::PROJECT_TBL,
-			DataMappers::pick($this, ['name', 'slug', 'description', 'parentProject', 'areasAllowed', 'areaRegistrationAllowed', 'place'], [
+			DataMappers::pick($this, ['name', 'slug', 'description', 'parentProject', 'areasAllowed', 'areaRegistrationAllowed', 'place', 'editionId'], [
 				'modules' => implode(',', $this->getModules()),
 				'archived' => false,
 				'createdAt' => time(),
@@ -476,7 +489,7 @@ class Project implements IdentifiableInterface, InsertableEntityInterface, Edita
 		
 		return $conn->update(
 			CoreTables::PROJECT_TBL,
-			DataMappers::pick($this, ['name', 'description', 'parentProject', 'areasAllowed', 'areaRegistrationAllowed', 'archived', 'archivedAt'], [
+			DataMappers::pick($this, ['name', 'description', 'parentProject', 'areasAllowed', 'areaRegistrationAllowed', 'archived', 'archivedAt', 'editionId'], [
 				'modules' => implode(',', $this->getModules())
 			]),
 			DataMappers::pick($this, ['id'])

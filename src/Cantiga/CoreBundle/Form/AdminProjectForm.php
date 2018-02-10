@@ -24,6 +24,7 @@ use Cantiga\CoreBundle\Repository\ArchivedProjectRepository;
 use Cantiga\Metamodel\Form\EntityTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -44,6 +45,7 @@ class AdminProjectForm extends AbstractType
 		$builder
 			->add('name', TextType::class, array('label' => 'Name'))
 			->add('description', TextareaType::class, array('label' => 'Description'))
+			->add('editionId', NumberType::class, array('label' => 'Edition'))
 			->add('parentProject', ChoiceType::class, array('label' => 'Parent project', 'required' => false, 'choice_translation_domain' => false, 'choices' => $options['projectRepo']->getFormChoices()))
 			->add('modules', ChoiceType::class, array('label' => 'Modules', 'expanded' => true, 'multiple' => true, 'choices' => Modules::getFormEntries()))
 			->add('areasAllowed', BooleanType::class, array('label' => 'Areas allowed?'))
