@@ -32,7 +32,7 @@ class UserAgreementsForm extends AbstractType
                 'data' => $user->getEmail()
             ])
             ->add('username', HiddenType::class, [
-                'data' => $user->getUsername()
+                'data' => $user->getName()
             ])
             ->add('login', HiddenType::class, [
                 'data' => $user->getLogin()
