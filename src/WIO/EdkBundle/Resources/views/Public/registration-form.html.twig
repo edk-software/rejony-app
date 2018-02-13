@@ -3,9 +3,10 @@
 {% block title %}{{ 'Register page' | trans([], 'public') }} - {{ 'Extreme Way of the Cross' | trans([], 'public') }}{% endblock %}
 
 {% block page_content %}
+    <section class="main container">
+        <div class="col-md-12 content center"><h1>{{ 'Register to Extreme Way of the Cross' | trans([], 'public') }}</h1></div>
+    </section>
     <div id="registration">
-        <h2>{{ 'Register to Extreme Way of the Cross' | trans([], 'public') }}</h2>
-
         {{ text.content | raw }}
 
         {{ form_start(form) }}
@@ -16,7 +17,7 @@
         {% endif %}
         <div class="row">
             {% if route %}
-                <div class="col-lg-6 col-md-12">
+                <div class="col-md-6 col-sm-12">
                     <h4>{{ 'Chosen route: 0' | trans([ route.name ], 'public') }}</h4>
                     <table class="table table-hover">
                         <tbody>
@@ -51,22 +52,9 @@
                             </tr>
                         {% endif %}
                         <tr>
-                            <td width="30%">{{ 'Estimated number of participants' | trans([], 'public') }}</td>
-                            <td>{{ registrationSettings.participantLimit }}</td>
-                        </tr>
-                        <tr>
-                            <td width="30%">{{ 'Registered participants' | trans([], 'public') }}</td>
-                            <td>{{ registrationSettings.participantNum }}</td>
-                        </tr>
-                        <tr>
                             <td width="30%"></td>
                             <td><a href="http://www.edk.org.pl/trasa-edk/{{ route.id }}/"
                                    target="_blank">{{ 'Route details' | trans([], 'public') }}</a></td>
-                        </tr>
-                        <tr>
-                            <td width="30%"></td>
-                            <td><a href="http://www.edk.org.pl/rejon-edk/{{ route.area.id }}/"
-                                   target="_blank">{{ 'Area details' | trans([], 'public') }}</a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -75,7 +63,7 @@
                     {% endif %}
                 </div>
             {% else %}
-                <div class="col-lg-6 col-md-12">
+                <div class="col-md-6 col-sm-12">
                     <fieldset>
                         <legend>{{ 'Choose the route' | trans([], 'public') }}</legend>
                         <div class="form-group">
@@ -85,7 +73,7 @@
                     </fieldset>
                 </div>
             {% endif %}
-            <div class="col-lg-6 col-md-12">
+            <div class="col-md-6 col-sm-12">
                 <fieldset>
                     <legend>{{ 'About you' | trans([], 'public') }}</legend>
                     {{ form_row(form.firstName) }}
@@ -110,11 +98,7 @@
                 <legend>{{ 'Legal issues' | trans([], 'public') }}</legend>
                 <div class="col-lg-12">
                     {{ form_row(form.terms1Accepted) }}
-                </div>
-                <div class="col-lg-12">
                     {{ form_row(form.terms2Accepted) }}
-                </div>
-                <div class="col-lg-12">
                     {{ form_row(form.terms3Accepted) }}
                 </div>
                 <div class="col-lg-12">

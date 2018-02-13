@@ -41,28 +41,10 @@
                         '		<td width="30%">' + opts['ascentText'] + '</td>' +
                         '		<td>' + route.ascent + ' m</td>' +
                         '	</tr>' +
-                        '	<tr>' +
-                        '		<td width="30%">' + opts['estimatedParticipantNumText'] + '</td>' +
-                        '		<td>' + route.pl + '</td>' +
-                        '	</tr>' +
-                        '	<tr>' +
-                        '		<td width="30%">' + opts['participantNumText'] + '</td>' +
-                        '		<td>' + route.pn + '</td>' +
-                        '	</tr>' +
                         '<tr>' +
                         '		<td width="30%"></td>' +
                         '		<td><a href="http://www.edk.org.pl/trasa-edk/' + route.id + '/" target="_blank">' + opts['routeDetailsText'] + '</a></td>' +
                         '	</tr>' +
-                        '<tr>' +
-                        '		<td width="30%"></td>' +
-                        '		<td><a href="http://www.edk.org.pl/rejon-edk/' + route.area.id + '/" target="_blank">' + opts['areaDetailsText'] + '</a></td>' +
-                        '	</tr>' +
-                        ( opts['maxPeoplePerRecordText'] ?
-                        '	<tr>' +
-                        '		<td width="30%">' + opts['maxPeoplePerRecordText'] + '</td>' +
-                        '		<td>' + route.ppr + '</td>' +
-                        '	</tr>'
-                            : '') +
                         '</tbody>' +
                         '</table>' + inspired);
                     enableEverything(route.q);

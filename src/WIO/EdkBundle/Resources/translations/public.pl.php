@@ -89,9 +89,9 @@ return [
 	'You have already registered not so long ago from this computer. Please wait a few moments.' => 'Zarejestrowałeś się przed chwilą z tego komputera. Prosimy zaczekać chwilę.',
 
 	'Thank you!' => 'Dziękujemy!',
-	'Your access code' => 'Twój kod dostępu',
-	'RegistrationSuccessfulText' => 'Dziękujemy, udało Ci się zarejestrować na EDK! Na podany adres e-mail zostało wysłane potwierdzenie, przypomnienie o najważniejszych zasadach EDK oraz informacje o wybranej trasie.',
-	'AccessKeyInformation' => 'W bardzo rzadkich przypadkach może się zdarzyć, że potwierdzenie nie dojdzie. Dlatego zapisz sobie poniższy kod - umożliwi Ci on sprawdzenie informacji o Twoim zgłoszeniu.',
+	'Your access code' => 'Kod zgłoszenia',
+	'RegistrationSuccessfulText' => 'Rejestracja przebiegła prawidłowo. Dziękujemy! Na podany adres e-mail zostały wysłane najważniejsze informacje o EDK i wybranej trasie.',
+	'AccessKeyInformation' => 'W przypadku nie otrzymania wiadomości prosimy o sprawdzenie folderu SPAM. Poniższy kod - umożliwi Ci  sprawdzenie informacji o Twoim zgłoszeniu.',
 	'UnregisterNotificationText' => 'Jeśli rezygnujesz z udziału w EDK, prosimy pamiętać o anulowaniu zgłoszenia przy pomocy odnośnika w mailu lub powyższego kodu.',
 	'ThisIsInspiredWayText' => 'To jest trasa "na wzór EDK". Oznacza to, że nie spełnia ona wszystkich standardów prawdziwej EDK, np. jest zbyt krótka, zbyt łatwa.',
 	'RegistrationOverErrorMsg' => 'Przykro nam, ale wygląda na to, że właśnie przekroczono limit rejestracji na wybranej przez Ciebie trasie albo minął czas rejestracji.',

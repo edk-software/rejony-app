@@ -3,22 +3,23 @@
 {% block title %}{{ 'Check registration' | trans([], 'public') }} - {{ 'Extreme Way of the Cross' | trans([], 'public') }}{% endblock %}
 
 {% block javascripts_head %}
-	<script src="{{ recaptcha_api_url }}"></script>
+    <script src="{{ recaptcha_api_url }}"></script>
 {% endblock %}
 
 {% block page_content %}
-<div>
-	<h2>{{ 'Check your registration' | trans([], 'public') }}</h2>
-	
-	<p>{{ 'CheckYourRegistrationText' | trans([], 'public') }}</p>
+    <section class="main container">
+        <div class="col-md-12 content center"><h1>{{ 'Check your registration' | trans([], 'public') }}</h1></div>
+    </section>
+    <div>
+        <p>{{ 'CheckYourRegistrationText' | trans([], 'public') }}</p>
 
-    {{ form_start(form) }}
-		{{ form_row(form.k) }}
-		{{ form_row(form.t) }}
-		<div class="form-group">
-			{{ recaptcha.generateHtmlCode() | raw }}
-		</div>
-    	{{ form_row(form.execute) }}
-    {{ form_end(form) }}
-</div>
+        {{ form_start(form) }}
+        {{ form_row(form.k) }}
+        {{ form_row(form.t) }}
+        <div class="form-group">
+            {{ recaptcha.generateHtmlCode() | raw }}
+        </div>
+        {{ form_row(form.execute) }}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

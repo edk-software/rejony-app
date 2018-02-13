@@ -19,6 +19,7 @@
 namespace WIO\EdkBundle\Form;
 
 use Cantiga\CoreBundle\Form\Type\BooleanType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -38,9 +39,9 @@ class PublicParticipantForm extends AbstractParticipantForm
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		parent::buildForm($builder, $options);
-		$builder->add('terms1Accepted', BooleanType::class, ['label' => $options['texts'][1], 'required' => true]);
-		$builder->add('terms2Accepted', BooleanType::class, ['label' => $options['texts'][2], 'required' => true]);
-		$builder->add('terms3Accepted', BooleanType::class, ['label' => $options['texts'][3], 'required' => true]);
+		$builder->add('terms1Accepted', CheckboxType::class, ['label' => $options['texts'][1], 'required' => true]);
+		$builder->add('terms2Accepted', CheckboxType::class, ['label' => $options['texts'][2], 'required' => true]);
+		$builder->add('terms3Accepted', CheckboxType::class, ['label' => $options['texts'][3], 'required' => false]);
 	}
 	
 	protected function isMailRequired(array $options)
