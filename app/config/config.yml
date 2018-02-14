@@ -5,12 +5,11 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
     add_responsible_users: true
 
 framework:
     assets:
-     version: 17032201
+     version: 18021401
      version_format: static/%%2$s/%%1$s
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
