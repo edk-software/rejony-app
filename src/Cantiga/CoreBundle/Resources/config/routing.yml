@@ -14,7 +14,13 @@ cantiga_auth_check:
 
 cantiga_auth_logout:
     path:     /auth/logout
-    
+
+cantiga_select_auth_action:
+     path:     /auth/select
+     defaults:
+         _localeFromQuery: true
+         _controller: CantigaCoreBundle:Auth:select
+
 cantiga_auth_register:
     path:     /auth/register
     defaults:
