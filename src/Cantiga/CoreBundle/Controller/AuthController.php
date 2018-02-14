@@ -40,6 +40,11 @@ class AuthController extends CantigaController
 	const TEMPLATE_NAME = 'CantigaCoreBundle:Auth:login.html.twig';
 	const SUCCESSFUL_REGISTRATION_TEXT = 'Your account registration request has been created. Please check your e-mail to get the activation link.';
 
+	public function selectAction(Request $request)
+    {
+        return $this->render('CantigaCoreBundle:Auth:select-action.html.twig');
+    }
+
 	public function loginAction(Request $request)
 	{
 		$session = $request->getSession();

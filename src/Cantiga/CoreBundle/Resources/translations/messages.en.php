@@ -3,6 +3,9 @@ return array(
 	'UserRegistrationConfirmationText' => 'Your account has been created, however you must first activate it. Please check your mailbox. You should receive the e-mail with the activation link within a few minutes.',
     'Edition' => 'Edition number',
 
+    'Create user' => 'Create account',
+    'User existe' => 'I have account',
+
 	// Public texts
 	'CookieUsageInfoText' => 'This web application uses cookies solely for authentication purposes and keeping the information about the chosen language.',
 	'AccountActivatedText' => 'Your account has been activated. You can now log in.',

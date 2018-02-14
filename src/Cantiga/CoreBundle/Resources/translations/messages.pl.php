@@ -7,6 +7,10 @@ return array(
 	// Public texts
 	'Register' => 'Utwórz',
 	'Create a new user account' => 'Załóż nowe konto użytkownika',
+
+    'Create user' => 'Utwórz nowe konto',
+    'User existe' => 'Mam już konto',
+
 	'Full name' => 'Imię i nazwisko',
 	'Unique login' => 'Unikalny login',
 	'Password' => 'Hasło',
