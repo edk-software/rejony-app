@@ -1355,23 +1355,23 @@ footer a {
 }
 
 .main ul.route-map li.desc-file a {
-    background: rgba(0, 0, 0, 0) url("../img/icon-desc.png") no-repeat scroll center center;
+    background: rgba(0, 0, 0, 0) url("/img/edk/icon-desc.png") no-repeat scroll center center;
 }
 
 .main ul.route-map li.map-file a {
-    background: rgba(0, 0, 0, 0) url("../img/icon-mapa.png") no-repeat scroll center center;
+    background: rgba(0, 0, 0, 0) url("/img/edk/icon-mapa.png") no-repeat scroll center center;
 }
 
 .main ul.route-map li.gps-file a {
-    background: rgba(0, 0, 0, 0) url("../img/icon-kml.png") no-repeat scroll center center;
+    background: rgba(0, 0, 0, 0) url("/img/edk/icon-kml.png") no-repeat scroll center center;
 }
 
 .main ul.route-map li.audio-file a {
-    background: rgba(0, 0, 0, 0) url("../img/icon-audio.png") no-repeat scroll center center;
+    background: rgba(0, 0, 0, 0) url("/img/edk/icon-audio.png") no-repeat scroll center center;
 }
 
 .data-icon {
-    background-image: url("../img/icon-data.png");
+    background-image: url("/img/edk/icon-data.png");
     backrounf-position: left top;
     background-repeat: no-repeat;
 

@@ -38,7 +38,7 @@
             </tr>
             <tr>
                 <td width="30%">{{ 'Extreme Way date' | trans([], 'public') }}</td>
-                <td width="70%">{{ format_date(item.registrationSettings.route.area.get('ewcDate')) }}</td>
+                <td width="70%">{{ format_time(TimeFormatter.FORMAT_DATE_LONG,item.registrationSettings.route.area.eventDate) }}</td>
             </tr>
         </table>
 
