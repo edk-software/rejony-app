@@ -85,4 +85,9 @@ class ParticipantNumChart implements StatsInterface
 			'data' => $renderer->generateData($this->data)
 		));
 	}
+
+    public function getCssBoxClass()
+    {
+        return 'col-xs-12';
+    }
 }

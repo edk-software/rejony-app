@@ -121,4 +121,9 @@ class RouteAscentHistogram implements StatsInterface
 		$end = $start + 49;
 		return $start.'-'.$end.' m';
 	}
+
+    public function getCssBoxClass()
+    {
+        return 'col-md-6 col-xs-12';
+    }
 }

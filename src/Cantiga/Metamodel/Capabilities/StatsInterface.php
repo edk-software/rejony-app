@@ -54,4 +54,6 @@ interface StatsInterface
 	 * @return string
 	 */
 	public function renderStatistics(TwigEngine $tpl);
+
+	public function getCssBoxClass();
 }

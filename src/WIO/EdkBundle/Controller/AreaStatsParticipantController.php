@@ -55,7 +55,8 @@ class AreaStatsParticipantController extends AreaPageController
 				$output[] = [
 					'html' => $stat->renderPlaceholder($tpl),
 					'js' => $stat->renderStatistics($tpl),
-					'title' => $stat->getTitle()
+					'title' => $stat->getTitle(),
+                    'boxClass' => $stat->getCssBoxClass()
 				];
 			}
 		}

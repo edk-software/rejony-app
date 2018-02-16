@@ -97,4 +97,8 @@ class AreaRequestsOverTimeStats implements StatsInterface
         );
     }
 
+    public function getCssBoxClass()
+    {
+        return 'col-xs-12';
+    }
 }

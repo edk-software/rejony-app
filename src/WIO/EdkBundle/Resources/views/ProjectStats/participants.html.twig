@@ -15,8 +15,8 @@
 {% block page_content %}
 <div class="row">
 	{% for placeholder in output %}
-	<div class="col-md-6 col-xs-12">
-		<div class="box box-success">
+	<div class="{{ placeholder.boxClass }}">
+		<div class="box box-solid">
 			<div class="box-header with-border">
 				<h3 class="box-title">{{ placeholder.title | trans }}</h3>
 

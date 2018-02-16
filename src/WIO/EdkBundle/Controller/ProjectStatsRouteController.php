@@ -55,7 +55,8 @@ class ProjectStatsRouteController extends ProjectPageController
 				$output[] = [
 					'html' => $stat->renderPlaceholder($tpl),
 					'js' => $stat->renderStatistics($tpl),
-					'title' => $stat->getTitle()
+					'title' => $stat->getTitle(),
+                    'boxClass' => $stat->getCssBoxClass()
 				];
 			}
 		}

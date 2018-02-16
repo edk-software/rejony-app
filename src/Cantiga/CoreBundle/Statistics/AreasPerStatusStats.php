@@ -89,4 +89,9 @@ class AreasPerStatusStats implements StatsInterface
 			'data' => implode(', ', $data))
 		);
 	}
+
+    public function getCssBoxClass()
+    {
+        return 'col-md-6 col-xs-12';
+    }
 }
