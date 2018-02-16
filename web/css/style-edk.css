@@ -1423,7 +1423,7 @@ footer a {
     }
 
     .content {
-        padding: 0 15px;
+        padding: 0 0px;
     }
 
     .see-all {
@@ -1484,7 +1484,7 @@ footer a {
     }
 
     .content.center h1 {
-        margin: -74px auto 0;
+        margin: -100px auto 0;
     }
 
     ul.edycja2016 {
