@@ -122,6 +122,16 @@ services:
          arguments: ["@database_connection"]
          tags:
             - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get area course data" }
+    wio.edk.button.registration_settings_grabber:
+         class: WIO\EdkBundle\Extension\RegistrationSettingsGrabberButton
+         arguments: ["@database_connection"]
+         tags:
+            - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get registration settings" }
+    wio.edk.button.participants_statistic_grabber:
+         class: WIO\EdkBundle\Extension\ParticipantsCountGrabberButton
+         arguments: ["@database_connection"]
+         tags:
+            - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get participants statistic" }
     wio.edk.stats.route_length:
         class: WIO\EdkBundle\Statistics\RouteLengthHistogram
         arguments: ["@database_connection"]

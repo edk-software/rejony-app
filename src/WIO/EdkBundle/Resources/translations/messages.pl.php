@@ -120,8 +120,10 @@ return array(
 	'The participant \'0\' has been removed.' => 'Uczestnik "0" został usunięty.',
 	'Do you really want to remove the participant \'0\'?' => 'Czy naprawdę chcesz usunąć uczestnika "0"? Ślad po usuniętym zgłoszeniu zostanie zachowany, wraz z datą usunięcia oraz informacją o usuwającym.',
 
-	'Get contacts to area leaders' => 'Pobierz kontakty do liderów rejonów',
-	'Get area course data' => 'Pobierz dane nt. szkoleń',
+	'Get contacts to area leaders' => 'Pobierz kontakty do liderów rejonów (csv/utf8)',
+	'Get registration settings' => 'Pobierz informacje o rejestracji uczestników (csv/utf8)',
+	'Get participants statistic' => 'Pobierz statystyki rejestracji dzień po dniu (csv/utf8)',
+	'Get area course data' => 'Pobierz dane nt. szkoleń (csv/utf8)',
 	'ImportRoutesQuestionText' => 'Czy chcesz zaimportować brakujące trasy oraz ich pliki z poprzedniego projektu?',
 	'Import completed' => 'Trasy zostały zaimportowane pomyślnie.',
 	'Import routes' => 'Import tras',
