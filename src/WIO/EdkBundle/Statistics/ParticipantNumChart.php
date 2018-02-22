@@ -16,6 +16,7 @@
  * along with Foobar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 namespace WIO\EdkBundle\Statistics;
 
 use Cantiga\CoreBundle\Entity\Area;
@@ -29,6 +30,7 @@ use Doctrine\DBAL\Connection;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\Translation\TranslatorInterface;
 use WIO\EdkBundle\Repository\EdkParticipantRepository;
+use WIO\EdkBundle\Repository\EdkRegistrationSettingsRepository;
 
 /**
  * Displays the chart, how many participants have registered over time.
@@ -37,54 +39,83 @@ use WIO\EdkBundle\Repository\EdkParticipantRepository;
  */
 class ParticipantNumChart implements StatsInterface
 {
-	/**
-	 * @var Connection
-	 */
-	private $conn;
-	/**
-	 * @var CoreStatisticsRepository
-	 */
-	private $repo;
-	/**
-	 * @var StatDateDataset
-	 */
-	private $data;
-	
-	public function __construct(Connection $conn, EdkParticipantRepository $repository, TranslatorInterface $translator)
-	{
-		$this->conn = $conn;
-		$this->repo = $repository;
-		$this->translator = $translator;
-	}
+    /**
+     * @var Connection
+     */
+    private $conn;
+    /**
+     * @var CoreStatisticsRepository
+     */
+    private $repo;
+    /**
+     * @var EdkRegistrationSettingsRepository
+     */
+    private $registrationSettingsRepository;
+    /**
+     * @var StatDateDataset
+     */
+    private $data;
 
-	public function collectData(IdentifiableInterface $root)
-	{
-		if ($root instanceof Project) {
-			$this->data = $this->repo->fetchParticipantsOverTime($root);
-		} elseif ($root instanceof Area) {
-			$this->data = $this->repo->fetchAreaParticipantsOverTime($root);
-		}
-		return true;
-	}
+    private $allParticipants;
+    private $registerParticipants;
+    private $externalParticipants;
 
-	public function getTitle()
-	{
-		return $this->translator->trans('Number of participants', [], 'edk');
-	}
+    public function __construct(
+        Connection $conn,
+        EdkParticipantRepository $repository,
+        EdkRegistrationSettingsRepository $registrationSettingsRepository,
+        TranslatorInterface $translator
+    ) {
+        $this->conn = $conn;
+        $this->repo = $repository;
+        $this->registrationSettingsRepository = $registrationSettingsRepository;
+        $this->translator = $translator;
+    }
 
-	public function renderPlaceholder(TwigEngine $tpl)
-	{
-		return $tpl->render('WioEdkBundle:Stats:participant-num-chart.html.twig');
-	}
+    public function collectData(IdentifiableInterface $root)
+    {
+        if ($root instanceof Project) {
+            $this->data = $this->repo->fetchParticipantsOverTime($root);
+        } elseif ($root instanceof Area) {
+            $this->data = $this->repo->fetchAreaParticipantsOverTime($root);
+        }
+        $this->registrationSettingsRepository->setRootEntity($root);
+        $this->allParticipants = $this->registrationSettingsRepository->countParticipants();
+        $this->registerParticipants = $this->registrationSettingsRepository->countParticipantsRegister();
+        $this->externalParticipants = $this->registrationSettingsRepository->countParticipantsExternal();
 
-	public function renderStatistics(TwigEngine $tpl)
-	{
-		$renderer = new ChartJSDateDatasetRenderer();
-		$renderer->data($this->translator->trans('Participants', [], 'edk'), '60,141,188');
-		return $tpl->render('WioEdkBundle:Stats:participant-num-chart.js.twig', array(
-			'data' => $renderer->generateData($this->data)
-		));
-	}
+        return true;
+    }
+
+    public function getTitle()
+    {
+        return $this->translator->trans('Number of participants', [], 'edk');
+    }
+
+    public function renderPlaceholder(TwigEngine $tpl)
+    {
+        return $tpl->render(
+            'WioEdkBundle:Stats:participant-num-chart.html.twig',
+            array(
+                'allParticipants' => $this->allParticipants,
+                'registerParticipants' => $this->registerParticipants,
+                'externalParticipants' => $this->externalParticipants,
+            )
+        );
+    }
+
+    public function renderStatistics(TwigEngine $tpl)
+    {
+        $renderer = new ChartJSDateDatasetRenderer();
+        $renderer->data($this->translator->trans('Participants', [], 'edk'), '60,141,188');
+
+        return $tpl->render(
+            'WioEdkBundle:Stats:participant-num-chart.js.twig',
+            array(
+                'data' => $renderer->generateData($this->data),
+            )
+        );
+    }
 
     public function getCssBoxClass()
     {

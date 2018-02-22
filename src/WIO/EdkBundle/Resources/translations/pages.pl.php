@@ -5,6 +5,7 @@ return [
 	'Routes list' => 'Lista tras',
 	'Route statistics' => 'Statystyki tras',
 	'Participant statistics' => 'Statystyki uczestników',
+	'Participants d/d' => 'Rejestracja dzień po dniu',
 	'Import routes' => 'Importuj trasy',
 	'Areas summary list' => 'Podsumowanie postępów',
 	'Participant statistics: 0' => 'Statystyki uczestników: 0',

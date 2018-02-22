@@ -262,6 +262,7 @@ return [
 	'Where learnt about Extreme Way?' => 'Skąd dowiedział się o EDK?',
 	'Published route files' => 'Opublikowane pliki tras',
 	'0 biggest areas (by participants)' => '0 największych rejonów (wg liczby uczestników)',
+	'0 biggest routes (by participants)' => '0 najbardziej obłożonych tras (wg liczby uczestników)',
 	'FileStatOnlyGPS' => 'Tylko ślad GPS',
 	'FileStatMapPresent' => 'GPS + mapa',
 	'FileStatGuidePresent' => 'GPS + opis',
@@ -283,4 +284,11 @@ return [
     'Map Approved' => 'Zatwierdzone mapy',
     'Route Certification' => 'Certyfikat',
     'Public profile' => 'Informacje o rejonie',
+
+    'Register participants' => 'Zarejestrowani uczestnicy',
+    'External participants' => 'Uczestnicy niezarejestrowani',
+    'All participants' => 'Łączna licza uczestników',
+
+    'Participants count' => 'Liczba uczestników',
+
 ];

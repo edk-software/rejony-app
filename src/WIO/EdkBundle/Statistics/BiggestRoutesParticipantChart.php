@@ -30,7 +30,7 @@ use WIO\EdkBundle\Repository\EdkParticipantRepository;
  *
  * @author Tomasz Jędrzejewski
  */
-class BiggestAreasParticipantChart implements StatsInterface
+class BiggestRoutesParticipantChart implements StatsInterface
 {
 	const SHOW_MAX = 10;
 	/**
@@ -55,30 +55,30 @@ class BiggestAreasParticipantChart implements StatsInterface
 	
 	public function collectData(IdentifiableInterface $root)
 	{
-		$this->data = $this->repo->fetchBiggestAreasByParticipants($root, self::SHOW_MAX);
+		$this->data = $this->repo->fetchBiggestRoutesByParticipants($root, self::SHOW_MAX);
 		return true;
 	}
 
 	public function getTitle()
 	{
-		return $this->translator->trans('0 biggest areas (by participants)', [self::SHOW_MAX], 'edk');
+		return $this->translator->trans('0 biggest routes (by participants)', [self::SHOW_MAX], 'edk');
 	}
 
 	public function renderPlaceholder(TwigEngine $tpl)
 	{
-		return $tpl->render('WioEdkBundle:Stats:biggest-participants-areas-chart.html.twig');
+		return $tpl->render('WioEdkBundle:Stats:biggest-participants-routes-chart.html.twig');
 	}
 
 	public function renderStatistics(TwigEngine $tpl)
 	{
 		$labels = [];
 		$data = [];
-		foreach ($this->data as $area) {
-			$labels[] = '\''.addslashes($area['name']).'\'';
-			$data[] = $area['sum'];
+		foreach ($this->data as $route) {
+			$labels[] = '\''.addslashes($route['name']).'\'';
+			$data[] = $route['sum'];
 		}
 		
-		return $tpl->render('WioEdkBundle:Stats:biggest-participants-areas-chart.js.twig', array(
+		return $tpl->render('WioEdkBundle:Stats:biggest-participants-routes-chart.js.twig', array(
 			'labels' => implode(',', $labels),
 			'data' => implode(',', $data),
 		));

@@ -1,4 +1,28 @@
-<div class="chart">
-	<canvas id="participant-num-time" style="height:430px"></canvas>
-	<p class="small">{{ 'ShowingOnlyRegisteredViaOurSystemText' | trans([], 'edk') }}</p>
+<div class="box-body">
+	<div class="chart">
+		<p class="small">{{ 'ShowingOnlyRegisteredViaOurSystemText' | trans([], 'edk') }}</p>
+		<canvas id="participant-num-time" style="height:430px"></canvas>
+	</div>
+</div>
+<div class="box-footer">
+	<div class="row">
+		<div class="col-sm-4 col-xs-6">
+			<div class="description-block border-right">
+				<h5 class="description-header">{{ registerParticipants }}</h5>
+				<span class="description-text">{{ 'Register participants' | trans({}, 'edk') }}</span>
+			</div>
+		</div>
+		<div class="col-sm-4 col-xs-6">
+			<div class="description-block border-right">
+				<h5 class="description-header">{{ externalParticipants }}</h5>
+				<span class="description-text">{{ 'External participants' | trans({}, 'edk') }}</span>
+			</div>
+		</div>
+		<div class="col-sm-4 col-xs-6">
+			<div class="description-block border-right">
+				<h5 class="description-header">{{ allParticipants }}</h5>
+				<span class="description-text">{{ 'All participants' | trans({}, 'edk') }}</span>
+			</div>
+		</div>
+	</div>
 </div>

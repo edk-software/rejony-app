@@ -58,7 +58,7 @@ class ChartJSDateDatasetRenderer
 		foreach ($this->datasets as $k => $dataset) {
 			$output['datasets'][$k] = [
 				'label' => $dataset['label'],
-				'backgroundColor' => 'rgba('.$dataset['color'].',0.5)',
+				'backgroundColor' => 'rgba('.$dataset['color'].',0.9)',
 				'strokeColor' => 'rgba('.$dataset['color'].',0.8)',
 				'highlightFill' => 'rgba('.$dataset['color'].',0.75)',
 				'highlightStroke' => 'rgba('.$dataset['color'].',1)',

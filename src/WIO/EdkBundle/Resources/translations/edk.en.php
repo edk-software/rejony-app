@@ -91,4 +91,10 @@ return [
 	'ShowingOnlyRegisteredViaOurSystemText' => 'The chart shows only the people registed via Extreme Way registration system. The numbers of participants registered in a different way are not counted here.',
 	'EditorStartTypingPlaceholder' => 'Click here and start typing...',	
 	'EditorFormattingHint' => 'Select a text or double-click on a word to add formatting.',
+
+    'Register participants' => 'Register participants',
+    'External participants' => 'External participants',
+    'All participants' => 'All participants',
+
+    'Participants count' => 'Participants count',
 ];

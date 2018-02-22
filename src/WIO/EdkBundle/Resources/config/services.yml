@@ -149,7 +149,7 @@ services:
             - { name: cantiga.extension, point: edk.stats.route, module: edk }
     wio.edk.stats.participant_number:
         class: WIO\EdkBundle\Statistics\ParticipantNumChart
-        arguments: ["@database_connection", "@wio.edk.repo.participant", "@translator"]
+        arguments: ["@database_connection", "@wio.edk.repo.participant", "@wio.edk.repo.registration", "@translator"]
         tags:
             - { name: cantiga.extension, point: edk.stats.participant, module: edk }
             - { name: cantiga.extension, point: edk.stats.area_participant, module: edk }
@@ -158,6 +158,11 @@ services:
         arguments: ["@wio.edk.repo.participant", "@translator"]
         tags:
             - { name: cantiga.extension, point: edk.stats.participant, module: edk }
+    wio.edk.stats.biggest_routes:
+            class: WIO\EdkBundle\Statistics\BiggestRoutesParticipantChart
+            arguments: ["@wio.edk.repo.participant", "@translator"]
+            tags:
+                - { name: cantiga.extension, point: edk.stats.participant, module: edk }
     wio.edk.stats.participants_on_route:
         class: WIO\EdkBundle\Statistics\ParticipantsOnRouteChart
         arguments: ["@wio.edk.repo.participant", "@translator"]

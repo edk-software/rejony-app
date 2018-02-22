@@ -65,9 +65,9 @@ class WorkspaceListener
 			$workspace->addWorkItem('knowledge', new WorkItem('project_faq_index', 'Faq'));
             $workspace->addWorkItem('routes', new WorkItem('edk_route_index', 'Routes list'));
 			$workspace->addWorkItem('routes', new WorkItem('project_stats_route_index', 'Route statistics'));
-			$workspace->addWorkItem('participants', new WorkItem('project_stats_participant_index', 'Participant statistics'));
-			$workspace->addWorkItem('participants', new WorkItem('project_participant_summary', 'Participants'));
 			$workspace->addWorkItem('participants', new WorkItem('edk_reg_settings_index', 'Registration settings'));
+            $workspace->addWorkItem('participants', new WorkItem('project_participant_summary', 'Participants d/d'));
+            $workspace->addWorkItem('participants', new WorkItem('project_stats_participant_index', 'Participant statistics'));
             $workspace->addWorkItem('area', new WorkItem('area_summary_index', 'Areas summary list'));
 		}
 	}

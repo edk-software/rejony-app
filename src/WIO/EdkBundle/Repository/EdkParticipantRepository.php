@@ -435,20 +435,34 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 			. 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON a.id = r.areaId '
 			. 'WHERE a.projectId = :rootId '
 			. 'GROUP BY a.`id`, a.`name`', [':rootId' => $project->getId()]);
-		usort($values, function($a, $b) {
-			return $b['sum'] - $a['sum'];
-		});
-		$result = [];
-		$i = 1;
-		foreach ($values as $area) {
-			$result[] = $area;
-			if (++$i >= $max) {
-				break;
-			}
-		}
-		return $result;
+        return $this->returnTop($values, $max);
 	}
-	
+
+    public function fetchBiggestRoutesByParticipants(Project $project, $max)
+    {
+        $values = $this->conn->fetchAll('SELECT s.`participantNum` + s.`externalParticipantNum` AS `sum`, r.`name` '
+            . 'FROM `'.EdkTables::REGISTRATION_SETTINGS_TBL.'` s '
+            . 'INNER JOIN `'.EdkTables::ROUTE_TBL.'` r ON r.id = s.routeId '
+            . 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON a.id = r.areaId '
+            . 'WHERE a.projectId = :rootId ', [':rootId' => $project->getId()]);
+        return $this->returnTop($values, $max);
+    }
+
+    private function returnTop($values, $max){
+        usort($values, function($a, $b) {
+            return $b['sum'] - $a['sum'];
+        });
+        $result = [];
+        $i = 1;
+        foreach ($values as $item) {
+            $result[] = $item;
+            if (++$i >= $max) {
+                break;
+            }
+        }
+        return $result;
+    }
+
 	public function updateStatisticsForPreviousDay($now)
 	{
 		$when = getdate($now - 86400);

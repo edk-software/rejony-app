@@ -5,7 +5,7 @@
     labels: [{% endraw %}{{ labels | raw }} {% raw %}],
     datasets: [
 {
-    label: "{% endraw %}{{ 'Areas' | trans }} {% raw %}",
+    label: "{% endraw %}{{ 'Participants count' | trans([], 'edk') }} {% raw %}",
     backgroundColor: "#00a65a",
     strokeColor: "#00965a",
     pointColor: "#00a65a",
@@ -17,7 +17,7 @@
     ]
 };
 
-    var baChartCanvas = $("#biggest-areas-chart").get(0).getContext("2d");
+    var baChartCanvas = $("#biggest-participants-areas-chart").get(0).getContext("2d");
     var baChartOptions = {
     //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
     scaleBeginAtZero: true,
@@ -47,7 +47,7 @@
     datasetFill: false
 };
     var baChart = new Chart(baChartCanvas, {
-    type: 'bar',
+    type: 'horizontalBar',
     data: baChartData,
     options: baChartOptions
 });

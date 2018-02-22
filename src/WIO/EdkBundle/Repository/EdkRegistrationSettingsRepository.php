@@ -199,7 +199,39 @@ class EdkRegistrationSettingsRepository implements EditableRepositoryInterface, 
 			throw $ex;
 		}
 	}
-	
+
+    public function countParticipantsExternal()
+    {
+        $this->transaction->requestTransaction();
+        try {
+            $count = $this->conn->fetchColumn('SELECT SUM(s.`externalParticipantNum`) '
+                . 'FROM `'.EdkTables::REGISTRATION_SETTINGS_TBL.'` s '
+                . 'INNER JOIN `'.EdkTables::ROUTE_TBL.'` r ON r.`id` = s.`routeId` '
+                . 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON r.`areaId` = a.`id` '
+                . $this->createWhereClause(), [':itemId' => $this->root->getId()]);
+            return empty($count) ? 0 : $count;
+        } catch (Exception $ex) {
+            $this->transaction->requestRollback();
+            throw $ex;
+        }
+    }
+
+    public function countParticipantsRegister()
+    {
+        $this->transaction->requestTransaction();
+        try {
+            $count = $this->conn->fetchColumn('SELECT SUM(s.`participantNum`) '
+                . 'FROM `'.EdkTables::REGISTRATION_SETTINGS_TBL.'` s '
+                . 'INNER JOIN `'.EdkTables::ROUTE_TBL.'` r ON r.`id` = s.`routeId` '
+                . 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON r.`areaId` = a.`id` '
+                . $this->createWhereClause(), [':itemId' => $this->root->getId()]);
+            return empty($count) ? 0 : $count;
+        } catch (Exception $ex) {
+            $this->transaction->requestRollback();
+            throw $ex;
+        }
+    }
+
 	private function createWhereClause()
 	{
 		if ($this->root instanceof Area) {
