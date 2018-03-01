@@ -4,7 +4,7 @@ return [
 	'Step 2' => 'Step 2',
 	'Step 3' => 'Step 3',
 	'Step 4' => 'Step 4',
-	'ChooseProjectText' => 'Choose project',
+	'ProjectText' => 'Project',
 	'ProvideAreaInfoText' => 'Tell more about the area',
 	'ProvideContactDataText' => 'Provide contact data',
 	'WaitForVerificationText' => 'Wait for verification of the request',
