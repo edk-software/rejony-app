@@ -46,7 +46,7 @@ class RegistrationSettingsGrabberButton implements MagicButtonExtension
             .'a.`name` as areaName, FROM_UNIXTIME(a.`eventDate`) as edkDate, '
             .'r.`name` as routeName,  '
             .'FROM_UNIXTIME(s.`startTime`) as startTime, FROM_UNIXTIME(s.`endTime`) as endTime, '
-            .'s.`participantNum` '
+            .'s.`participantNum`, s.`externalParticipantNum` '
 			. 'FROM `'.CoreTables::AREA_TBL.'` a '
 			. 'JOIN `'.EdkTables::ROUTE_TBL.'` r ON r.`areaId` = a.`id` '
 			. 'JOIN `'.EdkTables::REGISTRATION_SETTINGS_TBL.'` s ON s.`routeId` = r.`id` '
@@ -57,7 +57,7 @@ class RegistrationSettingsGrabberButton implements MagicButtonExtension
 		
 		$response = new StreamedResponse(function() use ($stmt) {
 			$out = fopen('php://output', 'w');
-            fputcsv($out, array('areaName', 'edkDate', 'routName', 'startRegistration', 'endRegistration', 'participantsNum'),chr(9));
+            fputcsv($out, array('areaName', 'edkDate', 'routName', 'startRegistration', 'endRegistration', 'participantsNum', 'externalParticipantNum'),chr(9));
 			$i = 0;
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				fputcsv($out, $row, chr(9));

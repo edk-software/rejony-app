@@ -139,6 +139,7 @@ return [
 	'Registration via external website' => 'Rejestracja przez zewnętrzną stronę WWW',
 	
 	'Participants' => 'Uczestnicy',
+    'External participants' => 'Niezarejestrowani',
 	'Current number of participants' => 'Obecnie zarejestrowanych przez stronę EDK',
 	'Participants registered externally' => 'Uczestnicy niezarejestrowani',
 	'Beginning of registration' => 'Początek rejestracji',

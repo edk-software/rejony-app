@@ -89,7 +89,8 @@ class EdkRegistrationSettingsRepository implements EditableRepositoryInterface, 
 			->searchableColumn('startTime', 'r.startTime')
 			->column('endTime', 'r.endTime')
 			->column('participantLimit', 'r.participantLimit')
-			->column('participantNum', 'r.participantNum');
+			->column('participantNum', 'r.participantNum')
+			->column('externalParticipantNum', 'r.externalParticipantNum');
 		return $dt;
 	}
 	
@@ -110,6 +111,7 @@ class EdkRegistrationSettingsRepository implements EditableRepositoryInterface, 
 			->field('r.endTime', 'endTime')
 			->field('r.participantLimit', 'participantLimit')
 			->field('r.participantNum', 'participantNum')
+			->field('r.externalParticipantNum', 'externalParticipantNum')
 			->from(EdkTables::ROUTE_TBL, 'i')
 			->leftJoin(EdkTables::REGISTRATION_SETTINGS_TBL, 'r', QueryClause::clause('r.routeId = i.id'))
 			->where(QueryClause::clause('i.approved = 1'));
