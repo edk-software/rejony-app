@@ -26,6 +26,7 @@ return [
 	'We are sorry, but we cannot find the specified edition of Extreme Way of the Cross.' => 'Przykro nam, ale nie możemy znaleźć wskazanej aktywnej edycji Ekstremalnej Drogi Krzyżowej.',
 	'You did not solve the CAPTCHA correctly, sorry.' => 'Nie rozwiązałeś poprawnie wyzwania CAPTCHA, zabezpieczenia przed spamem.',
 	'The specified area has not been found.' => 'Podany rejon nie został znaleziony.',
+	'You have to select proper route.' => 'Musisz wybrać poprawną trasę.',
 
 	'Register page' => 'Wyrusz na EDK',
 	'Register to Extreme Way of the Cross' => 'Wyrusz na EDK',

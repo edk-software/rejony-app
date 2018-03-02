@@ -2092,6 +2092,11 @@ input[type=file]:focus, input[type=radio]:focus, input[type=checkbox]:focus {
     border-bottom-color: transparent;
 }
 
+.required-labels .control-label.required:after,
+.required-reach-labels .control-label.required p span:last-of-type:after {
+    content: '*';
+    margin: 0 5px;
+}
 
 
 

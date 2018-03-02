@@ -118,7 +118,7 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 			. 'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = a.`territoryId` '
 			. 'INNER JOIN `'.EdkTables::REGISTRATION_SETTINGS_TBL.'` s ON s.`routeId` = r.`id` '
 			. 'WHERE a.`statusId` = :statusId AND '.$rootPart.' AND r.`approved` = 1 AND s.`registrationType` = '.EdkRegistrationSettings::TYPE_EDK_WEBSITE.' '
-			. 'ORDER BY a.`name`, r.`name`');
+			. 'ORDER BY t.`name` ASC, a.`name` ASC, r.`name` ASC');
 		$stmt->bindValue(':statusId', $acceptedStatus);
 		$stmt->bindValue(':rootId', $root->getId());
 		$stmt->execute();

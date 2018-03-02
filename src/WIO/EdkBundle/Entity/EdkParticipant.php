@@ -429,6 +429,9 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
             $ok = false;
         }
         $registrationSettings = $this->getRegistrationSettings();
+		    if (!isset($registrationSettings)) {
+			      return false;
+		    }
         if ($registrationSettings->hasCustomQuestion()) {
             if ('' == trim($this->customAnswer)) {
                 $context->buildViolation('PleaseFillCustomAnswerErrorMsg')
