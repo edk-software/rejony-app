@@ -54,8 +54,12 @@ return [
 	'NumberRegisteredPeopleHintText' => 'Od 1 do maksymalnej ilości osób w zgłoszeniu ustawionej dla tej trasy.',
 	'Legal issues' => 'Zgody',
 	'Register' => 'Wyślij',
-	
-	'Area' => 'Rejon',
+
+
+    'Access denied' => 'Brak uprawnień',
+    'Access denied text' => 'Wygląda na to, że nie mamy Twojej umowy wolontariackiej. Dostęp do danych osobowych uregulowany jest właśnie w tym dokumencie. Umowę jak i jej sposób dostarczenia znajdziesz w zadaniach rejonu.',
+
+    'Area' => 'Rejon',
 	'Beginning' => 'Początek',
 	'End' => 'Koniec',
 	'Course' => 'Przebieg',
@@ -90,6 +94,8 @@ return [
 
 	'Thank you!' => 'Dziękujemy!',
 	'Your access code' => 'Kod zgłoszenia',
+    'RecaptchaValidText' => 'Uzupełnij kod zabezpieczający',
+    'SelectRouteValidText' => 'Wybierz trasę',
 	'RegistrationSuccessfulText' => 'Rejestracja przebiegła prawidłowo. Dziękujemy! Na podany adres e-mail zostały wysłane najważniejsze informacje o EDK i wybranej trasie.',
 	'AccessKeyInformation' => 'W przypadku nie otrzymania wiadomości prosimy o sprawdzenie folderu SPAM. Poniższy kod - umożliwi Ci  sprawdzenie informacji o Twoim zgłoszeniu.',
 	'UnregisterNotificationText' => 'Jeśli rezygnujesz z udziału w EDK, prosimy pamiętać o anulowaniu zgłoszenia przy pomocy odnośnika w mailu lub powyższego kodu.',
@@ -123,4 +129,5 @@ return [
 	
 	'GuidesAreVerifiedText' => 'Opisy są w trakcie weryfikacji i doprecyzowywania, najlepiej pobrać je nie wcześniej niż trzy dni przed wyruszeniem na EDK.',
 	'AreaNotPublishedGuideText' => 'Ten rejon nie opublikował jeszcze opisu dla tej trasy. Prosimy jeszcze o chwilę cierpliwości!',
+
 ];

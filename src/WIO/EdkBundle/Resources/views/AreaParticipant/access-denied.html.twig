@@ -1,0 +1,9 @@
+{% extends 'WioEdkBundle:layout:message.html.twig' %}
+
+{% block message_title %}
+    {{ infoText.title }}
+{% endblock %}
+
+{% block message_body %}
+    {{ infoText.content | raw }}
+{% endblock %}

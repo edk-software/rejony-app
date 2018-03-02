@@ -16,6 +16,7 @@
  * along with Foobar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 namespace WIO\EdkBundle\Controller;
 
 use Cantiga\Components\Hierarchy\Entity\Membership;
@@ -47,197 +48,280 @@ use WIO\EdkBundle\Form\EdkParticipantForm;
  */
 class AreaParticipantController extends AreaPageController
 {
-	const REPOSITORY_NAME = 'wio.edk.repo.participant';
+    const REPOSITORY_NAME = 'wio.edk.repo.participant';
 
-	/**
-	 * @var CRUDInfo
-	 */
-	private $crudInfo;
+    /**
+     * @var CRUDInfo
+     */
+    private $crudInfo;
 
-	public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
-	{
-		$place = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace();
-		
-		$repository = $this->get(self::REPOSITORY_NAME);
-		$repository->setArea($place);
-		$this->crudInfo = $this->newCrudInfo($repository)
-			->setTemplateLocation('WioEdkBundle:AreaParticipant:')
-			->setItemNameProperty('name')
-			->setPageTitle('Participants')
-			->setPageSubtitle('Manage registered participants')
-			->setIndexPage('area_edk_participant_index')
-			->setInfoPage('area_edk_participant_info')
-			->setInsertPage('area_edk_participant_insert')
-			->setEditPage('area_edk_participant_edit')
-			->setRemovePage('area_edk_participant_remove')
-			->setItemCreatedMessage('The participant \'0\' has been created.')
-			->setItemUpdatedMessage('The participant \'0\' has been updated.')
-			->setItemRemovedMessage('The participant \'0\' has been removed.')
-			->setRemoveQuestion('Do you really want to remove the participant \'0\'?');
+    public function initialize(Request $request, AuthorizationCheckerInterface $authChecker)
+    {
+        $place = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace();
 
-		$this->breadcrumbs()
-			->workgroup('participants')
-			->entryLink($this->trans('Participants', [], 'pages'), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
-	}
+        $repository = $this->get(self::REPOSITORY_NAME);
+        $repository->setArea($place);
+        $this->crudInfo = $this->newCrudInfo($repository)
+            ->setTemplateLocation('WioEdkBundle:AreaParticipant:')
+            ->setItemNameProperty('name')
+            ->setPageTitle('Participants')
+            ->setPageSubtitle('Manage registered participants')
+            ->setIndexPage('area_edk_participant_index')
+            ->setInfoPage('area_edk_participant_info')
+            ->setInsertPage('area_edk_participant_insert')
+            ->setEditPage('area_edk_participant_edit')
+            ->setRemovePage('area_edk_participant_remove')
+            ->setItemCreatedMessage('The participant \'0\' has been created.')
+            ->setItemUpdatedMessage('The participant \'0\' has been updated.')
+            ->setItemRemovedMessage('The participant \'0\' has been removed.')
+            ->setRemoveQuestion('Do you really want to remove the participant \'0\'?');
 
-	/**
-	 * @Route("/index", name="area_edk_participant_index")
-	 */
-	public function indexAction(Request $request)
-	{
-		$text = $this->getTextRepository()->getTextOrFalse(EdkTexts::PARTICIPANT_TEXT, $request, $this->getActiveProject());
-		$dataTable = $this->crudInfo->getRepository()->createDataTable();
-		return $this->render($this->crudInfo->getTemplateLocation() . 'index.html.twig', array(
-			'pageTitle' => $this->crudInfo->getPageTitle(),
-			'pageSubtitle' => $this->crudInfo->getPageSubtitle(),
-			'dataTable' => $dataTable,
-			'locale' => $request->getLocale(),
-			'insertPage' => $this->crudInfo->getInsertPage(),
-			'ajaxListPage' => 'area_edk_participant_ajax_list',
-			'exportCsvPage' => 'area_edk_participant_export_all',
-			'text' => $text,
-		));
-	}
+        $this->breadcrumbs()
+            ->workgroup('participants')
+            ->entryLink(
+                $this->trans('Participants', [], 'pages'),
+                $this->crudInfo->getIndexPage(),
+                ['slug' => $this->getSlug()]
+            );
+    }
 
-	/**
-	 * @Route("/ajax-list", name="area_edk_participant_ajax_list")
-	 */
-	public function ajaxListAction(Request $request)
-	{
-		$routes = $this->dataRoutes()
-			->link('info_link', $this->crudInfo->getInfoPage(), ['id' => '::id', 'slug' => $this->getSlug()])
-			->link('route_link', 'edk_route_info', ['id' => '::routeId', 'slug' => $this->getSlug()])
-			->link('edit_link', $this->crudInfo->getEditPage(), ['id' => '::id', 'slug' => $this->getSlug()])
-			->link('remove_link', $this->crudInfo->getRemovePage(), ['id' => '::id', 'slug' => $this->getSlug()]);
+    /**
+     * @Route("/index", name="area_edk_participant_index")
+     */
+    public function indexAction(Request $request)
+    {
+        $place = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace();
+        if (!$place->getContract()) {
+            return $this->getAccessDeniedPage($request);
+        }
 
-		$repository = $this->crudInfo->getRepository();
-		$dataTable = $repository->createDataTable();
-		$dataTable->process($request);
-		return new JsonResponse($routes->process($repository->listData($dataTable, $this->getTranslator())));
-	}
-	
-	/**
-	 * @Route("/ajax-routes", name="area_edk_participant_ajax_routes")
-	 */
-	public function ajaxRoutesAction(Request $request, Membership $membership)
-	{
-		try {
-			$repository = $this->get('wio.edk.repo.published_data');
-			$registrations = $repository->getOpenRegistrations($membership->getPlace(), $this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue());
-			$response = new JsonResponse($registrations);
-			$response->setDate(new DateTime());
-			$exp = new DateTime();
-			$exp->add(new DateInterval('PT0H5M0S'));
-			$response->setExpires($exp);
-			return $response;
-		} catch(ItemNotFoundException $exception) {
-			return new JsonResponse(['success' => 0]);
-		}
-	}
+        $text = $this->getTextRepository()->getTextOrFalse(
+            EdkTexts::PARTICIPANT_TEXT,
+            $request,
+            $this->getActiveProject()
+        );
+        $dataTable = $this->crudInfo->getRepository()->createDataTable();
 
-	/**
-	 * @Route("/{id}/info", name="area_edk_participant_info")
-	 */
-	public function infoAction($id)
-	{
-		$action = new InfoAction($this->crudInfo);
-		$action->slug($this->getSlug());
-		return $action->run($this, $id);
-	}
-	
-	/**
-	 * @Route("/insert", name="area_edk_participant_insert")
-	 */
-	public function insertAction(Request $request, Membership $membership)
-	{
-		try {
-			$area = $membership->getPlace();
-			$project = $area->getProject();
-			$settingsRepository = $this->get('wio.edk.repo.registration');
-			$settingsRepository->setRootEntity($area);
+        return $this->render(
+            $this->crudInfo->getTemplateLocation().'index.html.twig',
+            array(
+                'pageTitle' => $this->crudInfo->getPageTitle(),
+                'pageSubtitle' => $this->crudInfo->getPageSubtitle(),
+                'dataTable' => $dataTable,
+                'locale' => $request->getLocale(),
+                'insertPage' => $this->crudInfo->getInsertPage(),
+                'ajaxListPage' => 'area_edk_participant_ajax_list',
+                'exportCsvPage' => 'area_edk_participant_export_all',
+                'text' => $text,
+            )
+        );
+    }
 
-			$entity = EdkParticipant::newParticipant();
+    /**
+     * @Route("/ajax-list", name="area_edk_participant_ajax_list")
+     */
+    public function ajaxListAction(Request $request)
+    {
+        $routes = $this->dataRoutes()
+            ->link('info_link', $this->crudInfo->getInfoPage(), ['id' => '::id', 'slug' => $this->getSlug()])
+            ->link('route_link', 'edk_route_info', ['id' => '::routeId', 'slug' => $this->getSlug()])
+            ->link('edit_link', $this->crudInfo->getEditPage(), ['id' => '::id', 'slug' => $this->getSlug()])
+            ->link('remove_link', $this->crudInfo->getRemovePage(), ['id' => '::id', 'slug' => $this->getSlug()]);
 
-			if ($request->getMethod() == 'POST') {
-				$routeId = $request->request->get('route');
-				$entity->setRegistrationSettings($settingsRepository->getItem($routeId));
-				$entity->setIpAddress(ip2long($_SERVER['REMOTE_ADDR']));
-			} else {
-				$routeId = null;
-			}
+        $repository = $this->crudInfo->getRepository();
+        $dataTable = $repository->createDataTable();
+        $dataTable->process($request);
 
-			$action = new InsertAction($this->crudInfo, $entity);
-			$action->slug($this->getSlug());
-			$action->form(function($controller, $item, $formType, $action) use($request, $project, $settingsRepository) {
-				return $controller->createForm(EdkParticipantForm::class, $item, [
-					'action' => $action,
-					'mode' => EdkParticipantForm::ADD,
-					'settingsRepository' => $settingsRepository,
-					'texts' => $this->buildTexts($request, $project)
-				]);
-			});
-			$action->set('ajaxRoutePage', 'area_edk_participant_ajax_routes');
-			return $action->run($this, $request, $routeId);
-		} catch(ItemNotFoundException $exception) {
-			return $this->showPageWithError($this->trans($exception->getMessage(), [], 'edk'), 'area_edk_participant_index', ['slug' => $this->getSlug()]);
-		}
-	}
-	
-	/**
-	 * @Route("/{id}/edit", name="area_edk_participant_edit")
-	 */
-	public function editAction($id, Request $request, Membership $membership)
-	{
-		$settingsRepository = $this->get('wio.edk.repo.registration');
-		$settingsRepository->setRootEntity($membership->getPlace());
-		
-		$action = new EditAction($this->crudInfo);
-		$action->form(function($controller, $item, $formType, $action) use($settingsRepository) {
-			return $controller->createForm(EdkParticipantForm::class, $item, [
-				'action' => $action,
-				'mode' => EdkParticipantForm::EDIT,
-				'settingsRepository' => $settingsRepository,
-				'registrationSettings' => $item->getRegistrationSettings()
-			]);
-		});
-		$action->slug($this->getSlug());
-		return $action->run($this, $id, $request);
-	}
-	
-	/**
-	 * @Route("/{id}/remove", name="area_edk_participant_remove")
-	 */
-	public function removeAction($id, Request $request)
-	{
-		$action = new RemoveAction($this->crudInfo);
-		$action->slug($this->getSlug());
-		return $action->run($this, $id, $request);
-	}
-	
-	/**
-	 * @Route("/export", name="area_edk_participant_export_all")
-	 */
-	public function exportAllToCSVAction(Request $request, Membership $membership) {
-		$repository = $this->get(self::REPOSITORY_NAME);
-		$area = $membership->getPlace();
-		$response = new StreamedResponse(function() use($repository, $area) {
-			$repository->exportToCSVStream($this->getTranslator(), $area);
-		});
-		$response->headers->set('Content-Type', 'text/csv');
-		$response->headers->set('Cache-Control', '');
-		$response->headers->set('Last-Modified', gmdate('D, d M Y H:i:s'));
-		$contentDisposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'participants-all-routes.csv');
-		$response->headers->set('Content-Disposition', $contentDisposition);
-		$response->prepare($request);
-		return $response;
-	}
-	
-	private function buildTexts(Request $request, Project $project): array
-	{
-		return [
-			1 => strip_tags($this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS1_TEXT, $request, $project)->getContent()),
-			2 => strip_tags($this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS2_TEXT, $request, $project)->getContent()),
-			3 => strip_tags($this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS3_TEXT, $request, $project)->getContent())
-		];
-	}
+        return new JsonResponse($routes->process($repository->listData($dataTable, $this->getTranslator())));
+    }
+
+    /**
+     * @Route("/ajax-routes", name="area_edk_participant_ajax_routes")
+     */
+    public function ajaxRoutesAction(Request $request, Membership $membership)
+    {
+        try {
+            $repository = $this->get('wio.edk.repo.published_data');
+            $registrations = $repository->getOpenRegistrations(
+                $membership->getPlace(),
+                $this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue()
+            );
+            $response = new JsonResponse($registrations);
+            $response->setDate(new DateTime());
+            $exp = new DateTime();
+            $exp->add(new DateInterval('PT0H5M0S'));
+            $response->setExpires($exp);
+
+            return $response;
+        } catch (ItemNotFoundException $exception) {
+            return new JsonResponse(['success' => 0]);
+        }
+    }
+
+    /**
+     * @Route("/{id}/info", name="area_edk_participant_info")
+     */
+    public function infoAction($id)
+    {
+        $action = new InfoAction($this->crudInfo);
+        $action->slug($this->getSlug());
+
+        return $action->run($this, $id);
+    }
+
+    /**
+     * @Route("/insert", name="area_edk_participant_insert")
+     */
+    public function insertAction(Request $request, Membership $membership)
+    {
+        $place = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace();
+        if (!$place->getContract()) {
+            return $this->getAccessDeniedPage($request);
+        }
+
+        try {
+            $area = $membership->getPlace();
+            $project = $area->getProject();
+            $settingsRepository = $this->get('wio.edk.repo.registration');
+            $settingsRepository->setRootEntity($area);
+
+            $entity = EdkParticipant::newParticipant();
+
+            if ($request->getMethod() == 'POST') {
+                $routeId = $request->request->get('route');
+                $entity->setRegistrationSettings($settingsRepository->getItem($routeId));
+                $entity->setIpAddress(ip2long($_SERVER['REMOTE_ADDR']));
+            } else {
+                $routeId = null;
+            }
+
+            $action = new InsertAction($this->crudInfo, $entity);
+            $action->slug($this->getSlug());
+            $action->form(
+                function ($controller, $item, $formType, $action) use ($request, $project, $settingsRepository) {
+                    return $controller->createForm(
+                        EdkParticipantForm::class,
+                        $item,
+                        [
+                            'action' => $action,
+                            'mode' => EdkParticipantForm::ADD,
+                            'settingsRepository' => $settingsRepository,
+                            'texts' => $this->buildTexts($request, $project),
+                        ]
+                    );
+                }
+            );
+            $action->set('ajaxRoutePage', 'area_edk_participant_ajax_routes');
+
+            return $action->run($this, $request, $routeId);
+        } catch (ItemNotFoundException $exception) {
+            return $this->showPageWithError(
+                $this->trans($exception->getMessage(), [], 'edk'),
+                'area_edk_participant_index',
+                ['slug' => $this->getSlug()]
+            );
+        }
+    }
+
+    /**
+     * @Route("/{id}/edit", name="area_edk_participant_edit")
+     */
+    public function editAction($id, Request $request, Membership $membership)
+    {
+        $place = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace();
+        if (!$place->getContract()) {
+            return $this->getAccessDeniedPage($request);
+        }
+
+        $settingsRepository = $this->get('wio.edk.repo.registration');
+        $settingsRepository->setRootEntity($membership->getPlace());
+
+        $action = new EditAction($this->crudInfo);
+        $action->form(
+            function ($controller, $item, $formType, $action) use ($settingsRepository) {
+                return $controller->createForm(
+                    EdkParticipantForm::class,
+                    $item,
+                    [
+                        'action' => $action,
+                        'mode' => EdkParticipantForm::EDIT,
+                        'settingsRepository' => $settingsRepository,
+                        'registrationSettings' => $item->getRegistrationSettings(),
+                    ]
+                );
+            }
+        );
+        $action->slug($this->getSlug());
+
+        return $action->run($this, $id, $request);
+    }
+
+    /**
+     * @Route("/{id}/remove", name="area_edk_participant_remove")
+     */
+    public function removeAction($id, Request $request)
+    {
+        $action = new RemoveAction($this->crudInfo);
+        $action->slug($this->getSlug());
+
+        return $action->run($this, $id, $request);
+    }
+
+    /**
+     * @Route("/export", name="area_edk_participant_export_all")
+     */
+    public function exportAllToCSVAction(Request $request, Membership $membership)
+    {
+        $repository = $this->get(self::REPOSITORY_NAME);
+        $area = $membership->getPlace();
+        $response = new StreamedResponse(
+            function () use ($repository, $area) {
+                $repository->exportToCSVStream($this->getTranslator(), $area);
+            }
+        );
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Cache-Control', '');
+        $response->headers->set('Last-Modified', gmdate('D, d M Y H:i:s'));
+        $contentDisposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'participants-all-routes.csv'
+        );
+        $response->headers->set('Content-Disposition', $contentDisposition);
+        $response->prepare($request);
+
+        return $response;
+    }
+
+    private function buildTexts(Request $request, Project $project): array
+    {
+        return [
+            1 => strip_tags(
+                $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS1_TEXT, $request, $project)->getContent(
+                )
+            ),
+            2 => strip_tags(
+                $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS2_TEXT, $request, $project)->getContent(
+                )
+            ),
+            3 => strip_tags(
+                $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS3_TEXT, $request, $project)->getContent(
+                )
+            ),
+        ];
+    }
+
+    private function getAccessDeniedPage(Request $request)
+    {
+        $text = $this->getTextRepository()->getText(
+            EdkTexts::ACCESS_DENIED_TEXT,
+            $request,
+            $this->getActiveProject()
+        );
+
+        return $this->render(
+            $this->crudInfo->getTemplateLocation().'access-denied.html.twig',
+            array('infoText' => $text)
+        );
+
+    }
 }
