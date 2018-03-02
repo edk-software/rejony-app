@@ -109,6 +109,8 @@ return [
 	'DataConsistencyDescription' => 'Długość trasy (±1km), suma podejść (±50m) oraz typ powinny zgadzać się z wyliczonymi wartościami.',
 	'Elevation chart' => 'Profil trasy',
 	'Verify' => 'Zweryfikuj poprawność śladu trasy',
+	'Verification successful' => 'Weryfikacja zakończona sukcesem',
+	'Page will be refreshed within 5 seconds...' => 'Strona zostanie odświeżona w ciągu 5 sekund...',
 
 	'Not uploaded' => 'Niewgrany',
 	
