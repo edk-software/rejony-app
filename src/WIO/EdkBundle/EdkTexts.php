@@ -23,6 +23,7 @@ class EdkTexts
 	const REGISTRATION_SETTINGS_TEXT = 'edk:registration-settings';
 	const MESSAGE_TEXT = 'edk:messages';
 	const PARTICIPANT_TEXT = 'edk:participants';
+	const ACCESS_DENIED_TEXT = 'edk:access-denied';
 	const REGISTRATION_TERMS1_TEXT = 'edk:registration-terms1-text';
 	const REGISTRATION_TERMS2_TEXT = 'edk:registration-terms2-text';
 	const REGISTRATION_TERMS3_TEXT = 'edk:registration-terms3-text';

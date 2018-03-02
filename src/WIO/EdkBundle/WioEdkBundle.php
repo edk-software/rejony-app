@@ -38,6 +38,7 @@ class WioEdkBundle extends Bundle
 		AppTexts::registerName(EdkTexts::ROUTE_INFO_TEXT);
 		AppTexts::registerName(EdkTexts::MESSAGE_TEXT);
 		AppTexts::registerName(EdkTexts::PARTICIPANT_TEXT);
+		AppTexts::registerName(EdkTexts::ACCESS_DENIED_TEXT);
 		AppTexts::registerName(EdkTexts::REGISTRATION_FORM_TEXT);
 		AppTexts::registerName(EdkTexts::REGISTRATION_TERMS1_TEXT);
 		AppTexts::registerName(EdkTexts::REGISTRATION_TERMS2_TEXT);
