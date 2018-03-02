@@ -16,6 +16,7 @@
  * along with Foobar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 namespace WIO\EdkBundle\Entity;
 
 use Cantiga\CoreBundle\Entity\Area;
@@ -42,438 +43,522 @@ use WIO\EdkBundle\EdkTables;
  */
 class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface, EditableEntityInterface, RemovableEntityInterface
 {
-	private $id;
-	/**
-	 * @var EdkRegistrationSettings
-	 */
-	private $registrationSettings;
-	private $accessKey;
-	private $firstName;
-	private $lastName;
-	private $sex;
-	private $age;
-	private $email;
-	private $peopleNum;
-	private $customAnswer;
-	private $howManyTimes;
-	private $whyParticipate;
-	private $whereLearnt;
-	private $terms1Accepted;
-	private $terms2Accepted;
-	private $terms3Accepted;
-	private $createdAt;
-	private $ipAddress;
-	
-	/**
-	 * Creates a new participant that is registered via the area leaders.
-	 */
-	public static function newParticipant()
-	{
-		$item = new EdkParticipant();
-		$item->peopleNum = 1;
-		return $item;
-	}
-	
-	/**
-	 * Fetches the participant by his/her access key.
-	 * 
-	 * @param Connection $conn
-	 * @param string $key
-	 * @param int $expectedAreaStatus
-	 * @param boolean $forUpdate Whether to lock the registration settings for writing
-	 * @return EdkParticipant
-	 */
-	public static function fetchByKey(Connection $conn, $key, $expectedAreaStatus, $forUpdate = true)
-	{
-		$data = $conn->fetchAssoc('SELECT * FROM `'.EdkTables::PARTICIPANT_TBL.'` WHERE `accessKey` = :key', [':key' => $key]);
-		if (false === $data) {
-			return false;
-		}
-		$registrationSettings = EdkRegistrationSettings::fetchPublic($conn, $data['routeId'], $expectedAreaStatus, $forUpdate);
-		
-		if (empty($registrationSettings)) {
-			return false;
-		}
-		
-		$item = EdkParticipant::fromArray($data);
-		$item->setRegistrationSettings($registrationSettings);
-		return $item;
-	}
-	
-	/**
-	 * Fetches the participant by his/her ID and area.
-	 * 
-	 * @param Connection $conn
-	 * @param int $id
-	 * @param Area $area
-	 * @param boolean $forUpdate Whether to lock the registration settings for writing
-	 * @return EdkParticipant
-	 */
-	public static function fetchByArea(Connection $conn, $id, Area $area)
-	{
-		$data = $conn->fetchAssoc('SELECT * FROM `'.EdkTables::PARTICIPANT_TBL.'` WHERE `id` = :id AND `areaId` = :areaId', [':id' => $id, ':areaId' => $area->getId()]);
-		if (false === $data) {
-			return false;
-		}
-		$route = EdkRoute::fetchByRoot($conn, $data['routeId'], $area);
-		if (empty($route)) {
-			return false;
-		}
-		$registrationSettings = EdkRegistrationSettings::fetchByRoute($conn, $route);
-		
-		if (empty($registrationSettings)) {
-			return false;
-		}
-		$item = EdkParticipant::fromArray($data);
-		$item->setRegistrationSettings($registrationSettings);
-		return $item;
-	}
-	
-	public static function fromArray($array, $prefix = '')
-	{
-		$item = new EdkParticipant;
-		DataMappers::fromArray($item, $array, $prefix);
-		return $item;
-	}
-	
-	public function getId()
-	{
-		return $this->id;
-	}
+    private $id;
+    /**
+     * @var EdkRegistrationSettings
+     */
+    private $registrationSettings;
+    private $accessKey;
+    private $firstName;
+    private $lastName;
+    private $sex;
+    private $age;
+    private $email;
+    private $peopleNum;
+    private $customAnswer;
+    private $howManyTimes;
+    private $whyParticipate;
+    private $whereLearnt;
+    private $terms1Accepted;
+    private $terms2Accepted;
+    private $terms3Accepted;
+    private $createdAt;
+    private $ipAddress;
 
-	/**
-	 * @return EdkRegistrationSettings
-	 */
-	public function getRegistrationSettings()
-	{
-		return $this->registrationSettings;
-	}
+    /**
+     * Creates a new participant that is registered via the area leaders.
+     */
+    public static function newParticipant()
+    {
+        $item = new EdkParticipant();
+        $item->peopleNum = 1;
 
-	public function getAccessKey()
-	{
-		return $this->accessKey;
-	}
-	
-	public function getName()
-	{
-		return $this->firstName.' '.$this->lastName;
-	}
+        return $item;
+    }
 
-	public function getFirstName()
-	{
-		return $this->firstName;
-	}
+    /**
+     * Fetches the participant by his/her access key.
+     *
+     * @param Connection $conn
+     * @param string $key
+     * @param int $expectedAreaStatus
+     * @param boolean $forUpdate Whether to lock the registration settings for writing
+     * @return EdkParticipant
+     */
+    public static function fetchByKey(Connection $conn, $key, $expectedAreaStatus, $forUpdate = true)
+    {
+        $data = $conn->fetchAssoc(
+            'SELECT * FROM `'.EdkTables::PARTICIPANT_TBL.'` WHERE `accessKey` = :key',
+            [':key' => $key]
+        );
+        if (false === $data) {
+            return false;
+        }
+        $registrationSettings = EdkRegistrationSettings::fetchPublic(
+            $conn,
+            $data['routeId'],
+            $expectedAreaStatus,
+            $forUpdate
+        );
 
-	public function getLastName()
-	{
-		return $this->lastName;
-	}
+        if (empty($registrationSettings)) {
+            return false;
+        }
 
-	public function getSex()
-	{
-		return $this->sex;
-	}
+        $item = EdkParticipant::fromArray($data);
+        $item->setRegistrationSettings($registrationSettings);
 
-	public function getAge()
-	{
-		return $this->age;
-	}
+        return $item;
+    }
 
-	public function getEmail()
-	{
-		return $this->email;
-	}
+    /**
+     * Fetches the participant by his/her ID and area.
+     *
+     * @param Connection $conn
+     * @param int $id
+     * @param Area $area
+     * @param boolean $forUpdate Whether to lock the registration settings for writing
+     * @return EdkParticipant
+     */
+    public static function fetchByArea(Connection $conn, $id, Area $area)
+    {
+        $data = $conn->fetchAssoc(
+            'SELECT * FROM `'.EdkTables::PARTICIPANT_TBL.'` WHERE `id` = :id AND `areaId` = :areaId',
+            [':id' => $id, ':areaId' => $area->getId()]
+        );
+        if (false === $data) {
+            return false;
+        }
+        $route = EdkRoute::fetchByRoot($conn, $data['routeId'], $area);
+        if (empty($route)) {
+            return false;
+        }
+        $registrationSettings = EdkRegistrationSettings::fetchByRoute($conn, $route);
 
-	public function getPeopleNum()
-	{
-		return $this->peopleNum;
-	}
+        if (empty($registrationSettings)) {
+            return false;
+        }
+        $item = EdkParticipant::fromArray($data);
+        $item->setRegistrationSettings($registrationSettings);
 
-	public function getCustomAnswer()
-	{
-		return $this->customAnswer;
-	}
+        return $item;
+    }
 
-	public function getHowManyTimes()
-	{
-		return $this->howManyTimes;
-	}
+    public static function fromArray($array, $prefix = '')
+    {
+        $item = new EdkParticipant;
+        DataMappers::fromArray($item, $array, $prefix);
 
-	public function getWhyParticipate()
-	{
-		return $this->whyParticipate;
-	}
+        return $item;
+    }
 
-	public function getWhereLearnt()
-	{
-		return $this->whereLearnt;
-	}
-	
-	/**
-	 * @return WhereLearntAbout
-	 */
-	public function getWhereLearntEntity()
-	{
-		return WhereLearntAbout::getItem($this->whereLearnt);
-	}
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	public function getTerms1Accepted()
-	{
-		return $this->terms1Accepted;
-	}
-	
-	public function getTerms2Accepted()
-	{
-		return $this->terms2Accepted;
-	}
-	
-	public function getTerms3Accepted()
-	{
-		return $this->terms3Accepted;
-	}
+    /**
+     * @return EdkRegistrationSettings
+     */
+    public function getRegistrationSettings()
+    {
+        return $this->registrationSettings;
+    }
 
-	public function getCreatedAt()
-	{
-		return $this->createdAt;
-	}
-	
-	public function getIpAddress()
-	{
-		return $this->ipAddress;
-	}
+    public function getAccessKey()
+    {
+        return $this->accessKey;
+    }
 
-	public function getSexText()
-	{
-		return ($this->sex == 1 ? 'SexMale' : 'SexFemale');
-	}
-	
-	public function setId($id)
-	{
-		$this->id = $id;
-		return $this;
-	}
+    public function getName()
+    {
+        return $this->firstName.' '.$this->lastName;
+    }
 
-	public function setRegistrationSettings($registrationSettings)
-	{
-		$this->registrationSettings = $registrationSettings;
-		return $this;
-	}
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
 
-	public function setAccessKey($accessKey)
-	{
-		$this->accessKey = $accessKey;
-		return $this;
-	}
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
 
-	public function setFirstName($firstName)
-	{
-		$this->firstName = $firstName;
-		return $this;
-	}
+    public function getSex()
+    {
+        return $this->sex;
+    }
 
-	public function setLastName($lastName)
-	{
-		$this->lastName = $lastName;
-		return $this;
-	}
+    public function getAge()
+    {
+        return $this->age;
+    }
 
-	public function setSex($sex)
-	{
-		$this->sex = $sex;
-		return $this;
-	}
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-	public function setAge($age)
-	{
-		$this->age = $age;
-		return $this;
-	}
+    public function getPeopleNum()
+    {
+        return $this->peopleNum;
+    }
 
-	public function setEmail($email)
-	{
-		$this->email = $email;
-		return $this;
-	}
+    public function getCustomAnswer()
+    {
+        return $this->customAnswer;
+    }
 
-	public function setPeopleNum($peopleNum)
-	{
-		$this->peopleNum = $peopleNum;
-		return $this;
-	}
+    public function getHowManyTimes()
+    {
+        return $this->howManyTimes;
+    }
 
-	public function setCustomAnswer($customAnswer)
-	{
-		$this->customAnswer = $customAnswer;
-		return $this;
-	}
+    public function getWhyParticipate()
+    {
+        return $this->whyParticipate;
+    }
 
-	public function setHowManyTimes($howManyTimes)
-	{
-		$this->howManyTimes = $howManyTimes;
-		return $this;
-	}
+    public function getWhereLearnt()
+    {
+        return $this->whereLearnt;
+    }
 
-	public function setWhyParticipate($whyParticipate)
-	{
-		$this->whyParticipate = $whyParticipate;
-		return $this;
-	}
+    /**
+     * @return WhereLearntAbout
+     */
+    public function getWhereLearntEntity()
+    {
+        return WhereLearntAbout::getItem($this->whereLearnt);
+    }
 
-	public function setWhereLearnt($whereLearnt)
-	{
-		$this->whereLearnt = (int) $whereLearnt;
-		return $this;
-	}
+    public function getTerms1Accepted()
+    {
+        return $this->terms1Accepted;
+    }
 
-	public function setTerms1Accepted($terms1Accepted)
-	{
-		$this->terms1Accepted = $terms1Accepted;
-		return $this;
-	}
-	
-	public function setTerms2Accepted($terms2Accepted)
-	{
-		$this->terms2Accepted = $terms2Accepted;
-		return $this;
-	}
-	
-	public function setTerms3Accepted($terms3Accepted)
-	{
-		$this->terms3Accepted = $terms3Accepted;
-		return $this;
-	}
+    public function getTerms2Accepted()
+    {
+        return $this->terms2Accepted;
+    }
 
-	public function setCreatedAt($createdAt)
-	{
-		$this->createdAt = $createdAt;
-		return $this;
-	}
-	
-	public function setIpAddress($addr)
-	{
-		$this->ipAddress = $addr;
-		return $this;
-	}
-	
-	/**
-	 * Validates the constraints for the participant registration.
-	 * 
-	 * @param ExecutionContextInterface $context
-	 */
-	public function validate(ExecutionContextInterface $context) {
-		$ok = true;
-		if (!$this->terms1Accepted) {
-			$context->buildViolation('TermsNotAcceptedErrorMsg')
-				->atPath('terms1Accepted')
-				->addViolation();
-			$ok = false;
-		}
-		if (!$this->terms2Accepted) {
-			$context->buildViolation('TermsNotAcceptedErrorMsg')
-				->atPath('terms2Accepted')
-				->addViolation();
-			$ok = false;
-		}
-		if ($this->howManyTimes < 0) {
-			$context->buildViolation('HowManyTimesWrongNumberErrorMsg')
-				->atPath('howManyTimes')
-				->addViolation();
-			$ok = false;
-		}
-		
-		if ($this->age < 1 || $this->age > 120) {
-			$context->buildViolation('InvalidAgeErrorMsg')
-				->atPath('age')
-				->addViolation();
-			$ok = false;
-		}
-		if (empty($this->whereLearnt)) {
-			$context->buildViolation('WhereLearntErrorMsg')
-				->atPath('whereLearnt')
-				->addViolation();
-			$ok = false;
-		}
-		$registrationSettings = $this->getRegistrationSettings();
-		if ($registrationSettings->hasCustomQuestion()) {
-			if('' == trim($this->customAnswer)) {
-				$context->buildViolation('PleaseFillCustomAnswerErrorMsg')
-					->atPath('customAnswer')
-					->addViolation();
-				$ok = false;
-			}
-		}
+    public function getTerms3Accepted()
+    {
+        return $this->terms3Accepted;
+    }
 
-		$maxPeoplePerRecord = $registrationSettings->getMaxPeoplePerRecord();
-		if (!empty($maxPeoplePerRecord) && $maxPeoplePerRecord > 1) {
-			if ($this->peopleNum > $maxPeoplePerRecord || $this->peopleNum < 1) {
-				$context->buildViolation('RegisteredPeopleNumInvalidErrorMsg')
-					->setParameter('%max%', $maxPeoplePerRecord)
-					->atPath('peopleNum')
-					->addViolation();
-				$ok = false;
-			}
-		}
-		if (!$registrationSettings->getAllowLimitExceed()) {
-			$participantNum = $registrationSettings->getParticipantNum();
-			$participantLimit = $registrationSettings->getParticipantLimit();
-			if (!empty($participantLimit) && $this->peopleNum + $participantNum > $participantLimit) {
-				$context->buildViolation('NoMorePlacesErrorMsg')
-					->addViolation();
-				$ok = false;
-			}
-		}
-		return $ok;
-	}
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 
-	public static function loadValidatorMetadata(ClassMetadata $metadata)
-	{
-		$metadata->addConstraint(new Callback('validate'));
+    public function getIpAddress()
+    {
+        return $this->ipAddress;
+    }
 
-		$metadata->addPropertyConstraint('firstName', new NotBlank());
-		$metadata->addPropertyConstraint('firstName', new Length(array('min' => 2, 'max' => 50)));
-		$metadata->addPropertyConstraint('lastName', new NotBlank());
-		$metadata->addPropertyConstraint('lastName', new Length(array('min' => 2, 'max' => 50)));
-		$metadata->addPropertyConstraint('whereLearnt', new Choice(array('choices' => WhereLearntAbout::getChoiceIds())));
-		$metadata->addPropertyConstraint('age', new NotBlank());
-		$metadata->addPropertyConstraint('email', new Email());
-		$metadata->addPropertyConstraint('whyParticipate', new Length(array('min' => 2, 'max' => 200)));
-		$metadata->addPropertyConstraint('howManyTimes', new NotBlank());
-		$metadata->addPropertyConstraint('howManyTimes', new Range(['min' => 0]));
-	}
-	
-	public function insert(Connection $conn)
-	{
-		$this->createdAt = time();
-		$this->accessKey = sha1(uniqid(\microtime().$this->lastName.$this->whyParticipate, true));
-		$conn->insert(
-			EdkTables::PARTICIPANT_TBL,
-			DataMappers::pick($this, ['accessKey', 'firstName', 'lastName', 'sex', 'age', 'email', 'peopleNum', 'customAnswer', 'whyParticipate', 'howManyTimes', 'whereLearnt', 'terms1Accepted', 'terms2Accepted', 'terms3Accepted', 'createdAt', 'ipAddress'], [
-				'routeId' => $this->registrationSettings->getRoute()->getId(),
-				'areaId' => $this->registrationSettings->getRoute()->getArea()->getId()
-			])
-		);
-		$this->id = $conn->lastInsertId();
-		$this->registrationSettings->registerParticipant($conn, $this);
-		return $this->id;
-	}
+    public function getSexText()
+    {
+        return ($this->sex == 1 ? 'SexMale' : 'SexFemale');
+    }
 
-	public function update(Connection $conn)
-	{
-		$conn->update(
-			EdkTables::PARTICIPANT_TBL,
-			DataMappers::pick($this, ['firstName', 'lastName', 'sex', 'age', 'email', 'peopleNum', 'customAnswer', 'whyParticipate', 'howManyTimes', 'whereLearnt']),
-			['id' => $this->id]
-		);
-	}
-	
-	public function canRemove()
-	{
-		return true;
-	}
+    public function setId($id)
+    {
+        $this->id = $id;
 
-	public function remove(Connection $conn)
-	{
-		$conn->delete(EdkTables::PARTICIPANT_TBL, ['id' => $this->id]);
-		$this->registrationSettings->unregisterParticipant($conn, $this);
-	}
+        return $this;
+    }
+
+    public function setRegistrationSettings($registrationSettings)
+    {
+        $this->registrationSettings = $registrationSettings;
+
+        return $this;
+    }
+
+    public function setAccessKey($accessKey)
+    {
+        $this->accessKey = $accessKey;
+
+        return $this;
+    }
+
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function setSex($sex)
+    {
+        $this->sex = $sex;
+
+        return $this;
+    }
+
+    public function setAge($age)
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function setPeopleNum($peopleNum)
+    {
+        $this->peopleNum = $peopleNum;
+
+        return $this;
+    }
+
+    public function setCustomAnswer($customAnswer)
+    {
+        $this->customAnswer = $customAnswer;
+
+        return $this;
+    }
+
+    public function setHowManyTimes($howManyTimes)
+    {
+        $this->howManyTimes = $howManyTimes;
+
+        return $this;
+    }
+
+    public function setWhyParticipate($whyParticipate)
+    {
+        $this->whyParticipate = $whyParticipate;
+
+        return $this;
+    }
+
+    public function setWhereLearnt($whereLearnt)
+    {
+        $this->whereLearnt = (int)$whereLearnt;
+
+        return $this;
+    }
+
+    public function setTerms1Accepted($terms1Accepted)
+    {
+        $this->terms1Accepted = $terms1Accepted;
+
+        return $this;
+    }
+
+    public function setTerms2Accepted($terms2Accepted)
+    {
+        $this->terms2Accepted = $terms2Accepted;
+
+        return $this;
+    }
+
+    public function setTerms3Accepted($terms3Accepted)
+    {
+        $this->terms3Accepted = $terms3Accepted;
+
+        return $this;
+    }
+
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function setIpAddress($addr)
+    {
+        $this->ipAddress = $addr;
+
+        return $this;
+    }
+
+    /**
+     * Validates the constraints for the participant registration.
+     *
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        $ok = true;
+        if (!$this->terms1Accepted) {
+            $context->buildViolation('TermsNotAcceptedErrorMsg')
+                ->atPath('terms1Accepted')
+                ->addViolation();
+            $ok = false;
+        }
+        if (!$this->terms2Accepted) {
+            $context->buildViolation('TermsNotAcceptedErrorMsg')
+                ->atPath('terms2Accepted')
+                ->addViolation();
+            $ok = false;
+        }
+        if ($this->howManyTimes < 0) {
+            $context->buildViolation('HowManyTimesWrongNumberErrorMsg')
+                ->atPath('howManyTimes')
+                ->addViolation();
+            $ok = false;
+        }
+
+        if ($this->age < 1 || $this->age > 120) {
+            $context->buildViolation('InvalidAgeErrorMsg')
+                ->atPath('age')
+                ->addViolation();
+            $ok = false;
+        }
+        if (empty($this->whereLearnt)) {
+            $context->buildViolation('WhereLearntErrorMsg')
+                ->atPath('whereLearnt')
+                ->addViolation();
+            $ok = false;
+        }
+        $registrationSettings = $this->getRegistrationSettings();
+        if ($registrationSettings->hasCustomQuestion()) {
+            if ('' == trim($this->customAnswer)) {
+                $context->buildViolation('PleaseFillCustomAnswerErrorMsg')
+                    ->atPath('customAnswer')
+                    ->addViolation();
+                $ok = false;
+            }
+        }
+
+        $maxPeoplePerRecord = $registrationSettings->getMaxPeoplePerRecord();
+        if (!empty($maxPeoplePerRecord) && $maxPeoplePerRecord > 1) {
+            if ($this->peopleNum > $maxPeoplePerRecord || $this->peopleNum < 1) {
+                $context->buildViolation('RegisteredPeopleNumInvalidErrorMsg')
+                    ->setParameter('%max%', $maxPeoplePerRecord)
+                    ->atPath('peopleNum')
+                    ->addViolation();
+                $ok = false;
+            }
+        }
+        if (!$registrationSettings->getAllowLimitExceed()) {
+            $participantNum = $registrationSettings->getParticipantNum();
+            $participantLimit = $registrationSettings->getParticipantLimit();
+            if (!empty($participantLimit) && $this->peopleNum + $participantNum > $participantLimit) {
+                $context->buildViolation('NoMorePlacesErrorMsg')
+                    ->addViolation();
+                $ok = false;
+            }
+        }
+
+        return $ok;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addConstraint(new Callback('validate'));
+
+        $metadata->addPropertyConstraint('firstName', new NotBlank());
+        $metadata->addPropertyConstraint('firstName', new Length(array('min' => 2, 'max' => 50)));
+        $metadata->addPropertyConstraint('lastName', new NotBlank());
+        $metadata->addPropertyConstraint('lastName', new Length(array('min' => 2, 'max' => 50)));
+        $metadata->addPropertyConstraint(
+            'whereLearnt',
+            new Choice(array('choices' => WhereLearntAbout::getChoiceIds()))
+        );
+        $metadata->addPropertyConstraint('age', new NotBlank());
+        $metadata->addPropertyConstraint('email', new Email());
+        $metadata->addPropertyConstraint('whyParticipate', new Length(array('min' => 2, 'max' => 200)));
+        $metadata->addPropertyConstraint('howManyTimes', new NotBlank());
+        $metadata->addPropertyConstraint('howManyTimes', new Range(['min' => 0]));
+    }
+
+    public function insert(Connection $conn)
+    {
+        $this->createdAt = time();
+        $this->accessKey = sha1(uniqid(\microtime().$this->lastName.$this->whyParticipate, true));
+        $conn->insert(
+            EdkTables::PARTICIPANT_TBL,
+            DataMappers::pick(
+                $this,
+                [
+                    'accessKey',
+                    'firstName',
+                    'lastName',
+                    'sex',
+                    'age',
+                    'email',
+                    'peopleNum',
+                    'customAnswer',
+                    'whyParticipate',
+                    'howManyTimes',
+                    'whereLearnt',
+                    'terms1Accepted',
+                    'terms2Accepted',
+                    'terms3Accepted',
+                    'createdAt',
+                    'ipAddress',
+                ],
+                [
+                    'routeId' => $this->registrationSettings->getRoute()->getId(),
+                    'areaId' => $this->registrationSettings->getRoute()->getArea()->getId(),
+                ]
+            )
+        );
+        $this->id = $conn->lastInsertId();
+        $this->registrationSettings->registerParticipant($conn, $this);
+
+        return $this->id;
+    }
+
+    public function update(Connection $conn)
+    {
+        $conn->update(
+            EdkTables::PARTICIPANT_TBL,
+            DataMappers::pick(
+                $this,
+                [
+                    'firstName',
+                    'lastName',
+                    'sex',
+                    'age',
+                    'email',
+                    'peopleNum',
+                    'customAnswer',
+                    'whyParticipate',
+                    'howManyTimes',
+                    'whereLearnt',
+                ]
+            ),
+            ['id' => $this->id]
+        );
+    }
+
+    public function canRemove()
+    {
+        return true;
+    }
+
+    public function remove(Connection $conn)
+    {
+        $conn->delete(EdkTables::PARTICIPANT_TBL, ['id' => $this->id]);
+        $conn->insert(
+            EdkTables::REMOVED_PARTICIPANT_TBL,
+            [
+                'firstName' => $this->firstName,
+                'email' => $this->email,
+                'routeId' => $this->registrationSettings->getRoute()->getId(),
+                'areaId' => $this->registrationSettings->getRoute()->getArea()->getId(),
+                'removedAt' => time()
+            ]
+        );
+        $this->registrationSettings->unregisterParticipant($conn, $this);
+    }
 }
