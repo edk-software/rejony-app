@@ -139,7 +139,7 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 				$results[$row['territoryId']]['areas'][$row['areaId']] = ['id' => $row['areaId'], 'name' => $row['areaName'], 'routes' => []];
 			}
 			if (!isset($results[$row['territoryId']]['areas'][$row['areaId']]['routes'][$row['routeId']])) {
-				$results[$row['territoryId']]['areas'][$row['areaId']]['routes'][$row['routeId']] = [
+                $results[$row['territoryId']]['areas'][$row['areaId']]['routes'][$row['routeId']] = [
 					'id' => $row['routeId'],
 					'name' => $row['routeName'],
 					'from' => $row['routeFrom'],
@@ -150,13 +150,20 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 					'pn' => $row['participantNum'],
 					'pl' => $row['participantLimit'],
 					'ppr' => $row['maxPeoplePerRecord'],
-					't' => $row['routeType']];
+					't' => $row['routeType']
+				];
 			}
 		}
 		$stmt->closeCursor();
-		usort($results, function($a, $b) {
-			return strcmp($a['name'], $b['name']);
-		});
+
+		foreach ($results as &$territory) {
+			foreach ($territory['areas'] as &$area) {
+				$area['routes'] = array_values($area['routes']);
+			}
+			$territory['areas'] = array_values($territory['areas']);
+		}
+        $results = array_values($results);
+
 		return $results;
 	}
 }
