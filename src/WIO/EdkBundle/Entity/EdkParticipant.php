@@ -409,25 +409,25 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
                 ->addViolation();
             $ok = false;
         }
-        if ($this->howManyTimes < 0) {
-            $context->buildViolation('HowManyTimesWrongNumberErrorMsg')
-                ->atPath('howManyTimes')
-                ->addViolation();
-            $ok = false;
-        }
-
-        if ($this->age < 1 || $this->age > 120) {
-            $context->buildViolation('InvalidAgeErrorMsg')
-                ->atPath('age')
-                ->addViolation();
-            $ok = false;
-        }
-        if (empty($this->whereLearnt)) {
-            $context->buildViolation('WhereLearntErrorMsg')
-                ->atPath('whereLearnt')
-                ->addViolation();
-            $ok = false;
-        }
+//        if ($this->howManyTimes < 0) {
+//            $context->buildViolation('HowManyTimesWrongNumberErrorMsg')
+//                ->atPath('howManyTimes')
+//                ->addViolation();
+//            $ok = false;
+//        }
+//
+//        if ($this->age < 1 || $this->age > 120) {
+//            $context->buildViolation('InvalidAgeErrorMsg')
+//                ->atPath('age')
+//                ->addViolation();
+//            $ok = false;
+//        }
+//        if (empty($this->whereLearnt)) {
+//            $context->buildViolation('WhereLearntErrorMsg')
+//                ->atPath('whereLearnt')
+//                ->addViolation();
+//            $ok = false;
+//        }
         $registrationSettings = $this->getRegistrationSettings();
 		    if (!isset($registrationSettings)) {
 			      return false;
@@ -476,10 +476,8 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
             'whereLearnt',
             new Choice(array('choices' => WhereLearntAbout::getChoiceIds()))
         );
-        $metadata->addPropertyConstraint('age', new NotBlank());
         $metadata->addPropertyConstraint('email', new Email());
         $metadata->addPropertyConstraint('whyParticipate', new Length(array('min' => 2, 'max' => 200)));
-        $metadata->addPropertyConstraint('howManyTimes', new NotBlank());
         $metadata->addPropertyConstraint('howManyTimes', new Range(['min' => 0]));
     }
 

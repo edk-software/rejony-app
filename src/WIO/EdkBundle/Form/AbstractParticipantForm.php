@@ -53,16 +53,12 @@ abstract class AbstractParticipantForm extends AbstractType
 			->add('email', EmailType::class, ['label' => 'E-mail address', 'required' => $this->isMailRequired($options), 'attr' => 
 				$this->isMailRequired($options) ? [] : ['help_text' => 'EmailNotRequiredHelpText']
 			])
-			->add('age', IntegerType::class, ['label' => 'Age'])
-			->add('sex', ChoiceType::class, ['label' => 'Sex', 'choices' => [
-					'male' => 1,
-					'female' => 2
-				], 'multiple' => false, 'expanded' => true]
-			)
-			->add('howManyTimes', IntegerType::class, ['label' => 'HowManyTimesField'])
+			->add('age', IntegerType::class, ['label' => 'Age', 'required' => false])
+			->add('howManyTimes', IntegerType::class, ['label' => 'HowManyTimesField', 'required' => false])
 			->add('whereLearnt', ChoiceType::class, [
 				'label' => 'WhereHaveYouLearntAboutField',
-				'choices' => WhereLearntAbout::getFormChoices()
+				'choices' => WhereLearntAbout::getFormChoices(),
+                'required' => false
 			])
 			->add('whyParticipate', TextareaType::class, array('label' => 'WhyParticipateField', 'required' => false))
 			->add('save', SubmitType::class, array('label' => $this->getRegisterButtonText($options)));
