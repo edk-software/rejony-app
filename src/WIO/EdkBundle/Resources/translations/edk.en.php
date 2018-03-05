@@ -58,7 +58,8 @@ return [
 	'MsgStatusNew' => 'New message',
 	'MsgStatusAnswring' => 'Answering',
 	'MsgStatusCompleted' => 'Completed',
-	
+
+    '-- choose --' => '-- choose --',
 	'FromFriendsWLChoice' => 'from friends',
 	'FromFacebookWLChoice' => 'from Facebooka',
 	'FromPosterWLChoice' => 'from a poster',

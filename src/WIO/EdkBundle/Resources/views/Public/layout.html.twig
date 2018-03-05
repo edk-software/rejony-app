@@ -26,7 +26,6 @@
 
 			  <div class="menu col-md-8">
 				  <ul class="list-inline">
-					  <li class="menuactive menuparent"><a class="menuactive menuparent" href="http://www.edk.org.pl">{{ 'Back to EDK home page' | trans([], 'public' ) }}</a></li>
 					  {% if slug is defined %}
 					  <li><a href="{{ path('public_edk_register', {'slug': slug }) }}">{{ 'Register page' | trans([], 'public' ) }}</a></li>
 					  <li><a href="{{ path('public_edk_write_msg', {'slug': slug }) }}">{{ 'Contact with area' | trans([], 'public' ) }}</a></li>
@@ -41,7 +40,9 @@
 	<div class="container" style="margin-bottom: 20px">
 		{% if slug is defined %}
 		<div class="col-lg-2 col-lg-offset-10" style="margin-top: 10px; margin-bottom: 10px; text-align: right;">
-			<a href="{{ path(currentPage, {'slug': slug, '_locale': 'pl'}) }}">PL</a> <a href="{{ path(currentPage, {'slug': slug, '_locale': 'en'}) }}">EN</a>
+			<a href="{{ path(currentPage, {'slug': slug, '_locale': 'pl'}) }}">PL</a>
+			<a href="{{ path(currentPage, {'slug': slug, '_locale': 'en'}) }}">EN</a>
+			<a href="{{ path(currentPage, {'slug': slug, '_locale': 'es'}) }}">ES</a>
 		</div>
 		{% endif %}
 		{% block page_content %}
@@ -52,7 +53,6 @@
 		<div class="container">
 			<div class="col-md-2 bottom-menu">
 				<ul class="list-unstyled">
-					<li><a href="http://www.edk.org.pl/">{{ 'Home page' | trans([], 'public' ) }}</a></li>
 					{% if slug is defined %}
 					<li><a href="{{ path('public_edk_register', {'slug': slug }) }}">{{ 'Register page' | trans([], 'public' ) }}</a></li>
 					<li><a href="{{ path('public_edk_write_msg', {'slug': slug }) }}">{{ 'Contact with area' | trans([], 'public' ) }}</a></li>
@@ -70,17 +70,16 @@
 
 		</div>
 	</footer>
-	<div class=" container footer">
-		<div class="col-md-12"><h5>{{ 'Partners' | trans([], 'public' ) }}</h5>
-			<img src="{{ asset('img/edk/wiosna.png') }}" alt="" style="margin-right:30px;">
-			<img src="{{ asset('img/edk/wio.png') }}" alt=""></div>
-	</div>
+	{#<div class=" container footer">#}
+		{#<div class="col-md-12"><h5>{{ 'Partners' | trans([], 'public' ) }}</h5>#}
+			{#<img src="{{ asset('img/edk/wiosna.png') }}" alt="" style="margin-right:30px;">#}
+			{#<img src="{{ asset('img/edk/wio.png') }}" alt=""></div>#}
+	{#</div>#}
 
 	
 	{% block javascripts %}
 	{% endblock %}
 	{% block javascripts_inline %}
 	{% endblock %}
-  {{ google_tag_manager_body_end() }}
   </body>
 </html>

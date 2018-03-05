@@ -1,11 +1,11 @@
 <?php
 return [
-    'Register page' => 'Register page',
-    'Register to Extreme Way of the Cross' => 'Register to Extreme Way of the Cross',
+    'Register page' => 'vaya al VCE',
+    'Register to Extreme Way of the Cross' => 'vaya al VCE',
     'Contact with area' => 'Contact with area',
     'Check registration' => 'Check registration',
 
-    'Choose the route' => 'Select a route',
+    'Choose the route' => 'Seleccione una ruta',
     'Area' => 'Area',
     'Beginning' => 'Beginning',
     'End' => 'End',
@@ -14,23 +14,23 @@ return [
     'Ascent' => 'Ascent',
     'Route details' => 'Route details',
 
-    'About you' => 'About you',
-    'First name' => 'Name',
-    'Last name' => 'Surname',
-    'E-mail address' => 'E-mail',
-    'Age' => 'Age',
-    'Sex' => 'Sex',
+    'About you' => 'Acerca de ti',
+    'First name' => 'Nombre',
+    'Last name' => 'Apellido',
+    'E-mail address' => 'Dirección de correo electrónico',
+    'Age' => 'Edad',
+    'Sex' => 'Sexo',
 
-    'male' => 'male',
-    'female' => 'female',
+    'male' => 'hombre',
+    'female' => 'mujer',
 
-    'Legal issues' => 'Consent',
-    'Register' => 'Send',
+    'Legal issues' => 'Consentimientos',
+    'Register' => 'Envíe',
 
-    'WhereHaveYouLearntAboutField' => 'Where have you learnt about Extreme Way?',
-    'HowManyTimesField' => 'How many times have you already participated in Extreme Way of the Cross?',
-    'WhyParticipateField' => 'Why would like you to participate in Extreme Way?',
-    'Additional information' => 'Additional information',
+    'WhereHaveYouLearntAboutField' => '¿Dónde se enteró acerca del VCE?',
+    'HowManyTimesField' => '¿Cuántas veces ha participado en el VCE hasta ahora?',
+    'WhyParticipateField' => '¿Por qué quiere ir al VCE?',
+    'Additional information' => 'Información adicional',
 
     'EmailNotRequiredHelpText' => 'E-mail is not necessary while adding a participant through the system.',
     'AgeHelpText' => 'Minors can participate in Extreme Way with adults only.',

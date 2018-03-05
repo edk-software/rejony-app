@@ -53,7 +53,7 @@ abstract class AbstractParticipantForm extends AbstractType
 			->add('email', EmailType::class, ['label' => 'E-mail address', 'required' => $this->isMailRequired($options), 'attr' => 
 				$this->isMailRequired($options) ? [] : ['help_text' => 'EmailNotRequiredHelpText']
 			])
-			->add('age', IntegerType::class, ['label' => 'Age', 'attr' => ['help_text' => 'AgeHelpText']])
+			->add('age', IntegerType::class, ['label' => 'Age'])
 			->add('sex', ChoiceType::class, ['label' => 'Sex', 'choices' => [
 					'male' => 1,
 					'female' => 2
