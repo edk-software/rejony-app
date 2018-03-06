@@ -1,26 +1,33 @@
 {% extends 'WioEdkBundle:Public:layout.html.twig' %}
 
 {% block page_content %}
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.12';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-	<section class="main container">
-		<div class="col-md-12 content center"><h1>{{ 'Thank you!' | trans([], 'public') }}</h1></div>
-	</section>
-	<div class="col-lg-6 col-lg-offset-3">
-		<p>{{ 'RegistrationSuccessfulText' | trans([], 'public') }}</p>
-		<p>{{ 'AccessKeyInformation' | trans([], 'public') }}</p>
-		
-		<div class="panel panel-default">
-			<div class="panel-body">
-				{{ 'Your access code' | trans([], 'public') }}: <span style="font-size: 10px;">{{ accessKey }}</span>
-			</div>
-		</div>
-		<div class="fb-page" data-href="https://www.facebook.com/wio.edk/" data-tabs="" data-width="500" data-height="500" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/wio.edk/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/wio.edk/">EDK - Ekstremalna Droga Krzyżowa</a></blockquote></div>
-	</div>
+    <section class="main container">
+        <div class="col-md-12 content center"><h1>{{ 'Thank you!' | trans([], 'public') }}</h1></div>
+    </section>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <p>{{ 'RegistrationSuccessfulText' | trans([], 'public') }}</p>
+            <p>{{ 'AccessKeyInformation' | trans([], 'public') }}</p>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ 'Your access code' | trans([], 'public') }}: <span
+                            style="font-size: 10px;">{{ accessKey }}</span>
+                </div>
+            </div>
+            <div class="panel">
+                <a class="btn btn-lg btn-block btn-social btn-facebook" href="https://www.facebook.com/wio.edk"
+                   target="_blank">
+                    <i class="fa fa-facebook"></i> {{ 'Facebook' | trans([], 'public') }}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="https://jedenprocent.edk.org.pl?action=jedenprocent&place=banner" target="_blank">
+                <img width="100%" src="{{ asset('img/edk/www-jeden.png') }}">
+            </a>
+        </div>
+    </div>
 {% endblock %}

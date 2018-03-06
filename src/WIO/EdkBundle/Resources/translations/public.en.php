@@ -1,7 +1,7 @@
 <?php
 return [
     'Register page' => 'Register page',
-    'Register to Extreme Way of the Cross' => 'Register to Extreme Way of the Cross',
+    'Register to Extreme Way of the Cross' => 'Register to EWC',
     'Contact with area' => 'Contact with area',
     'Check registration' => 'Check registration',
 
@@ -50,6 +50,7 @@ return [
     'FromPressArticleWLChoice' => 'from press article',
     'FromRadioWLChoice' => 'from radio',
     'OtherWLChoice' => 'other',
+    'Facebook' => 'EWC on Facebook',
 
     'RecaptchaValidText' => 'Please check reCAPTCHA',
     'SelectRouteValidText' => 'Please select route',

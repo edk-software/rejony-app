@@ -90,6 +90,7 @@ return [
 	'FromPressArticleWLChoice' => 'z artykułu w prasie',
 	'FromRadioWLChoice' => 'z radia',
 	'OtherWLChoice' => 'inne',
+    'Facebook' => 'EDK na Facebooku',
 	
 	'You have already registered not so long ago from this computer. Please wait a few moments.' => 'Zarejestrowałeś się przed chwilą z tego komputera. Prosimy zaczekać chwilę.',
 
