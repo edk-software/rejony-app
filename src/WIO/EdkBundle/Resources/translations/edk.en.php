@@ -96,6 +96,7 @@ return [
     'Register participants' => 'Register participants',
     'External participants' => 'External participants',
     'All participants' => 'All participants',
+    'Unregister participants' => 'Unregister participants',
 
     'Registered' => 'Registered',
     'Unregistered' => 'Unregistered',

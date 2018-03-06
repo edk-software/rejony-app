@@ -59,6 +59,7 @@ class ParticipantNumChart implements StatsInterface
     private $allParticipants;
     private $registerParticipants;
     private $externalParticipants;
+    private $unregisterParticipants;
 
     public function __construct(
         Connection $conn,
@@ -83,6 +84,7 @@ class ParticipantNumChart implements StatsInterface
         $this->allParticipants = $this->registrationSettingsRepository->countParticipants();
         $this->registerParticipants = $this->registrationSettingsRepository->countParticipantsRegister();
         $this->externalParticipants = $this->registrationSettingsRepository->countParticipantsExternal();
+        $this->unregisterParticipants = $this->registrationSettingsRepository->countUnregisterParticipants();
 
         return true;
     }
@@ -100,6 +102,7 @@ class ParticipantNumChart implements StatsInterface
                 'allParticipants' => $this->allParticipants,
                 'registerParticipants' => $this->registerParticipants,
                 'externalParticipants' => $this->externalParticipants,
+                'unregisterParticipants' => $this->unregisterParticipants,
             )
         );
     }

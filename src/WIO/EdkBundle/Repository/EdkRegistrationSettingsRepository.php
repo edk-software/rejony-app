@@ -234,6 +234,20 @@ class EdkRegistrationSettingsRepository implements EditableRepositoryInterface, 
         }
     }
 
+    public function countUnregisterParticipants()
+    {
+        $this->transaction->requestTransaction();
+        try {
+            $count = $this->conn->fetchColumn('SELECT COUNT(1) '
+                . 'FROM `'.EdkTables::REMOVED_PARTICIPANT_TBL.'` s '
+                . 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON s.`areaId` = a.`id` '
+                . $this->createWhereClause(), [':itemId' => $this->root->getId()]);
+            return empty($count) ? 0 : $count;
+        } catch (Exception $ex) {
+            $this->transaction->requestRollback();
+            throw $ex;
+        }
+    }
 	private function createWhereClause()
 	{
 		if ($this->root instanceof Area) {
