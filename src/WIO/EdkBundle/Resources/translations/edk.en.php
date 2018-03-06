@@ -97,5 +97,8 @@ return [
     'External participants' => 'External participants',
     'All participants' => 'All participants',
 
+    'Registered' => 'Registered',
+    'Unregistered' => 'Unregistered',
+
     'Participants count' => 'Participants count',
 ];

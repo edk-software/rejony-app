@@ -292,6 +292,9 @@ return [
     'External participants' => 'Uczestnicy niezarejestrowani',
     'All participants' => 'Łączna licza uczestników',
 
+    'Registered' => 'Zarejestrowani',
+    'Unregistered' => 'Niezarejestrowani',
+
     'Participants count' => 'Liczba uczestników',
 
 ];
