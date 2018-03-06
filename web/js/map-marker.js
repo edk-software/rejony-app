@@ -16,19 +16,19 @@ function render(data) {
 
         if (Number(place.status) == 0) //Zgłoszenia nowe
         {
-            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+            marker.setIcon('https://maps.google.com/mapfiles/ms/icons/blue-dot.png');
         }
         else if (Number(place.status) == 1) //Weryfikacja
         {
-            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+            marker.setIcon('https://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
         }
         else if (Number(place.status) == 2) //Zatwierdzone
         {
-            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+            marker.setIcon('https://maps.google.com/mapfiles/ms/icons/green-dot.png');
         }
         else if (Number(place.status) == 3) //Odrzucone
         {
-            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+            marker.setIcon('https://maps.google.com/mapfiles/ms/icons/red-dot.png');
         }
 
         var infowindow = new google.maps.InfoWindow();
