@@ -290,7 +290,7 @@ return [
 
     'Register participants' => 'Zarejestrowani uczestnicy',
     'External participants' => 'Uczestnicy niezarejestrowani',
-    'All participants' => 'Łączna licza uczestników',
+    'All participants' => 'Łączna liczba uczestników',
     'Unregister participants' => 'Wyrejestowani uczestnicy',
 
     'Registered' => 'Zarejestrowani',
