@@ -35,9 +35,9 @@ class Version20180302165624 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('ALTER TABLE `cantiga_edk_removed_participants` DROP COLUMN `firstName`, `routeId`');
-        $this->addSql('ALTER TABLE `cantiga_edk_removed_participants`  ADD `reason` varchar(30) NOT NULL`');
-        $this->addSql('ALTER TABLE `cantiga_edk_removed_participants`  ADD `participantId` varchar(150)	 NOT NULL`');
-        $this->addSql('ALTER TABLE `cantiga_edk_removed_participants`  ADD `removedById` int(11) NOT NULL `');
+        $this->addSql('ALTER TABLE `cantiga_edk_removed_participants`  ADD `reason` varchar(30) NOT NULL');
+        $this->addSql('ALTER TABLE `cantiga_edk_removed_participants`  ADD `participantId` varchar(150)	 NOT NULL');
+        $this->addSql('ALTER TABLE `cantiga_edk_removed_participants`  ADD `removedById` int(11) NOT NULL');
 
     }
 }
