@@ -100,9 +100,7 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 			->searchableColumn('firstName', 'i.firstName')
 			->searchableColumn('lastName', 'i.lastName')
 			->searchableColumn('routeName', 'r.name')
-			->column('createdAt', 'i.createdAt')
-			->column('age', 'i.age')
-			->column('sex', 'i.sex');
+			->column('createdAt', 'i.createdAt');
 		return $dt;
 	}
 	
@@ -115,15 +113,12 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 			->field('r.id', 'routeId')
 			->field('r.name', 'routeName')
 			->field('i.createdAt', 'createdAt')
-			->field('i.age', 'age')
-			->field('i.sex', 'sex')
 			->from(EdkTables::PARTICIPANT_TBL, 'i')
 			->join(EdkTables::ROUTE_TBL, 'r', QueryClause::clause('i.routeId = r.id'))
 			->where(QueryClause::clause('i.`areaId` = :areaId', ':areaId', $this->area->getId()))
 			->orderBy('i.createdAt', 'DESC');
 
 		$qb->postprocess(function($row) use ($translator) {
-			$row['sexText'] = $row['sex'] == 1 ? $translator->trans('SexMale', [], 'edk') : $translator->trans('SexFemale', [], 'edk');
 			$row['createdAt'] = $this->timeFormatter->ago($row['createdAt']);
 			return $row;
 		});
@@ -331,8 +326,26 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 					return null;
 				}
 				$row['createdAt'] = date('Y-m-d, H:i:s', $row['createdAt']);
-				$row['sex'] = ($row['sex'] == 1 ? 'M' : 'F');
-				$row['whereLearnt'] = $this->trans->trans(WhereLearntAbout::getItem($row['whereLearnt'])->getName(), [], 'edk');
+				if ($row['sex'] == 1)
+                {
+                    $row['sex'] = 'M';
+                }
+                elseif ($row['sex'] == 2)
+                {
+                    $row['sex'] = 'K';
+                }
+                else
+                {
+                    $row['sex'] = '--';
+                }
+                if (empty($row['whereLearnt']))
+                {
+                    $row['whereLearnt'] = '--';
+                }
+                else
+                {
+                    $row['whereLearnt'] = $this->trans->trans(WhereLearntAbout::getItem($row['whereLearnt'])->getName(), [], 'edk');
+                }
 				return $row;
 			}
 		});
