@@ -565,7 +565,8 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
                 'email' => $this->email,
                 'routeId' => $this->registrationSettings->getRoute()->getId(),
                 'areaId' => $this->registrationSettings->getRoute()->getArea()->getId(),
-                'removedAt' => time()
+                'removedAt' => time(),
+                'registeredAt' =>$this->createdAt
             ]
         );
         $this->registrationSettings->unregisterParticipant($conn, $this);
