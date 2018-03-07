@@ -240,6 +240,7 @@ class EdkRegistrationSettingsRepository implements EditableRepositoryInterface, 
         try {
             $count = $this->conn->fetchColumn('SELECT COUNT(1) '
                 . 'FROM `'.EdkTables::REMOVED_PARTICIPANT_TBL.'` s '
+                . 'INNER JOIN `'.EdkTables::ROUTE_TBL.'` r ON r.`id` = s.`routeId` '
                 . 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON s.`areaId` = a.`id` '
                 . $this->createWhereClause(), [':itemId' => $this->root->getId()]);
             return empty($count) ? 0 : $count;
