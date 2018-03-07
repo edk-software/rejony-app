@@ -260,7 +260,15 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
 
     public function getSexText()
     {
-        return ($this->sex == 1 ? 'SexMale' : 'SexFemale');
+        switch ($this->sex)
+        {
+            case 1:
+                return 'SexMale';
+            case 2:
+                return 'SexFemale';
+            default:
+                return '--';
+        }
     }
 
     public function setId($id)

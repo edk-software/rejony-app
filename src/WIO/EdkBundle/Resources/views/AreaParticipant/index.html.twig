@@ -13,8 +13,6 @@
 	<th width="250">{{ 'Last name' | trans([], 'edk')  }}</th>
 	<th width="250">{{ 'Route' | trans([], 'edk') }}</th>
 	<th width="140">{{ 'Created at' | trans([], 'edk')  }}</th>
-	<th width="80">{{ 'Age' | trans([], 'edk')  }}</th>
-	<th width="80">{{ 'Sex' | trans([], 'edk')  }}</th>
 	<th width="120">{{ 'Actions' | trans({}, 'general') }}</th>
 </tr>
 {% endblock %}
@@ -31,7 +29,6 @@
 	ajax: "{{ spath(ajaxListPage) }}",
 	columnDefs: [
 		{{ dt_col_link(dataTable, 'routeName', 'route_link') }}
-		{{ dt_col_rewrite(dataTable, 'sex', 'sexText') }}
 		{{ dt_actions(dataTable, [
 			{ 'link': 'info_link', 'name': 'Info' | trans({}, 'general'), 'label': 'btn-primary' },
 			{ 'link': 'edit_link', 'name': 'Edit' | trans({}, 'general'), 'label': 'btn-primary' },
