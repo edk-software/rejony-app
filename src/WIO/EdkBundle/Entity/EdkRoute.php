@@ -22,9 +22,10 @@ use Cantiga\Components\Hierarchy\HierarchicalInterface;
 use Cantiga\CoreBundle\CoreTables;
 use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
+use Cantiga\CoreBundle\Entity\LabelColor;
 use Cantiga\CoreBundle\Entity\Message;
 use Cantiga\CoreBundle\Entity\Project;
-use Cantiga\CoreBundle\Entity\LabelColor;
+use Cantiga\CoreBundle\Entity\User;
 use Cantiga\Metamodel\Capabilities\EditableEntityInterface;
 use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
 use Cantiga\Metamodel\Capabilities\InsertableEntityInterface;
@@ -126,6 +127,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	 * @var UploadedFile
 	 */
 	private $gpsTrackFileUpload;
+	private $elevationCharacteristic;
 	private $publicAccessSlug;
 	private $commentNum;
 	private $importedFrom;
@@ -438,6 +440,11 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this->gpsTrackFileUpload;
 	}
 
+	public function getElevationCharacteristic()
+	{
+		return json_decode($this->elevationCharacteristic);
+	}
+
 	public function getPublicAccessSlug()
 	{
 		return $this->publicAccessSlug;
@@ -448,10 +455,10 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this->commentNum;
 	}
 
-    public function getGpsStatus()
-{
-    return $this->gpsStatus;
-}
+	public function getGpsStatus()
+	{
+		return $this->gpsStatus;
+	}
 
     public function getGpsCreatedAt()
     {
@@ -675,6 +682,13 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	public function setGpsTrackFileUpload(UploadedFile $gpsTrackFileUpload)
 	{
 		$this->gpsTrackFileUpload = $gpsTrackFileUpload;
+		return $this;
+	}
+
+	public function setElevationCharacteristic($elevationCharacteristic)
+	{
+		$this->elevationCharacteristic = is_string($elevationCharacteristic) ? $elevationCharacteristic :
+			json_encode($elevationCharacteristic);
 		return $this;
 	}
 
@@ -1002,6 +1016,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
                     'descriptionFile',
                     'mapFile',
                     'gpsTrackFile',
+                    'elevationCharacteristic',
                     'publicAccessSlug',
                     'importedFrom',
                     'gpsStatus',
@@ -1056,6 +1071,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
                 'descriptionFile',
                 'mapFile',
                 'gpsTrackFile',
+                'elevationCharacteristic',
                 'publicAccessSlug',
                 'commentNum',
                 'gpsStatus',
@@ -1095,39 +1111,67 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$conn->delete(EdkTables::ROUTE_TBL, DataMappers::pick($this, ['id']));
 	}
 	
-	public function approve(Connection $conn)
+	public function approve(Connection $conn, User $user): bool
 	{
-		$this->approved = (boolean) $conn->fetchColumn('SELECT `approved` FROM `'.EdkTables::ROUTE_TBL.'` WHERE `id` = :id', [':id' => $this->id]);
-		if (!$this->approved) {
-			$this->approvedAt = time();
+		if (!$this->isApproved($conn)) {
+			$approvedAt = time();
 			$this->approved = true;
+			$this->approvedAt = $approvedAt;
+			$this->approvedBy = $user->getId();
 			$this->gpsStatus = self::STATUS_APPROVED;
+			$this->gpsApprovedAt = $approvedAt;
+			$this->gpsApprovedBy = $user->getId();
 
 			$conn->update(EdkTables::ROUTE_TBL,
-				['approvedAt' => $this->approvedAt, 'approved' => $this->approved, 'gpsStatus'=>$this->gpsStatus],
-				['id' => $this->getId()]
+				[
+					'approved' => $this->approved,
+					'approvedAt' => $this->approvedAt,
+					'approvedBy' => $this->approvedBy,
+					'gpsStatus' => $this->gpsStatus,
+					'gpsApprovedAt' => $this->gpsApprovedAt,
+					'gpsApprovedBy' => $this->gpsApprovedBy,
+					'elevationCharacteristic' => $this->elevationCharacteristic,
+				],
+				[
+					'id' => $this->getId(),
+				]
 			);
 			return true;
 		}
 		return false;
 	}
 	
-	public function revoke(Connection $conn)
+	public function revoke(Connection $conn): bool
 	{
-		$this->approved = (boolean) $conn->fetchColumn('SELECT `approved` FROM `'.EdkTables::ROUTE_TBL.'` WHERE `id` = :id', [':id' => $this->id]);
-		if ($this->approved) {
-			$this->approvedAt = time();
+		if ($this->isApproved($conn)) {
 			$this->approved = false;
+			$this->approvedAt = time();
 
 			$conn->update(EdkTables::ROUTE_TBL,
-				['approvedAt' => $this->approvedAt, 'approved' => $this->approved],
-				['id' => $this->getId()]
+				[
+					'approved' => $this->approved,
+					'approvedAt' => $this->approvedAt,
+				],
+				[
+					'id' => $this->getId(),
+				]
 			);
 			return true;
 		}
 		return false;
 	}
-	
+
+	private function isApproved(Connection $conn): bool
+	{
+		return (bool) $conn->fetchColumn('
+			SELECT `approved`
+			FROM `' . EdkTables::ROUTE_TBL . '`
+			WHERE `id` = :id
+		', [
+			':id' => $this->id,
+		]);
+	}
+
 	public function getComments(Connection $conn, TimeFormatterInterface $timeFormatter)
 	{
 		$stmt = $conn->prepare('SELECT m.`createdAt`, m.`message`, u.`id` AS `user_id`, u.`name`, u.`avatar` FROM `'.EdkTables::ROUTE_COMMENT_TBL.'` m '

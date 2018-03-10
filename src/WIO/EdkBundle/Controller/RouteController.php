@@ -256,9 +256,17 @@ class RouteController extends WorkspaceController
 			$repository = $this->get(self::REPOSITORY_NAME);
 			$item = $repository->getItem($id);
 
+			$user = $this->getUser();
+			$content = $request->getContent();
 			$question = new QuestionHelper($this->trans('Do you want to approve the route \'0\'?', [$item->getName()], 'edk'));
-			$question->onSuccess(function() use($repository, $item) {
-				$repository->approve($item);
+			$question->onSuccess(function () use ($repository, $item, $user, $content) {
+				if (!empty($content) ) {
+					$elevationCharacteristic = json_decode($content);
+					if (isset($elevationCharacteristic)) {
+						$item->setElevationCharacteristic($elevationCharacteristic);
+					}
+				}
+				$repository->approve($item, $user);
 			});
 			$question->respond(self::APPROVE_PAGE, ['id' => $item->getId(), 'slug' => $this->getSlug()]);
 			$question->path($this->crudInfo->getInfoPage(), ['id' => $item->getId(), 'slug' => $this->getSlug()]);

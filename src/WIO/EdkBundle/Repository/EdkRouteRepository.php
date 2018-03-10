@@ -23,6 +23,7 @@ use Cantiga\CoreBundle\CoreTables;
 use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
 use Cantiga\CoreBundle\Entity\Project;
+use Cantiga\CoreBundle\Entity\User;
 use Cantiga\Metamodel\DataTable;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
@@ -369,11 +370,11 @@ class EdkRouteRepository
 		}
 	}
 	
-	public function approve(EdkRoute $item)
+	public function approve(EdkRoute $item, User $user)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			if(!$item->approve($this->conn)) {
+			if (!$item->approve($this->conn, $user)) {
 				throw new ModelException('Cannot approve this this route.');
 			}
 			$this->eventDispatcher->dispatch(MilestoneEvents::ACTIVATION_EVENT, new ActivationEvent(
