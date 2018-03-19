@@ -19,6 +19,7 @@
 namespace WIO\EdkBundle\Extension;
 
 use Cantiga\CoreBundle\CoreTables;
+use Cantiga\CoreBundle\CoreTexts;
 use Cantiga\CoreBundle\Entity\Project;
 use Cantiga\CoreBundle\Extension\MagicButtonExtension;
 use Cantiga\UserBundle\UserTables;
@@ -43,11 +44,12 @@ class RegistrationSettingsGrabberButton implements MagicButtonExtension
 	public function execute(Project $project)
 	{	
 		$stmt = $this->conn->prepare('SELECT '
-            .'a.`name` as areaName, FROM_UNIXTIME(a.`eventDate`) as edkDate, '
+            .'a.`name` as areaName, t.name as territoryName, FROM_UNIXTIME(a.`eventDate`) as edkDate, '
             .'r.`name` as routeName,  '
             .'FROM_UNIXTIME(s.`startTime`) as startTime, FROM_UNIXTIME(s.`endTime`) as endTime, '
             .'s.`participantNum`, s.`externalParticipantNum` '
 			. 'FROM `'.CoreTables::AREA_TBL.'` a '
+			. 'JOIN `'.CoreTables::TERRITORY_TBL.'` t ON a.`territoryId` = t.`id` '
 			. 'JOIN `'.EdkTables::ROUTE_TBL.'` r ON r.`areaId` = a.`id` '
 			. 'JOIN `'.EdkTables::REGISTRATION_SETTINGS_TBL.'` s ON s.`routeId` = r.`id` '
 			. 'WHERE a.`projectId` = :projectId '
@@ -57,7 +59,7 @@ class RegistrationSettingsGrabberButton implements MagicButtonExtension
 		
 		$response = new StreamedResponse(function() use ($stmt) {
 			$out = fopen('php://output', 'w');
-            fputcsv($out, array('areaName', 'edkDate', 'routName', 'startRegistration', 'endRegistration', 'participantsNum', 'externalParticipantNum'),chr(9));
+            fputcsv($out, array('areaName', 'territoryName','edkDate', 'routName', 'startRegistration', 'endRegistration', 'participantsNum', 'externalParticipantNum'),chr(9));
 			$i = 0;
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				fputcsv($out, $row, chr(9));
