@@ -119,6 +119,8 @@ return [
 	'Routes' => 'Trasy',
 	
 	'Do you want to approve the route \'0\'?' => 'Czy chcesz zatwierdzić trasę "0"?',
+	'Do you want to approve description from route "0"?' => 'Czy chcesz zatwierdzić opis trasy "0"?',
+	'Do you want to approve map from route "0"?' => 'Czy chcesz zatwierdzić mapę trasy "0"?',
 	'Do you want to revoke the route \'0\'?' => 'Czy chcesz wycofać zatwierdzenie dla trasy "0"?',
 	
 	'AreaAdditionalNoteInfoText' => 'Poniżej możesz edytować dodatkowe sekcje informacyjne o Twoim rejonie, które pojawią się na stronie EDK.',

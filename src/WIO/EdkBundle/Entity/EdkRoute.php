@@ -1140,6 +1140,44 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		}
 		return false;
 	}
+
+	public function approveDescription(Connection $conn, User $user): bool
+	{
+		if ($this->isApproved($conn)) {
+			$this->descriptionStatus = self::STATUS_APPROVED;
+			$this->descriptionApprovedAt = time();
+			$this->descriptionApprovedBy = $user->getId();
+
+			$conn->update(EdkTables::ROUTE_TBL, [
+				'descriptionStatus' => $this->descriptionStatus,
+				'descriptionApprovedAt' => $this->descriptionApprovedAt,
+				'descriptionApprovedBy' => $this->descriptionApprovedBy,
+			], [
+				'id' => $this->getId(),
+			]);
+			return true;
+		}
+		return false;
+	}
+
+	public function approveMap(Connection $conn, User $user): bool
+	{
+		if ($this->isApproved($conn)) {
+			$this->mapStatus = self::STATUS_APPROVED;
+			$this->mapApprovedAt = time();
+			$this->mapApprovedBy = $user->getId();
+
+			$conn->update(EdkTables::ROUTE_TBL, [
+				'mapStatus' => $this->mapStatus,
+				'mapApprovedAt' => $this->mapApprovedAt,
+				'mapApprovedBy' => $this->mapApprovedBy,
+			], [
+				'id' => $this->getId(),
+			]);
+			return true;
+		}
+		return false;
+	}
 	
 	public function revoke(Connection $conn): bool
 	{

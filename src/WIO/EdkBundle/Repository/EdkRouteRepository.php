@@ -388,6 +388,32 @@ class EdkRouteRepository
 			throw $ex;
 		}
 	}
+
+	public function approveDescription(EdkRoute $item, User $user)
+	{
+		$this->transaction->requestTransaction();
+		try {
+			if (!$item->approveDescription($this->conn, $user)) {
+				throw new ModelException('Cannot approve this route\'s description.');
+			}
+		} catch (Exception $ex) {
+			$this->transaction->requestRollback();
+			throw $ex;
+		}
+	}
+
+	public function approveMap(EdkRoute $item, User $user)
+	{
+		$this->transaction->requestTransaction();
+		try {
+			if (!$item->approveMap($this->conn, $user)) {
+				throw new ModelException('Cannot approve this route\'s map.');
+			}
+		} catch (Exception $ex) {
+			$this->transaction->requestRollback();
+			throw $ex;
+		}
+	}
 	
 	public function revoke(EdkRoute $item)
 	{

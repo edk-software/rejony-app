@@ -42,6 +42,7 @@ use WIO\EdkBundle\Entity\EdkRoute;
 use WIO\EdkBundle\Form\EdkRouteForm;
 use WIO\EdkBundle\Form\AreaRoutesImportForm;
 use WIO\EdkBundle\EdkTexts;
+use WIO\EdkBundle\Repository\EdkRouteRepository;
 
 /**
  * @Route("/s/{slug}/routes")
@@ -56,6 +57,8 @@ class RouteController extends WorkspaceController
 	const API_FEED_PAGE = 'edk_route_api_feed';
 	const API_POST_PAGE = 'edk_route_api_post';
 	const APPROVE_PAGE = 'edk_route_approve';
+	const APPROVE_DESCRIPTION_PAGE = 'edk_route_approve_description';
+	const APPROVE_MAP_PAGE = 'edk_route_approve_map';
 	const REVOKE_PAGE = 'edk_route_revoke';
 	const AREA_INFO_PAGE = 'area_mgmt_info';
 
@@ -275,6 +278,92 @@ class RouteController extends WorkspaceController
 			return $question->handleRequest($this, $request);
 		} catch (ModelException $exception) {
 			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
+		}
+	}
+
+	/**
+	 * @Route("/{id}/approve/description", name="edk_route_approve_description")
+	 */
+	public function approveDescriptionAction($id, Request $request)
+	{
+		try {
+			/** @var EdkRouteRepository $repository */
+			$repository = $this->get(self::REPOSITORY_NAME);
+			$item = $repository->getItem($id);
+
+			$user = $this->getUser();
+			$question = new QuestionHelper($this->trans('Do you want to approve description from route "0"?', [
+				$item->getName(),
+			], 'edk'));
+			$question->onSuccess(function () use ($repository, $item, $user) {
+				$repository->approveDescription($item, $user);
+			});
+			$question->respond(self::APPROVE_DESCRIPTION_PAGE, [
+				'id' => $item->getId(),
+				'slug' => $this->getSlug(),
+			]);
+			$question->path($this->crudInfo->getInfoPage(), [
+				'id' => $item->getId(),
+				'slug' => $this->getSlug(),
+			]);
+			$question->title($this->trans('EdkRoute: 0', [
+				$item->getName(),
+			]), $this->crudInfo->getPageSubtitle());
+			$this
+				->breadcrumbs()
+				->link($item->getName(), $this->crudInfo->getInfoPage(), [
+					'id' => $item->getId(),
+					'slug' => $this->getSlug(),
+				])
+			;
+			return $question->handleRequest($this, $request);
+		} catch (ModelException $exception) {
+			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), [
+				'slug' => $this->getSlug(),
+			]);
+		}
+	}
+
+	/**
+	 * @Route("/{id}/approve/map", name="edk_route_approve_map")
+	 */
+	public function approveMapAction($id, Request $request)
+	{
+		try {
+			/** @var EdkRouteRepository $repository */
+			$repository = $this->get(self::REPOSITORY_NAME);
+			$item = $repository->getItem($id);
+
+			$user = $this->getUser();
+			$question = new QuestionHelper($this->trans('Do you want to approve map from route "0"?', [
+				$item->getName(),
+			], 'edk'));
+			$question->onSuccess(function () use ($repository, $item, $user) {
+				$repository->approveMap($item, $user);
+			});
+			$question->respond(self::APPROVE_MAP_PAGE, [
+				'id' => $item->getId(),
+				'slug' => $this->getSlug(),
+			]);
+			$question->path($this->crudInfo->getInfoPage(), [
+				'id' => $item->getId(),
+				'slug' => $this->getSlug(),
+			]);
+			$question->title($this->trans('EdkRoute: 0', [
+				$item->getName(),
+			]), $this->crudInfo->getPageSubtitle());
+			$this
+				->breadcrumbs()
+				->link($item->getName(), $this->crudInfo->getInfoPage(), [
+					'id' => $item->getId(),
+					'slug' => $this->getSlug(),
+				])
+			;
+			return $question->handleRequest($this, $request);
+		} catch (ModelException $exception) {
+			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), [
+				'slug' => $this->getSlug(),
+			]);
 		}
 	}
 	
