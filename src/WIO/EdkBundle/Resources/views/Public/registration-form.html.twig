@@ -1,165 +1,46 @@
-{% extends 'WioEdkBundle:Public:layout.html.twig' %}
+{% extends 'WioEdkBundle:Public:public-form.html.twig' %}
 
 {% block title %}{{ 'Register page' | trans([], 'public') }} - {{ 'Extreme Way of the Cross' | trans([], 'public') }}{% endblock %}
 
-{% block page_content %}
-    <section class="main container">
-        <div class="col-md-12 content center"><h1>{{ 'Register to Extreme Way of the Cross' | trans([], 'public') }}</h1></div>
-    </section>
-    <div id="registration">
-        {{ text.content | raw }}
+{% block form_title %}
+    <h1>{{ 'Register to Extreme Way of the Cross' | trans([], 'public') }}</h1>
+{% endblock %}
 
-        {{ form_start(form) }}
-        {% if not form.vars.valid %}
-            <div class="has-error">
-                {{ form_errors(form) }}
-            </div>
-        {% endif %}
-        <div class="row required-labels">
-            {% if route %}
-                <div class="col-md-6 col-sm-12">
-                    <h4>{{ 'Chosen route: 0' | trans([ route.name ], 'public') }}</h4>
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr>
-                            <td width="30%">{{ 'Area' | trans([], 'public') }}</td>
-                            <td>{{ route.area.name }}</td>
-                        </tr>
-                        <tr>
-                            <td width="30%">{{ 'Beginning' | trans([], 'public') }}</td>
-                            <td>{{ route.routeFrom }}</td>
-                        </tr>
-                        <tr>
-                            <td width="30%">{{ 'End' | trans([], 'public') }}</td>
-                            <td>{{ route.routeTo }}</td>
-                        </tr>
-                        <tr>
-                            <td width="30%">{{ 'Course' | trans([], 'public') }}</td>
-                            <td>{{ route.routeCourse }}</td>
-                        </tr>
-                        <tr>
-                            <td width="30%">{{ 'Length' | trans([], 'public') }}</td>
-                            <td>{{ route.routeLength }} km</td>
-                        </tr>
-                        <tr>
-                            <td width="30%">{{ 'Ascent' | trans([], 'public') }}</td>
-                            <td>{{ route.routeAscent }} m</td>
-                        </tr>
-                        {% if route.routeObstacles %}
-                            <tr>
-                                <td width="30%">{{ 'Other obstacles' | trans([], 'public') }}</td>
-                                <td>{{ route.routeObstacles }}</td>
-                            </tr>
-                        {% endif %}
-                        <tr>
-                            <td width="30%"></td>
-                            <td><a href="http://www.edk.org.pl/trasa-edk/{{ route.id }}/"
-                                   target="_blank">{{ 'Route details' | trans([], 'public') }}</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    {% if route.routeType == 1 %}
-                        <p class="text-danger">{{ 'ThisIsInspiredWayText' | trans([], 'public') }}</p>
-                    {% endif %}
-                </div>
-            {% else %}
-                <div class="col-md-6 col-sm-12">
-                    <fieldset>
-                        <legend>{{ 'Choose the route' | trans([], 'public') }}</legend>
-                        <div class="form-group">
-                            <select name="r" class="form-control" id="route"></select>
-                        </div>
-                        <div id="details"></div>
-                    </fieldset>
-                </div>
-            {% endif %}
-            <div class="col-md-6 col-sm-12">
-                <fieldset>
-                    <legend>{{ 'About you' | trans([], 'public') }}</legend>
-                    {{ form_row(form.firstName) }}
-                    {{ form_row(form.lastName) }}
-                    {{ form_row(form.email) }}
-                </fieldset>
-                <fieldset>
-                    <hr>
-                    {{ form_row(form.age) }}
-                    {{ form_row(form.whereLearnt, {'id': 'where-learnt'}) }}
-                    {{ form_row(form.howManyTimes) }}
-                    {{ form_row(form.whyParticipate, {'id': 'why-participate'}) }}
-                    {{ form_row(form.customAnswer, {'id': 'custom-answer'}) }}
-                </fieldset>
+{% block form_header %}
+    {{ text.content | raw }}
+{% endblock %}
 
-            </div>
-        </div>
-
-        <div class="row required-reach-labels">
-            <fieldset>
-                <div class="col-lg-12">
-                    <legend>{{ 'Legal issues' | trans([], 'public') }}</legend>
-                    {{ form_row(form.terms1Accepted) }}
-                    {{ form_row(form.terms2Accepted) }}
-                    {{ form_row(form.terms3Accepted) }}
-                </div>
-                <div class="col-lg-12">
-                    {{ recaptcha.generateHtmlCode() | raw }}
-                </div>
-            </fieldset>
-        </div>
+{% block form_content %}
+    <fieldset>
+        <legend>{{ 'About you' | trans([], 'public') }}</legend>
+        {{ form_row(form.firstName) }}
+        {{ form_row(form.lastName) }}
+        {{ form_row(form.email) }}
+    </fieldset>
+    <fieldset>
         <hr>
-        <div class="row">
-            <div class="col-lg-6">
-                {{ form_row(form.save) }}
-            </div>
+        {{ form_row(form.age) }}
+        {{ form_row(form.whereLearnt, {'id': 'where-learnt'}) }}
+        {{ form_row(form.howManyTimes) }}
+        {{ form_row(form.whyParticipate, {'id': 'why-participate'}) }}
+        {{ form_row(form.customAnswer, {'id': 'custom-answer'}) }}
+    </fieldset>
+{% endblock %}
+
+{% block form_footer %}
+    <fieldset>
+        <div class="col-lg-12">
+            <legend>{{ 'Legal issues' | trans([], 'public') }}</legend>
+            {{ form_row(form.terms1Accepted) }}
+            {{ form_row(form.terms2Accepted) }}
+            {{ form_row(form.terms3Accepted) }}
         </div>
-        {{ form_end(form) }}
-        <small>{{ personalDataInfo | raw }}</small>
-    </div>
+        <div class="col-lg-12">
+            {{ recaptcha.generateHtmlCode() | raw }}
+        </div>
+    </fieldset>
 {% endblock %}
 
-{% block javascripts_head %}
-    <script src="{{ recaptcha_api_url }}"></script>
-{% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/registratr.js') }}"></script>
-{% endblock %}
-
-{% block javascripts_inline %}
-    {% if route %}
-        <script>
-            $('#registration').registratr({
-                'areaText': '{{ 'Area' | trans([], 'public') }}',
-                'beginningText': '{{ 'Beginning' | trans([], 'public') }}',
-                'endingText': '{{ 'End' | trans([], 'public') }}',
-                'lengthText': '{{ 'Length' | trans([], 'public') }}',
-                'ascentText': '{{ 'Ascent' | trans([], 'public') }}',
-                'estimatedParticipantNumText': '{{ 'Estimated number of participants' | trans([], 'public') }}',
-                'participantNumText': '{{ 'Registered participants' | trans([], 'public') }}',
-                'inspiredWarningText': '{{ 'ThisIsInspiredWayText' | trans([], 'public') }}',
-                'additionalInformationText': '{{ 'Additional information' | trans([], 'public') }}',
-                'routeDetailsText': '{{ 'Route details' | trans([], 'public') }}',
-                'areaDetailsText': '{{ 'Area details' | trans([], 'public') }}'
-            });
-        </script>
-    {% else %}
-        <script>
-            $('#registration').registratr({
-                'routeSelector': 'select#route',
-                'routePresenter': 'div#details',
-                'routeUrl': '{{ path('public_edk_registration_data', {'slug': slug} ) }}',
-                'areaText': '{{ 'Area' | trans([], 'public') }}',
-                'beginningText': '{{ 'Beginning' | trans([], 'public') }}',
-                'endingText': '{{ 'End' | trans([], 'public') }}',
-                'lengthText': '{{ 'Length' | trans([], 'public') }}',
-                'ascentText': '{{ 'Ascent' | trans([], 'public') }}',
-                'estimatedParticipantNumText': '{{ 'Estimated number of participants' | trans([], 'public') }}',
-                'participantNumText': '{{ 'Registered participants' | trans([], 'public') }}',
-                'inspiredWarningText': '{{ 'ThisIsInspiredWayText' | trans([], 'public') }}',
-                'additionalInformationText': '{{ 'Additional information' | trans([], 'public') }}',
-                'routeDetailsText': '{{ 'Route details' | trans([], 'public') }}',
-                'areaDetailsText': '{{ 'Area details' | trans([], 'public') }}'
-            });
-        </script>
-    {% endif %}
+{% block form_info %}
+    <small>{{ personalDataInfo | raw }}</small>
 {% endblock %}

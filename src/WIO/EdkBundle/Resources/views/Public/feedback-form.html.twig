@@ -1,0 +1,22 @@
+{% extends 'WioEdkBundle:Public:public-form.html.twig' %}
+
+{% block title %}{{ 'Feedback page' | trans([], 'public') }} - {{ 'Extreme Way of the Cross' | trans([], 'public') }}{% endblock %}
+
+{% block form_title %}
+    <h1>{{ 'Add feedback about Extreme Way of the Cross route' | trans([], 'public') }}</h1>
+{% endblock %}
+
+{% block form_content %}
+    <fieldset>
+        <legend>{{ 'Add feedback' | trans([], 'public') }}</legend>
+        {{ form_row(form.content, { attr: { rows: 10 }, label: false }) }}
+    </fieldset>
+{% endblock %}
+
+{% block form_footer %}
+    <fieldset>
+        <div class="col-lg-12">
+            {{ recaptcha.generateHtmlCode() | raw }}
+        </div>
+    </fieldset>
+{% endblock %}

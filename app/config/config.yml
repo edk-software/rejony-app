@@ -42,6 +42,8 @@ twig:
         - 'CantigaCoreBundle:layout:form-theme.html.twig'
     globals:
         recaptcha_api_url: https://www.google.com/recaptcha/api.js
+        facebook_fanpage_url: https://www.facebook.com/wio.edk
+        action_1percent_url: https://jedenprocent.edk.org.pl?action=jedenprocent&place=banner
 
 # Doctrine Configuration
 doctrine:

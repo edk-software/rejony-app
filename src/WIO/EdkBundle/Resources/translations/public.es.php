@@ -57,6 +57,8 @@ return [
     'Access denied' => 'Access denied',
     'Access denied text' => 'The contract has not been signed',
 
+    'FeedbackSuccessfulText' => 'Thank you for your feedback.',
+
     'RegistrationSuccessfulText' => 'Thank you, you have registered to Extreme Way of the Cross! We have sent a confirmation to your e-mail with the summary of the rules, and the chosen route.',
     'AccessKeyInformation' => 'In rare situations, the confirmation may not reach you. Please note down the following access code. It will allow you check the information about your registration later, or remove the request.',
     'UnregisterNotificationText' => 'If you decide not to go for Extreme Way of the Cross, please remember to remove your registration using the link sent to you in the e-mail, or on the EDK website.',

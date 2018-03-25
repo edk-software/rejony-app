@@ -1,33 +1,11 @@
-{% extends 'WioEdkBundle:Public:layout.html.twig' %}
+{% extends 'WioEdkBundle:Public:public-completed.html.twig' %}
 
-{% block page_content %}
-    <section class="main container">
-        <div class="col-md-12 content center"><h1>{{ 'Thank you!' | trans([], 'public') }}</h1></div>
-    </section>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <p>{{ 'RegistrationSuccessfulText' | trans([], 'public') }}</p>
-            <p>{{ 'AccessKeyInformation' | trans([], 'public') }}</p>
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {{ 'Your access code' | trans([], 'public') }}: <span
-                            style="font-size: 10px;">{{ accessKey }}</span>
-                </div>
-            </div>
-            <div class="panel">
-                <a class="btn btn-lg btn-block btn-social btn-facebook" href="https://www.facebook.com/wio.edk"
-                   target="_blank">
-                    <i class="fa fa-facebook"></i> {{ 'Facebook' | trans([], 'public') }}
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <a href="https://jedenprocent.edk.org.pl?action=jedenprocent&place=banner" target="_blank">
-                <img width="100%" src="{{ asset('img/edk/www-jeden.png') }}">
-            </a>
+{% block completed_content %}
+    <p>{{ 'RegistrationSuccessfulText' | trans([], 'public') }}</p>
+    <p>{{ 'AccessKeyInformation' | trans([], 'public') }}</p>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{ 'Your access code' | trans([], 'public') }}: <span style="font-size:10px">{{ accessKey }}</span>
         </div>
     </div>
 {% endblock %}

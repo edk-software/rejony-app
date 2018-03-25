@@ -10,6 +10,9 @@ public_message_form_controller:
 public_registration_form_controller:
     resource: "@WioEdkBundle/Controller/PublicRegistrationFormController.php"
     type:     annotation
+public_feedback_form_controller:
+    resource: "@WioEdkBundle/Controller/PublicFeedbackFormController.php"
+    type:     annotation
 area_note_controller:
     resource: "@WioEdkBundle/Controller/AreaNoteController.php"
     type:     annotation

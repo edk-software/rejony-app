@@ -33,6 +33,7 @@ class EdkTables
 	const REGISTRATION_SETTINGS_TBL = 'cantiga_edk_registration_settings';
 	const PARTICIPANT_TBL = 'cantiga_edk_participants';
 	const REMOVED_PARTICIPANT_TBL = 'cantiga_edk_removed_participants';
+	const FEEDBACK_TBL = 'cantiga_edk_feedback';
 	
 	const STAT_PARTICIPANT_TIME_TBL = 'cantiga_stat_edk_participants';
 	const STAT_AREA_PARTICIPANT_TIME_TBL = 'cantiga_stat_edk_area_participants';

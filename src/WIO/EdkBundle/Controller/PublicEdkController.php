@@ -29,6 +29,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 abstract class PublicEdkController extends PublicPageController
 {
+    /** @var Project */
 	protected $project;
 	private $slug;
 	

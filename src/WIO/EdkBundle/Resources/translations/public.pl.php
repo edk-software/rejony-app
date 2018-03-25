@@ -30,6 +30,8 @@ return [
 
 	'Register page' => 'Wyrusz na EDK',
 	'Register to Extreme Way of the Cross' => 'Wyrusz na EDK',
+	'Feedback page' => 'Uwagi do trasy',
+	'Add feedback about Extreme Way of the Cross route' => 'Dodaj uwagi do trasy EDK',
 	'Chosen route: 0' => 'Wybrana trasa: 0',
 	'Choose the route' => 'Wybierz trasę',
 	'Area' => 'Rejon',
@@ -55,6 +57,8 @@ return [
 	'NumberRegisteredPeopleHintText' => 'Od 1 do maksymalnej ilości osób w zgłoszeniu ustawionej dla tej trasy.',
 	'Legal issues' => 'Zgody',
 	'Register' => 'Wyślij',
+	'Add feedback' => 'Dodaj uwagi',
+	'Save feedback' => 'Zapisz uwagi',
 
 
     'Access denied' => 'Brak uprawnień',
@@ -93,6 +97,8 @@ return [
     'Facebook' => 'EDK na Facebooku',
 	
 	'You have already registered not so long ago from this computer. Please wait a few moments.' => 'Zarejestrowałeś się przed chwilą z tego komputera. Prosimy zaczekać chwilę.',
+
+    'FeedbackSuccessfulText' => 'Dziękujemy za podzielenie się swoimi spostrzeżeniami.',
 
 	'Thank you!' => 'Dziękujemy!',
 	'Your access code' => 'Kod zgłoszenia',
