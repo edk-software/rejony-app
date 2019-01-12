@@ -32,6 +32,7 @@ class WioEdkBundle extends Bundle
 		Modules::registerModule('edk', 'EDK module');
 		CustomForms::registerService('edk:area-request-form', 'wio.edk.form.area_request');
 		CustomForms::registerService('edk:area-request-form', 'wio.edk.form.area_request_2018');
+		CustomForms::registerService('edk:area-request-form', 'wio.edk.form.area_request_2019');
 		CustomForms::registerService('edk:area-form', 'wio.edk.form.area');
 		
 		AppTexts::registerName(EdkTexts::REGISTRATION_SETTINGS_TEXT);
