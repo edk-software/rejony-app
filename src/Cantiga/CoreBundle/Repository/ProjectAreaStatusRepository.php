@@ -151,7 +151,7 @@ class ProjectAreaStatusRepository implements EntityTransformerInterface
 	{
 		$this->transaction->requestTransaction();
 		try {
-			$sourceStatus = $this->conn->fetchAll('SELECT `name`, `label`, `isDefault` FROM `'.CoreTables::AREA_STATUS_TBL.'` WHERE `projectId` = :sourceProjectId FOR UPDATE', [':sourceProjectId' => $source->getId()]);
+			$sourceStatus = $this->conn->fetchAll('SELECT `name`, `label`, `isDefault`, `isPublish` FROM `'.CoreTables::AREA_STATUS_TBL.'` WHERE `projectId` = :sourceProjectId FOR UPDATE', [':sourceProjectId' => $source->getId()]);
 			$destinationStatus = $this->conn->fetchAll('SELECT `name` FROM `'.CoreTables::AREA_STATUS_TBL.'` WHERE `projectId` = :dstProjectId FOR UPDATE', [':dstProjectId' => $destination->getId()]);
 			$set = [];
 			foreach ($destinationStatus as $row) {
@@ -164,6 +164,7 @@ class ProjectAreaStatusRepository implements EntityTransformerInterface
 					$item->setName($status['name']);
 					$item->setLabel($status['label']);
 					$item->setIsDefault((bool) $status['isDefault']);
+					$item->setIsPublish((bool) $status['isPublish']);
 					$item->insert($this->conn);
 				}
 			}
