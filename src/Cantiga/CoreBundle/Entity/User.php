@@ -168,6 +168,40 @@ class User implements UserInterface, IdentifiableInterface, InsertableEntityInte
 		return $user;
 	}
 
+	public static function fetchByIds(Connection $conn, array $ids, bool $allowInactive = false) : array
+	{
+		if (count($ids) === 0) {
+			return [];
+		}
+		if ($allowInactive) {
+			$clause = QueryClause::clause('u.`removed` = 0');
+		} else {
+			$clause = QueryClause::clause('u.`active` = 1 AND u.`removed` = 0');
+		}
+
+		$qb = QueryBuilder::select()
+			->field('u.*')
+			->field('p.*')
+			->field('l.`id`', 'language_id')
+			->field('l.`name`', 'language_name')
+			->field('l.`locale`', 'language_locale')
+			->from(CoreTables::USER_TBL, 'u')
+			->join(CoreTables::USER_PROFILE_TBL, 'p', QueryClause::clause('p.`userId` = u.`id`'))
+			->join(CoreTables::LANGUAGE_TBL, 'l', QueryClause::clause('l.`id` = p.`settingsLanguageId`'))
+			->where(
+				QueryOperator::op('AND')
+				->expr($clause)
+				->expr(QueryClause::clause('u.`id` IN (' . implode(',', $ids) . ')'))
+			)
+		;
+
+		$users = [];
+		foreach ($qb->fetchAll($conn) as $data) {
+			$users[] = User::fromArray($data);
+		}
+		return $users;
+	}
+
 	public static function fromArray($array, $prefix = '')
 	{
 		$user = new User;

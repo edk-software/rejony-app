@@ -87,6 +87,14 @@ return [
 	'RouteMapCopyrightInformationText' => 'Zabronione jest publikowanie map objętych prawami autorskimi!',
 	'Save' => 'Zapisz trasę',
 
+	'Created %time% by %user%' => 'Utworzone %time% przez %user%',
+	'Updated %time% by %user%' => 'Zmodyfikowane %time% przez %user%',
+	'Approved %time% by %user%' => 'Zatwierdzone %time% przez %user%',
+	'Revoked %time% by %user%' => 'Odrzucone %time% przez %user%',
+	'Approve' => 'Zatwierdź',
+	'Revoke' => 'Odrzuć',
+	'Download' => 'Pobierz',
+
 	'Route verification' => 'Automatyczna weryfikacja trasy',
 	'Route type' => 'Typ trasy',
 	'Length' => 'Długość',
@@ -118,11 +126,15 @@ return [
 	'Recently changed routes' => 'Ostatnio zmienione trasy',
 	'Routes' => 'Trasy',
 	
-	'Do you want to approve the route \'0\'?' => 'Czy chcesz zatwierdzić trasę "0"?',
+	'Do you want to approve the route "0"?' => 'Czy chcesz zatwierdzić trasę "0"?',
+	'Do you want to revoke the route "0"?' => 'Czy chcesz wycofać zatwierdzenie dla trasy "0"?',
+	'Do you want to approve GPS from route "0"?' => 'Czy chcesz zatwierdzić ślad GPS trasy "0"?',
+	'Do you want to revoke GPS from route "0"?' => 'Czy chcesz wycofać zatwierdzenie dla śladu GPS trasy "0"?',
 	'Do you want to approve description from route "0"?' => 'Czy chcesz zatwierdzić opis trasy "0"?',
+	'Do you want to revoke description from route "0"?' => 'Czy chcesz wycofać zatwierdzenie dla opisu trasy "0"?',
 	'Do you want to approve map from route "0"?' => 'Czy chcesz zatwierdzić mapę trasy "0"?',
-	'Do you want to revoke the route \'0\'?' => 'Czy chcesz wycofać zatwierdzenie dla trasy "0"?',
-	
+	'Do you want to revoke map from route "0"?' => 'Czy chcesz wycofać zatwierdzenie dla mapy trasy "0"?',
+
 	'AreaAdditionalNoteInfoText' => 'Poniżej możesz edytować dodatkowe sekcje informacyjne o Twoim rejonie, które pojawią się na stronie EDK.',
 	'EwcBeginningNote' => 'Rozpoczęcie',
 	'EwcRegistrationNote' => 'Informacje o rejestracji',

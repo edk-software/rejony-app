@@ -8,7 +8,67 @@
     {{ pageSubtitle | trans({}, 'pages') }}
 {% endblock %}
 
+{% macro route_file_box(title, route, file, approveRoute, revokeRoute, downloadRoute, approved, revoked, createdAt,
+    createdBy, updatedAt, updatedBy, approvedAt, approvedBy, icon, cssClass = '') %}
+    <div class="info-box {{ cssClass }}">
+        <span class="info-box-icon{{ file ? (approved ? ' bg-green' : (revoked ? ' bg-red' : ' bg-blue')) : '' }}">
+            <i class="fa {{ icon }}"></i>
+        </span>
+        <div class="info-box-content">
+            {% if file %}
+                <span class="pull-right">
+                    {% if approved %}
+                        <a href="{{ url(revokeRoute, { 'id': route.id, 'slug': route.area.project.slug }) }}">
+                            <i class="fa fa-remove"></i> {{ 'Revoke' | trans([], 'edk') }}
+                        </a>
+                    {% else %}
+                        <a href="{{ url(approveRoute, { 'id': route.id, 'slug': route.area.project.slug }) }}">
+                            <i class="fa fa-check"></i> {{ 'Approve' | trans([], 'edk') }}
+                        </a>
+                    {% endif %}
+                    <a href="{{ url(downloadRoute, { 'slug': route.publicAccessSlug }) }}">
+                        <i class="fa fa-download"></i> {{ 'Download' | trans([], 'edk') }}
+                    </a>
+                </span>
+            {% endif %}
+            <span class="info-box-text">{{ title | trans([], 'edk') }}</span>
+            {% if file %}
+                {% if createdAt and createdBy %}
+                    <span class="progress-description">
+                        <i class="fa fa-plus"></i>
+                        {{ 'Created %time% by %user%' | trans({
+                            '%time%': format_time(TimeFormatter.FORMAT_LONG, createdAt),
+                            '%user%': createdBy.name
+                        }, 'edk') }}
+                    </span>
+                {% endif %}
+                {% if updatedAt and updatedBy %}
+                    <span class="progress-description">
+                        <i class="fa fa-pencil"></i>
+                        {{ 'Updated %time% by %user%' | trans({
+                            '%time%': format_time(TimeFormatter.FORMAT_LONG, updatedAt),
+                            '%user%': updatedBy.name
+                        }, 'edk') }}
+                    </span>
+                {% endif %}
+                {% if approvedAt and approvedBy %}
+                    <span class="progress-description">
+                        <i class="fa {{ approved ? 'fa-check' : 'fa-remove' }}"></i>
+                        {{ (approved ? 'Approved %time% by %user%' : 'Revoked %time% by %user%') | trans({
+                            '%time%': format_time(TimeFormatter.FORMAT_LONG, approvedAt),
+                            '%user%': approvedBy.name
+                        }, 'edk') }}
+                    </span>
+                {% endif %}
+            {% else %}
+                <span class="progress-description">{{ 'Not uploaded' | trans([], 'edk') }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
 {% block page_content %}
+    {% import _self as macros %}
     {% if infoText %}
         <div class="callout callout-info">
             <h4>{{ infoText.title}}</h4>
@@ -166,8 +226,6 @@
                                data-toggle="tab">{{ 'Route brief' | trans({}, 'edk') }}</a></li>
                         <li><a href="#notes" aria-controls="notes" role="tab"
                                data-toggle="tab">{{ 'Route additional information' | trans([], 'edk') }}</a></li>
-                        <li><a href="#files" aria-controls="files" role="tab"
-                               data-toggle="tab">{{ 'Files' | trans([], 'edk') }}</a></li>
                         {% if not isArea %}
                             <li><a href="#areas" aria-controls="areas" role="tab"
                                    data-toggle="tab">{{ 'Area' | trans({}, 'edk') }}</a></li>
@@ -219,44 +277,45 @@
                                 <a href="{{ spath(areaInfoPage, {'id': item.area.id }) }}">{{ item.area.name }}</a>
                             </div>
                         {% endif %}
-                        <div role="tabpanel" class="tab-pane" id="files">
-                            <table class="table table-hover">
-                                <tr>
-                                    <td>{{ 'RouteDescriptionFileUpload' | trans([], 'edk') }}</td>
-                                    {% if item.descriptionFile %}
-                                        <td>
-                                            <a href="{{ url('public_edk_download_description', {'slug': item.publicAccessSlug }) }}"
-                                               class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
-                                    {% else %}
-                                        <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
-                                    {% endif %}
-                                </tr>
-                                <tr>
-                                    <td>{{ 'RouteMapFileUpload' | trans([], 'edk') }}</td>
-                                    {% if item.mapFile %}
-                                        <td>
-                                            <a href="{{ url('public_edk_download_map', {'slug': item.publicAccessSlug }) }}"
-                                               class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
-                                    {% else %}
-                                        <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
-                                    {% endif %}
-                                </tr>
-                                <tr>
-                                    <td>{{ 'RouteGPSTraceFileUpload' | trans([], 'edk') }}</td>
-                                    {% if item.gpsTrackFile %}
-                                        <td>
-                                            <a href="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}"
-                                               class="btn btn-success">{{ 'Download' | trans([], 'general') }}</a></td>
-                                    {% else %}
-                                        <td>{{ 'Not uploaded' | trans([], 'edk') }}</td>
-                                    {% endif %}
-                                </tr>
-                            </table>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ 'Files' | trans([], 'edk') }}</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ macros.route_file_box(
+                                'RouteGPSTraceFileUpload', item, item.gpsTrackFile, 'edk_route_approve_gps',
+                                'edk_route_revoke_gps', 'public_edk_download_gps', item.gpsApproved, item.gpsRevoked,
+                                item.gpsCreatedAt, item.gpsCreatedBy, item.gpsUpdatedAt, item.gpsUpdatedBy,
+                                item.gpsApprovedAt, item.gpsApprovedBy, 'fa-map-marker'
+                            ) }}
+                            {{ macros.route_file_box(
+                                'RouteDescriptionFileUpload', item, item.descriptionFile,
+                                'edk_route_approve_description', 'edk_route_revoke_description',
+                                'public_edk_download_description', item.descriptionApproved, item.descriptionRevoked,
+                                item.descriptionCreatedAt, item.descriptionCreatedBy, item.descriptionUpdatedAt,
+                                item.descriptionUpdatedBy, item.descriptionApprovedAt, item.descriptionApprovedBy,
+                                'fa-file-pdf-o'
+                            ) }}
+                            {{ macros.route_file_box(
+                                'RouteMapFileUpload', item, item.mapFile, 'edk_route_approve_map',
+                                'edk_route_revoke_map', 'public_edk_download_map', item.mapApproved, item.mapRevoked,
+                                item.mapCreatedAt, item.mapCreatedBy, item.mapUpdatedAt, item.mapUpdatedBy,
+                                item.mapApprovedAt, item.mapApprovedBy, 'fa-map', 'no-margin'
+                            ) }}
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="col-md-4">
             <div class="box box-solid">
