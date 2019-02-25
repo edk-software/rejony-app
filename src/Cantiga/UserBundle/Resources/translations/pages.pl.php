@@ -28,5 +28,7 @@ return [
 
 	'Group members' => 'Członkowie grupy',
 
-	'Provide contact data' => 'Uzupełnij dane kontaktowe'
+	'Provide contact data' => 'Uzupełnij dane kontaktowe',
+
+	'Agreements' => 'Umowy',
 ];

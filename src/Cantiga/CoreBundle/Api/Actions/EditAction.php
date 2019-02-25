@@ -3,6 +3,7 @@ namespace Cantiga\CoreBundle\Api\Actions;
 
 use Cantiga\CoreBundle\Api\Controller\CantigaController;
 use Cantiga\Metamodel\Capabilities\EditableEntityInterface;
+use Cantiga\Metamodel\Capabilities\EditableRepositoryInterface;
 use Cantiga\Metamodel\CustomForm\CustomFormModelInterface;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
@@ -21,6 +22,8 @@ class EditAction extends AbstractAction
 	private $formType;
 	private $customForm;
 	private $formBuilder;
+	private $beforeEdit;
+	private $afterEdit;
 	
 	public function __construct(CRUDInfo $crudInfo, $formType = null, array $options = [])
 	{
@@ -28,7 +31,8 @@ class EditAction extends AbstractAction
 		$this->updateOperation = function($repository, $item) {
 			$repository->update($item);
 		};
-		$this->formBuilder = function($controller, $item, $formType, $action) use($formType, $options) {
+		$this->formType = $formType;
+		$this->formBuilder = function($controller, $item, $formType, $action) use($options) {
 			return $controller->createForm($formType, $item, array_merge(['action' => $action], $options));
 		};
 	}
@@ -50,26 +54,45 @@ class EditAction extends AbstractAction
 		$this->customForm = $customForm;
 		return $this;
 	}
+
+	public function beforeEdit(callable $callback)
+	{
+		$this->beforeEdit = $callback;
+		return $this;
+	}
+
+	public function afterEdit(callable $callback)
+	{
+		$this->afterEdit = $callback;
+		return $this;
+	}
 	
 	public function run(CantigaController $controller, $id, Request $request)
 	{
 		try {
 			$repository = $this->info->getRepository();
 			$item = $repository->getItem($id);
+			if (!isset($item)) {
+				throw new ItemNotFoundException('Entity does not exist.');
+			}
 			
 			$nameProperty = 'get'.ucfirst($this->info->getItemNameProperty());
 			$name = $item->$nameProperty();
 					
-			if (!$item instanceof EditableEntityInterface) {
+			if (!$item instanceof EditableEntityInterface && !$repository instanceof EditableRepositoryInterface) {
 				throw new LogicException('This entity does not support editing.');
 			}
-			$call = $this->formBuilder;
-			$form = $call($controller, $item, $this->formType, $controller->generateUrl($this->info->getEditPage(), $this->slugify(['id' => $id])));
+			$form = ($this->formBuilder)($controller, $item, $this->formType, $controller->generateUrl($this->info->getEditPage(), $this->slugify(['id' => $id])));
 			$form->handleRequest($request);
 			
 			if ($form->isValid()) {
-				$call = $this->updateOperation;
-				$call($repository, $item);
+				if (isset($this->beforeEdit)) {
+					($this->beforeEdit)($item);
+				}
+				($this->updateOperation)($repository, $item);
+				if (isset($this->afterEdit)) {
+					($this->afterEdit)($item);
+				}
 				$controller->get('session')->getFlashBag()->add('info', $controller->trans($this->info->getItemUpdatedMessage(), [$name]));
 				return $controller->redirect($controller->generateUrl($this->info->getInfoPage(), $this->slugify(['id' => $id])));
 			}

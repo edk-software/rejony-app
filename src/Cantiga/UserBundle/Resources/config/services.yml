@@ -29,6 +29,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: cantiga.user.activated, method: onUserActivated }
             - { name: kernel.event_listener, event: cantiga.user.removed, method: onUserRemoved }
+    cantiga.user.repo.agreement:
+      class:     Cantiga\UserBundle\Repository\AgreementRepository
+      arguments: ["@database_connection", "@cantiga.transaction", "@cantiga.time"]
+    cantiga.user.repo.agreement_signature:
+      class:     Cantiga\UserBundle\Repository\AgreementSignatureRepository
+      arguments: ["@database_connection", "@cantiga.transaction"]
     cantiga.user.adapter:
         class:     Cantiga\UserBundle\Database\MemberlistAdapter
         arguments: ["@database_connection"]
@@ -73,3 +79,15 @@ services:
          arguments: ["@templating", "@translator"]
          tags:
               - { name: cantiga.extension, point: user.profile }
+    cantiga.user.profile.agreements:
+        class: Cantiga\UserBundle\Extension\AgreementsProfileExtension
+        arguments:
+            - "@templating"
+            - "@translator"
+            - "@security.authorization_checker"
+            - "@cantiga.user.repo.agreement"
+            - "@cantiga.user.repo.agreement_signature"
+        calls:
+            - [setGrantedForAll, [PLACE_MANAGER, MEMBEROF_PROJECT]]
+        tags:
+            - { name: cantiga.extension, point: user.profile }

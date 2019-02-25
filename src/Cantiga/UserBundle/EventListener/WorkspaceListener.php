@@ -56,6 +56,7 @@ class WorkspaceListener
 		$workspace = $event->getWorkspace();
 		$workspace->addWorkItem('community', new WorkItem('memberlist_index', 'Member list'));
 		$workspace->addWorkItem('manage', new WorkItem('current_membership_index', 'Project members'));
+		$workspace->addWorkItem('manage', new WorkItem('project_agreements_index', 'Agreements'));
 	}
 	
 	public function onGroupWorkspace(WorkspaceEvent $event)

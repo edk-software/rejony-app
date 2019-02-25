@@ -630,3 +630,8 @@ div.progress-box div.progress-box-link {
     right: 0;
     position: relative;
 }
+
+.agreements-profile-extension .radio {
+    display: inline;
+    margin: 0;
+}

@@ -25,4 +25,8 @@ return [
 	'NoActivityTitle' => 'Brak aktywności',
 	'ThankYouJoiningText' => 'Dziękujemy za dołączenie do nas. Niestety w tym momencie nie jest otwarta żadna rejestracja rejonów, nie jesteś członkiem żadnego projektu, grupy ani rejonu, nie masz także żadnych zaproszeń.',
 	'BindingInvitationNoteText' => 'Uwaga: jeśli otrzymałeś e-mail z zaproszeniem do projektu, grupy lub rejonu, ale nie widzisz go tutaj, oznacza to że utworzyłeś swoje konto przy użyciu innego adresu e-mail. W tym wypadku należy przejść do strony zaproszeń i skopiować tam kod Twojego zaproszenia, aby podłączyć je pod Twoje konto.',
+	
+	'AgreementsText' => 'Umowy',
+	'AgreementsContentText' => 'Treść umowy',
+	'PersonalDataText' => 'Dane osobowe',
 ];

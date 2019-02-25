@@ -21,4 +21,10 @@ return [
 	'PhotoUploadRulesText' => 'You can upload any image as big as 700x700 points in one of the following formats: JPG, PNG, GIF. The image is scaled down to sizes 128x128 px, 64x64 px, 32x32 px and 16x16 px. If the uploaded image is not a square, the central part is taken.',
 	'The specified image is not big enough. I cannot scale it up.' => 'The specified image is not big enough. I cannot scale it up.',
 	'The specified image is too big.' => 'The specified image is too big.',
+
+	'Manage project\'s agreements' => 'Manage project\'s agreements',
+	'The agreement \'0\' has been created.' => 'The agreement \'0\' has been created.',
+	'The agreement \'0\' has been updated.' => 'The agreement \'0\' has been updated.',
+	'The agreement \'0\' has been removed.' => 'The agreement \'0\' has been removed.',
+	'Do you really want to remove the agreement \'0\'?' => 'Do you really want to remove the agreement \'0\'?',
 ];

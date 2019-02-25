@@ -25,6 +25,9 @@ use Cantiga\CoreBundle\Api\Controller\ProjectAwareControllerInterface;
 use Cantiga\CoreBundle\Api\Controller\WorkspaceController;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
+use Cantiga\UserBundle\Extension\ExecutableExtensionInterface;
+use Cantiga\UserBundle\Extension\ProfileExtensionInterface;
+use Cantiga\UserBundle\Extension\SecuredExtensionInterface;
 use Cantiga\UserBundle\UserExtensions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -91,9 +94,37 @@ class MemberlistController extends WorkspaceController
 					'locale' => $request->getLocale(),
 				));
 			} else {
+				$extensions = $this->findProfileExtensions(UserExtensions::PROFILE_EXTENSION);
+				foreach ($extensions as $extension) {
+					if ($extension instanceof ExecutableExtensionInterface) {
+						$action = $this->generateUrl('memberlist_profile', [
+							'id' => $id,
+							'slug' => $this->getSlug(),
+						]);
+						$redirect = null;
+						$extension->execute(
+							$member,
+							$membership,
+							$this->getUser(),
+							function ($type, $data = null, array $options = []) use ($request, $action) {
+								$form = $this->createForm($type, $data, array_merge([
+									'action' => $action,
+								], $options));
+								$form->handleRequest($request);
+								return $form;
+							},
+							function () use ($action, &$redirect) {
+								$redirect = $this->redirect($action);
+							}
+						);
+						if (isset($redirect)) {
+							return $redirect;
+						}
+					}
+				}
 				return $this->render($this->crudInfo->getTemplateLocation() . 'profile.html.twig', array(
 					'member' => $member,
-					'extensions' => $this->findProfileExtensions(UserExtensions::PROFILE_EXTENSION),
+					'extensions' => $extensions,
 					'locale' => $request->getLocale(),
 				));
 			}
@@ -103,7 +134,11 @@ class MemberlistController extends WorkspaceController
 			return $this->showPageWithError($this->trans($exception->getMessage(), [], 'users'), $this->crudInfo->getIndexPage(), []);
 		}
 	}
-	
+
+	/**
+	 * @param string $extensionPoint
+	 * @return ProfileExtensionInterface[]
+	 */
 	private function findProfileExtensions($extensionPoint)
 	{
 		$filter = $this->getExtensionPointFilter();
@@ -117,6 +152,8 @@ class MemberlistController extends WorkspaceController
 		if (false === $extensions) {
 			return [];
 		}
-		return $extensions;
+		return array_filter($extensions, function ($extension) {
+			return !$extension instanceof SecuredExtensionInterface || $extension->isAvailable();
+		});
 	}
 }

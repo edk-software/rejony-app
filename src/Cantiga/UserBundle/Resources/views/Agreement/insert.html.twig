@@ -1,0 +1,26 @@
+{% extends 'CantigaCoreBundle:layout:common-layout.html.twig' %}
+
+{% block box_header %}
+	<h3 class="box-title">{{ 'NewAgreementHeader' | trans([], 'users') }}</h3>
+{% endblock %}
+
+{% block box_body %}
+	<div class="col-lg-6 col-md-12 col-lg-offset-3 col-md-offset-0">
+		{{ form_start(form) }}
+		<fieldset>
+			<div class="row">
+				<div class="col-md-12">
+					{{ form_row(form.title) }}
+					{{ form_row(form.content) }}
+					{{ form_row(form.url) }}
+					{{ form_row(form.summary) }}
+				</div>
+			</div>
+		</fieldset>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+{% block javascripts_inline %}
+	{{ use_icheck() }}
+{% endblock %}

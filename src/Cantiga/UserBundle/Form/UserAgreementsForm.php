@@ -16,9 +16,9 @@ class UserAgreementsForm extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefined([
-		    'termsOfUseLabel',
 		    'marketingAgreementLabel',
-		    'personalDataLabel',
+            'personalDataLabel',
+            'termsOfUseLabel',
             'user',
         ]);
 	}

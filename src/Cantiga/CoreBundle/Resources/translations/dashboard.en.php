@@ -24,5 +24,9 @@ return [
 	
 	'NoActivityTitle' => 'No activity',
 	'ThankYouJoiningText' => 'Thank you for joining us. However, right now no area registration takes place, and you have no pending invitations to join an existing project, group or area.',
-	'BindingInvitationNoteText' => 'Note: if you receive an e-mail invitation to join a project, group or area, but you do not see it here, this means that you used a different e-mail address to create an account. Please go to page and copy the invitation code from the invitation, to bind it to your account.'
+	'BindingInvitationNoteText' => 'Note: if you receive an e-mail invitation to join a project, group or area, but you do not see it here, this means that you used a different e-mail address to create an account. Please go to page and copy the invitation code from the invitation, to bind it to your account.',
+	
+	'AgreementsText' => 'Agreements',
+	'AgreementsContentText' => 'Agreement\'s content',
+	'PersonalDataText' => 'Personal data',
 ];

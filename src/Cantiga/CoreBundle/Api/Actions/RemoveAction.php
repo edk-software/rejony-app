@@ -18,6 +18,7 @@
  */
 namespace Cantiga\CoreBundle\Api\Actions;
 
+use Cantiga\Metamodel\Capabilities\RemovableRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\LogicException;
 use Cantiga\CoreBundle\Api\Controller\CantigaController;
@@ -32,21 +33,39 @@ use Cantiga\Metamodel\Exception\ModelException;
  */
 class RemoveAction extends AbstractAction
 {
+    private $beforeRemove;
+    private $afterRemove;
+
 	public function __construct(CRUDInfo $crudInfo)
 	{
 		$this->info = $crudInfo;
 	}
+
+	public function beforeRemove(callable $callback)
+    {
+        $this->beforeRemove = $callback;
+        return $this;
+    }
+
+	public function afterRemove(callable $callback)
+    {
+        $this->afterRemove = $callback;
+        return $this;
+    }
 	
 	public function run(CantigaController $controller, $id, Request $request)
 	{
 		try {
 			$repository = $this->info->getRepository();
 			$item = $repository->getItem($id);
+            if (!isset($item)) {
+                throw new ItemNotFoundException('Entity does not exist.');
+            }
 			
 			$nameProperty = 'get'.ucfirst($this->info->getItemNameProperty());
 			$name = $item->$nameProperty();
 			
-			if (!$item instanceof RemovableEntityInterface) {
+			if (!$item instanceof RemovableEntityInterface && !$repository instanceof RemovableRepositoryInterface) {
 				throw new LogicException('This entity does not support removing.');
 			}
 			
@@ -57,7 +76,13 @@ class RemoveAction extends AbstractAction
 			$answer = $request->query->get('answer', null);
 			
 			if($answer == 'yes') {
+                if (isset($this->beforeRemove)) {
+                    ($this->beforeRemove)($item);
+                }
 				$repository->remove($item);
+				if (isset($this->afterRemove)) {
+                    ($this->afterRemove)();
+                }
 				return $this->onSuccess($controller, $controller->trans($this->info->getItemRemovedMessage(), [$item->$nameProperty()]));
 			} elseif($answer == 'no') {
 				return $this->toIndexPage($controller);
