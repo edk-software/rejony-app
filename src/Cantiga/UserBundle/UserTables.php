@@ -20,5 +20,7 @@ namespace Cantiga\UserBundle;
 
 class UserTables
 {
+	const AGREEMENTS_TBL = 'cantiga_agreements';
+	const AGREEMENTS_SIGNATURES_TBL = 'cantiga_agreements_signatures';
 	const PLACE_MEMBERS_TBL = 'cantiga_place_members';
 }

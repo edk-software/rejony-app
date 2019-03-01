@@ -21,4 +21,10 @@ return [
 	'PhotoUploadRulesText' => 'Możesz załadować dowolny obrazek o rozmiarze do 700x700 punktów w jednym z formatów: JPG, PNG, GIF. Obrazek jest automatycznie skalowany do wymiarów 128x128, 64x64, 32x32 oraz 16x16 punktów. Jeżeli załadowany obrazek nie jest kwadratem, brana jest jego centralna część.',
 	'The specified image is not big enough. I cannot scale it up.' => 'Podany obrazek jest zbyt mały - nie da się przeskalować go do większego rozmiaru.',
 	'The specified image is too big.' => 'Podany obrazek jest zbyt duży.',
+
+	'Manage project\'s agreements' => 'Zarządzaj umowami projektu',
+	'The agreement \'0\' has been created.' => 'Umowa "0" została utworzona.',
+	'The agreement \'0\' has been updated.' => 'Umowa "0" została zmieniona.',
+	'The agreement \'0\' has been removed.' => 'Umowa "0" została usunięta.',
+	'Do you really want to remove the agreement \'0\'?' => 'Czy naprawdę chcesz usunąć umowę "0"?',
 ];

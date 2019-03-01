@@ -2,69 +2,65 @@
 
 namespace WIO\EdkBundle\Repository;
 
+use Cantiga\CoreBundle\Repository\CommonRepository;
 use Cantiga\Metamodel\Capabilities\EditableRepositoryInterface;
 use Cantiga\Metamodel\DataMappers;
-use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
 use Cantiga\Metamodel\Form\EntityTransformerInterface;
 use Cantiga\Metamodel\TimeFormatterInterface;
 use Cantiga\Metamodel\Transaction;
 use Doctrine\DBAL\Connection;
-use ReflectionObject;
 use WIO\EdkBundle\EdkTables;
 use WIO\EdkBundle\Entity\EdkFeedback;
 
-class EdkFeedbackRepository implements EditableRepositoryInterface, EntityTransformerInterface
+class EdkFeedbackRepository extends CommonRepository implements EditableRepositoryInterface, EntityTransformerInterface
 {
-	/**
-	 * @var Connection 
-	 */
-	private $conn;
-	/**
-	 * @var Transaction
-	 */
-	private $transaction;
-	/**
-	 * @var TimeFormatterInterface
-	 */
+	const FIELDS = [
+		'route',
+		'content',
+		'createdAt',
+	];
+
+	/** @var TimeFormatterInterface */
 	private $timeFormatter;
 	
 	public function __construct(Connection $conn, Transaction $transaction, TimeFormatterInterface $timeFormatter)
 	{
-		$this->conn = $conn;
-		$this->transaction = $transaction;
+		parent::__construct($conn, $transaction);
 		$this->timeFormatter = $timeFormatter;
 	}
 
 	public function getItem($id) : EdkFeedback
 	{
-		// @TODO: Add this functionality
-		throw new ItemNotFoundException('The specified route has not been found.');
+		$feedback = new EdkFeedback();
+		$item = $this->conn->fetchAssoc('
+			SELECT id, ' . self::getFieldList() . '
+			FROM ' . EdkTables::FEEDBACK_TBL . '
+			WHERE id = :id
+		', [
+			':id' => $id,
+		]);
+		DataMappers::fromArray($feedback, $item, 'fb');
+		self::setId($feedback, $item['id']);
+		return $feedback;
 	}
 
-	public function insert(EdkFeedback $feedback) : self {
+	public function insert(EdkFeedback $feedback) : self
+	{
 		if ($feedback->getId()) {
 			throw new ModelException('Feedback record which already exists in database can not be added again.');
 		}
 		$affectedRowsNumber = $this->conn->insert(EdkTables::FEEDBACK_TBL, DataMappers::pick(
-			$feedback,
-			[
-				'route',
-				'content',
-				'createdAt',
-			]
+			$feedback, self::FIELDS
 		));
 		if ($affectedRowsNumber !== 1) {
-			throw new ModelException('An error occured during feedback record inserting.');
+			throw new ModelException('An error occurred during feedback record inserting.');
 		}
-		$reflection = new ReflectionObject($feedback);
-		$property = $reflection->getProperty('id');
-		$property->setAccessible(true);
-		$property->setValue($feedback, $this->conn->lastInsertId());
+		self::setId($feedback, $this->conn->lastInsertId());
 		return $this;
 	}
 	
-	public function update($item) : self
+	public function update($feedback) : self
 	{
 		// @TODO: Add this functionality
 		return $this;
@@ -85,5 +81,10 @@ class EdkFeedbackRepository implements EditableRepositoryInterface, EntityTransf
 			return $entity->getId();
 		}
 		return null;
+	}
+
+	public static function getFieldList()
+	{
+		return self::createFieldList(self::FIELDS, 'fb', 'fb');
 	}
 }

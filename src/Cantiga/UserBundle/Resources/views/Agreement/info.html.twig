@@ -1,0 +1,75 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_title %}
+    {{ pageTitle | trans({}, 'pages') }}
+{% endblock %}
+
+{% block page_subtitle %}
+    {{ pageSubtitle | trans({}, 'pages') }}
+{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <h4>{{ 'AgreementInformationHeader' | trans([], 'users') }}</h4>
+                    <fieldset>
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td width="30%">{{ 'TitleLabel' | trans([], 'users') }}</td>
+                                    <td>{{ item.title }}</td>
+                                </tr>
+                                <tr>
+                                    <td width="30%">{{ 'SummaryLabel' | trans([], 'users') }}</td>
+                                    <td>{{ item.summary }}</td>
+                                </tr>
+                                <tr>
+                                    <td width="30%">{{ 'CreatedAtLabel' | trans([], 'users') }}</td>
+                                    <td>
+                                        {{ format_time(TimeFormatter.FORMAT_LONG, item.createdAt) }}
+                                        ({{ ago(item.createdAt) }})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%">{{ 'UpdatedAtLabel' | trans([], 'users') }}</td>
+                                    <td>
+                                        {{ format_time(TimeFormatter.FORMAT_LONG, item.updatedAt) }}
+                                        ({{ ago(item.updatedAt) }})
+                                    </td>
+                                </tr>
+                                {% if item.url %}
+                                    <tr>
+                                        <td width="30%">{{ 'UrlLabel' | trans([], 'users') }}</td>
+                                        <td><a href="{{ item.url }}" target="_blank">{{ item.url }}</a></td>
+                                    </tr>
+                                {% endif %}
+                                {% if item.content %}
+                                    <tr>
+                                        <td width="30%">{{ 'ContentLabel' | trans([], 'users') }}</td>
+                                        <td style="white-space:pre-wrap">{{ item.content }}</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+                <div class="box-footer">
+                    <a href="{{ spath(indexPage) }}" class="btn btn-default btn-sm" role="button">
+                        {{ 'Back' | trans({}, 'general') }}
+                    </a>
+                    <a href="{{ spath(editPage, { id: item.id }) }}" class="btn btn-primary btn-sm" role="button">
+                        {{ 'Edit' | trans({}, 'general') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block box_body %}
+{% endblock %}
+
+{% block box_footer %}
+{% endblock %}

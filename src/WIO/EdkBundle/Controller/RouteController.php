@@ -31,12 +31,14 @@ use Cantiga\CoreBundle\Api\Controller\WorkspaceController;
 use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
 use Cantiga\CoreBundle\Entity\Message;
+use Cantiga\CoreBundle\Entity\User;
 use Cantiga\Metamodel\Exception\ModelException;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use WIO\EdkBundle\Entity\EdkRoute;
 use WIO\EdkBundle\Form\EdkRouteForm;
@@ -57,9 +59,13 @@ class RouteController extends WorkspaceController
 	const API_FEED_PAGE = 'edk_route_api_feed';
 	const API_POST_PAGE = 'edk_route_api_post';
 	const APPROVE_PAGE = 'edk_route_approve';
-	const APPROVE_DESCRIPTION_PAGE = 'edk_route_approve_description';
-	const APPROVE_MAP_PAGE = 'edk_route_approve_map';
 	const REVOKE_PAGE = 'edk_route_revoke';
+	const APPROVE_GPS_PAGE = 'edk_route_approve_gps';
+	const REVOKE_GPS_PAGE = 'edk_route_revoke_gps';
+	const APPROVE_DESCRIPTION_PAGE = 'edk_route_approve_description';
+	const REVOKE_DESCRIPTION_PAGE = 'edk_route_revoke_description';
+	const APPROVE_MAP_PAGE = 'edk_route_approve_map';
+	const REVOKE_MAP_PAGE = 'edk_route_revoke_map';
 	const AREA_INFO_PAGE = 'area_mgmt_info';
 
 	/**
@@ -255,14 +261,9 @@ class RouteController extends WorkspaceController
 	 */
 	public function approveAction($id, Request $request)
 	{
-		try {
-			$repository = $this->get(self::REPOSITORY_NAME);
-			$item = $repository->getItem($id);
-
-			$user = $this->getUser();
-			$content = $request->getContent();
-			$question = new QuestionHelper($this->trans('Do you want to approve the route \'0\'?', [$item->getName()], 'edk'));
-			$question->onSuccess(function () use ($repository, $item, $user, $content) {
+		return $this->modifyRouteAfterApproval(
+			$request, (int) $id, 'Do you want to approve the route "0"?', self::APPROVE_PAGE,
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user, string $content) {
 				if (!empty($content) ) {
 					$elevationCharacteristic = json_decode($content);
 					if (isset($elevationCharacteristic)) {
@@ -270,15 +271,47 @@ class RouteController extends WorkspaceController
 					}
 				}
 				$repository->approve($item, $user);
-			});
-			$question->respond(self::APPROVE_PAGE, ['id' => $item->getId(), 'slug' => $this->getSlug()]);
-			$question->path($this->crudInfo->getInfoPage(), ['id' => $item->getId(), 'slug' => $this->getSlug()]);
-			$question->title($this->trans('EdkRoute: 0', [$item->getName()]), $this->crudInfo->getPageSubtitle());
-			$this->breadcrumbs()->link($item->getName(), $this->crudInfo->getInfoPage(), ['id' => $item->getId(), 'slug' => $this->getSlug()]);
-			return $question->handleRequest($this, $request);
-		} catch (ModelException $exception) {
-			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
-		}
+			}
+		);
+	}
+
+	/**
+	 * @Route("/{id}/revoke", name="edk_route_revoke")
+	 */
+	public function revokeAction($id, Request $request)
+	{
+		return $this->modifyRouteAfterApproval(
+			$request, (int) $id, 'Do you want to revoke the route "0"?', self::REVOKE_PAGE,
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user) {
+				$repository->revoke($item, $user);
+			}
+		);
+	}
+
+	/**
+	 * @Route("/{id}/approve/gps", name="edk_route_approve_gps")
+	 */
+	public function approveGpsAction($id, Request $request)
+	{
+		return $this->modifyRouteAfterApproval(
+			$request, (int) $id, 'Do you want to approve GPS from route "0"?', self::APPROVE_GPS_PAGE,
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user) {
+				$repository->approveGps($item, $user);
+			}
+		);
+	}
+
+	/**
+	 * @Route("/{id}/revoke/gps", name="edk_route_revoke_gps")
+	 */
+	public function revokeGpsAction($id, Request $request)
+	{
+		return $this->modifyRouteAfterApproval(
+			$request, (int) $id, 'Do you want to revoke GPS from route "0"?', self::REVOKE_GPS_PAGE,
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user) {
+				$repository->revokeGps($item, $user);
+			}
+		);
 	}
 
 	/**
@@ -286,42 +319,25 @@ class RouteController extends WorkspaceController
 	 */
 	public function approveDescriptionAction($id, Request $request)
 	{
-		try {
-			/** @var EdkRouteRepository $repository */
-			$repository = $this->get(self::REPOSITORY_NAME);
-			$item = $repository->getItem($id);
-
-			$user = $this->getUser();
-			$question = new QuestionHelper($this->trans('Do you want to approve description from route "0"?', [
-				$item->getName(),
-			], 'edk'));
-			$question->onSuccess(function () use ($repository, $item, $user) {
+		return $this->modifyRouteAfterApproval(
+			$request, (int) $id, 'Do you want to approve description from route "0"?', self::APPROVE_DESCRIPTION_PAGE,
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user) {
 				$repository->approveDescription($item, $user);
-			});
-			$question->respond(self::APPROVE_DESCRIPTION_PAGE, [
-				'id' => $item->getId(),
-				'slug' => $this->getSlug(),
-			]);
-			$question->path($this->crudInfo->getInfoPage(), [
-				'id' => $item->getId(),
-				'slug' => $this->getSlug(),
-			]);
-			$question->title($this->trans('EdkRoute: 0', [
-				$item->getName(),
-			]), $this->crudInfo->getPageSubtitle());
-			$this
-				->breadcrumbs()
-				->link($item->getName(), $this->crudInfo->getInfoPage(), [
-					'id' => $item->getId(),
-					'slug' => $this->getSlug(),
-				])
-			;
-			return $question->handleRequest($this, $request);
-		} catch (ModelException $exception) {
-			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), [
-				'slug' => $this->getSlug(),
-			]);
-		}
+			}
+		);
+	}
+
+	/**
+	 * @Route("/{id}/revoke/description", name="edk_route_revoke_description")
+	 */
+	public function revokeDescriptionAction($id, Request $request)
+	{
+		return $this->modifyRouteAfterApproval(
+			$request, (int) $id, 'Do you want to revoke description from route "0"?', self::REVOKE_DESCRIPTION_PAGE,
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user) {
+				$repository->revokeDescription($item, $user);
+			}
+		);
 	}
 
 	/**
@@ -329,64 +345,62 @@ class RouteController extends WorkspaceController
 	 */
 	public function approveMapAction($id, Request $request)
 	{
+		return $this->modifyRouteAfterApproval(
+			$request, (int) $id, 'Do you want to approve map from route "0"?', self::APPROVE_MAP_PAGE,
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user) {
+				$repository->approveMap($item, $user);
+			}
+		);
+	}
+
+	/**
+	 * @Route("/{id}/revoke/map", name="edk_route_revoke_map")
+	 */
+	public function revokeMapAction($id, Request $request)
+	{
+		return $this->modifyRouteAfterApproval(
+			$request, (int) $id, 'Do you want to revoke map from route "0"?', self::REVOKE_MAP_PAGE,
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user) {
+				$repository->revokeMap($item, $user);
+			}
+		);
+	}
+
+	private function modifyRouteAfterApproval(
+		Request $request, int $id, string $question, string $routeName, callable $onSuccessCallback
+	) : Response
+	{
 		try {
 			/** @var EdkRouteRepository $repository */
 			$repository = $this->get(self::REPOSITORY_NAME);
 			$item = $repository->getItem($id);
 
 			$user = $this->getUser();
-			$question = new QuestionHelper($this->trans('Do you want to approve map from route "0"?', [
+			$content = $request->getContent();
+			$question = new QuestionHelper($this->trans($question, [
 				$item->getName(),
 			], 'edk'));
-			$question->onSuccess(function () use ($repository, $item, $user) {
-				$repository->approveMap($item, $user);
+			$question->onSuccess(function () use ($repository, $item, $user, $content, $onSuccessCallback) {
+				$onSuccessCallback($repository, $item, $user, $content);
 			});
-			$question->respond(self::APPROVE_MAP_PAGE, [
+			$arguments = [
 				'id' => $item->getId(),
 				'slug' => $this->getSlug(),
-			]);
-			$question->path($this->crudInfo->getInfoPage(), [
-				'id' => $item->getId(),
-				'slug' => $this->getSlug(),
-			]);
+			];
+			$question->respond($routeName, $arguments);
+			$question->path($this->crudInfo->getInfoPage(), $arguments);
 			$question->title($this->trans('EdkRoute: 0', [
 				$item->getName(),
 			]), $this->crudInfo->getPageSubtitle());
 			$this
 				->breadcrumbs()
-				->link($item->getName(), $this->crudInfo->getInfoPage(), [
-					'id' => $item->getId(),
-					'slug' => $this->getSlug(),
-				])
+				->link($item->getName(), $this->crudInfo->getInfoPage(), $arguments)
 			;
 			return $question->handleRequest($this, $request);
-		} catch (ModelException $exception) {
+		} catch (Exception $exception) {
 			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), [
 				'slug' => $this->getSlug(),
 			]);
-		}
-	}
-	
-	/**
-	 * @Route("/{id}/revoke", name="edk_route_revoke")
-	 */
-	public function revokeAction($id, Request $request)
-	{
-		try {
-			$repository = $this->get(self::REPOSITORY_NAME);
-			$item = $repository->getItem($id);
-
-			$question = new QuestionHelper($this->trans('Do you want to revoke the route \'0\'?', [$item->getName()], 'edk'));
-			$question->onSuccess(function() use($repository, $item) {
-				$repository->revoke($item);
-			});
-			$question->respond(self::REVOKE_PAGE, ['id' => $item->getId(), 'slug' => $this->getSlug()]);
-			$question->path($this->crudInfo->getInfoPage(), ['id' => $item->getId(), 'slug' => $this->getSlug()]);
-			$question->title($this->trans('EdkRoute: 0', [$item->getName()]), $this->crudInfo->getPageSubtitle());
-			$this->breadcrumbs()->link($item->getName(), $this->crudInfo->getInfoPage(), ['id' => $item->getId(), 'slug' => $this->getSlug()]);
-			return $question->handleRequest($this, $request);
-		} catch (ModelException $exception) {
-			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
 		}
 	}
 

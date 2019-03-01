@@ -1,0 +1,34 @@
+{{ form_start(form) }}
+<table class="table table-striped agreements-profile-extension">
+	<thead>
+		<tr>
+			<th width="30%">{{ 'AgreementText' | trans([], 'users') }}</th>
+			<th width="35%">{{ 'RequiredText' | trans([], 'users') }}</th>
+			<th width="35%">{{ 'SignatureDateText' | trans([], 'users') }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for agreement in agreements %}
+			{% set signature = agreement.signatures | length > 0 ? agreement.signatures[0] : null %}
+			<tr>
+				<td>{{ agreement.title }}</td>
+				<td>{{ form_row(form['agreement_' ~ agreement.id]) }}</td>
+				<td>
+					{% if signature %}
+						{% if signature.signed %}
+							{{ signature.signedAt | date('Y-m-d H:i') }}
+						{% else %}
+							<strong style="color:red">{{ 'NotSignedText' | trans([], 'users') }}</strong>
+						{% endif %}
+					{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+		<tr>
+			<td></td>
+			<td>{{ form_row(form.save) }}</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+{{ form_end(form) }}

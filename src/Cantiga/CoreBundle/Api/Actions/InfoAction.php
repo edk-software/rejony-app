@@ -55,10 +55,10 @@ class InfoAction extends AbstractAction
 	}
 
 	public function setMap($map)
-    {
-        $this->map = $map;
-        return $this;
-    }
+	{
+		$this->map = $map;
+		return $this;
+	}
 	
 	public function run(CantigaController $controller, $id, $customDataGenerator = null)
 	{
@@ -86,8 +86,9 @@ class InfoAction extends AbstractAction
 			$vars['insertPage'] = $this->info->getInsertPage();
 			$vars['editPage'] = $this->info->getEditPage();
 			$vars['removePage'] = $this->info->getRemovePage();
-			if (!is_null($this->map))
-                $vars['map'] = $this->map;
+			if (!is_null($this->map)) {
+				$vars['map'] = $this->map;
+			}
 
 			$controller->breadcrumbs()->link($name, $this->info->getInfoPage(), $this->slugify(['id' => $id]));
 			

@@ -28,5 +28,7 @@ return [
 
 	'Group members' => 'Group members',
 
-	'Provide contact data' => 'Provide contact data'
+	'Provide contact data' => 'Provide contact data',
+
+	'Agreements' => 'Agreements',
 ];

@@ -1,0 +1,34 @@
+{% extends 'CantigaCoreBundle:layout:list-layout.html.twig' %}
+
+{% block column_list %}
+    <tr>
+        <th width="30">#</th>
+        <th>{{ 'TitleLabel' | trans([], 'users') }}</th>
+        <th width="80">{{ 'CreatedAtLabel' | trans([], 'users') }}</th>
+        <th width="80">{{ 'UpdatedAtLabel' | trans([], 'users') }}</th>
+        <th width="100">{{ 'Actions' | trans({}, 'general') }}</th>
+    </tr>
+{% endblock %}
+
+{% block box_header %}
+    <h3 class="box-title"><i class="fa fa-list"></i></h3>
+    <div class="box-tools pull-right">
+        <a href="{{ spath(insertPage) }}" class="btn btn-success btn-sm" role="button">
+            <i class="fa fa-plus"></i> {{ 'Insert' | trans({}, 'general') }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block custom_datatable_config %}
+    ajax: "{{ spath(ajaxListPage) }}",
+    columnDefs: [
+        {{ dt_col_link(dataTable, 'title', 'info_link') }}
+        {{ dt_col_rewrite(dataTable, 'createdAt', 'createdAtText') }}
+        {{ dt_col_rewrite(dataTable, 'updatedAt', 'updatedAtText') }}
+        {{ dt_actions(dataTable, [
+            { link: 'info_link', name: 'Info' | trans({}, 'general'), label: 'btn-primary' },
+            { link: 'edit_link', name: 'Edit' | trans({}, 'general'), label: 'btn-primary' },
+            { link: 'remove_link', name: 'Remove' | trans({}, 'general'), label: 'btn-danger' },
+        ]) }}
+    ]
+{% endblock %}

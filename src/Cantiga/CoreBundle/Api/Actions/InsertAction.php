@@ -20,6 +20,7 @@ namespace Cantiga\CoreBundle\Api\Actions;
 
 use Cantiga\CoreBundle\Api\Controller\CantigaController;
 use Cantiga\Metamodel\Capabilities\InsertableEntityInterface;
+use Cantiga\Metamodel\Capabilities\InsertableRepositoryInterface;
 use Cantiga\Metamodel\CustomForm\CustomFormModelInterface;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
@@ -39,6 +40,8 @@ class InsertAction extends AbstractAction
 	private $formBuilder;
 	private $customForm;
 	private $entity;
+	private $beforeInsert;
+	private $afterInsert;
 	
 	public function __construct(CRUDInfo $crudInfo, $entity, $formType = null, array $options = [])
 	{
@@ -47,8 +50,9 @@ class InsertAction extends AbstractAction
 		$this->insertOperation = function($repository, $item) {
 			return $repository->insert($item);
 		};
-		if (null !== $formType) {
-			$this->formBuilder = function($controller, $item, $formType, $action) use($formType, $options) {
+		$this->formType = $formType;
+		if (null !== $this->formType) {
+			$this->formBuilder = function($controller, $item, $formType, $action) use($options) {
 				return $controller->createForm($formType, $item, array_merge(['action' => $action], $options));
 			};
 		}
@@ -71,6 +75,18 @@ class InsertAction extends AbstractAction
 		$this->customForm = $customForm;
 		return $this;
 	}
+
+	public function beforeInsert(callable $callback)
+	{
+		$this->beforeInsert = $callback;
+		return $this;
+	}
+
+	public function afterInsert(callable $callback)
+	{
+		$this->afterInsert = $callback;
+		return $this;
+	}
 		
 	public function run(CantigaController $controller, Request $request, int $routeId = null)
 	{
@@ -78,17 +94,21 @@ class InsertAction extends AbstractAction
 			$repository = $this->info->getRepository();
 			$item = $this->entity;			
 					
-			if (!$item instanceof InsertableEntityInterface) {
+			if (!$item instanceof InsertableEntityInterface && !$repository instanceof InsertableRepositoryInterface) {
 				throw new LogicException('This entity does not support inserting.');
 			}
-			$call = $this->formBuilder;
-			$form = $call($controller, $item, $this->formType, $controller->generateUrl($this->info->getInsertPage(), $this->slugify()));
+			$form = ($this->formBuilder)($controller, $item, $this->formType, $controller->generateUrl($this->info->getInsertPage(), $this->slugify()));
 			$form->handleRequest($request);
 			
 			if ($form->isValid()) {
-				$call = $this->insertOperation;
-				$id = $call($repository, $item);
-				
+				if (isset($this->beforeInsert)) {
+					($this->beforeInsert)($item);
+				}
+				$id = ($this->insertOperation)($repository, $item);
+				if (isset($this->afterInsert)) {
+					($this->afterInsert)($item);
+				}
+
 				$nameProperty = 'get'.ucfirst($this->info->getItemNameProperty());
 				$name = $item->$nameProperty();
 				

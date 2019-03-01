@@ -389,12 +389,70 @@ class EdkRouteRepository
 		}
 	}
 
+	public function revoke(EdkRoute $item, User $user)
+	{
+		$this->transaction->requestTransaction();
+		try {
+			if(!$item->revoke($this->conn, $user)) {
+				throw new ModelException('Cannot revoke this this route.');
+			}
+			$this->eventDispatcher->dispatch(MilestoneEvents::ACTIVATION_EVENT, new ActivationEvent(
+				$item->getArea()->getProject(),
+				$item->getArea()->getPlace(),
+				'route.approved',
+				$this->getActivationFunc($item)
+			));
+		} catch (Exception $ex) {
+			$this->transaction->requestRollback();
+			throw $ex;
+		}
+	}
+
+	public function approveGps(EdkRoute $item, User $user)
+	{
+		$this->transaction->requestTransaction();
+		try {
+			if (!$item->approveGps($this->conn, $user)) {
+				throw new ModelException('Cannot approve this route\'s GPS.');
+			}
+		} catch (Exception $ex) {
+			$this->transaction->requestRollback();
+			throw $ex;
+		}
+	}
+
+	public function revokeGps(EdkRoute $item, User $user)
+	{
+		$this->transaction->requestTransaction();
+		try {
+			if (!$item->revokeGps($this->conn, $user)) {
+				throw new ModelException('Cannot revoke this route\'s GPS.');
+			}
+		} catch (Exception $ex) {
+			$this->transaction->requestRollback();
+			throw $ex;
+		}
+	}
+
 	public function approveDescription(EdkRoute $item, User $user)
 	{
 		$this->transaction->requestTransaction();
 		try {
 			if (!$item->approveDescription($this->conn, $user)) {
 				throw new ModelException('Cannot approve this route\'s description.');
+			}
+		} catch (Exception $ex) {
+			$this->transaction->requestRollback();
+			throw $ex;
+		}
+	}
+
+	public function revokeDescription(EdkRoute $item, User $user)
+	{
+		$this->transaction->requestTransaction();
+		try {
+			if (!$item->revokeDescription($this->conn, $user)) {
+				throw new ModelException('Cannot revoke this route\'s description.');
 			}
 		} catch (Exception $ex) {
 			$this->transaction->requestRollback();
@@ -414,25 +472,20 @@ class EdkRouteRepository
 			throw $ex;
 		}
 	}
-	
-	public function revoke(EdkRoute $item)
+
+	public function revokeMap(EdkRoute $item, User $user)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			if(!$item->revoke($this->conn)) {
-				throw new ModelException('Cannot revoke this this route.');
+			if (!$item->revokeMap($this->conn, $user)) {
+				throw new ModelException('Cannot revoke this route\'s map.');
 			}
-			$this->eventDispatcher->dispatch(MilestoneEvents::ACTIVATION_EVENT, new ActivationEvent(
-				$item->getArea()->getProject(),
-				$item->getArea()->getPlace(),
-				'route.approved',
-				$this->getActivationFunc($item)
-			));
 		} catch (Exception $ex) {
 			$this->transaction->requestRollback();
 			throw $ex;
 		}
 	}
+
 	public function getRotesByProject(Project $project)
     {
         $data = $this->conn->fetchAll('SELECT r.`name`, a.`id`, a.`name` as area '

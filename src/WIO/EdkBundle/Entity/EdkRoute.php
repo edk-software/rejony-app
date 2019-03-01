@@ -35,6 +35,7 @@ use Cantiga\Metamodel\Exception\DiskAssetException;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
 use Cantiga\Metamodel\FileRepositoryInterface;
+use Cantiga\Metamodel\QueryClause;
 use Cantiga\Metamodel\TimeFormatterInterface;
 use Doctrine\DBAL\Connection;
 use LogicException;
@@ -164,6 +165,8 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		} else {
 			$item->area = Area::fetchByPlace($conn, $data['areaId'], $root);
 		}
+
+		self::bindUsers($item, $conn);
 
 		$notes = $conn->fetchAll('SELECT * FROM `'.EdkTables::ROUTE_NOTE_TBL.'` WHERE `routeId` = :routeId', [':routeId' => $item->getId()]);
 		foreach ($notes as $note) {
@@ -460,6 +463,16 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this->gpsStatus;
 	}
 
+	public function isGpsApproved()
+	{
+		return (int) $this->gpsStatus === self::STATUS_APPROVED;
+	}
+
+	public function isGpsRevoked()
+	{
+		return (int) $this->gpsStatus === self::STATUS_REVOKED;
+	}
+
     public function getGpsCreatedAt()
     {
         return $this->gpsCreatedAt;
@@ -480,10 +493,30 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
         return $this->gpsUpdatedBy;
     }
 
+	public function getGpsApprovedAt()
+	{
+		return $this->gpsApprovedAt;
+	}
+
+	public function getGpsApprovedBy()
+	{
+		return $this->gpsApprovedBy;
+	}
+
     public function getMapStatus()
     {
         return $this->mapStatus;
     }
+
+	public function isMapApproved()
+	{
+		return (int) $this->mapStatus === self::STATUS_APPROVED;
+	}
+
+	public function isMapRevoked()
+	{
+		return (int) $this->mapStatus === self::STATUS_REVOKED;
+	}
 
     public function getMapCreatedAt()
     {
@@ -505,10 +538,30 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
         return $this->mapUpdatedBy;
     }
 
+	public function getMapApprovedAt()
+	{
+		return $this->mapApprovedAt;
+	}
+
+	public function getMapApprovedBy()
+	{
+		return $this->mapApprovedBy;
+	}
+
     public function getDescriptionStatus()
     {
         return $this->descriptionStatus;
     }
+
+	public function isDescriptionApproved()
+	{
+		return (int) $this->descriptionStatus === self::STATUS_APPROVED;
+	}
+
+	public function isDescriptionRevoked()
+	{
+		return (int) $this->descriptionStatus === self::STATUS_REVOKED;
+	}
 
     public function getDescriptionCreatedAt()
     {
@@ -529,6 +582,16 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
     {
         return $this->descriptionUpdatedBy;
     }
+
+	public function getDescriptionApprovedAt()
+	{
+		return $this->descriptionApprovedAt;
+	}
+
+	public function getDescriptionApprovedBy()
+	{
+		return $this->descriptionApprovedBy;
+	}
 
     public function setId($id)
 	{
@@ -734,6 +797,18 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
         return $this;
     }
 
+	public function setDescriptionApprovedAt($descriptionApprovedAt)
+	{
+		$this->descriptionApprovedAt = $descriptionApprovedAt;
+		return $this;
+	}
+
+	public function setDescriptionApprovedBy($descriptionApprovedBy)
+	{
+		$this->descriptionApprovedBy = $descriptionApprovedBy;
+		return $this;
+	}
+
     public function setGpsStatus($gpsStatus)
     {
         $this->gpsStatus = $gpsStatus;
@@ -764,6 +839,18 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
         return $this;
     }
 
+	public function setGpsApprovedAt($gpsApprovedAt)
+	{
+		$this->gpsApprovedAt = $gpsApprovedAt;
+		return $this;
+	}
+
+	public function setGpsApprovedBy($gpsApprovedBy)
+	{
+		$this->gpsApprovedBy = $gpsApprovedBy;
+		return $this;
+	}
+
     public function setMapStatus($mapStatus)
     {
         $this->mapStatus = $mapStatus;
@@ -793,7 +880,19 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
         $this->mapUpdatedBy = $mapUpdatedBy;
         return $this;
     }
-    
+
+	public function setMapApprovedAt($mapApprovedAt)
+	{
+		$this->mapApprovedAt = $mapApprovedAt;
+		return $this;
+	}
+
+	public function setMapApprovedBy($mapApprovedBy)
+	{
+		$this->mapApprovedBy = $mapApprovedBy;
+		return $this;
+	}
+
 	function getImportedFrom()
 	{
 		return $this->importedFrom;
@@ -1141,10 +1240,89 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return false;
 	}
 
-	public function approveDescription(Connection $conn, User $user): bool
+	public function revoke(Connection $conn, User $user): bool
 	{
 		if ($this->isApproved($conn)) {
+			$this->approved = false;
+			$this->approvedAt = time();
+			$this->approvedBy = $user->getId();
+
+			$conn->update(EdkTables::ROUTE_TBL,
+				[
+					'approved' => $this->approved,
+					'approvedAt' => $this->approvedAt,
+					'approvedBy' => $this->approvedBy,
+				],
+				[
+					'id' => $this->getId(),
+				]
+			);
+			return true;
+		}
+		return false;
+	}
+
+	public function approveGps(Connection $conn, User $user): bool
+	{
+		if ($this->isApproved($conn) && !$this->isGpsApproved()) {
+			$this->gpsStatus = self::STATUS_APPROVED;
+			$this->gpsApprovedAt = time();
+			$this->gpsApprovedBy = $user->getId();
+
+			$conn->update(EdkTables::ROUTE_TBL, [
+				'gpsStatus' => $this->gpsStatus,
+				'gpsApprovedAt' => $this->gpsApprovedAt,
+				'gpsApprovedBy' => $this->gpsApprovedBy,
+			], [
+				'id' => $this->getId(),
+			]);
+			return true;
+		}
+		return false;
+	}
+
+	public function revokeGps(Connection $conn, User $user): bool
+	{
+		if ($this->isApproved($conn) && $this->isGpsApproved()) {
+			$this->gpsStatus = self::STATUS_REVOKED;
+			$this->gpsApprovedAt = time();
+			$this->gpsApprovedBy = $user->getId();
+
+			$conn->update(EdkTables::ROUTE_TBL, [
+				'gpsStatus' => $this->gpsStatus,
+				'gpsApprovedAt' => $this->gpsApprovedAt,
+				'gpsApprovedBy' => $this->gpsApprovedBy,
+			], [
+				'id' => $this->getId(),
+			]);
+			return true;
+		}
+		return false;
+	}
+
+	public function approveDescription(Connection $conn, User $user): bool
+	{
+		if ($this->isApproved($conn) && !$this->isDescriptionApproved()) {
 			$this->descriptionStatus = self::STATUS_APPROVED;
+			$this->descriptionApprovedAt = time();
+			$this->descriptionApprovedBy = $user->getId();
+
+			$conn->update(EdkTables::ROUTE_TBL, [
+				'descriptionStatus' => $this->descriptionStatus,
+				'descriptionApprovedAt' => $this->descriptionApprovedAt,
+				'descriptionApprovedBy' => $this->descriptionApprovedBy,
+			], [
+				'id' => $this->getId(),
+			]);
+			return true;
+		}
+		return false;
+	}
+
+	public function revokeDescription(Connection $conn, User $user): bool
+	{
+		if ($this->isApproved($conn) && $this->isDescriptionApproved()) {
+			$this->descriptionStatus = self::STATUS_REVOKED;
 			$this->descriptionApprovedAt = time();
 			$this->descriptionApprovedBy = $user->getId();
 
@@ -1162,7 +1340,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 	public function approveMap(Connection $conn, User $user): bool
 	{
-		if ($this->isApproved($conn)) {
+		if ($this->isApproved($conn) && !$this->isMapApproved()) {
 			$this->mapStatus = self::STATUS_APPROVED;
 			$this->mapApprovedAt = time();
 			$this->mapApprovedBy = $user->getId();
@@ -1178,22 +1356,21 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		}
 		return false;
 	}
-	
-	public function revoke(Connection $conn): bool
-	{
-		if ($this->isApproved($conn)) {
-			$this->approved = false;
-			$this->approvedAt = time();
 
-			$conn->update(EdkTables::ROUTE_TBL,
-				[
-					'approved' => $this->approved,
-					'approvedAt' => $this->approvedAt,
-				],
-				[
-					'id' => $this->getId(),
-				]
-			);
+	public function revokeMap(Connection $conn, User $user): bool
+	{
+		if ($this->isApproved($conn) && $this->isMapApproved()) {
+			$this->mapStatus = self::STATUS_REVOKED;
+			$this->mapApprovedAt = time();
+			$this->mapApprovedBy = $user->getId();
+
+			$conn->update(EdkTables::ROUTE_TBL, [
+				'mapStatus' => $this->mapStatus,
+				'mapApprovedAt' => $this->mapApprovedAt,
+				'mapApprovedBy' => $this->mapApprovedBy,
+			], [
+				'id' => $this->getId(),
+			]);
 			return true;
 		}
 		return false;
@@ -1282,5 +1459,51 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 				throw new DiskAssetException('The extension of the uploaded GPS track is invalid.');
 			}
 		}
+	}
+
+	private static function bindUsers(self $route, Connection $conn)
+	{
+		$userIds = [
+			$route->getGpsCreatedBy(),
+			$route->getGpsUpdatedBy(),
+			$route->getGpsApprovedBy(),
+			$route->getDescriptionCreatedBy(),
+			$route->getDescriptionUpdatedBy(),
+			$route->getDescriptionApprovedBy(),
+			$route->getMapCreatedBy(),
+			$route->getMapUpdatedBy(),
+			$route->getMapApprovedBy(),
+		];
+		$uniqueIds = [];
+		foreach ($userIds as $id) {
+			if (is_numeric($id) && !in_array((int) $id, $uniqueIds)) {
+				$uniqueIds[] = (int) $id;
+			}
+		}
+		/** @var User[] $users */
+		$users = User::fetchByIds($conn, $uniqueIds);
+		$usersByIds = [];
+		foreach ($users as $user) {
+			$usersByIds[$user->getId()] = $user;
+		}
+		$route
+			->setGpsCreatedBy(self::getUser($usersByIds, $route->getGpsCreatedBy()))
+			->setGpsUpdatedBy(self::getUser($usersByIds, $route->getGpsUpdatedBy()))
+			->setGpsApprovedBy(self::getUser($usersByIds, $route->getGpsApprovedBy()))
+			->setDescriptionCreatedBy(self::getUser($usersByIds, $route->getDescriptionCreatedBy()))
+			->setDescriptionUpdatedBy(self::getUser($usersByIds, $route->getDescriptionUpdatedBy()))
+			->setDescriptionApprovedBy(self::getUser($usersByIds, $route->getDescriptionApprovedBy()))
+			->setMapCreatedBy(self::getUser($usersByIds, $route->getMapCreatedBy()))
+			->setMapUpdatedBy(self::getUser($usersByIds, $route->getMapUpdatedBy()))
+			->setMapApprovedBy(self::getUser($usersByIds, $route->getMapApprovedBy()))
+		;
+	}
+
+	private static function getUser(array $users, $id)
+	{
+		if (!is_numeric($id) || !array_key_exists($id, $users)) {
+			return null;
+		}
+		return $users[$id];
 	}
 }
