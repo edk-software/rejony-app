@@ -13,6 +13,8 @@
 <tr>
 	<th width="30">#</th>
 	<th>{{ 'Name' | trans }}</th>
+	<th>{{ 'Login' | trans }}</th>
+	<th>{{ 'Mail' | trans }}</th>
 	<th width="150">{{ 'Registered at' | trans }}</th>
 	<th width="110">{{ 'Places' | trans }}</th>
 	<th width="80">{{ 'Active?' | trans }}</th>
@@ -25,6 +27,8 @@
 	ajax: "{{ path('admin_user_ajax_list') }}",
 	columnDefs: [
 		{{ dt_col_link(dataTable, 'name', 'info_link') }}
+		{{ dt_col_link(dataTable, 'login', 'info_link') }}
+		{{ dt_col_link(dataTable, 'email', 'info_link') }}
 		{{ dt_col_rewrite(dataTable, 'registeredAt', 'registeredAtFormatted') }}
 		{{ dt_col_boolean(dataTable, 'active') }}
 		{{ dt_col_boolean(dataTable, 'admin') }}

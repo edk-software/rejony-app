@@ -77,6 +77,8 @@ class AdminUserRepository implements EntityTransformerInterface
 		$dt = new DataTable();
 		$dt->id('id', 'i.id')
 			->searchableColumn('name', 'i.name')
+			->searchableColumn('login', 'i.login')
+			->searchableColumn('email', 'i.email')
 			->column('registeredAt', 'i.registeredAt')
 			->column('placeNum', 'i.placeNum')
 			->column('active', 'i.active')
@@ -89,6 +91,8 @@ class AdminUserRepository implements EntityTransformerInterface
 		$qb = QueryBuilder::select()
 			->field('i.id', 'id')
 			->field('i.name', 'name')
+			->field('i.login', 'login')
+			->field('i.email', 'email')
 			->field('i.registeredAt', 'registeredAt')
 			->field('i.placeNum', 'placeNum')
 			->field('i.active', 'active')
