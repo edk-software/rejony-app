@@ -82,7 +82,7 @@
 	</div>
 {% endmacro %}
 
-{% macro chat_box(title, idPrefix, isCommentMode) %}
+{% macro chat_box(title, idPrefix, isCommentMode, disableCommentModeText) %}
 		<div class="box box-primary direct-chat direct-chat-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title">{{ title }}</h3>
@@ -105,8 +105,8 @@
 						</div>
 					</form>
 				{% else %}
-					<div class="alert alert-danger alert-dismissible no-margin">
-                        {{ 'Disable chatbox' | trans({}, 'requests') }}
+					<div class="alert alert-warning alert-dismissible no-margin">
+                        {{ disableCommentModeText }}
 					</div>
                 {% endif %}
 			</div>

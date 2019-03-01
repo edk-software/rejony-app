@@ -145,7 +145,7 @@
             </div>
         </div>
         <div class="col-lg-5 col-xs-12">
-            {{ macro.chat_box('Chat' | trans, 'feedback', item.canComment()) }}
+            {{ macro.chat_box('Chat' | trans, 'feedback', item.canComment(), 'Disable chatbox' | trans({}, 'requests')) }}
         </div>
         {% if custom.text %}
             <div class="col-lg-5 col-xs-12">

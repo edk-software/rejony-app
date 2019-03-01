@@ -20,5 +20,5 @@ return [
 	'ViewRequestLinkName' => 'Przejdź do zgłoszenia',
 
     'Request list' => 'Lista zgłoszeń',
-    'Disable chatbox' => 'Po zakceptowaniu zgłoszenia komunikacja odbywa się za pomocą chatu profilu rejonu.'
+    'Disable chatbox' => 'Po zakceptowaniu zgłoszenia komunikacja odbywa się za pomocą czatu profilu rejonu.'
 ];

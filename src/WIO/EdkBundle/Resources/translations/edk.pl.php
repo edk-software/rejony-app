@@ -311,5 +311,6 @@ return [
     'Unregistered' => 'Niezarejestrowani',
 
     'Participants count' => 'Liczba uczestników',
+    'Disable chatbox' => 'W przypadku wątpliwości co do komentarzy skontaktuj się z zespołem tras.'
 
 ];

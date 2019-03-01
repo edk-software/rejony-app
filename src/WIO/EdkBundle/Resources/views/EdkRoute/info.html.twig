@@ -328,7 +328,7 @@
                     </div>
                 </div>
             </div>
-            {{ macro.chat_box('Comments' | trans, 'route-comments', 'true') }}
+            {{ macro.chat_box('Comments' | trans, 'route-comments', not isArea, 'Disable chatbox' | trans({}, 'edk')) }}
         </div>
 
     </div>
