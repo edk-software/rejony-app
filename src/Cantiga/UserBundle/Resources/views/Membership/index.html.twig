@@ -11,10 +11,13 @@
 {% block page_content %}
 	<div class="row" id="ppp">
 		<div class="col-xs-12">
-			<div class="box box-primary">
+			<div class="box box-solid">
 				<div class="box-header with-border">
-					<a href="{{ spath(invitationPage, extraArgs) }}" role="btn" class="btn btn-app"><i class="fa fa-tag"></i> {{ 'Invite' | trans([], 'general') }}</a>
-					<a href="#" role="btn" class="btn btn-app"><i class="fa fa-download"></i> {{ 'Export CSV' | trans([], 'general') }}</a>
+					<h3 class="box-title">{{ ('ManageMembers'~placeType~'Text') | trans([], 'pages') }}</h3>
+					<div class="box-tools pull-right">
+						<a href="{{ spath(invitationPage, extraArgs) }}" role="btn" class="btn btn-success btn-sm"><i class="fa fa-tag"></i> {{ 'Invite' | trans([], 'general') }}</a>
+						<a href="#" role="btn" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> {{ 'Export CSV' | trans([], 'general') }}</a>
+					</div>
 				</div>
 				<div class="box-body no-padding">
 					<table class="table table-striped" id="membershipTable">
@@ -22,10 +25,10 @@
 							<tr>
 								<th width="30">#</th>
 								<th>{{ 'Name' | trans }}</th>
-								<th width="200">{{ 'Role' | trans([], 'users') }}</th>
-								<th width="200">{{ 'Note' | trans([], 'users') }}</th>
+								<th width="300">{{ 'Function' | trans([], 'users') }}</th>
+								<th width="300">{{ 'Role' | trans([], 'users') }}</th>
 								{% if showContactsManageable %}
-								<th width="120">{{ 'Contact data' | trans([], 'users') }}</th>
+								<th width="20">{{ 'Contact data' | trans([], 'users') }}</th>
 								{% endif %}
 								<th width="180">{{ 'Actions' | trans({}, 'general') }}</th>
 							</tr>

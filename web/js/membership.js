@@ -143,10 +143,10 @@
 				var tr = $('<tr/>');
 				tr.append($('<td/>').append(data[i]['id']));
 				tr.append($('<td/>').append(data[i]['name']));
+				tr.append($('<td/>').append(data[i]['note']));
 				if (data[i]['role'] !== null) {
 					tr.append($('<td/>').append(opts['lang'][data[i]['roleName']]));
 				}
-				tr.append($('<td/>').append(data[i]['note']));
 				if (opts['showDownstreamContactData']) {
 					if (data[i]['showDownstreamContactData']) {
 						tr.append($('<td/>', {class: 'text-center'}).append('<span class="glyphicon glyphicon-ok"></span>'));

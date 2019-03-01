@@ -10,41 +10,31 @@
 
 {% block page_content %}
 	<div class="row">
-		<div class="col-md-3 col-sm-12">
-			<div class="box box-widget widget-user-2">
-				<div class="widget-user-header bg-primary">
-					<div class="widget-user-image">
-						<img class="img-circle" src="{{ asset(avatar(member)) }}" alt="av">
-					</div>
-					<h3 class="widget-user-username">{{ member.name }}</h3>
-					<h5 class="widget-user-desc">{% if member.memberInfo.note %}{{ member.memberInfo.note }}{% else %}&nbsp;{% endif %}</h5>
-				</div>
-				<div class="box-footer no-padding">
-					<ul class="list-summary">
-						<li class="list-summary-item">{{ 'Role' | trans([], 'users' ) }} <span class="pull-right">{{ member.memberInfo.role.name | trans }}</span></li>
-						<li class="list-summary-item">{{ 'Location' | trans([], 'users' ) }} <span class="pull-right">{{ member.location }}</span></li>
-						<li class="list-summary-item">{{ 'Last visit' | trans([], 'users' ) }} <span class="pull-right">{{ ago(member.lastVisit) }}</span></li>
+		<div class="col-md-4 col-sm-12">
+			<div class="box box-primary">
+				<div class="box-body box-profile">
+					<img class="profile-user-img img-responsive img-circle" src="{{ asset(avatar(member)) }}" alt="av">
+					<h3 class="profile-username text-center">{{ member.name }}</h3>
+					<p class="text-muted text-center">{% if member.memberInfo.note %}{{ member.memberInfo.note }}{% else %}&nbsp;{% endif %}</p>
+					<ul class="list-group list-group-unbordered">
 						{% if member.contactMail %}
-						<li class="list-summary-item">{{ 'E-mail' | trans([], 'users' ) }} <span class="pull-right"><a href="mailto:{{ member.contactMail }}">{{ member.contactMail }}</a></span></li>
+							<li class="list-group-item">{{ 'E-mail' | trans([], 'users' ) }} <span class="pull-right"><a href="mailto:{{ member.contactMail }}">{{ member.contactMail }}</a></span></li>
 						{% endif %}
 						{% if member.contactTelephone %}
-						<li class="list-summary-item">{{ 'Phone number' | trans([], 'users' ) }} <span class="pull-right">{{ member.contactTelephone }}</span></li>
+							<li class="list-group-item">{{ 'Phone number' | trans([], 'users' ) }} <span class="pull-right">{{ member.contactTelephone }}</span></li>
 						{% endif %}
+						<li class="list-group-item">{{ 'Role' | trans([], 'users' ) }} <span class="pull-right">{{ member.memberInfo.role.name | trans }}</span></li>
+						<li class="list-group-item">{{ 'Location' | trans([], 'users' ) }} <span class="pull-right">{{ member.location }}</span></li>
+						<li class="list-group-item">{{ 'Last visit' | trans([], 'users' ) }} <span class="pull-right">{{ ago(member.lastVisit) }}</span></li>
 					</ul>
+					{% if member.notes %}
+						<strong><i class="fa fa-file-text-o margin-r-5"></i> {{ 'About' | trans([], 'users') }}</strong>
+						<p>{{ member.notes }}</p>
+					{% endif %}
 				</div>
 			</div>
-			{% if member.notes %}
-			<div class="box box-widget">
-				<div class="box-header with-border">
-					<i class="fa fa-pencil"></i> <h3 class="box-title">{{ 'About' | trans([], 'users') }}</h3>
-				</div>
-				<div class="box-body">
-					{{ member.notes }}
-				</div>
-			</div>
-			{% endif %}
 		</div>
-		<div class="col-md-9 col-sm-12">
+		<div class="col-md-8 col-sm-12">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
 					{% for extension in extensions %}

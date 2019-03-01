@@ -61,7 +61,7 @@ return [
 	'PlaceOfBirthLabel' => 'Miejsce urodzenia',
 	
 	'Confirm removal' => 'Potwierdź usunięcie',
-	'Contact data' => 'Dane kontaktowe',
+	'Contact data' => 'Dane',
 	'RoleHintText' => 'Wpływa na uprawnienia użytkownika.',
 	'NoteHintText' => 'Polecamy wpisywać tutaj funkcję, za jaką odpowiada dany członek - jest ona wyświetlana w profilach oraz na listach użytkowników.',
 	'The invitation has been sent.' => 'Zaproszenie zostało wysłane.',
