@@ -27,6 +27,7 @@ class EdkTexts
 	const REGISTRATION_TERMS1_TEXT = 'edk:registration-terms1-text';
 	const REGISTRATION_TERMS2_TEXT = 'edk:registration-terms2-text';
 	const REGISTRATION_TERMS3_TEXT = 'edk:registration-terms3-text';
+	const REGISTRATION_TERMS4_TEXT = 'edk:registration-terms4-text';
 	const REGISTRATION_FORM_TEXT = 'edk:registration-form';
 	
 	const NOTIFICATION_MAIL = 'edk:notification';

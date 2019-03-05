@@ -307,6 +307,10 @@ class AreaParticipantController extends AreaPageController
                 $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS3_TEXT, $request, $project)->getContent(
                 )
             ),
+            4 => strip_tags(
+                $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS4_TEXT, $request, $project)->getContent(
+                )
+            ),
         ];
     }
 

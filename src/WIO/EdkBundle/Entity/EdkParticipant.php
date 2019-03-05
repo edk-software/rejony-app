@@ -62,6 +62,7 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
     private $terms1Accepted;
     private $terms2Accepted;
     private $terms3Accepted;
+    private $terms4Accepted;
     private $createdAt;
     private $ipAddress;
 
@@ -248,6 +249,11 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
         return $this->terms3Accepted;
     }
 
+    public function getTerms4Accepted()
+    {
+        return $this->terms4Accepted;
+    }
+
     public function getCreatedAt()
     {
         return $this->createdAt;
@@ -383,6 +389,13 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
         return $this;
     }
 
+    public function setTerms4Accepted($terms4Accepted)
+    {
+        $this->terms4Accepted = $terms4Accepted;
+
+        return $this;
+    }
+
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
@@ -414,6 +427,12 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
         if (!$this->terms2Accepted) {
             $context->buildViolation('TermsNotAcceptedErrorMsg')
                 ->atPath('terms2Accepted')
+                ->addViolation();
+            $ok = false;
+        }
+        if (!$this->terms3Accepted) {
+            $context->buildViolation('TermsNotAcceptedErrorMsg')
+                ->atPath('terms3Accepted')
                 ->addViolation();
             $ok = false;
         }
@@ -512,6 +531,7 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
                     'terms1Accepted',
                     'terms2Accepted',
                     'terms3Accepted',
+                    'terms4Accepted',
                     'createdAt',
                     'ipAddress',
                 ],

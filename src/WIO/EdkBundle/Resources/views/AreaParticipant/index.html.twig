@@ -17,11 +17,12 @@
 </tr>
 {% endblock %}
 
-{% block box_footer %}
-<p>
-	<a href="{{ spath(insertPage) }}" class="btn btn-success btn-sm" role="button">{{ 'Add new participant' | trans({}, 'edk') }}</a>
-	<a href="{{ spath(exportCsvPage) }}" class="btn btn-primary btn-sm" role="button">{{ 'Export all to CSV' | trans({}, 'edk') }}</a>
-</p>
+{% block box_header %}
+		<h3 class="box-title"></h3>
+		<div class="box-tools pull-right">
+			<a href="{{ spath(insertPage) }}" class="btn btn-success btn-sm" role="button">{{ 'Add new participant' | trans({}, 'edk') }}</a>
+			<a href="{{ spath(exportCsvPage) }}" class="btn btn-primary btn-sm" role="button"><i class="fa fa-download"></i> {{ 'Export all to CSV' | trans({}, 'edk') }}</a>
+		</div>
 {% endblock %}
 
 {% block custom_datatable_config %}

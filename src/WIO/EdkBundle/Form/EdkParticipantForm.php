@@ -46,6 +46,7 @@ class EdkParticipantForm extends AbstractParticipantForm
 			$builder->add('terms1Accepted', BooleanType::class, ['label' => $options['texts'][1], 'required' => true, 'disabled' => false]);
 			$builder->add('terms2Accepted', BooleanType::class, ['label' => $options['texts'][2], 'required' => true, 'disabled' => false]);
 			$builder->add('terms3Accepted', BooleanType::class, ['label' => $options['texts'][3], 'required' => true, 'disabled' => false]);
+			$builder->add('terms4Accepted', BooleanType::class, ['label' => $options['texts'][4], 'required' => false, 'disabled' => false]);
 		}
 	}
 	

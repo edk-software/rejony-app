@@ -41,7 +41,8 @@ class PublicParticipantForm extends AbstractParticipantForm
 		parent::buildForm($builder, $options);
 		$builder->add('terms1Accepted', CheckboxType::class, ['label' => $options['texts'][1], 'required' => true]);
 		$builder->add('terms2Accepted', CheckboxType::class, ['label' => $options['texts'][2], 'required' => true]);
-		$builder->add('terms3Accepted', CheckboxType::class, ['label' => $options['texts'][3], 'required' => false]);
+		$builder->add('terms3Accepted', CheckboxType::class, ['label' => $options['texts'][3], 'required' => true]);
+		$builder->add('terms4Accepted', CheckboxType::class, ['label' => $options['texts'][4], 'required' => false]);
 	}
 	
 	protected function isMailRequired(array $options)

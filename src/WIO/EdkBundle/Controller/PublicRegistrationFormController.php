@@ -248,7 +248,8 @@ class PublicRegistrationFormController extends PublicEdkController
 		return [
 			1 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS1_TEXT, $request, $this->project)->getContent(),
 			2 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS2_TEXT, $request, $this->project)->getContent(),
-			3 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS3_TEXT, $request, $this->project)->getContent()
+			3 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS3_TEXT, $request, $this->project)->getContent(),
+			4 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS4_TEXT, $request, $this->project)->getContent()
 		];
 	}
 }
