@@ -68,7 +68,7 @@ class ProfileController extends UserPageController
         return $this->render(self::TEMPLATE_LOCATION . ':contact-data.html.twig', [
 			'location' => $user->getLocation(),
 			'hasMarketingAgreement' => $user->hasMarketingAgreement(),
-			'marketingAgreementLabel' => $marketingAgreementLabel,
+			'marketingAgreementLabel' => strip_tags($marketingAgreementLabel),
 		]);
 	}
 
