@@ -86,6 +86,6 @@ cantiga_knowledge:
     materials_path: materials
 
 google_tag_manager:
-    enabled: true
+    enabled: "%gtm_enabled%"
     id: "%gtm_id%"
-    autoAppend: false
+    autoAppend: "%gtm_autoAppend%"

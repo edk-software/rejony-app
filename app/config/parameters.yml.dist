@@ -19,4 +19,6 @@ parameters:
     recaptcha_siteKey:
     recaptcha_secretKey:
     map_secretKey:
-    gtm_id:
+    gtm_id: null
+    gtm_enabled: false
+    gtm_autoAppend: false
