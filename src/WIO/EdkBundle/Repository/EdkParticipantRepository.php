@@ -177,11 +177,12 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 	{
 		$this->transaction->requestTransaction();
 		try {
-			$previous = $this->conn->fetchAssoc('SELECT `id` FROM `'.EdkTables::PARTICIPANT_TBL.'` WHERE `ipAddress` = :ip AND `createdAt` > :time', [':ip' => ip2long($ipAddr), ':time' => time() - self::AVAILABILITY_TIME]);
-			
-			if (!empty($previous)) {
-				throw new ModelException('You have already registered not so long ago from this computer. Please wait a few moments.');
-			}
+
+//			$previous = $this->conn->fetchAssoc('SELECT `id` FROM `'.EdkTables::PARTICIPANT_TBL.'` WHERE `ipAddress` = :ip AND `createdAt` > :time', [':ip' => ip2long($ipAddr), ':time' => time() - self::AVAILABILITY_TIME]);
+//
+//			if (!empty($previous)) {
+//				throw new ModelException('You have already registered not so long ago from this computer. Please wait a few moments.');
+//			}
 				
 			$id = $entity->insert($this->conn);			
 			$this->eventDispatcher->dispatch(EdkEvents::REGISTRATION_COMPLETED, new RegistrationEvent($entity, $slug));
