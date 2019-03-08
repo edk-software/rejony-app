@@ -280,42 +280,6 @@
                     </div>
                 </div>
             </div>
-            <div class="box box-solid">
-                <div class="box-header with-border">
-                    <h3 class="box-title">{{ 'Files' | trans([], 'edk') }}</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="box-body no-padding">
-                    <div class="row">
-                        <div class="col-md-12">
-                            {{ macros.route_file_box(
-                                'RouteGPSTraceFileUpload', item, item.gpsTrackFile, 'edk_route_approve_gps',
-                                'edk_route_revoke_gps', 'public_edk_download_gps', item.gpsApproved, item.gpsRevoked,
-                                item.gpsCreatedAt, item.gpsCreatedBy, item.gpsUpdatedAt, item.gpsUpdatedBy,
-                                item.gpsApprovedAt, item.gpsApprovedBy, 'fa-map-marker'
-                            ) }}
-                            {{ macros.route_file_box(
-                                'RouteDescriptionFileUpload', item, item.descriptionFile,
-                                'edk_route_approve_description', 'edk_route_revoke_description',
-                                'public_edk_download_description', item.descriptionApproved, item.descriptionRevoked,
-                                item.descriptionCreatedAt, item.descriptionCreatedBy, item.descriptionUpdatedAt,
-                                item.descriptionUpdatedBy, item.descriptionApprovedAt, item.descriptionApprovedBy,
-                                'fa-file-pdf-o'
-                            ) }}
-                            {{ macros.route_file_box(
-                                'RouteMapFileUpload', item, item.mapFile, 'edk_route_approve_map',
-                                'edk_route_revoke_map', 'public_edk_download_map', item.mapApproved, item.mapRevoked,
-                                item.mapCreatedAt, item.mapCreatedBy, item.mapUpdatedAt, item.mapUpdatedBy,
-                                item.mapApprovedAt, item.mapApprovedBy, 'fa-map', 'no-margin'
-                            ) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="col-md-4">
             <div class="box box-solid">
@@ -328,11 +292,53 @@
                     </div>
                 </div>
             </div>
-            {{ macro.chat_box('Comments' | trans, 'route-comments', not isArea, 'Disable chatbox' | trans({}, 'edk')) }}
+            {#{{ macro.chat_box('Comments' | trans, 'route-comments', not isArea, 'Disable chatbox' | trans({}, 'edk')) }}#}
         </div>
 
     </div>
     <!-- /.row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-file-o"></i> {{ 'Files' | trans([], 'edk') }}</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                        <div class="col-md-4 no-margin">
+                            {{ macros.route_file_box(
+                                'RouteGPSTraceFileUpload', item, item.gpsTrackFile, 'edk_route_approve_gps',
+                                'edk_route_revoke_gps', 'public_edk_download_gps', item.gpsApproved, item.gpsRevoked,
+                                item.gpsCreatedAt, item.gpsCreatedBy, item.gpsUpdatedAt, item.gpsUpdatedBy,
+                                item.gpsApprovedAt, item.gpsApprovedBy, 'fa-map-marker'
+                            ) }}
+                        </div>
+                        <div class="col-md-4 no-margin">
+                            {{ macros.route_file_box(
+                                'RouteDescriptionFileUpload', item, item.descriptionFile,
+                                'edk_route_approve_description', 'edk_route_revoke_description',
+                                'public_edk_download_description', item.descriptionApproved, item.descriptionRevoked,
+                                item.descriptionCreatedAt, item.descriptionCreatedBy, item.descriptionUpdatedAt,
+                                item.descriptionUpdatedBy, item.descriptionApprovedAt, item.descriptionApprovedBy,
+                                'fa-file-pdf-o'
+                            ) }}
+                        </div>
+                        <div class="col-md-4 no-margin">
+                            {{ macros.route_file_box(
+                                'RouteMapFileUpload', item, item.mapFile, 'edk_route_approve_map',
+                                'edk_route_revoke_map', 'public_edk_download_map', item.mapApproved, item.mapRevoked,
+                                item.mapCreatedAt, item.mapCreatedBy, item.mapUpdatedAt, item.mapUpdatedBy,
+                                item.mapApprovedAt, item.mapApprovedBy, 'fa-map', 'no-margin'
+                            ) }}
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="box box-solid">
