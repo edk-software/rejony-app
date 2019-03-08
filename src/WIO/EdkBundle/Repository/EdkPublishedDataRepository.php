@@ -43,7 +43,6 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 	 */
 	private $transaction;
 	private $project;
-	private $publishedStatusId;
 	
 	public function __construct(Connection $conn, Transaction $transaction)
 	{
@@ -56,17 +55,12 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 		$this->project = $project;
 	}
 	
-	public function setPublishedStatusId($id)
-	{
-		$this->publishedStatusId = $id;
-	}
-	
 	public function getArea($id): Area
 	{
 		$this->transaction->requestTransaction();
 		try {
 			$item = Area::fetchByPlace($this->conn, $id, $this->project);
-			if(false === $item || $item->getStatus()->getId() != $this->publishedStatusId || $item->getProject()->getArchived()) {
+			if(false === $item || !$item->getStatus()->getIsPublish() || $item->getProject()->getArchived()) {
 				$this->transaction->requestRollback();
 				throw new ItemNotFoundException('The specified area has not been found.', $id);
 			}
@@ -80,9 +74,11 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 	public function getFormChoices()
 	{
 		$this->transaction->requestTransaction();
-		$stmt = $this->conn->prepare('SELECT `id`, `name` FROM `'.CoreTables::AREA_TBL.'` WHERE `projectId` = :projectId AND `statusId` = :statusId ORDER BY `name`');
+		$stmt = $this->conn->prepare('SELECT a.`id`, a.`name`'
+            .' FROM `'.CoreTables::AREA_TBL.'` a '
+            .' INNER JOIN `'.CoreTables::AREA_STATUS_TBL.'` sa ON sa.`id` = a.`statusId` '
+            .' WHERE sa.`isPublish` = 1 AND a.`projectId` = :projectId ORDER BY a.`name`');
 		$stmt->bindValue(':projectId', $this->project->getId());
-		$stmt->bindValue(':statusId', $this->publishedStatusId);
 		$stmt->execute();
 		$result = array();
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -102,7 +98,7 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 		return $entity->getId();
 	}
 	
-	public function getOpenRegistrations(HierarchicalInterface $root, $acceptedStatus)
+	public function getOpenRegistrations(HierarchicalInterface $root)
 	{
 		if ($root instanceof Project) {
 			$rootPart = 'a.`projectId` = :rootId';
@@ -115,11 +111,11 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 		$stmt = $this->conn->prepare('SELECT r.`id` AS `routeId`, a.`id` AS `areaId`, t.`id` AS `territoryId`, r.`name` AS `routeName`, a.`name` AS `areaName`, t.`name` AS `territoryName`, s.`startTime`, s.`endTime`, s.`participantLimit`, s.`participantNum`, s.`allowLimitExceed`, s.`maxPeoplePerRecord`, s.`customQuestion`, r.`routeFrom`, r.`routeTo`, r.`routeLength`, r.`routeAscent`, r.`routeType` '
 			. 'FROM `'.EdkTables::ROUTE_TBL.'` r '
 			. 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON a.`id` = r.`areaId` '
+			. 'INNER JOIN `'.CoreTables::AREA_STATUS_TBL.'` sa ON sa.`id` = a.`statusId` '
 			. 'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = a.`territoryId` '
 			. 'INNER JOIN `'.EdkTables::REGISTRATION_SETTINGS_TBL.'` s ON s.`routeId` = r.`id` '
-			. 'WHERE a.`statusId` = :statusId AND '.$rootPart.' AND r.`approved` = 1 AND s.`registrationType` = '.EdkRegistrationSettings::TYPE_EDK_WEBSITE.' '
+			. 'WHERE sa.`isPublish` = 1 AND '.$rootPart.' AND r.`approved` = 1 AND s.`registrationType` = '.EdkRegistrationSettings::TYPE_EDK_WEBSITE.' '
 			. 'ORDER BY t.`name` ASC, a.`name` ASC, r.`name` ASC');
-		$stmt->bindValue(':statusId', $acceptedStatus);
 		$stmt->bindValue(':rootId', $root->getId());
 		$stmt->execute();
 		

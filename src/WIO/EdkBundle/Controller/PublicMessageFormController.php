@@ -43,7 +43,6 @@ class PublicMessageFormController extends PublicEdkController
 			$recaptcha = $this->get('cantiga.security.recaptcha');
 			$publishedRepository = $this->get(self::PUBLISHED_REPO_NAME);
 			$publishedRepository->setProject($this->project);
-			$publishedRepository->setPublishedStatusId($this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue());
 			
 			$intent = new PostMessageIntent($repository);
 			if (null !== $id) {

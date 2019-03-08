@@ -158,11 +158,11 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 		}
 	}
 	
-	public function getPublicRegistration($routeId, $expectedAreaStatus)
+	public function getPublicRegistration($routeId)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			$item = EdkRegistrationSettings::fetchPublic($this->conn, $routeId, $expectedAreaStatus);
+			$item = EdkRegistrationSettings::fetchPublic($this->conn, $routeId);
 			if (false === $item) {
 				throw new ItemNotFoundException('There is no registration for this route available.');
 			}
@@ -203,11 +203,11 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 	 * @throws \WIO\EdkBundle\Repository\Exception
 	 * @throws ItemNotFoundException
 	 */
-	public function getItemByKey($accessKey, $expectedAreaStatus)
+	public function getItemByKey($accessKey)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			$item = EdkParticipant::fetchByKey($this->conn, $accessKey, $expectedAreaStatus, false);
+			$item = EdkParticipant::fetchByKey($this->conn, $accessKey, false);
 			if (false === $item) {
 				throw new ItemNotFoundException('Participant not found.');
 			}
@@ -219,11 +219,11 @@ class EdkParticipantRepository implements InsertableRepositoryInterface
 		}
 	}
 	
-	public function removeItemByKey($accessKey, $expectedAreaStatus)
+	public function removeItemByKey($accessKey)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			$item = EdkParticipant::fetchByKey($this->conn, $accessKey, $expectedAreaStatus, true);
+			$item = EdkParticipant::fetchByKey($this->conn, $accessKey, true);
 			if (false === $item) {
 				throw new ItemNotFoundException('Participant not found.');
 			}

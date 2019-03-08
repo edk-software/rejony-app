@@ -57,12 +57,7 @@ class PublicRegistrationFormController extends PublicEdkController
 		$routeId = $request->get('r');
 		try {
 			if (!empty($routeId)) {
-				$activeStatus = $this
-					->getProjectSettings()
-					->get(EdkSettings::PUBLISHED_AREA_STATUS)
-					->getValue()
-				;
-				$registrationSettings = $repository->getPublicRegistration($routeId, $activeStatus);
+				$registrationSettings = $repository->getPublicRegistration($routeId);
 				if (!$registrationSettings->isRegistrationOpen()) {
 					return $this->showErrorMessage('RegistrationOverErrorMsg');
 				}
@@ -188,7 +183,7 @@ class PublicRegistrationFormController extends PublicEdkController
 	{
 		try {
 			$repository = $this->get('wio.edk.repo.published_data');
-			$registrations = $repository->getOpenRegistrations($this->project, $this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue());
+			$registrations = $repository->getOpenRegistrations($this->project);
 			$response = new JsonResponse($registrations);
 			$response->setDate(new DateTime());
 			$exp = new DateTime();
@@ -204,7 +199,7 @@ class PublicRegistrationFormController extends PublicEdkController
 	{
 		try {
 			$repository = $this->get(self::REPOSITORY_NAME);
-			list($item, $notes) = $repository->getItemByKey($key, $this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue());
+			list($item, $notes) = $repository->getItemByKey($key);
 			$response = $this->render('WioEdkBundle:Public:check-result.html.twig', [
 				'item' => $item,
 				'beginningNote' => $notes->getEditableNote(1),
@@ -223,7 +218,7 @@ class PublicRegistrationFormController extends PublicEdkController
 	{
 		try {
 			$repository = $this->get(self::REPOSITORY_NAME);
-			$item = $repository->removeItemByKey($key, $this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue());
+			$item = $repository->removeItemByKey($key);
 			return $this->render('WioEdkBundle:Public:public-message.html.twig', [
 				'message' => $this->trans('RequestRemovedMsg', [], 'public'),
 				'slug' => $this->project->getSlug(),

@@ -82,11 +82,10 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
      *
      * @param Connection $conn
      * @param string $key
-     * @param int $expectedAreaStatus
      * @param boolean $forUpdate Whether to lock the registration settings for writing
      * @return EdkParticipant
      */
-    public static function fetchByKey(Connection $conn, $key, $expectedAreaStatus, $forUpdate = true)
+    public static function fetchByKey(Connection $conn, $key, $forUpdate = true)
     {
         $data = $conn->fetchAssoc(
             'SELECT * FROM `'.EdkTables::PARTICIPANT_TBL.'` WHERE `accessKey` = :key',
@@ -98,7 +97,6 @@ class EdkParticipant implements IdentifiableInterface, InsertableEntityInterface
         $registrationSettings = EdkRegistrationSettings::fetchPublic(
             $conn,
             $data['routeId'],
-            $expectedAreaStatus,
             $forUpdate
         );
 

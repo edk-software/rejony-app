@@ -143,8 +143,7 @@ class AreaParticipantController extends AreaPageController
         try {
             $repository = $this->get('wio.edk.repo.published_data');
             $registrations = $repository->getOpenRegistrations(
-                $membership->getPlace(),
-                $this->getProjectSettings()->get(EdkSettings::PUBLISHED_AREA_STATUS)->getValue()
+                $membership->getPlace()
             );
             $response = new JsonResponse($registrations);
             $response->setDate(new DateTime());

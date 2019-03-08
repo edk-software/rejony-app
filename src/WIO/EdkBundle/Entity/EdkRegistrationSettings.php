@@ -56,10 +56,10 @@ class EdkRegistrationSettings implements IdentifiableInterface, EditableEntityIn
 	
 	private $isNew = false;
 	
-	public static function fetchPublic(Connection $conn, $routeId, $expectedAreaStatus, $forUpdate = false)
+	public static function fetchPublic(Connection $conn, $routeId, $forUpdate = false)
 	{
 		$route = EdkRoute::fetchApproved($conn, $routeId);
-		if (false === $route || $route->getArea()->getStatus()->getId() != $expectedAreaStatus) {
+		if (false === $route || !$route->getArea()->getStatus()->getIsPublish()) {
 			return false;
 		}
 		
