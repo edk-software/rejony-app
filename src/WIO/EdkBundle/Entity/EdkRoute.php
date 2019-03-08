@@ -1264,15 +1264,22 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 	public function approveGps(Connection $conn, User $user): bool
 	{
-		if ($this->isApproved($conn) && !$this->isGpsApproved()) {
+		if (!$this->isGpsApproved()) {
+            $approvedAt = time();
 			$this->gpsStatus = self::STATUS_APPROVED;
-			$this->gpsApprovedAt = time();
+			$this->gpsApprovedAt = $approvedAt;
 			$this->gpsApprovedBy = $user->getId();
+            $this->approved = true;
+            $this->approvedAt = $approvedAt;
+            $this->approvedBy = $user->getId();
 
 			$conn->update(EdkTables::ROUTE_TBL, [
 				'gpsStatus' => $this->gpsStatus,
 				'gpsApprovedAt' => $this->gpsApprovedAt,
 				'gpsApprovedBy' => $this->gpsApprovedBy,
+                'approved' => $this->approved,
+                'approvedAt' => $this->approvedAt,
+                'approvedBy' => $this->approvedBy,
 			], [
 				'id' => $this->getId(),
 			]);
@@ -1283,18 +1290,26 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 	public function revokeGps(Connection $conn, User $user): bool
 	{
-		if ($this->isApproved($conn) && $this->isGpsApproved()) {
+		if ($this->isGpsApproved()) {
+            $approvedAt = time();
 			$this->gpsStatus = self::STATUS_REVOKED;
-			$this->gpsApprovedAt = time();
+			$this->gpsApprovedAt = $approvedAt;
 			$this->gpsApprovedBy = $user->getId();
+            $this->approved = false;
+            $this->approvedAt = $approvedAt;
+            $this->approvedBy = $user->getId();
 
 			$conn->update(EdkTables::ROUTE_TBL, [
 				'gpsStatus' => $this->gpsStatus,
 				'gpsApprovedAt' => $this->gpsApprovedAt,
 				'gpsApprovedBy' => $this->gpsApprovedBy,
+                'approved' => $this->approved,
+                'approvedAt' => $this->approvedAt,
+                'approvedBy' => $this->approvedBy,
 			], [
 				'id' => $this->getId(),
 			]);
+			$this->revoke($conn, $user);
 			return true;
 		}
 		return false;
@@ -1302,7 +1317,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 	public function approveDescription(Connection $conn, User $user): bool
 	{
-		if ($this->isApproved($conn) && !$this->isDescriptionApproved()) {
+		if (!$this->isDescriptionApproved()) {
 			$this->descriptionStatus = self::STATUS_APPROVED;
 			$this->descriptionApprovedAt = time();
 			$this->descriptionApprovedBy = $user->getId();
@@ -1321,7 +1336,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 	public function revokeDescription(Connection $conn, User $user): bool
 	{
-		if ($this->isApproved($conn) && $this->isDescriptionApproved()) {
+		if ($this->isDescriptionApproved()) {
 			$this->descriptionStatus = self::STATUS_REVOKED;
 			$this->descriptionApprovedAt = time();
 			$this->descriptionApprovedBy = $user->getId();
@@ -1340,7 +1355,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 	public function approveMap(Connection $conn, User $user): bool
 	{
-		if ($this->isApproved($conn) && !$this->isMapApproved()) {
+		if (!$this->isMapApproved()) {
 			$this->mapStatus = self::STATUS_APPROVED;
 			$this->mapApprovedAt = time();
 			$this->mapApprovedBy = $user->getId();
@@ -1359,7 +1374,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 	public function revokeMap(Connection $conn, User $user): bool
 	{
-		if ($this->isApproved($conn) && $this->isMapApproved()) {
+		if ($this->isMapApproved()) {
 			$this->mapStatus = self::STATUS_REVOKED;
 			$this->mapApprovedAt = time();
 			$this->mapApprovedBy = $user->getId();
