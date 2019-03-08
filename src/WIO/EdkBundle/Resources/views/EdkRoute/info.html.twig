@@ -17,7 +17,7 @@
         <div class="info-box-content">
             {% if file %}
                 <span class="pull-right">
-                    {% if approved %}
+                    {#{% if approved %}
                         <a href="{{ url(revokeRoute, { 'id': route.id, 'slug': route.area.project.slug }) }}">
                             <i class="fa fa-remove"></i> {{ 'Revoke' | trans([], 'edk') }}
                         </a>
@@ -25,7 +25,7 @@
                         <a href="{{ url(approveRoute, { 'id': route.id, 'slug': route.area.project.slug }) }}">
                             <i class="fa fa-check"></i> {{ 'Approve' | trans([], 'edk') }}
                         </a>
-                    {% endif %}
+                    {% endif %}#}
                     <a href="{{ url(downloadRoute, { 'slug': route.publicAccessSlug }) }}">
                         <i class="fa fa-download"></i> {{ 'Download' | trans([], 'edk') }}
                     </a>
