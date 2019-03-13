@@ -9,7 +9,7 @@ parameters:
 
 framework:
     assets:
-     version: 19030801
+     version: 19031301
      version_format: static/%%2$s/%%1$s
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
