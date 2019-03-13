@@ -384,7 +384,7 @@
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div id="routeType" class="info-box">
-                            <span class="info-box-icon bg-navy-active disabled"><i class="fa fa-flag-o"></i></span>
+                            <span class="info-box-icon bg-gray-light"><i class="fa fa-flag-o"></i></span>
                             <input type="hidden" id="normalRouteString" value="{{ 'FullRoute' | trans({}, 'edk') }}"/>
                             <input type="hidden" id="inspiredRouteString"
                                    value="{{ 'RouteInspiredByEWC' | trans({}, 'edk') }}"/>
@@ -528,7 +528,7 @@
     <script src="{{ asset('js/summernote.min.js') }}"></script>
     <script src="{{ asset('js/lang/summernote-'~user.settingsLanguage.locale~'.js') }}"></script>
     <script src="{{ asset('js/Chart.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/gh/edk-software/edk-route-verifier@1.0.1/dist/edk-route-verifier.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/edk-software/edk-route-verifier@1.1.4/dist/edk-route-verifier.min.js"></script>
 {% endblock %}
 
 {% block javascripts_inline %}

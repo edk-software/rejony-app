@@ -31,6 +31,7 @@ admin.materials.description:            Description
 admin.materials.name:                   Name
 admin.materials.file:                   File
 admin.materials.files:                  Files
+admin.materials.url:                    URL address
 admin.materials_categories.edit:        Edit materials' category
 admin.materials_categories.info:        Materials category's details
 admin.materials_categories.insert:      Create a new materials' category

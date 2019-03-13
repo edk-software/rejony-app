@@ -26,7 +26,7 @@ return [
 	'TotalElevationChangeDescription' => 'Total elevation change calculated from GPS trace file.',
 	'NumberOfStationsDescription' => 'Route shall contain 14 stations.',
 	'StationsOrderDescription' => 'Stations shall be numbered and appear on the route in ascending order.',
-	'StationsOnPathDescription' => 'Stations shall be not further than 100m from GPS trace.',
+	'StationsOnPathDescription' => 'Stations shall be not further than 50m from GPS trace.',
 	'SinglePathDescription' => 'GPS trace shall contain only one path.',
 	'DataConsistencyDescription' => 'Route length (±1km), total ascent (±50m) and route type shall be consistent with calculated from GPS trace file.',
 

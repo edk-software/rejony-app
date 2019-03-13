@@ -1,3 +1,5 @@
 "The only allowed HTML tags are {{ tags }}.": "Jedyne dozwolone tagi HTML to {{ tags }}."
 "Tag {{ tag }} has been closed before opening.": "Tag {{ tag }} został zamknięty przed otwarciem."
 "Tag {{ tag }} hasn't been closed.":    "Tag {{ tag }} nie został zamknięty."
+"URL address needs to be available via HTTP protocol.": "Adres URL musi być dostępny poprzez protokół HTTP."
+"File or URL address has to be defined.": "Należy wskazać plik lub adres URL."

@@ -17,6 +17,8 @@ use Cantiga\KnowledgeBundle\Repository\MaterialsFileRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -150,15 +152,27 @@ class AdminMaterialsFileController extends AdminPageController
 
         return $action->run($this, $request, [
             'categoryId' => $categoryId,
-        ], function (MaterialsFile $file) {
-            /** @var UploadedFile $uploadedFile */
+        ], function (MaterialsFile $file, Form $form) {
+            /** @var UploadedFile|null $uploadedFile */
             $uploadedFile = $file->getPath();
-            $fileName = $this->createFileName($uploadedFile, $file->getName());
-            $uploadedFile->move(
-                $this->returnFilePath(),
-                $fileName
-            );
-            $file->setPath($fileName);
+            if (isset($uploadedFile)) {
+                $fileName = $this->createFileName($uploadedFile, $file->getName());
+                $uploadedFile->move(
+                    $this->returnFilePath(),
+                    $fileName
+                );
+                $file->setPath($fileName);
+                return;
+            }
+            /** @var string|null $url */
+            $url = $form->get('url')->getData();
+            if (isset($url)) {
+                $file->setPath($url);
+                return;
+            }
+            $error = new FormError($this->trans('File or URL address has to be defined.', [], 'validators'));
+            $form->get('path')->addError($error);
+            $form->get('url')->addError($error);
         }, function (MaterialsFile $file, array $params) : array {
             $params['categoryId'] = $file
                 ->getCategory()
