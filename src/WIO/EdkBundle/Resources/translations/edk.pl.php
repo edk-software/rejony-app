@@ -110,7 +110,7 @@ return [
 	'Stations order' => 'Kolejność stacji',
 	'StationsOrderDescription' => 'Stacje powinny być umieszczone na trasie w kolejności rosnącej.',
 	'Stations location' => 'Rozmieszczenie stacji',
-	'StationsOnPathDescription' => 'Stacje powinny być w maksymalnej odlegości 100m od śladu trasy.',
+	'StationsOnPathDescription' => 'Stacje powinny być w maksymalnej odlegości 50m od śladu trasy.',
 	'Single path' => 'Jedna nitka',
 	'SinglePathDescription' => 'Ślad trasy zawierać powinien jedną nitkę - ścieżkę.',
 	'Data consistency' => 'Zgodność danych',
