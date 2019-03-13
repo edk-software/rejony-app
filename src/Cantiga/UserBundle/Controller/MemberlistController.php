@@ -88,12 +88,13 @@ class MemberlistController extends WorkspaceController
 			$this->breadcrumbs()
 				->link($member->getName(), $this->crudInfo->getInfoPage(), ['slug' => $this->getSlug(), 'id' => $id]);
 			
-			if ($member instanceof ExternalMember) {
-				return $this->render($this->crudInfo->getTemplateLocation() . 'external-profile.html.twig', array(
-					'member' => $member,
-					'locale' => $request->getLocale(),
-				));
-			} else {
+//			if ($member instanceof ExternalMember) {
+//				return $this->render($this->crudInfo->getTemplateLocation() . 'external-profile.html.twig', array(
+//					'member' => $member,
+//					'locale' => $request->getLocale(),
+//				));
+//			} else
+ {
 				$extensions = $this->findProfileExtensions(UserExtensions::PROFILE_EXTENSION);
 				foreach ($extensions as $extension) {
 					if ($extension instanceof ExecutableExtensionInterface) {

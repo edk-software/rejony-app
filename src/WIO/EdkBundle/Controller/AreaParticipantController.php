@@ -90,8 +90,10 @@ class AreaParticipantController extends AreaPageController
      */
     public function indexAction(Request $request)
     {
-        $place = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace();
-        if (!$place->getContract()) {
+        $repository = $this->get('cantiga.user.repo.agreement_signature');
+        $project = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace()->getProject();
+        $lastSigned = $repository->getLastSignedByProject($this->getUser()->getId(), $project->getId());
+        if ($lastSigned === null) {
             return $this->getAccessDeniedPage($request);
         }
 

@@ -104,9 +104,11 @@ class MemberlistRepository
 		}
 		
 		if (null === $currentMemberInfo) {
-			return new ExternalMember($member, $places);
-		} else {
+		    $place = $associatedProjectPlaces[0];
+            $currentMemberInfo = new MemberInfo($this->roleResolver->getRole($place['type'], $place['role']), $place['note'], (bool) $place['showDownstreamContactData']);
+        }
+//		} else {
 			return new Member($member, $currentMemberInfo, $places);
-		}
+//		}
 	}
 }

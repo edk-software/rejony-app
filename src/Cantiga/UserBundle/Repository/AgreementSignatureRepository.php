@@ -128,6 +128,37 @@ class AgreementSignatureRepository extends CommonRepository implements Insertabl
     }
 
     /**
+     * Get last signed
+     *
+     * @param int|string $userId user ID
+     *
+     * @param int|string $projectId project ID
+     *
+     * @return AgreementSignature|null
+     */
+    public function getLastSignedByProject($userId, $projectId)
+    {
+        $item = $this->conn->fetchAssoc('
+            SELECT ags.id, ' . self::getFieldList() . '
+            FROM ' . UserTables::AGREEMENTS_SIGNATURES_TBL . ' ags
+            WHERE ags.signerId = :signerId AND ags.signedAt IS NOT NULL AND ags.projectId = :projectId
+            ORDER BY ags.signedAt DESC
+            LIMIT 1
+        ', [
+            ':signerId' => (int) $userId,
+            ':projectId' => (int) $projectId,
+        ]);
+        if (empty($item)) {
+            return null;
+        }
+        $agreementSignature = new AgreementSignature();
+        DataMappers::fromArray($agreementSignature, $item, 'ags');
+        self::setId($agreementSignature, $item['id']);
+
+        return $agreementSignature;
+    }
+
+    /**
      * Insert
      *
      * @param AgreementSignature $agreementSignature agreement signature
