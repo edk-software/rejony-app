@@ -7,6 +7,7 @@ use Cantiga\KnowledgeBundle\Repository\MaterialsFileRepository;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -33,6 +34,10 @@ trait FileReturnTrait
             if (!isset($category) || $categoryId != $category->getId()) {
                 throw new NotFoundHttpException('There is no such file in selected materials category.');
             }
+        }
+
+        if (preg_match('#^https?://#i', $file->getPath())) {
+            return new RedirectResponse($file->getPath());
         }
 
         try {

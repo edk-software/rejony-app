@@ -16,6 +16,10 @@ class MaterialsFile implements EntityInterface, LevelAwareInterface
 
     /**
      * @var string
+     * @Assert\Length(
+     *     groups = { "add", "edit" },
+     *     max = 255
+     * )
      * @Assert\NotBlank(
      *     groups = { "add", "edit" }
      * )
@@ -39,9 +43,6 @@ class MaterialsFile implements EntityInterface, LevelAwareInterface
      * @Assert\File(
      *     groups = { "add" },
      *     mimeTypes = { "application/pdf", "application/zip", "text/rtf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "	application/vnd.oasis.opendocument.text" }
-     * )
-     * @Assert\NotBlank(
-     *     groups = { "add", "edit" }
      * )
      */
     private $path;

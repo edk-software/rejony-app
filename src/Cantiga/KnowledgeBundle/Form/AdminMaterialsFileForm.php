@@ -10,8 +10,10 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints;
 
 class AdminMaterialsFileForm extends AbstractType
 {
@@ -26,6 +28,9 @@ class AdminMaterialsFileForm extends AbstractType
                 'label' => 'admin.materials.category',
             ])
             ->add('name', TextType::class, [
+                'attr' => [
+                    'maxlength' => 255,
+                ],
                 'label' => 'admin.materials.name',
             ])
             ->add('description', TextareaType::class, [
@@ -33,9 +38,31 @@ class AdminMaterialsFileForm extends AbstractType
             ])
         ;
         if ($options['isNew']) {
-            $builder->add('path', FileType::class, [
-                'label' => 'admin.materials.file',
-            ]);
+            $builder
+                ->add('path', FileType::class, [
+                    'label' => 'admin.materials.file',
+                    'required' => false,
+                ])
+                ->add('url', UrlType::class, [
+                    'attr' => [
+                        'maxlength' => 255,
+                    ],
+                    'constraints' => [
+                        new Constraints\Length([
+                            'groups' => ['add'],
+                            'max' => 255,
+                        ]),
+                        new Constraints\Regex([
+                            'groups' => ['add'],
+                            'message' => 'URL address needs to be available via HTTP protocol.',
+                            'pattern' => '#^https?://#i',
+                        ]),
+                    ],
+                    'label' => 'admin.materials.url',
+                    'mapped' => false,
+                    'required' => false,
+                ])
+            ;
         }
         $builder
             ->add('level', ChoiceType::class, [

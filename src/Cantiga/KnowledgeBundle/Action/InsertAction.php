@@ -38,21 +38,23 @@ class InsertAction extends AbstractAction
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (is_callable($beforeInsert)) {
-                $beforeInsert($item);
+                $beforeInsert($item, $form);
             }
-            $repository->insert($item, true);
-            $controller
-                ->get('session')
-                ->getFlashBag()
-                ->add('info', $controller->trans($this->info->getItemCreatedMessage(), [
-                    $this->getName($item),
-                ]))
-            ;
-            $routeIds['id'] = $item->getId();
-            $this->setUrlArgs($routeIds);
-            $parameters = is_callable($paramsFilter) ? $paramsFilter($item, $this->slugify()) : $this->slugify();
-            $url = $controller->generateUrl($this->info->getInfoPage(), $parameters);
-            return $controller->redirect($url);
+            if ($form->isValid()) {
+                $repository->insert($item, true);
+                $controller
+                    ->get('session')
+                    ->getFlashBag()
+                    ->add('info', $controller->trans($this->info->getItemCreatedMessage(), [
+                        $this->getName($item),
+                    ]))
+                ;
+                $routeIds['id'] = $item->getId();
+                $this->setUrlArgs($routeIds);
+                $parameters = is_callable($paramsFilter) ? $paramsFilter($item, $this->slugify()) : $this->slugify();
+                $url = $controller->generateUrl($this->info->getInfoPage(), $parameters);
+                return $controller->redirect($url);
+            }
         }
 
         $controllerBreadcrumbs = $controller->breadcrumbs();
