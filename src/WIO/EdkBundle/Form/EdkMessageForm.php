@@ -24,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WIO\EdkBundle\Repository\EdkPublishedDataRepository;
@@ -32,7 +33,7 @@ class EdkMessageForm extends AbstractType
 {	
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefined(['repository']);
+		$resolver->setDefined(['repository', 'texts']);
 		$resolver->setRequired(['repository']);
 		$resolver->addAllowedTypes('repository', EdkPublishedDataRepository::class);
 		$resolver->setDefaults([
@@ -52,8 +53,11 @@ class EdkMessageForm extends AbstractType
 			->add('content', TextareaType::class, array('label' => 'Content', 'attr' => ['rows' => 20]))
 			->add('authorName', TextType::class, array('label' => 'What is your name?'))
 			->add('authorEmail', TextType::class, array('label' => 'Your e-mail', 'required' => false))
-			->add('authorPhone', TextType::class, array('label' => 'Your phone number', 'required' => false))
+//			->add('authorPhone', TextType::class, array('label' => 'Your phone number', 'required' => false))
+            ->add('terms1Accepted', CheckboxType::class, ['label' => $options['texts'][1], 'required' => true])
+		    ->add('terms2Accepted', CheckboxType::class, ['label' => $options['texts'][2], 'required' => true])
 			->add('save', SubmitType::class, array('label' => 'Send message'));
+
 		$builder->get('area')->addModelTransformer(new EntityTransformer($options['repository']));
 	}
 

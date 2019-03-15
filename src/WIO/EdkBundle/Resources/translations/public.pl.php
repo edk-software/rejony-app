@@ -13,6 +13,7 @@ return [
 	'What is your name?' => 'Jak się nazywasz?',
 	'Contact' => 'Kontakt',
 	'Please leave either an e-mail or phone number, so that we could answer you.' => 'Proszę podać albo e-mail albo telefon, abyśmy mogli Ci odpowiedzieć.',
+	'Please leave either an e-mail, so that we could answer you.' => 'Proszę podać e-mail, abyśmy mogli Ci odpowiedzieć.',
 	'Your e-mail' => 'Twój e-mail',
 	'Your phone number' => 'Twój telefon',
 	'Send message' => 'Wyślij wiadomość',

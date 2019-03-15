@@ -45,7 +45,10 @@ class PostMessageIntent
 	public $authorPhone;
 	
 	private $repository;
-	
+
+    public $terms1Accepted;
+    public $terms2Accepted;
+
 	public function __construct(EdkMessageRepository $repository)
 	{
 		$this->repository = $repository;
@@ -69,6 +72,20 @@ class PostMessageIntent
 
 	public function validate(ExecutionContextInterface $context)
 	{
+        $ok = true;
+        if (!$this->terms1Accepted) {
+            $context->buildViolation('TermsNotAcceptedErrorMsg')
+                ->atPath('terms1Accepted')
+                ->addViolation();
+            $ok = false;
+        }
+        if (!$this->terms2Accepted) {
+            $context->buildViolation('TermsNotAcceptedErrorMsg')
+                ->atPath('terms2Accepted')
+                ->addViolation();
+            $ok = false;
+        }
+
 		if (empty($this->authorEmail) && empty($this->authorPhone)) {
 			$context->buildViolation('Please specify either e-mail or phone number.')
 				->atPath('authorEmail')
@@ -76,9 +93,9 @@ class PostMessageIntent
 			$context->buildViolation('Please specify either e-mail or phone number.')
 				->atPath('authorPhone')
 				->addViolation();
-			return false;
+			$ok = false;
 		}
-		return true;
+		return $ok;
 	}
 	
 	public function execute()

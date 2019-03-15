@@ -18,12 +18,14 @@
  */
 namespace WIO\EdkBundle\Controller;
 
+use Cantiga\CoreBundle\CoreTexts;
 use Cantiga\Metamodel\Exception\ModelException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use WIO\EdkBundle\EdkSettings;
 use WIO\EdkBundle\Entity\Intent\PostMessageIntent;
 use WIO\EdkBundle\Form\EdkMessageForm;
+use WIO\EdkBundle\EdkTexts;
 
 /**
  * @Route("/pub/edk/{slug}/napisz-wiadomosc")
@@ -43,6 +45,8 @@ class PublicMessageFormController extends PublicEdkController
 			$recaptcha = $this->get('cantiga.security.recaptcha');
 			$publishedRepository = $this->get(self::PUBLISHED_REPO_NAME);
 			$publishedRepository->setProject($this->project);
+            $textRepository = $this->getTextRepository();
+            $personalDataInfo = $textRepository->getText(CoreTexts::PERSONAL_DATA_INFO, $request, $this->project);
 			
 			$intent = new PostMessageIntent($repository);
 			if (null !== $id) {
@@ -51,7 +55,8 @@ class PublicMessageFormController extends PublicEdkController
 			
 			$form = $this->createForm(EdkMessageForm::class, $intent, [
 				'repository' => $publishedRepository,
-				'action' => $this->generateUrl('public_edk_write_msg', ['slug' => $this->getSlug()])
+				'action' => $this->generateUrl('public_edk_write_msg', ['slug' => $this->getSlug()]),
+                'texts' => $this->buildTexts($request)
 			]);
 			$form->handleRequest($request);
 			
@@ -72,7 +77,8 @@ class PublicMessageFormController extends PublicEdkController
 				'form' => $form->createView(),
 				'recaptcha' => $recaptcha,
 				'slug' => $this->project->getSlug(),
-				'currentPage' => 'public_edk_write_msg'
+				'currentPage' => 'public_edk_write_msg',
+                'personalDataInfo' => $personalDataInfo->getContent()
 			]);
 		} catch (ModelException $exception) {
 			return $this->render('WioEdkBundle:Public:public-error.html.twig', [
@@ -94,4 +100,11 @@ class PublicMessageFormController extends PublicEdkController
 				'currentPage' => 'public_edk_write_msg'
 		]);
 	}
+    private function buildTexts(Request $request): array
+    {
+        return [
+            1 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS1_TEXT, $request, $this->project)->getContent(),
+            2 => $this->getTextRepository()->getText(EdkTexts::REGISTRATION_TERMS2_TEXT, $request, $this->project)->getContent()
+        ];
+    }
 }
