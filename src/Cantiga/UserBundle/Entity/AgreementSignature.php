@@ -24,7 +24,6 @@ class AgreementSignature implements IdentifiableInterface
     private $houseNo;
     private $flatNo;
     private $pesel;
-    private $placeOfBirth;
     private $dateOfBirth;
     private $signedAt;
     private $createdAt;
@@ -233,18 +232,6 @@ class AgreementSignature implements IdentifiableInterface
         $sex = preg_match('#^[02468]$#', substr($this->pesel, 9, 1)) ? self::SEX_FEMALE : self::SEX_MALE;
 
         return $sex;
-    }
-
-    public function getPlaceOfBirth()
-    {
-        return $this->placeOfBirth;
-    }
-
-    public function setPlaceOfBirth($placeOfBirth) : self
-    {
-        $this->placeOfBirth = $placeOfBirth;
-
-        return $this;
     }
 
     /** @return DateTime|null */

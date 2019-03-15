@@ -58,7 +58,6 @@ return [
 	'HouseNoLabel' => 'Numer domu',
 	'FlatNoLabel' => 'Numer mieszkania',
 	'PeselLabel' => 'PESEL',
-	'PlaceOfBirthLabel' => 'Miejsce urodzenia',
 	
 	'Confirm removal' => 'Potwierdź usunięcie',
 	'Contact data' => 'Dane',

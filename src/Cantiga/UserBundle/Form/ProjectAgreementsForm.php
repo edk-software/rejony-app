@@ -103,14 +103,6 @@ class ProjectAgreementsForm extends AbstractType
                 'label' => 'PeselLabel',
                 'required' => true,
             ])
-            ->add('placeOfBirth', TextType::class, [
-                'attr' => [
-                    'maxlength' => 64,
-                ],
-                'data' => isset($lastSigned) ? $lastSigned->getPlaceOfBirth() : null,
-                'label' => 'PlaceOfBirthLabel',
-                'required' => true,
-            ])
             ->add('signature', CheckboxType::class, [
                 'label' => $signature->getAgreement()->getSummary(),
                 'required' => true,

@@ -53,7 +53,6 @@ return [
 	'HouseNoLabel' => 'House number',
 	'FlatNoLabel' => 'Flat number',
 	'PeselLabel' => 'PESEL',
-	'PlaceOfBirthLabel' => 'Place of birth',
 
 	'Confirm removal' => 'Confirm removal',
 	'Contact data' => 'Contact data',

@@ -144,7 +144,6 @@ class PlaceDashboardController extends WorkspaceController
 				->setHouseNo($data['houseNo'])
 				->setFlatNo($data['flatNo'])
 				->setPesel($data['pesel'])
-				->setPlaceOfBirth($data['placeOfBirth'])
 				->setSignedAt($time)
 				->setUpdatedBy($user->getId())
 			;

@@ -29,7 +29,6 @@ class AgreementSignatureRepository extends CommonRepository implements Insertabl
         'houseNo',
         'flatNo',
         'pesel',
-        'placeOfBirth',
         'dateOfBirth',
         'signedAt',
         'createdAt',
