@@ -16,7 +16,7 @@
                     var route = routesList[routeSelect.val()];
                     presenter.empty();
                     var inspired = '';
-                    if (route.t == 1) {
+                    if (route.t === 1) {
                         inspired = '<p class="text-danger">' + opts['inspiredWarningText'] + '</p>';
                     }
                     presenter.html('<table class="table table-hover">' +
@@ -41,7 +41,7 @@
                         '		<td width="30%">' + opts['ascentText'] + '</td>' +
                         '		<td>' + route.ascent + ' m</td>' +
                         '	</tr>' +
-                        '<tr>' +
+                        '   <tr>' +
                         '		<td width="30%"></td>' +
                         '		<td><a href="http://www.edk.org.pl/trasa-edk/' + route.id + '/" target="_blank">' + opts['routeDetailsText'] + '</a></td>' +
                         '	</tr>' +
@@ -62,7 +62,7 @@
                 dataType: "json",
                 success: function (result) {
                     disableEverything();
-                    renderSelector(result);
+                    renderSelectors(result);
                 }
             });
         }
@@ -78,21 +78,42 @@
             root.find("textarea").prop("disabled", false);
             root.find("select#where-learnt").prop("disabled", false);
 
-            if (customAnswer != "" && null !== customAnswer) {
+            if (customAnswer !== '' && customAnswer !== null) {
                 $("label[for='custom-answer']").text(customAnswer);
             } else {
                 $("label[for='custom-answer']").text(opts['additionalInformationText']);
             }
         }
 
-        function selectOptGroup(territoryId) {
-            var optgroups = routeSelect.find('optgroup');
-            optgroups.hide();
-            optgroups.filter('[data-territory="' + territoryId + '"]')
-                .show();
+        function renderTerritoryOptions(select, territories) {
+            var code = '<option value="">---</option>';
+            $.each(territories, function (key, territory) {
+                code += '<option value="' + territory.id + '">' + territory.name + '</option>';
+            });
+            select.empty()
+                .append(code);
         }
 
-        function renderSelector(territories) {
+        function renderRouteOptions(select, territories, selectedId) {
+            var code = '<option value="">---</option>';
+            $.each(territories, function (key, territory) {
+                if (!selectedId || territory.id === selectedId) {
+                    $.each(territory.areas, function (key, area) {
+                        code += '<optgroup label="' + area.name + '" data-territory="' + territory.id + '">';
+                        $.each(area.routes, function (key, route) {
+                            route.area = area;
+                            routesList[route.id] = route;
+                            code += '<option value="' + route.id + '">' + route.name + '</option>';
+                        });
+                        code += '</optgroup>';
+                    });
+                }
+            });
+            select.empty()
+                .append(code);
+        }
+
+        function renderSelectors(territories) {
             var routeFormGroup = routeSelect.parent();
             if (!territorySelect) {
                 territorySelect = $('<select id="territory" class="form-control">');
@@ -100,9 +121,9 @@
                 territoryFormGroup.append(territorySelect);
                 routeFormGroup.before(territoryFormGroup);
                 territorySelect.on('change', function () {
-                    var selectedTerritoryId = territorySelect.val();
-                    if (selectedTerritoryId !== '') {
-                        selectOptGroup(selectedTerritoryId);
+                    var selectedTerritoryId = parseInt(territorySelect.val(), 10) || 0;
+                    if (selectedTerritoryId > 0) {
+                        renderRouteOptions(routeSelect, territories, selectedTerritoryId);
                         routeFormGroup.show();
                     } else {
                         routeFormGroup.hide();
@@ -113,24 +134,8 @@
             }
             routeFormGroup.hide();
 
-            var territoryCode = '<option value="">---</option>';
-            var routeCode = '<option value="">---</option>';
-            $.each(territories, function (key, territory) {
-                territoryCode += '<option value="' + territory.id + '">' + territory.name + '</option>';
-                $.each(territory.areas, function (key, area) {
-                    routeCode += '<optgroup label="' + area.name + '" data-territory="' + territory.id + '">';
-                    $.each(area.routes, function (key, route) {
-                        route.area = area;
-                        routesList[route.id] = route;
-                        routeCode += '<option value="' + route.id + '">' + route.name + '</option>';
-                    });
-                    routeCode += '</optgroup>';
-                });
-            });
-            territorySelect.empty();
-            territorySelect.append(territoryCode);
-            routeSelect.empty();
-            routeSelect.append(routeCode);
+            renderTerritoryOptions(territorySelect, territories);
+            renderRouteOptions(routeSelect, territories);
 
             if (selectedRouteId > 0) {
                 routeSelect.val(selectedRouteId);
@@ -141,8 +146,8 @@
                     .parent()
                     .data('territory');
                 if (selectedTerritoryId > 0) {
-                    selectOptGroup(selectedTerritoryId);
                     territorySelect.val(selectedTerritoryId);
+                    renderRouteOptions(routeSelect, territories, selectedTerritoryId);
                 }
             }
         }

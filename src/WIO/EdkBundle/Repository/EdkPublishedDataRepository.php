@@ -146,7 +146,7 @@ class EdkPublishedDataRepository implements EntityTransformerInterface
 					'pn' => $row['participantNum'],
 					'pl' => $row['participantLimit'],
 					'ppr' => $row['maxPeoplePerRecord'],
-					't' => $row['routeType']
+					't' => (int) $row['routeType']
 				];
 			}
 		}
