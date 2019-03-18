@@ -82,7 +82,7 @@ class AreaModel2018 implements CustomFormModelInterface, CompletenessCalculatorI
 			new Url(array('message' => $this->translator->trans('AreaWebsiteUrlInvalidText')))
 		]));
 		$builder->add('facebookProfile', TextType::class, array('label' => 'Facebook profile', 'required' => false, 'attr' => ['help_text' => 'FacebookProfileHintText'], 'constraints' => [
-			new Regex(array('message' => $this->translator->trans('AreaFacebookProfileInvalidText')))
+			new Regex(array('pattern' => '/./', 'htmlPattern' => '.','message' => $this->translator->trans('AreaFacebookProfileInvalidText')))
 		]));
 	}
 	
