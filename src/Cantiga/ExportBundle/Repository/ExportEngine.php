@@ -62,8 +62,9 @@ class ExportEngine
 			
 			$areas = $this->conn->fetchAll('SELECT a.`id`, a.`name`, t.`id` AS `territoryId`, t.`name` AS `territoryName`, a.`customData`, a.`lastUpdatedAt` '
 				. 'FROM `'.CoreTables::AREA_TBL.'` a '
+				. 'INNER JOIN `'.CoreTables::AREA_STATUS_TBL.'` s ON s.`id` = a.`statusId` '
 				. 'INNER JOIN `'.CoreTables::TERRITORY_TBL.'` t ON t.`id` = a.`territoryId` '
-				. 'WHERE a.`projectId` = :projectId AND a.`statusId` = :statusId', [':projectId' => $export['projectId'], ':statusId' => $export['areaStatusId']]);
+				. 'WHERE a.`projectId` = :projectId AND s.`isPublish` = 1', [':projectId' => $export['projectId']]);
 			
 			
 			$block = new ExportBlock();
