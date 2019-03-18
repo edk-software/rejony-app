@@ -16,7 +16,7 @@
                     var route = routesList[routeSelect.val()];
                     presenter.empty();
                     var inspired = '';
-                    if (route.t === 1) {
+                    if (route.t == 1) {
                         inspired = '<p class="text-danger">' + opts['inspiredWarningText'] + '</p>';
                     }
                     presenter.html('<table class="table table-hover">' +
@@ -97,7 +97,7 @@
         function renderRouteOptions(select, territories, selectedId) {
             var code = '<option value="">---</option>';
             $.each(territories, function (key, territory) {
-                if (!selectedId || territory.id === selectedId) {
+                if (!selectedId || territory.id == selectedId) {
                     $.each(territory.areas, function (key, area) {
                         code += '<optgroup label="' + area.name + '" data-territory="' + territory.id + '">';
                         $.each(area.routes, function (key, route) {
