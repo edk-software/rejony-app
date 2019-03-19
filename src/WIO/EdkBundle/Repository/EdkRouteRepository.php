@@ -245,15 +245,14 @@ class EdkRouteRepository
 	 * 
 	 * @return array
 	 */
-	public function getFileDownloadInformation($slug, $requestedFile, $requestedSetting)
+	public function getFileDownloadInformation($slug, $requestedFile)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			$data = $this->conn->fetchAssoc('SELECT r.id, r.publicAccessSlug, r.'.$requestedFile.' AS `file`, s.value AS `setting` '
+			$data = $this->conn->fetchAssoc('SELECT r.id, r.publicAccessSlug, r.'.$requestedFile.' AS `file`, a.`projectId` AS `projectId` '
 				. 'FROM `'.EdkTables::ROUTE_TBL.'` r '
 				. 'INNER JOIN `'.CoreTables::AREA_TBL.'` a ON a.id = r.areaId '
-				. 'INNER JOIN `'.CoreTables::PROJECT_SETTINGS_TBL.'` s ON s.`projectId` = a.`projectId` '
-				. 'WHERE r.`publicAccessSlug` = :slug AND s.`key` = :key', [':slug' => $slug, ':key' => $requestedSetting]);
+				. 'WHERE r.`publicAccessSlug` = :slug', [':slug' => $slug]);
 			if(false === $data) {
 				$this->transaction->requestRollback();
 				throw new ItemNotFoundException('The specified item has not been found.', $slug);
@@ -264,6 +263,23 @@ class EdkRouteRepository
 			throw $ex;
 		}
 	}
+    public function getSettingValue($projectId, $requestedSetting)
+    {
+        $this->transaction->requestTransaction();
+        try {
+            $data = $this->conn->fetchAssoc('SELECT s.value AS `setting` '
+                . 'FROM `'.CoreTables::PROJECT_SETTINGS_TBL.'` s '
+                . 'WHERE s.`projectId` = :projectId AND s.`key` = :key', [':projectId' => $projectId, ':key' => $requestedSetting]);
+            if(false === $data) {
+                $this->transaction->requestRollback();
+                throw new ItemNotFoundException('The specified settings has not been found.', $requestedSetting);
+            }
+            return $data;
+        } catch(Exception $ex) {
+            $this->transaction->requestRollback();
+            throw $ex;
+        }
+    }
 	
 	public function insert(EdkRoute $item)
 	{

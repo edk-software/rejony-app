@@ -39,8 +39,8 @@ class PublicRouteDataController extends PublicPageController
 	{
 		try {
 			$repository = $this->get(self::REPOSITORY_NAME);
-			$fileInfo = $repository->getFileDownloadInformation($slug, 'descriptionFile', EdkSettings::GUIDE_MIRROR_URL);
-			$response = $this->redirectToMirror($fileInfo);
+			$fileInfo = $repository->getFileDownloadInformation($slug, 'descriptionFile');
+            $response = $this->redirectToMirror($fileInfo, EdkSettings::GUIDE_MIRROR_URL, $repository);
 			if (null === $response) {
 				$response = new Response();
 				$fileRepository = $this->get('cantiga.files');
@@ -48,7 +48,7 @@ class PublicRouteDataController extends PublicPageController
 			}
 			return $response;
 		} catch(ItemNotFoundException $exception) {
-			throw $this->createNotFoundException('Plik nie istnieje.');
+			throw $this->createNotFoundException('Plik nie istnieje.', $exception);
 		}
 	}
 	
@@ -59,8 +59,8 @@ class PublicRouteDataController extends PublicPageController
 	{
 		try {
 			$repository = $this->get(self::REPOSITORY_NAME);
-			$fileInfo = $repository->getFileDownloadInformation($slug, 'mapFile', EdkSettings::MAP_MIRROR_URL);
-			$response = $this->redirectToMirror($fileInfo);
+			$fileInfo = $repository->getFileDownloadInformation($slug, 'mapFile');
+            $response = $this->redirectToMirror($fileInfo, EdkSettings::MAP_MIRROR_URL, $repository);
 			if (null === $response) {
 				$response = new Response();
 				$fileRepository = $this->get('cantiga.files');
@@ -72,7 +72,7 @@ class PublicRouteDataController extends PublicPageController
 			}
 			return $response;
 		} catch(ItemNotFoundException $exception) {
-			throw $this->createNotFoundException('Plik nie istnieje.');
+			throw $this->createNotFoundException('Plik nie istnieje.', $exception);
 		}
 	}
 	
@@ -83,8 +83,8 @@ class PublicRouteDataController extends PublicPageController
 	{
 		try {
 			$repository = $this->get(self::REPOSITORY_NAME);
-			$fileInfo = $repository->getFileDownloadInformation($slug, 'gpsTrackFile', EdkSettings::GPS_MIRROR_URL);
-			$response = $this->redirectToMirror($fileInfo);
+			$fileInfo = $repository->getFileDownloadInformation($slug, 'gpsTrackFile');
+			$response = $this->redirectToMirror($fileInfo, EdkSettings::GPS_MIRROR_URL, $repository);
 			if (null === $response) {
 				$response = new Response();
 				$fileRepository = $this->get('cantiga.files');
@@ -92,26 +92,31 @@ class PublicRouteDataController extends PublicPageController
 			}
 			return $response;
 		} catch(ItemNotFoundException $exception) {
-			throw $this->createNotFoundException('Plik nie istnieje.');
+			throw $this->createNotFoundException('Plik nie istnieje.', $exception);
 		}
 	}
-	
-	/**
-	 * Handles the redirects to mirrors, that can be enabled by configuring the project settings.
-	 * If the method returns a NULL response, the file should be downloaded directly from the system.
-	 * 
-	 * @param array $fileInfo File information about the file and mirror settings
-	 * @return Response
-	 */
-	private function redirectToMirror($fileInfo)
+
+    /**
+     * Handles the redirects to mirrors, that can be enabled by configuring the project settings.
+     * If the method returns a NULL response, the file should be downloaded directly from the system.
+     *
+     * @param array $fileInfo File information about the file and mirror settings
+     * @param $setting
+     * @param $repository
+     * @return Response
+     */
+	private function redirectToMirror($fileInfo, $setting, $repository)
 	{
-		$setting = trim($fileInfo['setting']);
-		if (empty($setting) || $setting == '---') {
+        $urlSetting = $repository->getSettingValue($fileInfo['projectId'], $setting);
+        $isRedirect = $repository->getSettingValue($fileInfo['projectId'], EdkSettings::REDIRECT_TO_MIRROR);
+
+		$setting = trim($urlSetting['setting']);
+		if ($isRedirect['setting'] == false || empty($setting) || $setting == '---') {
 			return null;
 		}
 		
 		$ext = substr($fileInfo['file'], strrpos($fileInfo['file'], '.') + 1);
-		$url = str_replace(['%HASH%', '%ID%', '%EXT%'], [$fileInfo['publicAccessSlug'], $fileInfo['id'], $ext], $fileInfo['setting']);
+		$url = str_replace(['%HASH%', '%ID%', '%EXT%'], [$fileInfo['publicAccessSlug'], $fileInfo['id'], $ext], $urlSetting['setting']);
 		return $this->redirect($url, 301);
 	}
 }
