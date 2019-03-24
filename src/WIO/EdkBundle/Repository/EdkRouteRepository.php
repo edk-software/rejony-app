@@ -272,7 +272,7 @@ class EdkRouteRepository
                 . 'WHERE s.`projectId` = :projectId AND s.`key` = :key', [':projectId' => $projectId, ':key' => $requestedSetting]);
             if(false === $data) {
                 $this->transaction->requestRollback();
-                throw new ItemNotFoundException('The specified settings has not been found.', $requestedSetting);
+                throw new ItemNotFoundException('The specified settings has not been found: '.$requestedSetting, $requestedSetting);
             }
             return $data;
         } catch(Exception $ex) {

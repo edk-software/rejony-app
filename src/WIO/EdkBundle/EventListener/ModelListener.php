@@ -51,12 +51,14 @@ class ModelListener
 	{
 		$settings = $event->getSettings();
 		$settings->create(new Setting(EdkSettings::PUBLISHED_AREA_STATUS, 'Published area status ID', 'edk', 0, Setting::TYPE_INTEGER, true ));
+		$settings->create(new Setting(EdkSettings::PUBLISHED_LIKE_AREA_STATUS, 'Published like area status ID', 'edk', 0, Setting::TYPE_INTEGER, true ));
+		$settings->create(new Setting(EdkSettings::PUBLISHED_PERCENT, 'Percentage of profile replenishment for active area', 'edk', 0, Setting::TYPE_INTEGER, true ));
 		$settings->create(new Setting(EdkSettings::MIRROR_URL, 'Mirror URL', 'edk', '', Setting::TYPE_STRING, true));
 		$settings->create(new Setting(EdkSettings::REDIRECT_TO_MIRROR, 'Enable mirror redirect', 'edk', true, Setting::TYPE_BOOLEAN));
 		$settings->create(new Setting(EdkSettings::GUIDE_MIRROR_URL, 'Guide mirror URL', 'edk', '', Setting::TYPE_STRING, false));
 		$settings->create(new Setting(EdkSettings::MAP_MIRROR_URL, 'Map mirror URL', 'edk', '', Setting::TYPE_STRING, false));
 		$settings->create(new Setting(EdkSettings::GPS_MIRROR_URL, 'GPS mirror URL', 'edk', '', Setting::TYPE_STRING, false));
-		$settings->create(new Setting(EdkSettings::NOTIFICATION_EMAILS, 'Emails', 'edk', '', Setting::TYPE_STRING, false));
+		$settings->create(new Setting(EdkSettings::NOTIFICATION_EMAILS, 'Recipient of report mails', 'edk', '', Setting::TYPE_STRING, false));
 	}
 
 	public function onAreaUpdated(AreaEvent $event)

@@ -29,9 +29,10 @@ class EdkTexts
 	const REGISTRATION_TERMS3_TEXT = 'edk:registration-terms3-text';
 	const REGISTRATION_TERMS4_TEXT = 'edk:registration-terms4-text';
 	const REGISTRATION_FORM_TEXT = 'edk:registration-form';
-	
+
+	const AREAS_STATUS_MAIL = 'edk:area-status-mail';
 	const NOTIFICATION_MAIL = 'edk:notification';
 	const REGISTRATION_MAIL = 'edk:registration';
 	const ROUTE_INFO_TEXT = 'edk:route-info-text';
-	const PROJECT_MESSAGE = 'edk-project-message';
+	const PROJECT_MESSAGE = 'edk:project-message';
 }
