@@ -52,7 +52,7 @@ class EdkMessageForm extends AbstractType
 			->add('subject', TextType::class, ['label' => 'Subject'])
 			->add('content', TextareaType::class, array('label' => 'Content', 'attr' => ['rows' => 20]))
 			->add('authorName', TextType::class, array('label' => 'What is your name?'))
-			->add('authorEmail', TextType::class, array('label' => 'Your e-mail', 'required' => false))
+			->add('authorEmail', TextType::class, array('label' => 'Your e-mail', 'required' => true))
 //			->add('authorPhone', TextType::class, array('label' => 'Your phone number', 'required' => false))
             ->add('terms1Accepted', CheckboxType::class, ['label' => $options['texts'][1], 'required' => true])
 		    ->add('terms2Accepted', CheckboxType::class, ['label' => $options['texts'][2], 'required' => true])
