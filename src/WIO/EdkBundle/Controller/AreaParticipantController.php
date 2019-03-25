@@ -175,11 +175,6 @@ class AreaParticipantController extends AreaPageController
      */
     public function insertAction(Request $request, Membership $membership)
     {
-        $place = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace();
-        if (!$place->getContract()) {
-            return $this->getAccessDeniedPage($request);
-        }
-
         try {
             $area = $membership->getPlace();
             $project = $area->getProject();
@@ -229,11 +224,6 @@ class AreaParticipantController extends AreaPageController
      */
     public function editAction($id, Request $request, Membership $membership)
     {
-        $place = $this->get('cantiga.user.membership.storage')->getMembership()->getPlace();
-        if (!$place->getContract()) {
-            return $this->getAccessDeniedPage($request);
-        }
-
         $settingsRepository = $this->get('wio.edk.repo.registration');
         $settingsRepository->setRootEntity($membership->getPlace());
 
