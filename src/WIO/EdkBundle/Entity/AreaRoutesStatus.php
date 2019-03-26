@@ -104,7 +104,7 @@ class AreaRoutesStatus
         }
         else {
             $destinationStatus = $this->getNewAreaStatus($publicationStatus, $publicationStatus);
-            return $this->statusId == $destinationStatus;
+            return $this->statusId == $destinationStatus->getId();
         }
     }
 
