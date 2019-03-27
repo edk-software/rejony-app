@@ -33,7 +33,7 @@ return [
 	'Feedback page' => 'Uwagi do trasy',
 	'Add feedback about Extreme Way of the Cross route' => 'Dodaj uwagi do trasy EDK',
 	'Chosen route: 0' => 'Вибраний маршрут: 0',
-	'Choose the route' => 'Wybierz trasę',
+	'Choose the route' => 'WВибери маршрут',
 	'Area' => 'Район',
 	'Beginning' => 'Початок',
 	'Ending' => 'Початок',
