@@ -107,7 +107,7 @@ class PublicRegistrationFormController extends PublicEdkController
 			}
 		}
 
-		$textRepository = $this->getTextRepository();
+        $textRepository = $this->getTextRepository();
 		$text = $textRepository->getText(EdkTexts::REGISTRATION_FORM_TEXT, $request, $this->project);
 		$personalDataInfo = $textRepository->getText(CoreTexts::PERSONAL_DATA_INFO, $request, $this->project);
 		$response = $this->render('WioEdkBundle:Public:registration-form.html.twig', [
@@ -169,10 +169,12 @@ class PublicRegistrationFormController extends PublicEdkController
 	 */
 	public function completedAction($accessKey, Request $request)
 	{
+        $textRepository = $this->getTextRepository();
 		return $this->render('WioEdkBundle:Public:registration-completed.html.twig', [
 			'accessKey' => $accessKey,
 			'slug' => $this->project->getSlug(),
 			'currentPage' => self::CURRENT_PAGE,
+            'registrationCompletedAdditional' => $textRepository->getText(EdkTexts::REGISTRATION_COMPLETED_HTML, $request, $this->project)->getContent()
 		]);
 	}
 

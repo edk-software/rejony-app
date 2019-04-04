@@ -8,4 +8,10 @@
             {{ 'Your access code' | trans([], 'public') }}: <span style="font-size:10px">{{ accessKey }}</span>
         </div>
     </div>
+
+{% endblock %}
+{% block completed_html %}
+    <div class="row">
+        {{ registrationCompletedAdditional | raw }}
+    </div>
 {% endblock %}

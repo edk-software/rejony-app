@@ -29,6 +29,7 @@ class EdkTexts
 	const REGISTRATION_TERMS3_TEXT = 'edk:registration-terms3-text';
 	const REGISTRATION_TERMS4_TEXT = 'edk:registration-terms4-text';
 	const REGISTRATION_FORM_TEXT = 'edk:registration-form';
+	const REGISTRATION_COMPLETED_HTML = 'edk:completed-html';
 
 	const AREAS_STATUS_MAIL = 'edk:area-status-mail';
 	const NOTIFICATION_MAIL = 'edk:notification';
