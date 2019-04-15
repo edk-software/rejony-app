@@ -497,7 +497,7 @@
         </div>
     </div>
 
-	<!-- Modal -->
+	<!-- Successful Verification Modal -->
 	<div class="modal modal-success fade" id="pageReloadModal" style="display: none;">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -507,13 +507,32 @@
 					<h4 class="modal-title">{{ 'Verification successful' | trans({}, 'edk') }}</h4>
 				</div>
 				<div class="modal-body">
-					<p>{{ 'Page will be refreshed within 5 seconds...' | trans({}, 'edk') }}</p>
+					<p>{{ 'PageWillBeRefreshed' | trans({}, 'edk') }}</p>
 				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
+
+	<!-- Failed Verification Modal -->
+	<div class="modal modal-danger fade" id="verificationFailedModal" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span></button>
+					<h4 class="modal-title">{{ 'Verification failed' | trans({}, 'edk') }}</h4>
+				</div>
+				<div class="modal-body">
+
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
 {% endblock %}
 
 {% block stylesheets %}
@@ -528,7 +547,7 @@
     <script src="{{ asset('js/summernote.min.js') }}"></script>
     <script src="{{ asset('js/lang/summernote-'~user.settingsLanguage.locale~'.js') }}"></script>
     <script src="{{ asset('js/Chart.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/gh/edk-software/edk-route-verifier@1.1.4/dist/edk-route-verifier.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/edk-software/edk-route-verifier@1.3.0/dist/edk-route-verifier.min.js"></script>
 {% endblock %}
 
 {% block javascripts_inline %}
