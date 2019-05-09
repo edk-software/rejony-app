@@ -18,6 +18,8 @@
  */
 namespace Cantiga\CoreBundle\Mail;
 
+use Psr\Log\LoggerInterface;
+use Swift_Mailer;
 use Swift_Message;
 use Twig_Environment;
 
@@ -29,25 +31,22 @@ use Twig_Environment;
  */
 class MailSender implements MailSenderInterface
 {
+    /** @var Swift_Mailer */
 	private $mailer;
-	/**
-	 * @var Twig_Environment
-	 */
+
+	/** @var Twig_Environment */
 	private $tpl;
-	/**
-	 * @var MailLoaderInterface
-	 */
+
+	/** @var MailLoaderInterface */
 	private $mailLoader;
-	/**
-	 * @var LoggerInterface 
-	 */
+
+	/** @var LoggerInterface */
 	private $log;
-	/**
-	 * @var string
-	 */
+
+	/** @var string */
 	private $sourceMail;
 	
-	public function __construct($mailer, MailLoaderInterface $mailLoader, Twig_Environment $tpl, \Psr\Log\LoggerInterface $log, $sourceMail)
+	public function __construct(Swift_Mailer $mailer, MailLoaderInterface $mailLoader, Twig_Environment $tpl, LoggerInterface $log, $sourceMail)
 	{
 		$this->mailLoader = $mailLoader;
 		$this->mailer = $mailer;

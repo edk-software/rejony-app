@@ -18,6 +18,7 @@
  */
 namespace Cantiga\UserBundle;
 
+use Cantiga\CoreBundle\Api\AppMails;
 use Cantiga\UserBundle\DependencyInjection\InvitationPass;
 use Cantiga\UserBundle\DependencyInjection\PlaceLoaderPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,6 +26,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class CantigaUserBundle extends Bundle
 {
+    public function boot()
+    {
+        AppMails::registerName(UserTexts::AGREEMENTS_MAIL);
+    }
+
 	public function build(ContainerBuilder $container)
 	{
 		parent::build($container);

@@ -2,6 +2,7 @@
 
 namespace Cantiga\UserBundle\Repository;
 
+use Cantiga\CoreBundle\Entity\User;
 use Cantiga\CoreBundle\Repository\CommonRepository;
 use Cantiga\Metamodel\Capabilities\EditableRepositoryInterface;
 use Cantiga\Metamodel\Capabilities\InsertableRepositoryInterface;
@@ -31,6 +32,7 @@ class AgreementSignatureRepository extends CommonRepository implements Insertabl
         'pesel',
         'dateOfBirth',
         'signedAt',
+        'sentAt',
         'createdAt',
         'createdBy',
         'updatedAt',
@@ -85,6 +87,41 @@ class AgreementSignatureRepository extends CommonRepository implements Insertabl
             ':projectId' => (int) $projectId,
             ':signerId' => (int) $userId,
         ]);
+
+        return array_map(function ($item) {
+            $agreementSignature = new AgreementSignature();
+            DataMappers::fromArray($agreementSignature, $item, 'ags');
+            self::setId($agreementSignature, $item['id']);
+            $agreement = new Agreement();
+            DataMappers::fromArray($agreement, $item, 'ag');
+            self::setId($agreement, $item['ags_agreementId']);
+            $agreementSignature->setAgreement($agreement);
+            return $agreementSignature;
+        }, $items);
+    }
+
+    /**
+     * Get not sent for one signer
+     *
+     * @return AgreementSignature[]
+     */
+    public function getNotSentForOneSigner() : array
+    {
+        $items = $this->conn->fetchAll('
+            SELECT ags.id, ' . self::getFieldList() . ', ' . AgreementRepository::getFieldList() . '
+            FROM ' . UserTables::AGREEMENTS_SIGNATURES_TBL . ' ags
+            INNER JOIN ' . UserTables::AGREEMENTS_TBL . ' ag
+            ON ags.agreementId = ag.id
+            WHERE ags.signerId = (
+                SELECT MIN(signerId)
+                FROM ' . UserTables::AGREEMENTS_SIGNATURES_TBL . '
+                WHERE signedAt IS NOT NULL AND sentAt IS NULL
+            ) AND ags.signedAt IS NOT NULL AND ags.sentAt IS NULL
+            ORDER BY ag.title ASC, ag.createdAt ASC
+        ');
+        if (count($items) === 0) {
+            return [];
+        }
 
         return array_map(function ($item) {
             $agreementSignature = new AgreementSignature();

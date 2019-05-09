@@ -26,6 +26,7 @@ class AgreementSignature implements IdentifiableInterface
     private $pesel;
     private $dateOfBirth;
     private $signedAt;
+    private $sentAt;
     private $createdAt;
     private $createdBy;
     private $updatedAt;
@@ -266,6 +267,23 @@ class AgreementSignature implements IdentifiableInterface
     public function setSignedAt($signedAt) : self
     {
         $this->signedAt = $signedAt;
+
+        return $this;
+    }
+
+    public function getSentAt()
+    {
+        return $this->sentAt;
+    }
+
+    public function isSent() : bool
+    {
+        return isset($this->sentAt);
+    }
+
+    public function setSentAt($sentAt) : self
+    {
+        $this->sentAt = $sentAt;
 
         return $this;
     }

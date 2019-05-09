@@ -156,6 +156,7 @@ class PlaceDashboardController extends WorkspaceController
 					->setFlatNo($data['flatNo'])
 					->setPesel($data['pesel'])
 					->setSignedAt($time)
+                    ->setSentAt(null)
 					->setUpdatedBy($user->getId())
 				;
 				if (count($signaturesToUpdate) === 0 && $signature->getDateOfBirth() > $lowestAge) {

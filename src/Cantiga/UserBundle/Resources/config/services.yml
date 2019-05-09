@@ -35,6 +35,9 @@ services:
     cantiga.user.repo.agreement_signature:
       class:     Cantiga\UserBundle\Repository\AgreementSignatureRepository
       arguments: ["@database_connection", "@cantiga.transaction"]
+    cantiga.user.repo.user:
+      class:     Cantiga\UserBundle\Repository\UserRepository
+      arguments: ["@database_connection", "@cantiga.transaction"]
     cantiga.user.adapter:
         class:     Cantiga\UserBundle\Database\MemberlistAdapter
         arguments: ["@database_connection"]
