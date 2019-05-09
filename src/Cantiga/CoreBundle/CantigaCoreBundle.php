@@ -68,6 +68,9 @@ class CantigaCoreBundle extends Bundle
 		AppTexts::registerName(CoreTexts::HELP_GROUP_MEMBERS);
 		AppTexts::registerName(CoreTexts::HELP_AREA_INTRODUCTION);
 		AppTexts::registerName(CoreTexts::HELP_AREA_MEMBERS);
+
+		AppTexts::registerName(CoreTexts::AGREEMENT_CONFIRMATION);
+		AppTexts::registerName(CoreTexts::AGREEMENT_CONFIRMED);
 		
 		AppMails::registerName(CoreTexts::CREDENTIAL_CHANGE_MAIL);
 		AppMails::registerName(CoreTexts::PASSWORD_RECOVERY_COMPLETED_MAIL);

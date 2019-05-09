@@ -23,7 +23,7 @@
                                 </tr>
                                 <tr>
                                     <td width="30%">{{ 'SummaryLabel' | trans([], 'users') }}</td>
-                                    <td>{{ item.summary }}</td>
+                                    <td>{{ item.summary | raw }}</td>
                                 </tr>
                                 <tr>
                                     <td width="30%">{{ 'CreatedAtLabel' | trans([], 'users') }}</td>
@@ -48,7 +48,7 @@
                                 {% if item.content %}
                                     <tr>
                                         <td width="30%">{{ 'ContentLabel' | trans([], 'users') }}</td>
-                                        <td style="white-space:pre-wrap">{{ item.content }}</td>
+                                        <td>{{ item.content | raw }}</td>
                                     </tr>
                                 {% endif %}
                             </tbody>

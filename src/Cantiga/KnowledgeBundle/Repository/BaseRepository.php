@@ -2,7 +2,7 @@
 
 namespace Cantiga\KnowledgeBundle\Repository;
 
-use Cantiga\KnowledgeBundle\Entity\EntityInterface;
+use Cantiga\CoreBundle\Entity\EntityInterface;
 use Cantiga\Metamodel\DataTable;
 use Doctrine\ORM\EntityRepository as Repository;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cantiga\KnowledgeBundle\Entity;
+namespace Cantiga\CoreBundle\Entity;
 
 use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
 

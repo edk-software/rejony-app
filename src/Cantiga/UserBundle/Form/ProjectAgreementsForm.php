@@ -4,7 +4,6 @@ namespace Cantiga\UserBundle\Form;
 
 use Cantiga\UserBundle\Entity\AgreementSignature;
 use Cantiga\UserBundle\Validator\Constraint\ContainsPesel;
-use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,19 +18,18 @@ class ProjectAgreementsForm extends AbstractType
         $resolver->setDefaults([
             'translation_domain' => 'users',
         ]);
-        $resolver->setDefined([ 'lastSigned', 'signature' ]);
-        $resolver->setRequired([ 'lastSigned', 'signature' ]);
+        $resolver->setDefined([ 'confirmation', 'lastSigned', 'signatures' ]);
+        $resolver->setRequired([ 'confirmation', 'lastSigned', 'signatures' ]);
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var string|null $confirmation */
+        $confirmation = $options['confirmation'];
         /** @var AgreementSignature|null $lastSigned */
         $lastSigned = $options['lastSigned'];
-        /** @var AgreementSignature $signature */
-        $signature = $options['signature'];
-
-        $year = (int) date('Y');
-        $defaultDate = new DateTime(($year - 18) . '-01-01');
+        /** @var AgreementSignature[] $signatures */
+        $signatures = $options['signatures'];
 
         $builder
             ->add('firstName', TextType::class, [
@@ -103,14 +101,20 @@ class ProjectAgreementsForm extends AbstractType
                 'label' => 'PeselLabel',
                 'required' => true,
             ])
-            ->add('signature', CheckboxType::class, [
-                'label' => $signature->getAgreement()->getSummary(),
+            ->add('confirmation', CheckboxType::class, [
+                'label' => $confirmation,
                 'required' => true,
             ])
             ->add('accept', SubmitType::class, [
                 'label' => 'Accept',
             ])
         ;
+        foreach ($signatures as $signature) {
+            $builder->add('signature_' . $signature->getId(), CheckboxType::class, [
+                'label' => $signature->getAgreement()->getSummary(),
+                'required' => true,
+            ]);
+        }
     }
 
     public function getName()

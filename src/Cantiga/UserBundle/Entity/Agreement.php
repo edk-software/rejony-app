@@ -2,17 +2,53 @@
 
 namespace Cantiga\UserBundle\Entity;
 
+use Cantiga\CoreBundle\Validator\Constraints as CantigaAssert;
 use Cantiga\Metamodel\Capabilities\IdentifiableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Agreement implements IdentifiableInterface
 {
+    /** @var int */
 	private $id;
+
+    /** @var int|null */
 	private $projectId;
+
+    /**
+     * @var string
+     * @Assert\Length(
+     *     max = 255
+     * )
+     */
 	private $title;
+
+    /**
+     * @var string
+     * @CantigaAssert\HtmlString(
+     *     allowableTags = { "<b>", "<p>", "<br>", "<u>", "<i>", "<a>", "<ul>", "<ol>", "<li>", "<strong>", "<span>" },
+     * )
+     */
 	private $content;
+
+    /**
+     * @var string
+     * @Assert\Length(
+     *     max = 255
+     * )
+     */
     private $url;
+
+    /**
+     * @var string
+     * @CantigaAssert\HtmlString(
+     *     allowableTags = { "<b>", "<p>", "<br>", "<u>", "<i>", "<a>", "<ul>", "<ol>", "<li>", "<strong>", "<span>" },
+     * )
+     */
     private $summary;
+
+    /** @var AgreementSignature[] */
 	private $signatures;
 	private $createdAt;
 	private $createdBy;
@@ -21,6 +57,7 @@ class Agreement implements IdentifiableInterface
 
 	public function __construct()
 	{
+        $this->initializeCollections();
 		$this->createdAt = time();
         $this->signatures = new ArrayCollection();
 	}
@@ -171,5 +208,13 @@ class Agreement implements IdentifiableInterface
     public function canRemove() : bool
     {
         return true;
+    }
+
+    public function initializeCollections()
+    {
+        // @HACK: used to initialize collections when Doctrine finishes loading an object
+        if (!($this->signatures instanceof Collection)) {
+            $this->signatures = new ArrayCollection();
+        }
     }
 }

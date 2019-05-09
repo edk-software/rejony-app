@@ -2,6 +2,7 @@
 
 namespace Cantiga\KnowledgeBundle\Entity;
 
+use Cantiga\CoreBundle\Entity\EntityInterface;
 use Cantiga\KnowledgeBundle\Entity\FaqQuestion as Question;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

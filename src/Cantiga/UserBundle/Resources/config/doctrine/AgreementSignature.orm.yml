@@ -1,0 +1,81 @@
+Cantiga\UserBundle\Entity\AgreementSignature:
+    repositoryClass:                    Cantiga\UserBundle\Repository\AgreementSignatureRepository
+    table:                              cantiga_agreements_signatures
+    type:                               entity
+
+    fields:
+        id:
+            generator:
+                strategy:               AUTO
+            id:                         true
+            type:                       integer
+        signerId:
+            options:
+                unsigned:               true
+            type:                       integer
+        projectId:
+            options:
+                unsigned:               true
+            type:                       integer
+        firstName:
+            length:                     64
+            nullable:                   true
+            type:                       string
+        lastName:
+            length:                     64
+            nullable:                   true
+            type:                       string
+        town:
+            length:                     64
+            nullable:                   true
+            type:                       string
+        zipCode:
+            length:                     6
+            nullable:                   true
+            type:                       string
+        street:
+            length:                     64
+            nullable:                   true
+            type:                       string
+        houseNo:
+            length:                     16
+            nullable:                   true
+            type:                       string
+        flatNo:
+            length:                     16
+            nullable:                   true
+            type:                       string
+        pesel:
+            length:                     11
+            nullable:                   true
+            options:
+                fixed:                  true
+            type:                       string
+        dateOfBirth:
+            nullable:                   true
+            type:                       date
+        createdAt:
+            options:
+                unsigned:               true
+            type:                       integer
+        createdBy:
+            options:
+                unsigned:               true
+            type:                       integer
+        updatedAt:
+            nullable:                   true
+            options:
+                unsigned:               true
+            type:                       integer
+        updatedBy:
+            nullable:                   true
+            options:
+                unsigned:               true
+            type:                       integer
+
+    manyToOne:
+        agreement:
+            cascade:
+                - persist
+            inversedBy:                 signatures
+            targetEntity:               Cantiga\UserBundle\Entity\Agreement

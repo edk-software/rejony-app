@@ -1,6 +1,6 @@
 <?php
 
-namespace Cantiga\KnowledgeBundle\Validator\Constraints;
+namespace Cantiga\CoreBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 

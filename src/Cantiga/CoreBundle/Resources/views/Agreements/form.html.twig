@@ -9,19 +9,36 @@
 {% endblock %}
 
 {% block page_content %}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-solid">
-                <div class="box-header with-border">
-                    <h3 class="box-title">{{ signature.agreement.title }}</h3>
+    {{ form_start(form) }}
+    {% for signature in signatures %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-file-text"></i> {{ signature.agreement.title }}
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        {% if signature.agreement.content %}
+                            <div>{{ signature.agreement.content | raw }}</div>
+                        {% endif %}
+                        {% if signature.agreement.url %}
+                            <div>
+                                <a href="{{ signature.agreement.url }}" target="_blank">
+                                    {{ 'AgreementsContentText' | trans([], 'dashboard') }}
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form_row(form['signature_' ~ signature.id]) }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {{ form_start(form) }}
-    <div class="row" style="display:flex">
-        <div class="col-md-6">
-            <div class="box box-solid" style="height:calc(100% - 20px)">
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="fa fa-user"></i> {{ 'PersonalDataText' | trans({}, 'dashboard') }}
@@ -36,29 +53,8 @@
                     {{ form_row(form.houseNo) }}
                     {{ form_row(form.flatNo) }}
                     {{ form_row(form.pesel) }}
-                    {{ form_row(form.signature) }}
+                    {{ form_row(form.confirmation) }}
                     {{ form_row(form.accept) }}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="box box-solid" style="height:calc(100% - 20px)">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <i class="fa fa-file-text"></i> {{ 'AgreementsContentText' | trans({}, 'dashboard') }}
-                    </h3>
-                </div>
-                <div class="box-body">
-                    {% if signature.agreement.content %}
-                        <div style="white-space:pre-wrap">{{ signature.agreement.content }}</div>
-                    {% endif %}
-                    {% if signature.agreement.url %}
-                        <div>
-                            <a href="{{ signature.agreement.url }}" target="_blank">
-                                {{ 'AgreementsContentText' | trans([], 'dashboard') }}
-                            </a>
-                        </div>
-                    {% endif %}
                 </div>
             </div>
         </div>

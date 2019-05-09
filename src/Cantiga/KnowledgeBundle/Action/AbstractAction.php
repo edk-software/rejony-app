@@ -3,7 +3,7 @@
 namespace Cantiga\KnowledgeBundle\Action;
 
 use Cantiga\CoreBundle\Api\Actions\AbstractAction as BaseAction;
-use Cantiga\KnowledgeBundle\Entity\EntityInterface;
+use Cantiga\CoreBundle\Entity\EntityInterface;
 
 class AbstractAction extends BaseAction
 {

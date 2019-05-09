@@ -23,6 +23,7 @@ use Cantiga\Components\Hierarchy\HierarchicalInterface;
 use Cantiga\CoreBundle\Api\Controller\WorkspaceController;
 use Cantiga\CoreBundle\Controller\Traits\DashboardTrait;
 use Cantiga\CoreBundle\CoreExtensions;
+use Cantiga\CoreBundle\CoreTexts;
 use Cantiga\CoreBundle\Entity\User;
 use Cantiga\UserBundle\Entity\AgreementSignature;
 use Cantiga\UserBundle\Form\ProjectAgreementsForm;
@@ -78,7 +79,7 @@ class PlaceDashboardController extends WorkspaceController
 		$repository = $this->get('cantiga.user.repo.agreement_signature');
 		$signatures = $repository->getUnsignedByUserInProject($user->getId(), $projectId);
 		if (count($signatures) > 0) {
-			return $this->agreementsSigning($request, $place, $signatures[0], $slug);
+			return $this->agreementsSigning($request, $place, $signatures, $slug);
 		}
 		
 		return $this->render($view, [
@@ -101,20 +102,21 @@ class PlaceDashboardController extends WorkspaceController
 	/**
 	 * Agreements signing
 	 *
-	 * @param Request			   $request   request
-	 * @param HierarchicalInterface $place	 place
-	 * @param AgreementSignature	$signature signature
-	 * @param string				$slug	  slug
+	 * @param Request               $request    request
+	 * @param HierarchicalInterface $place      place
+	 * @param AgreementSignature[]  $signatures signatures
+	 * @param string                $slug       slug
 	 *
 	 * @return Response
 	 *
 	 * @throws Exception
 	 */
-	private function agreementsSigning(Request $request, HierarchicalInterface $place, AgreementSignature $signature,
-		$slug)
+	private function agreementsSigning(Request $request, HierarchicalInterface $place, array $signatures, $slug)
 	{
 		/** @var User $user */
 		$user = $this->getUser();
+		$textRepository = $this->getTextRepository();
+		$agreementConfirmation = $textRepository->getTextOrFalse(CoreTexts::AGREEMENT_CONFIRMATION, $request);
 		/** @var AgreementSignatureRepository $repository */
 		$repository = $this->get('cantiga.user.repo.agreement_signature');
 		$lastSigned = $repository->getLastSigned($user->getId());
@@ -122,40 +124,60 @@ class PlaceDashboardController extends WorkspaceController
 			'action' => $this->generateUrl('place_dashboard', [
 				'slug' => $slug,
 			]),
+			'confirmation' => empty($agreementConfirmation) ? null : $agreementConfirmation->getContent(),
 			'lastSigned' => $lastSigned,
-			'signature' => $signature,
+			'signatures' => $signatures,
 		]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$data = $form->getData();
-			if ($data['signature'] === false) {
+			if ($data['confirmation'] === false) {
 				return $this->redirectToRoute('place_dashboard', [
 					'slug' => $slug,
 				]);
 			}
-			$time = time();
-			$signature
-				->setFirstName($data['firstName'])
-				->setLastName($data['lastName'])
-				->setTown($data['town'])
-				->setZipCode($data['zipCode'])
-				->setStreet($data['street'])
-				->setHouseNo($data['houseNo'])
-				->setFlatNo($data['flatNo'])
-				->setPesel($data['pesel'])
-				->setSignedAt($time)
-				->setUpdatedBy($user->getId())
-			;
 
+			$time = time();
 			$lowestAge = (new DateTime())->modify('-18 years');
-			if ($signature->getDateOfBirth() > $lowestAge) {
-				$error = new FormError($this->trans('Your are too young to sign this agreement.', [], 'validators'));
-				$form->get('pesel')->addError($error);
+			$signaturesToUpdate = [];
+			foreach ($signatures as $signature) {
+				$signatureKey = 'signature_' . $signature->getId();
+				if (!array_key_exists($signatureKey, $data) || $data[$signatureKey] !== true) {
+					continue;
+				}
+				$signature
+					->setFirstName($data['firstName'])
+					->setLastName($data['lastName'])
+					->setTown($data['town'])
+					->setZipCode($data['zipCode'])
+					->setStreet($data['street'])
+					->setHouseNo($data['houseNo'])
+					->setFlatNo($data['flatNo'])
+					->setPesel($data['pesel'])
+					->setSignedAt($time)
+					->setUpdatedBy($user->getId())
+				;
+				if (count($signaturesToUpdate) === 0 && $signature->getDateOfBirth() > $lowestAge) {
+					$error = new FormError($this->trans('Your are too young to sign this agreement.', [], 'validators'));
+					$form->get('pesel')->addError($error);
+					break;
+				}
+				$signaturesToUpdate[] = $signature;
 			}
 
 			if ($form->isValid()) {
-				$repository->update($signature);
+				foreach ($signaturesToUpdate as $signature) {
+					$repository->update($signature);
+				}
+				$confirmed = $textRepository->getTextOrFalse(CoreTexts::AGREEMENT_CONFIRMED, $request);
+				if (!empty($confirmed)) {
+					$this
+						->get('session')
+						->getFlashBag()
+						->add('info', $confirmed->getContent())
+					;
+				}
 
 				return $this->redirectToRoute('place_dashboard', [
 					'slug' => $slug,
@@ -166,7 +188,7 @@ class PlaceDashboardController extends WorkspaceController
 		return $this->render('CantigaCoreBundle:Agreements:form.html.twig', [
 			'form' => $form->createView(),
 			'place' => $place,
-			'signature' => $signature,
+			'signatures' => $signatures,
 			'user' => $user,
 		]);
 	}

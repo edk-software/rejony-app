@@ -2,8 +2,9 @@
 
 namespace Cantiga\KnowledgeBundle\Entity;
 
+use Cantiga\CoreBundle\Entity\EntityInterface;
+use Cantiga\CoreBundle\Validator\Constraints as CantigaAssert;
 use Cantiga\KnowledgeBundle\Entity\MaterialsCategory as Category;
-use Cantiga\KnowledgeBundle\Validator\Constraints as CantigaAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

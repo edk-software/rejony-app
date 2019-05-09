@@ -2,6 +2,7 @@
 
 namespace Cantiga\UserBundle\Form;
 
+use Cantiga\UserBundle\Entity\Agreement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -15,6 +16,7 @@ class AgreementForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'data_class' => Agreement::class,
             'translation_domain' => 'users',
         ]);
     }

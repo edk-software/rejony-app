@@ -59,6 +59,9 @@ class CoreTexts
 	const HELP_GROUP_MEMBERS = 'cantiga:help:group:members';
 	const HELP_AREA_INTRODUCTION = 'cantiga:help:area:introduction';
 	const HELP_AREA_MEMBERS = 'cantiga:help:area:members';
+
+	const AGREEMENT_CONFIRMATION = 'cantiga:agreement:confirmation';
+	const AGREEMENT_CONFIRMED = 'cantiga:agreement:confirmed';
 	
 	const USER_REGISTRATION_MAIL = 'cantiga:user-registration';
 	const PASSWORD_RECOVERY_MAIL = 'cantiga:password-recovery';

@@ -2,6 +2,7 @@
 
 namespace Cantiga\KnowledgeBundle\Entity;
 
+use Cantiga\CoreBundle\Entity\EntityInterface;
 use Cantiga\KnowledgeBundle\Entity\MaterialsFile as File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

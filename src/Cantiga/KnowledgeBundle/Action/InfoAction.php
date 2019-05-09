@@ -4,7 +4,7 @@ namespace Cantiga\KnowledgeBundle\Action;
 
 use Cantiga\CoreBundle\Api\Actions\CRUDInfo;
 use Cantiga\CoreBundle\Api\Controller\CantigaController;
-use Cantiga\KnowledgeBundle\Entity\EntityInterface;
+use Cantiga\CoreBundle\Entity\EntityInterface;
 use Cantiga\KnowledgeBundle\Repository\BaseRepository as Repository;
 
 class InfoAction extends AbstractAction

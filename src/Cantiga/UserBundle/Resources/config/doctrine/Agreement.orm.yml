@@ -1,0 +1,60 @@
+Cantiga\UserBundle\Entity\Agreement:
+    repositoryClass:                    Cantiga\UserBundle\Repository\AgreementRepository
+    table:                              cantiga_agreements
+    type:                               entity
+
+    fields:
+        id:
+            generator:
+                strategy:               AUTO
+            id:                         true
+            options:
+                unsigned:               true
+            type:                       integer
+        projectId:
+            nullable:                   true
+            options:
+                unsigned:               true
+            type:                       integer
+        title:
+            length:                     255
+            type:                       string
+        content:
+            nullable:                   true
+            type:                       string
+        url:
+            length:                     255
+            nullable:                   true
+            type:                       string
+        summary:
+            type:                       string
+        createdAt:
+            options:
+                unsigned:               true
+            type:                       integer
+        createdBy:
+            options:
+                unsigned:               true
+            type:                       integer
+        updatedAt:
+            nullable:                   true
+            options:
+                unsigned:               true
+            type:                       integer
+        updatedBy:
+            nullable:                   true
+            options:
+                unsigned:               true
+            type:                       integer
+
+    oneToMany:
+        signatures:
+            cascade:
+                -                       persist
+                -                       remove
+            mappedBy:                   agreement
+            targetEntity:               Cantiga\UserBundle\Entity\AgreementSignature
+
+    lifecycleCallbacks:
+        postLoad:
+            -                           initializeCollections
