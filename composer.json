@@ -29,7 +29,7 @@
     "scripts": {
         "pre-install-cmd": [
             "php -r \"copy('app/Branding.example.php', 'app/Branding.php');\""
-	],
+        ],
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",

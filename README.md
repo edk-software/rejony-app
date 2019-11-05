@@ -44,3 +44,10 @@ Making changes in database structure
 ------------------------------------
 
 This project uses [DoctrineMigrationsBundle](https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html) to support changes in database structure. It means that each change should be added as Doctrine migration. Because project doesn't support ORM (DBAL only), making automatic "diff" migrations is unavailable. You should use `doctrine:migrations:generate` command instead to generate empty migration class and then add forward and backward migration. Then execute `doctrine:migrations:migrate` to implement these changes into database.
+
+Using Docker as local development environment
+---------------------------------------------
+
+This project has `docker-compose.yml` and `Dockerfile` configuration files which allow to easily set up local development environment with MySQL and PHP servers. To do it install and run [Docker](https://www.docker.com/) and then type `docker-compose up` in console in main project folder.
+
+To be able to run commands from within PHP server type `docker exec -it rejony-app-web bash` while the server is running.

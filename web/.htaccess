@@ -60,7 +60,7 @@ DirectoryIndex app.php
     RewriteRule .? - [L]
 
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{HTTP_HOST} \.dev(\.|$) [NC]
+    RewriteCond %{HTTP_HOST} ^(.+\.dev|localhost(:[0-9]+)?)$ [NC]
     RewriteRule .? %{ENV:BASE}/app_dev.php [L,QSA]
 
     # Rewrite all other queries to the front controller.

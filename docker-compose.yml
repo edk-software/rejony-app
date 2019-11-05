@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  rejony_app_db:
+    container_name: rejony-app-db
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_DATABASE: rejony-app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "9716:3306"
+  rejony_app_web:
+    container_name: rejony-app-web
+    depends_on:
+      - rejony_app_db
+    volumes:
+      - ./:/var/www/
+      - ./web/:/var/www/html/
+    ports:
+      - "7010:80"
+    stdin_open: true
+    tty: true
+    build:
+      context: ./
+      dockerfile: Dockerfile
+
+networks:
+  default:
+    driver: bridge
+    name: edk
