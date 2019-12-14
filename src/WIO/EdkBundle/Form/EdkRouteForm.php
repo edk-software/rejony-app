@@ -38,7 +38,7 @@ class EdkRouteForm extends AbstractType
 
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefined(['mode', 'areaRepository']);
+		$resolver->setDefined(['mode', 'areaRepository', 'isPlaceManager']);
 		$resolver->setRequired(['mode']);
 		
 		$resolver->setDefaults(array(
@@ -48,13 +48,23 @@ class EdkRouteForm extends AbstractType
 	
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
+	    $isPlaceManager = (bool) $options['isPlaceManager'];
 		if (!empty($options['areaRepository'])) {
 			$builder->add('area', ChoiceType::class, ['label' => 'Area', 'choices' => $options['areaRepository']->getFormChoices()]);
 			$builder->get('area')->addModelTransformer(new EntityTransformer($options['areaRepository']));
 		}
-		
+
+		if ($isPlaceManager) {
+			$builder->add('routeType', ChoiceType::class, [
+				'choices' => [
+					'UndefinedRoute' => EdkRoute::TYPE_UNDEFINED,
+					'FullRoute' => EdkRoute::TYPE_FULL,
+					'RouteInspiredByEWC' => EdkRoute::TYPE_INSPIRED,
+				],
+				'label' => 'Route type',
+			]);
+		}
 		$builder
-			->add('routeType', ChoiceType::class, ['label' => 'Route type', 'choices' => array_flip([EdkRoute::TYPE_FULL => 'FullRoute', EdkRoute::TYPE_INSPIRED => 'RouteInspiredByEWC'])])
 			->add('name', TextType::class, array('label' => 'Route name','attr' => array('help_text' => 'Name helptext','placeholder' => 'Name placeholder')))
             ->add('routePatron', TextType::class, array('label' => 'Route patron','required' => false,'attr' => array('placeholder' => 'Patron placeholder')))
             ->add('routeColor', TextType::class, array('label' => 'Route color','required' => false,'attr' => array('placeholder' => 'Color placeholder')))
@@ -72,19 +82,27 @@ class EdkRouteForm extends AbstractType
             ->add('routeToDetails', TextType::class,
                 array('label' => 'Route end details', 'required' => false, 'attr' => array('help_text' => '(settlement details)','placeholder' => 'From Details placeholder'))
             )
-			->add('routeLength', IntegerType::class, 
-				array('label' => 'Route length (km)')
-			)
-			->add('routeAscent', IntegerType::class, 
-				array('label' => 'Route ascent (m)', 'attr' => array('help_text' => 'RouteAscentInfoText'))
-			)
+        ;
+		if ($isPlaceManager) {
+			$builder
+				->add('routeLength', IntegerType::class, [
+					'label' => 'Route length (km)',
+				])
+				->add('routeAscent', IntegerType::class, [
+					'attr' => ['help_text' => 'RouteAscentInfoText'],
+					'label' => 'Route ascent (m)',
+				])
+			;
+		}
+		$builder
 			->add('routeObstacles', TextType::class, 
 				array('label' => 'Additional obstacles', 'required' => false)
 			)
 			->add('descriptionFileUpload', FileType::class, array('label' => 'RouteDescriptionFileUpload', 'required' => false))
 			->add('mapFileUpload', FileType::class, array('label' => 'RouteMapFileUpload', 'required' => false, 'attr' => array('help_text' => 'RouteMapCopyrightInformationText')))
 			->add('gpsTrackFileUpload', FileType::class, array('label' => 'RouteGPSTraceFileUpload', 'required' => $options['mode'] == self::ADD))
-			->add('save', SubmitType::class, array('label' => 'Save'));
+			->add('save', SubmitType::class, array('label' => 'Save'))
+		;
 	}
 	
 	public function getName() {

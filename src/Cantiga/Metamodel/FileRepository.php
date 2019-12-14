@@ -45,12 +45,12 @@ class FileRepository implements FileRepositoryInterface
 	 * @var string 
 	 */
 	private $targetDirectory;
-	
+
 	public function __construct($targetDirectory)
 	{
 		$this->targetDirectory = $targetDirectory;
 	}
-	
+
 	public function storeFile(UploadedFile $file)
 	{
 		$hashedName = sha1($file->getBasename().filemtime($file->getPath()));
@@ -72,7 +72,7 @@ class FileRepository implements FileRepositoryInterface
 		$file->move($directory, $hashed);
 		return $finalName;
 	}
-	
+
 	public function replaceFile($name, UploadedFile $file)
 	{
 		$fullPath = $this->targetDirectory.DIRECTORY_SEPARATOR.$this->hashToLocation($name);
@@ -92,7 +92,7 @@ class FileRepository implements FileRepositoryInterface
 		$file->move($directory, $name);
 		return $name;
 	}
-	
+
 	public function duplicateFile(string $name): string
 	{
 		$path = $this->targetDirectory.DIRECTORY_SEPARATOR.$this->hashToLocation($name);
@@ -122,12 +122,12 @@ class FileRepository implements FileRepositoryInterface
 		copy($path, $this->targetDirectory.DIRECTORY_SEPARATOR.$hashed);
 		return $finalName;
 	}
-	
+
 	public function fileExists($name)
 	{
 		return file_exists($this->targetDirectory.DIRECTORY_SEPARATOR.$this->hashToLocation($name));
 	}
-	
+
 	public function getFileSize($name)
 	{
 		return filesize($this->targetDirectory.DIRECTORY_SEPARATOR.$this->hashToLocation($name));
@@ -136,10 +136,26 @@ class FileRepository implements FileRepositoryInterface
 	public function getFileHandle($name)
 	{
 		$path = $this->targetDirectory.DIRECTORY_SEPARATOR.$this->hashToLocation($name);
-		if(!file_exists($path)) {
-			throw new DiskAssetException('The specified file \''.$name.'\' does not exist in the file repository.');
+		if (!file_exists($path)) {
+			throw new DiskAssetException('The specified file \'' . $name . '\' does not exist in the file repository.');
 		}
-		return fopen($path, 'r');
+		$handle = fopen($path, 'r');
+		if ($handle === false) {
+			throw new DiskAssetException('An error occurred during file \'' . $name . '\' opening.');
+		}
+		return $handle;
+	}
+
+	public function getFileContent($name)
+	{
+		$handle = $this->getFileHandle($name);
+        $path = $this->targetDirectory . DIRECTORY_SEPARATOR . $this->hashToLocation($name);
+		$content = fread($handle, filesize($path));
+		fclose($handle);
+		if ($content === false) {
+			throw new DiskAssetException('An error occurred during file \'' . $name . '\' reading.');
+		}
+		return $content;
 	}
 
 	public function downloadFile($name, $exposedName, $mimeType, Response $response)
@@ -153,7 +169,7 @@ class FileRepository implements FileRepositoryInterface
 		$response->headers->set('Content-Length', filesize($path));
 		$response->setContent(file_get_contents($path));
 	}
-	
+
 	/**
 	 * Usuwa plik z repozytorium.
 	 * 
@@ -167,16 +183,15 @@ class FileRepository implements FileRepositoryInterface
 		}
 		unlink($path);
 	}
-	
+
 	private function hashToLocation($name)
 	{
 		if(strlen($name) < 40) {
 			throw new LogicException('This is not a hash: '.$name);
-		} 
+		}
 		$firstLevel = $name[0];
 		$secondLevel = $firstLevel.$name[1];
-		
+
 		return $firstLevel.DIRECTORY_SEPARATOR.$secondLevel.DIRECTORY_SEPARATOR.$name;
 	}
-	
 }

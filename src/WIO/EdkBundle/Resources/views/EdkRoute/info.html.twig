@@ -67,12 +67,44 @@
     </div>
 {% endmacro %}
 
+{% macro route_verification_task_box(id, iconClass, status, title, description = null, randomValue = null) -%}
+	{%- set item = attribute(status, id) is defined ? attribute(status, id) : null %}
+	<div class="col-md-4 col-sm-6 col-xs-12">
+		<div id="{{ id }}" class="info-box">
+			<span class="info-box-icon {{ item ? (item.valid ? 'bg-green' : 'bg-yellow') : 'bg-gray-light' }}">
+				<i class="fa {{ iconClass }}"></i>
+			</span>
+			<div class="info-box-content">
+				<span class="info-box-text">{{ title }}</span>
+				{% if randomValue %}
+					<span class="info-box-number">{{ randomValue }}</span>
+				{% elseif item and item.value is defined %}
+					<span class="info-box-number">{{ item.value }}</span>
+				{% endif %}
+				{% if description %}
+					<span class="users-list-date">{{ description }}</span>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endmacro %}
+
+{% macro route_type_name(routeType) -%}
+	{%- if routeType == 0 -%}
+		{{ 'FullRoute' | trans({}, 'edk') }}
+	{%- elseif routeType == 1 -%}
+		{{ 'RouteInspiredByEWC' | trans({}, 'edk') }}
+	{%- else -%}
+		{{ 'UndefinedRoute' | trans({}, 'edk') }}
+	{%- endif -%}
+{%- endmacro %}
+
 {% block page_content %}
     {% import _self as macros %}
     {% if infoText %}
         <div class="callout callout-info">
             <h4>{{ infoText.title}}</h4>
-            <p>{{infoText.content | raw }}</p>
+            <p>{{ infoText.content | raw }}</p>
         </div>
     {% endif %}
     <div class="row">
@@ -84,27 +116,26 @@
                         <a href="{{ spath(indexPage) }}" class="btn btn-default btn-sm">
                             <i class="fa fa-fa-arrow-circle-o-left"></i> {{ 'Routes list' | trans([], 'pages') }}
                         </a>
-                        {% if not isArea %}
-                            {% if not isGroup %}
-                                {% if item.approved %}
-                                    <a class="btn btn-danger btn-sm"
-                                       href="{{ spath(revokePage, {'id': item.id}) }}">
-                                        <i class="fa fa-close"></i> {{ 'Revoke' | trans([], 'general') }}
+                        {% if not isArea and not isGroup %}
+                            {% if item.approved %}
+                                <a class="btn btn-danger btn-sm" href="{{ spath(revokePage, {'id': item.id}) }}">
+                                    <i class="fa fa-close"></i> {{ 'Revoke' | trans([], 'general') }}
+                                </a>
+                            {% else %}
+                                <div class="btn-group">
+                                    <a class="btn btn-success btn-sm" href="{{ spath(approvePage, {'id': item.id}) }}">
+                                        <i class="fa fa-check"></i> {{ 'Approve' | trans([], 'general') }}
                                     </a>
-                                {% else %}
-                                    <div class="btn-group">
-                                        <a class="btn btn-success btn-sm"
-                                           href="{{ spath(approvePage, {'id': item.id}) }}"><i
-                                                    class="fa fa-check"></i> {{ 'Approve' | trans([], 'general') }}</a>
-                                    </div>
-                                {% endif %}
+                                </div>
                             {% endif %}
                         {% endif %}
-                        <a class="btn btn-primary btn-sm" href="{{ spath(editPage, {'id': item.id }) }}"><i
-                                    class="fa fa-pencil"></i> {{ 'Edit' | trans({}, 'general') }}</a>
+                        <a class="btn btn-primary btn-sm" href="{{ spath(editPage, {'id': item.id }) }}">
+                            <i class="fa fa-pencil"></i> {{ 'Edit' | trans({}, 'general') }}
+                        </a>
                         {% if item.canRemove() %}
-                            <a class="btn btn-danger btn-sm" href="{{ spath(removePage, {'id': item.id }) }}"><i
-                                        class="fa fa-trash"></i> {{ 'Remove' | trans({}, 'general') }}</a>
+                            <a class="btn btn-danger btn-sm" href="{{ spath(removePage, {'id': item.id }) }}">
+                                <i class="fa fa-trash"></i> {{ 'Remove' | trans({}, 'general') }}
+                            </a>
                         {% endif %}
                     </div>
                 </div>
@@ -125,37 +156,24 @@
                             ({{ ago(item.approvedAt) }})</p>
                     </div>
                     <div class="col-lg-3 col-md-6 no-padding">
-                        {% if item.approved %}
-                            <div class="info-box bg-green no-margin">
-                                <span class="info-box-icon"><i class="fa fa-check"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
-                                    <span class="info-box-number">
-                                            {% if item.routeType == 0 %}
-                                                {{ 'FullRoute' | trans({}, 'edk') }}
-                                            {% else %}
-                                                {{ 'RouteInspiredByEWC' | trans({}, 'edk') }}
-                                            {% endif %}
-                                        </span>
-                                    <span class="progress-description">{{ 'Approved' | trans({}, 'edk') }}</span>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="info-box bg-red no-margin">
-                                <span class="info-box-icon"><i class="fa fa-close"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
-                                    <span class="info-box-number">
-                                            {% if item.routeType == 0 %}
-                                                {{ 'FullRoute' | trans({}, 'edk') }}
-                                            {% else %}
-                                                {{ 'RouteInspiredByEWC' | trans({}, 'edk') }}
-                                            {% endif %}
-                                        </span>
-                                    <span class="progress-description">{{ 'Unapproved' | trans({}, 'edk') }}</span>
-                                </div>
-                            </div>
-                        {% endif %}
+						<div class="info-box {{ item.approved ? 'bg-green' : 'bg-red' }} no-margin">
+							<span class="info-box-icon">
+								<i class="fa {{ item.approved ? 'fa-check' : 'fa-close' }}"></i>
+							</span>
+							<div class="info-box-content">
+								<span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
+								<span class="info-box-number">
+									{{ macros.route_type_name(item.routeType) }}
+								</span>
+								<span class="progress-description">
+									{% if item.approved %}
+										{{ 'Approved' | trans({}, 'edk') }}
+									{% else %}
+										{{ 'Unapproved' | trans({}, 'edk') }}
+									{% endif %}
+								</span>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>
@@ -165,7 +183,8 @@
         <div class="col-md-8">
             <div class="box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-crosshairs"></i> {{ 'Base information' | trans({}, 'edk') }}
+                    <h3 class="box-title">
+                        <i class="fa fa-crosshairs"></i> {{ 'Basic information' | trans({}, 'edk') }}
                     </h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -284,17 +303,14 @@
         <div class="col-md-4">
             <div class="box box-solid">
                 <div class="box-body no-padding">
-                    <div id="map-canvas" style="width: 100%; height: 400px;"
+                    <div id="map-canvas" style="height:400px;width:100%"
                          data-what="{{ url('public_edk_download_gps', {'slug': item.publicAccessSlug }) }}"
-                         data-where="{{ item.routeFrom }}"
-                         data-route-params="{{ spath('edk_route_params', {'id': item.id}) }}"
-                         data-route-approve="{{ spath('edk_route_approve', {'id': item.id}) }}?answer=yes">
+                         data-where="{{ item.routeFrom }}">
                     </div>
                 </div>
             </div>
             {#{{ macro.chat_box('Comments' | trans, 'route-comments', not isArea, 'Disable chatbox' | trans({}, 'edk')) }}#}
         </div>
-
     </div>
     <!-- /.row -->
     <div class="row">
@@ -309,32 +325,32 @@
                     </div>
                 </div>
                 <div class="box-body no-padding">
-                        <div class="col-md-4 no-margin">
-                            {{ macros.route_file_box(
-                                'RouteGPSTraceFileUpload', item, item.gpsTrackFile, 'edk_route_approve_gps',
-                                'edk_route_revoke_gps', 'public_edk_download_gps', item.gpsApproved, item.gpsRevoked,
-                                item.gpsCreatedAt, item.gpsCreatedBy, item.gpsUpdatedAt, item.gpsUpdatedBy,
-                                item.gpsApprovedAt, item.gpsApprovedBy, 'fa-map-marker'
-                            ) }}
-                        </div>
-                        <div class="col-md-4 no-margin">
-                            {{ macros.route_file_box(
-                                'RouteDescriptionFileUpload', item, item.descriptionFile,
-                                'edk_route_approve_description', 'edk_route_revoke_description',
-                                'public_edk_download_description', item.descriptionApproved, item.descriptionRevoked,
-                                item.descriptionCreatedAt, item.descriptionCreatedBy, item.descriptionUpdatedAt,
-                                item.descriptionUpdatedBy, item.descriptionApprovedAt, item.descriptionApprovedBy,
-                                'fa-file-pdf-o'
-                            ) }}
-                        </div>
-                        <div class="col-md-4 no-margin">
-                            {{ macros.route_file_box(
-                                'RouteMapFileUpload', item, item.mapFile, 'edk_route_approve_map',
-                                'edk_route_revoke_map', 'public_edk_download_map', item.mapApproved, item.mapRevoked,
-                                item.mapCreatedAt, item.mapCreatedBy, item.mapUpdatedAt, item.mapUpdatedBy,
-                                item.mapApprovedAt, item.mapApprovedBy, 'fa-map', 'no-margin'
-                            ) }}
-                        </div>
+                    <div class="col-md-4 no-margin">
+                        {{ macros.route_file_box(
+                            'RouteGPSTraceFileUpload', item, item.gpsTrackFile, 'edk_route_approve_gps',
+                            'edk_route_revoke_gps', 'public_edk_download_gps', item.gpsApproved, item.gpsRevoked,
+                            item.gpsCreatedAt, item.gpsCreatedBy, item.gpsUpdatedAt, item.gpsUpdatedBy,
+                            item.gpsApprovedAt, item.gpsApprovedBy, 'fa-map-marker'
+                        ) }}
+                    </div>
+                    <div class="col-md-4 no-margin">
+                        {{ macros.route_file_box(
+                            'RouteDescriptionFileUpload', item, item.descriptionFile,
+                            'edk_route_approve_description', 'edk_route_revoke_description',
+                            'public_edk_download_description', item.descriptionApproved, item.descriptionRevoked,
+                            item.descriptionCreatedAt, item.descriptionCreatedBy, item.descriptionUpdatedAt,
+                            item.descriptionUpdatedBy, item.descriptionApprovedAt, item.descriptionApprovedBy,
+                            'fa-file-pdf-o'
+                        ) }}
+                    </div>
+                    <div class="col-md-4 no-margin">
+                        {{ macros.route_file_box(
+                            'RouteMapFileUpload', item, item.mapFile, 'edk_route_approve_map',
+                            'edk_route_revoke_map', 'public_edk_download_map', item.mapApproved, item.mapRevoked,
+                            item.mapCreatedAt, item.mapCreatedBy, item.mapUpdatedAt, item.mapUpdatedBy,
+                            item.mapApprovedAt, item.mapApprovedBy, 'fa-map', 'no-margin'
+                        ) }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -345,194 +361,68 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-check"></i> {{ 'Route verification' | trans({}, 'edk') }}</h3>
                     <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                    class="fa fa-minus"></i>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
                         </button>
                     </div>
                 </div>
-                <!-- /.box-header -->
                 <div class="box-body">
                     <div class="col-md-12 margin-bottom">
-                        <button id="verifyRoute" type="button" class="btn btn-primary btn-block">
+                        <a href="{{ spath('edk_route_verify', { id: item.id }) }}" class="btn btn-primary btn-block">
                             <i class="fa fa-gears"></i> {{ 'Verify' | trans({}, 'edk') }}
-                        </button>
+                        </a>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="singlePath" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-circle-o"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Single path' | trans({}, 'edk') }}</span>
-                                <span class="users-list-date">{{ 'SinglePathDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="pathLength" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-signs"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Length' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                                <span class="users-list-date">{{ 'RouteLengthDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="routeType" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-flag-o"></i></span>
-                            <input type="hidden" id="normalRouteString" value="{{ 'FullRoute' | trans({}, 'edk') }}"/>
-                            <input type="hidden" id="inspiredRouteString"
-                                   value="{{ 'RouteInspiredByEWC' | trans({}, 'edk') }}"/>
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Route type' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="numberOfStations" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-marker"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Stations number and naming' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                                <span class="users-list-date">{{ 'NumberOfStationsDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="stationsOrder" class="info-box">
-								<span class="info-box-icon bg-gray-light"><i
-                                            class="fa fa-sort-numeric-asc"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Stations order' | trans({}, 'edk') }}</span>
-                                <span class="users-list-date">{{ 'StationsOrderDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="stationsOnPath" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-map-pin"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Stations location' | trans({}, 'edk') }}</span>
-                                <span class="users-list-date">{{ 'StationsOnPathDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="elevationGain" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-arrow-up"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Total ascent' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                                <span class="users-list-date">{{ 'TotalAscentDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="elevationLoss" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-arrow-down"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Total descent' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                                <span class="users-list-date">{{ 'TotalDescentDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="elevationTotalChange" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-arrows-v"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Total elevation change' | trans({}, 'edk') }}</span>
-                                <span class="info-box-number"></span>
-                                <span class="users-list-date">{{ 'TotalElevationChangeDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div id="dataConsistency" class="info-box">
-                            <span class="info-box-icon bg-gray-light"><i class="fa fa-warning"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">{{ 'Data consistency' | trans({}, 'edk') }}</span>
-                                <span class="users-list-date">{{ 'DataConsistencyDescription' | trans({}, 'edk') }}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
+					{{ macros.route_verification_task_box(
+						'singlePath', 'fa-circle-o', item.verificationStatus, 'Single path' | trans({}, 'edk'),
+						'SinglePathDescription' | trans({}, 'edk')
+					) }}
+					{{ macros.route_verification_task_box(
+						'pathLength', 'fa-map-signs', item.verificationStatus, 'Length' | trans({}, 'edk'),
+						'RouteLengthDescription' | trans({}, 'edk')
+					) }}
+					{{ macros.route_verification_task_box(
+						'routeType', 'fa-flag-o', item.verificationStatus, 'Route type' | trans({}, 'edk'), null,
+						macros.route_type_name(item.routeType)
+					) }}
+					{{ macros.route_verification_task_box(
+						'numberOfStations', 'fa-map-marker', item.verificationStatus,
+						'Stations number and naming' | trans({}, 'edk'),
+						'NumberOfStationsDescription' | trans({}, 'edk')
+					) }}
+					{{ macros.route_verification_task_box(
+						'stationsOrder', 'fa-sort-numeric-asc', item.verificationStatus,
+						'Stations order' | trans({}, 'edk'), 'StationsOrderDescription' | trans({}, 'edk')
+					) }}
+					{{ macros.route_verification_task_box(
+						'stationsOnPath', 'fa-map-pin', item.verificationStatus,
+						'Stations location' | trans({}, 'edk'), 'StationsOnPathDescription' | trans({}, 'edk')
+					) }}
+					{{ macros.route_verification_task_box(
+						'elevationGain', 'fa-arrow-up', item.verificationStatus, 'Total ascent' | trans({}, 'edk'),
+						'TotalAscentDescription' | trans({}, 'edk')
+					) }}
+					{{ macros.route_verification_task_box(
+						'elevationLoss', 'fa-arrow-down', item.verificationStatus, 'Total descent' | trans({}, 'edk'),
+						'TotalDescentDescription' | trans({}, 'edk')
+					) }}
+					{{ macros.route_verification_task_box(
+						'elevationTotalChange', 'fa-arrows-v', item.verificationStatus,
+						'Total elevation change' | trans({}, 'edk'),
+						'TotalElevationChangeDescription' | trans({}, 'edk')
+					) }}
                 </div>
-                <div class="box-footer">
-                    <div class="col-md-12">
-                        <div id="profilTrasy">{{ 'Elevation chart' | trans({}, 'edk') }}</div>
-                        <canvas id="elevationChart" style="height: 150px; width: 100%"></canvas>
-                    </div>
-                </div>
+				{% if item.elevationCharacteristic %}
+					<div class="box-footer">
+						<div class="col-md-12">
+							<div id="profilTrasy">{{ 'Elevation chart' | trans({}, 'edk') }}</div>
+							<canvas id="elevationChart" style="height:150px;width:100%"
+								data-elevation="{{ item.elevationCharacteristic | json_encode }}"></canvas>
+						</div>
+					</div>
+				{% endif %}
             </div>
         </div>
     </div>
-
-	<!-- Successful Verification Modal -->
-	<div class="modal modal-success fade" id="pageReloadModal" style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span></button>
-					<h4 class="modal-title">{{ 'Verification successful' | trans({}, 'edk') }}</h4>
-				</div>
-				<div class="modal-body">
-					<p>{{ 'PageWillBeRefreshed' | trans({}, 'edk') }}</p>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-
-	<!-- Failed Verification Modal -->
-	<div class="modal modal-danger fade" id="verificationFailedModal" style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span></button>
-					<h4 class="modal-title">{{ 'Verification failed' | trans({}, 'edk') }}</h4>
-				</div>
-				<div class="modal-body">
-
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-
 {% endblock %}
 
 {% block stylesheets %}
@@ -545,9 +435,71 @@
     <script src="{{ asset('js/description-editor.js') }}"></script>
     <script src="{{ asset('js/chatbox.js') }}"></script>
     <script src="{{ asset('js/summernote.min.js') }}"></script>
-    <script src="{{ asset('js/lang/summernote-'~user.settingsLanguage.locale~'.js') }}"></script>
+    <script src="{{ asset('js/lang/summernote-' ~ user.settingsLanguage.locale ~ '.js') }}"></script>
     <script src="{{ asset('js/Chart.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/gh/edk-software/edk-route-verifier@1.3.0/dist/edk-route-verifier.min.js"></script>
+	<script>
+		function drawElevationChart(chart, data) {
+            var X_AXIS_NUMBER_OF_LABELS = 10;
+            var X_AXIS_LABEL_STRING = '[km]';
+            var Y_AXIS_LABEL_STRING = '[m]';
+            var CHART_BACKGROUND_COLOR = 'rgb(32, 77, 116)';
+
+            var labelWidth = Math.round(data.length / X_AXIS_NUMBER_OF_LABELS);
+            var labels = data.map(function (item) {
+                return item.distance.toFixed();
+            });
+            var values = data.map(function (item) {
+                return item.elevation;
+            });
+
+            console.debug('Drawing elevation chart. Input:', data);
+
+            new Chart(chart, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: '',
+                        data: values,
+                        fill: 'start',
+                        radius: 0,
+                        backgroundColor: CHART_BACKGROUND_COLOR,
+                    }],
+                    labels: labels
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: X_AXIS_LABEL_STRING
+                            },
+                            ticks: {
+                                callback: function (dataLabel, index) {
+                                    return index % labelWidth === 0 || index === data.length - 1 ? dataLabel : null;
+                                }
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: Y_AXIS_LABEL_STRING
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        enabled: false
+                    }
+                }
+            });
+        }
+        var chartCanvas = $('#elevationChart');
+        if (chartCanvas.length === 1) {
+            drawElevationChart(chartCanvas, chartCanvas.data('elevation'));
+        }
+	</script>
 {% endblock %}
 
 {% block javascripts_inline %}
@@ -584,9 +536,7 @@
             }
         });
     </script>
-    <script
-            src="{{ map.geometryLink }}">
-    </script>
+    <script src="{{ map.geometryLink }}"></script>
     <script>
         {% raw %}
         function initialize() {

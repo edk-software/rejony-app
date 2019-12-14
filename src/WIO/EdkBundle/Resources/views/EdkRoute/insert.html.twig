@@ -15,7 +15,9 @@
                     {{ form_row(form.routePatron) }}
                     {{ form_row(form.routeColor) }}
                     {{ form_row(form.routeAuthor) }}
-                    {{ form_row(form.routeType) }}
+					{% if form.routeType is defined %}
+                    	{{ form_row(form.routeType) }}
+					{% endif %}
                     {% if not isArea %}
                         {{ form_row(form.area) }}
                     {% endif %}
@@ -30,8 +32,12 @@
                     {{ form_row(form.routeFromDetails) }}
                     {{ form_row(form.routeTo) }}
                     {{ form_row(form.routeToDetails) }}
-                    {{ form_row(form.routeLength) }}
-                    {{ form_row(form.routeAscent) }}
+					{% if form.routeLength is defined %}
+                    	{{ form_row(form.routeLength) }}
+					{% endif %}
+					{% if form.routeAscent is defined %}
+                    	{{ form_row(form.routeAscent) }}
+					{% endif %}
 				</div>
 			</div>
 		</fieldset>

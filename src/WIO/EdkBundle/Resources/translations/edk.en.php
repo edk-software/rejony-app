@@ -9,7 +9,8 @@ return [
 	'EdkRoute: 0' => 'Route: 0',
 	'FullRoute' => 'Extreme Way of the Cross route',
 	'RouteInspiredByEWC' => 'Route inspired by Extreme Way of the Cross',
-	
+	'UndefinedRoute' => 'Undefined route type',
+
 	'RouteCourseInfoText' => 'Specify the names of villages, towns, places, etc. the route passes through.',
 	'RouteAscentInfoText' => 'Min. 500 metres for routes 30 to 40 km long.',
 	
@@ -39,12 +40,11 @@ return [
 	'Single path' => 'Single path',
 	'SinglePathDescription' => 'GPS trace shall contain only one path.',
 	'Data consistency' => 'Data consistency',
-	'DataConsistencyDescription' => 'Route length (±1km), total ascent (±50m) and route type shall be consistent with calculated from GPS trace file.',
 	'Elevation chart' => 'Elevation chart',
 	'Verify' => 'Verify',
-	'Verification successful' => 'Verification successful',
-	'Verification failed' => 'Verification failed',
-	'PageWillBeRefreshed' => 'Page will be refreshed within 5 seconds...',
+	'VerificationSuccessful' => 'Verification successful.',
+	'VerificationFailed' => 'Verification failed.',
+    'VerificationError' => 'An error occurred during route verification.',
 
 	'AreaAdditionalNoteInfoText' => 'Below you can edit additional sections about your area that will be shown on the website.',
 	'EwcBeginningNote' => 'Beginning',

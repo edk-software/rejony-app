@@ -11,7 +11,6 @@ return [
 	'EdkRoute: 0' => 'Trasa: 0',
 	'Route details: 0' => 'Szczegóły trasy: 0',
 	'Route information' => 'Informacje o trasie',
-	'Base information' => 'Podstawowe informacje',
 	'Route characteristic' => 'Charakterystyka',
 	'Additional notes' => 'Dodatkowe uwagi',
 	'Map' => 'Mapa',
@@ -74,7 +73,8 @@ return [
 
 	'FullRoute' => 'Trasa EDK',
 	'RouteInspiredByEWC' => 'Droga na wzór EDK',
-	
+	'UndefinedRoute' => 'Typ trasy niezdefiniowany',
+
 	'RouteCourseInfoText' => 'Wymień po kolei nazwy miejscowości i miejsc, przez które przebiega trasa. Kolejne oddziel za pomocą "-"',
 	'RouteCoursePlaceholder' => 'Kraków - Wieliczka - Przebieczany - Gdów',
 	'RouteAscentInfoText' => 'Min. 500 metrów dla tras od 30 do 40 km długości.',
@@ -114,12 +114,11 @@ return [
 	'Single path' => 'Jedna nitka',
 	'SinglePathDescription' => 'Ślad trasy zawierać powinien jedną nitkę - ścieżkę.',
 	'Data consistency' => 'Zgodność danych',
-	'DataConsistencyDescription' => 'Długość trasy (±1km), suma podejść (±50m) oraz typ powinny zgadzać się z wyliczonymi wartościami.',
 	'Elevation chart' => 'Profil trasy',
 	'Verify' => 'Zweryfikuj poprawność śladu trasy',
-	'Verification successful' => 'Weryfikacja zakończona sukcesem',
-	'Verification failed' => 'Weryfikacja zakończona błędem',
-	'PageWillBeRefreshed' => 'Strona zostanie odświeżona w ciągu 5 sekund...',
+	'VerificationSuccessful' => 'Weryfikacja zakończona sukcesem.',
+	'VerificationFailed' => 'Weryfikacja zakończona błędem.',
+	'VerificationError' => 'Wystąpił błąd podczas weryfikowania trasy.',
 
 	'Not uploaded' => 'Niewgrany',
 	

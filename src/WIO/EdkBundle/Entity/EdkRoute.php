@@ -35,7 +35,6 @@ use Cantiga\Metamodel\Exception\DiskAssetException;
 use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
 use Cantiga\Metamodel\FileRepositoryInterface;
-use Cantiga\Metamodel\QueryClause;
 use Cantiga\Metamodel\TimeFormatterInterface;
 use Doctrine\DBAL\Connection;
 use LogicException;
@@ -57,8 +56,9 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 {
 	const TYPE_FULL = 0;
 	const TYPE_INSPIRED = 1;
+	const TYPE_UNDEFINED = 2;
 
-    const STATUS_NONE= 0;
+    const STATUS_NONE = 0;
     const STATUS_NEW = 1;
     const STATUS_APPROVED = 2;
     const STATUS_REVOKED = 3;
@@ -73,14 +73,14 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	private $routePatron;
 	private $routeColor;
 	private $routeAuthor;
-	private $routeType;
+	private $routeType = self::TYPE_UNDEFINED;
 	private $routeFrom;
 	private $routeFromDetails;
 	private $routeTo;
 	private $routeToDetails;
 	private $routeCourse;
-	private $routeLength;
-	private $routeAscent;
+	private $routeLength = 0;
+	private $routeAscent = 0;
 	private $routeObstacles;
 	private $createdAt;
 	private $createdBy;
@@ -128,6 +128,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	 * @var UploadedFile
 	 */
 	private $gpsTrackFileUpload;
+	private $verificationStatus;
 	private $elevationCharacteristic;
 	private $publicAccessSlug;
 	private $commentNum;
@@ -285,8 +286,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	
 	public function validate(ExecutionContextInterface $context)
 	{
-		if ($this->routeType == self::TYPE_FULL)
-		{
+		if ($this->routeType == self::TYPE_FULL) {
 			if ($this->routeLength < 30) {
 				$context->buildViolation('RouteLengthGreaterThan30Km')
 					->atPath('routeLength')
@@ -301,7 +301,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 					return false;
 				}
 			}
-		} else {
+		} elseif ($this->routeType == self::TYPE_INSPIRED) {
 			if ($this->routeLength < 20) {
 				$context->buildViolation('RouteLengthGreaterThan20Km')
 					->atPath('routeLength')
@@ -443,9 +443,14 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this->gpsTrackFileUpload;
 	}
 
+	public function getVerificationStatus()
+	{
+		return $this->verificationStatus;
+	}
+
 	public function getElevationCharacteristic()
 	{
-		return json_decode($this->elevationCharacteristic);
+		return $this->elevationCharacteristic;
 	}
 
 	public function getPublicAccessSlug()
@@ -748,10 +753,17 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this;
 	}
 
+	public function setVerificationStatus($verificationStatus)
+	{
+		$this->verificationStatus = is_string($verificationStatus) ? json_decode($verificationStatus) :
+			$verificationStatus;
+		return $this;
+	}
+
 	public function setElevationCharacteristic($elevationCharacteristic)
 	{
-		$this->elevationCharacteristic = is_string($elevationCharacteristic) ? $elevationCharacteristic :
-			json_encode($elevationCharacteristic);
+		$this->elevationCharacteristic = is_string($elevationCharacteristic) ? json_decode($elevationCharacteristic) :
+			$elevationCharacteristic;
 		return $this;
 	}
 
@@ -974,7 +986,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 			$this->notes[$type] = $content;
 		}
 	}
-	
+
 	public function downloadDescription(FileRepositoryInterface $repository, Response $response)
 	{
 		if(null === $this->descriptionFile) {
@@ -1000,6 +1012,12 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	{
 		$repository->downloadFile($this->gpsTrackFile, 'edk-gps-route-' . $this->id . '.kml', 'application/vnd.google-earth.kml+xml', $response);
 	}
+
+	public function getGpsTrackContent(FileRepositoryInterface $repository)
+	{
+		return $repository->getFileContent($this->gpsTrackFile);
+	}
+
 	private function insertDescription(FileRepositoryInterface $fileRepository)
     {
         $this->descriptionStatus = self::STATUS_NEW;
@@ -1015,6 +1033,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
         $this->mapUpdatedAt = time();
         $this->mapFile = $fileRepository->storeFile($this->getMapFileUpload());
     }
+
     private function insertGps(FileRepositoryInterface $fileRepository)
     {
         $this->gpsStatus = self::STATUS_NEW;
@@ -1022,6 +1041,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
         $this->gpsUpdatedAt = time();
         $this->gpsTrackFile = $fileRepository->storeFile($this->getGpsTrackFileUpload());
     }
+
 	public function storeFiles(FileRepositoryInterface $fileRepository)
 	{
 		if (!$this->getGpsTrackFileUpload() instanceof UploadedFile) {
@@ -1043,7 +1063,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		}
 		$this->insertGps($fileRepository);
 	}
-	
+
 	public function updateFiles(FileRepositoryInterface $fileRepository)
 	{
 		if($this->getDescriptionFileUpload() instanceof UploadedFile) {
@@ -1074,7 +1094,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		}
 		if (null !== $this->getGpsTrackFileUpload()) {
             $this->gpsStatus = self::STATUS_NEW;
-            $this->approved = false;
+            $this->approved = 0;
             $this->gpsUpdatedAt = time();
 			$this->gpsTrackFile = $fileRepository->replaceFile($this->gpsTrackFile, $this->getGpsTrackFileUpload());
 		}
@@ -1086,7 +1106,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 			throw new LogicException('EdkRoute requires ::area to be specified.');
 		}
 
-		$this->approved = false;
+		$this->approved = 0;
 		
 		$this->publicAccessSlug = sha1(time() . $this->routeAscent . $this->routeFrom . rand(-20000, 20000));
 		$this->createdAt = time();
@@ -1115,7 +1135,6 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
                     'descriptionFile',
                     'mapFile',
                     'gpsTrackFile',
-                    'elevationCharacteristic',
                     'publicAccessSlug',
                     'importedFrom',
                     'gpsStatus',
@@ -1170,7 +1189,6 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
                 'descriptionFile',
                 'mapFile',
                 'gpsTrackFile',
-                'elevationCharacteristic',
                 'publicAccessSlug',
                 'commentNum',
                 'gpsStatus',
@@ -1209,12 +1227,12 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	{
 		$conn->delete(EdkTables::ROUTE_TBL, DataMappers::pick($this, ['id']));
 	}
-	
-	public function approve(Connection $conn, User $user): bool
+
+	public function approve(Connection $conn, User $user, $force = false): bool
 	{
-		if (!$this->isApproved($conn)) {
+		if ($force || !$this->isApproved($conn)) {
 			$approvedAt = time();
-			$this->approved = true;
+			$this->approved = 1;
 			$this->approvedAt = $approvedAt;
 			$this->approvedBy = $user->getId();
 			$this->gpsStatus = self::STATUS_APPROVED;
@@ -1226,10 +1244,16 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 					'approved' => $this->approved,
 					'approvedAt' => $this->approvedAt,
 					'approvedBy' => $this->approvedBy,
+                    'elevationCharacteristic' => isset($this->elevationCharacteristic) ?
+                        json_encode($this->elevationCharacteristic) : null,
 					'gpsStatus' => $this->gpsStatus,
 					'gpsApprovedAt' => $this->gpsApprovedAt,
 					'gpsApprovedBy' => $this->gpsApprovedBy,
-					'elevationCharacteristic' => $this->elevationCharacteristic,
+                    'routeAscent' => $this->routeAscent,
+                    'routeLength' => $this->routeLength,
+                    'routeType' => $this->routeType,
+					'verificationStatus' => isset($this->verificationStatus) ? json_encode($this->verificationStatus) :
+                        null,
 				],
 				[
 					'id' => $this->getId(),
@@ -1240,10 +1264,10 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return false;
 	}
 
-	public function revoke(Connection $conn, User $user): bool
+	public function revoke(Connection $conn, User $user, $force = false): bool
 	{
-		if ($this->isApproved($conn)) {
-			$this->approved = false;
+		if ($force || $this->isApproved($conn)) {
+			$this->approved = 0;
 			$this->approvedAt = time();
 			$this->approvedBy = $user->getId();
 
@@ -1252,6 +1276,13 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 					'approved' => $this->approved,
 					'approvedAt' => $this->approvedAt,
 					'approvedBy' => $this->approvedBy,
+                    'elevationCharacteristic' => isset($this->elevationCharacteristic) ?
+                        json_encode($this->elevationCharacteristic) : null,
+                    'routeAscent' => $this->routeAscent,
+                    'routeLength' => $this->routeLength,
+                    'routeType' => $this->routeType,
+                    'verificationStatus' => isset($this->verificationStatus) ? json_encode($this->verificationStatus) :
+                        null,
 				],
 				[
 					'id' => $this->getId(),
@@ -1269,7 +1300,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 			$this->gpsStatus = self::STATUS_APPROVED;
 			$this->gpsApprovedAt = $approvedAt;
 			$this->gpsApprovedBy = $user->getId();
-            $this->approved = true;
+            $this->approved = 1;
             $this->approvedAt = $approvedAt;
             $this->approvedBy = $user->getId();
 
@@ -1295,7 +1326,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 			$this->gpsStatus = self::STATUS_REVOKED;
 			$this->gpsApprovedAt = $approvedAt;
 			$this->gpsApprovedBy = $user->getId();
-            $this->approved = false;
+            $this->approved = 0;
             $this->approvedAt = $approvedAt;
             $this->approvedBy = $user->getId();
 

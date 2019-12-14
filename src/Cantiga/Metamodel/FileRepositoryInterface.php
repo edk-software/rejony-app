@@ -76,6 +76,14 @@ interface FileRepositoryInterface
 	 */
 	public function getFileHandle($key);
 	/**
+	 * Returns a content of the file.
+	 *
+	 * @param string $key Key used for storing this file in the repository
+	 * @return string
+	 * @throws DiskAssetException
+	 */
+	public function getFileContent($key);
+	/**
 	 * Starts the operation of downloading the file. You must specify an empty Response object 
 	 * and set the download parameters.
 	 * 

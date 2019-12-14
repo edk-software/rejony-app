@@ -32,6 +32,7 @@ use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\Group;
 use Cantiga\CoreBundle\Entity\Message;
 use Cantiga\CoreBundle\Entity\User;
+use Cantiga\Metamodel\Exception\ItemNotFoundException;
 use Cantiga\Metamodel\Exception\ModelException;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,7 +40,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use WIO\EdkBundle\Client\RouteVerifierClient;
 use WIO\EdkBundle\Entity\EdkRoute;
 use WIO\EdkBundle\Form\EdkRouteForm;
 use WIO\EdkBundle\Form\AreaRoutesImportForm;
@@ -163,7 +167,12 @@ class RouteController extends WorkspaceController
 	public function insertAction(Request $request, Membership $membership)
 	{
 		$entity = new EdkRoute();
-		$action = new InsertAction($this->crudInfo, $entity, EdkRouteForm::class, ['mode' => EdkRouteForm::ADD, 'areaRepository' => $this->findAreaRepository($membership)]);
+		$this->crudInfo->setInfoPage('edk_route_verify');
+		$action = new InsertAction($this->crudInfo, $entity, EdkRouteForm::class, [
+			'areaRepository' => $this->findAreaRepository($membership),
+            'isPlaceManager' => $this->isGranted('PLACE_MANAGER'),
+            'mode' => EdkRouteForm::ADD,
+		]);
 		$action->slug($this->getSlug());
 		$action->set('isArea', $this->isArea($membership));
 		return $action->run($this, $request);
@@ -174,7 +183,12 @@ class RouteController extends WorkspaceController
 	 */
 	public function editAction($id, Request $request, Membership $membership)
 	{
-		$action = new EditAction($this->crudInfo, EdkRouteForm::class, ['mode' => EdkRouteForm::EDIT, 'areaRepository' => $this->findAreaRepository($membership)]);
+        $this->crudInfo->setInfoPage('edk_route_verify');
+		$action = new EditAction($this->crudInfo, EdkRouteForm::class, [
+			'areaRepository' => $this->findAreaRepository($membership),
+            'isPlaceManager' => $this->isGranted('PLACE_MANAGER'),
+            'mode' => EdkRouteForm::EDIT,
+		]);
 		$action->slug($this->getSlug());
 		$action->set('isArea', $this->isArea($membership));
 		return $action->run($this, $id, $request);
@@ -189,6 +203,57 @@ class RouteController extends WorkspaceController
 		$action->slug($this->getSlug());
 		return $action->run($this, $id, $request);
 	}
+
+    /**
+     * @Route("/{id}/verify", name="edk_route_verify")
+     */
+    public function verifyAction($id, Membership $membership, Request $request)
+    {
+        $user = $this->getUser();
+
+        try {
+            /** @var EdkRouteRepository $routeRepository */
+            $routeRepository = $this->crudInfo->getRepository();
+            $route = $routeRepository->getItem($id);
+        } catch (ItemNotFoundException $exception) {
+            throw new NotFoundHttpException('Route not found.');
+        }
+
+        /** @var SessionInterface $session */
+        $session = $this->get('session');
+        $flashBag = $session->getFlashBag();
+
+        try {
+            /** @var RouteVerifierClient $routeVerifier */
+            $routeVerifier = $this->get('wio.edk.route_verifier');
+            $result = $routeVerifier->verify($route);
+            $route
+                ->setElevationCharacteristic($result->getElevationCharacteristic())
+                ->setVerificationStatus($result->getVerificationStatus())
+                ->setRouteAscent($result->getRouteAscent())
+                ->setRouteLength($result->getRouteLength())
+                ->setRouteType($result->getRouteType())
+            ;
+            if ($result->isValid()) {
+                $routeRepository->approve($route, $user, true);
+                $flashBag->add('info', implode(' ', array_merge([
+                    $this->trans('VerificationSuccessful', [], 'edk'),
+                ], $result->getVerificationLogs())));
+            } else {
+                $routeRepository->revoke($route, $user, true);
+                $flashBag->add('info', implode(' ', array_merge([
+                    $this->trans('VerificationFailed', [], 'edk'),
+                ], $result->getVerificationLogs())));
+            }
+        } catch (Exception $exception) {
+            $flashBag->add('error', $this->trans('VerificationError', [], 'edk'));
+        }
+
+        return $this->redirectToRoute('edk_route_info', [
+            'id' => $id,
+            'slug' => $this->getSlug(),
+        ]);
+    }
 	
 	/**
 	 * @Route("/{id}/api-reload", name="edk_route_api_reload")
@@ -263,13 +328,7 @@ class RouteController extends WorkspaceController
 	{
 		return $this->modifyRouteAfterApproval(
 			$request, (int) $id, 'Do you want to approve the route "0"?', self::APPROVE_PAGE,
-			function (EdkRouteRepository $repository, EdkRoute $item, User $user, string $content) {
-				if (!empty($content) ) {
-					$elevationCharacteristic = json_decode($content);
-					if (isset($elevationCharacteristic)) {
-						$item->setElevationCharacteristic($elevationCharacteristic);
-					}
-				}
+			function (EdkRouteRepository $repository, EdkRoute $item, User $user) {
 				$repository->approve($item, $user);
 			}
 		);
@@ -376,12 +435,11 @@ class RouteController extends WorkspaceController
 			$item = $repository->getItem($id);
 
 			$user = $this->getUser();
-			$content = $request->getContent();
 			$question = new QuestionHelper($this->trans($question, [
 				$item->getName(),
 			], 'edk'));
-			$question->onSuccess(function () use ($repository, $item, $user, $content, $onSuccessCallback) {
-				$onSuccessCallback($repository, $item, $user, $content);
+			$question->onSuccess(function () use ($repository, $item, $user, $onSuccessCallback) {
+				$onSuccessCallback($repository, $item, $user);
 			});
 			$arguments = [
 				'id' => $item->getId(),
@@ -477,23 +535,6 @@ class RouteController extends WorkspaceController
 			return $question->handleRequest($this, $request);
 		} catch(ModelException $exception) {
 			return $this->showPageWithError($exception->getMessage(), $this->crudInfo->getIndexPage(), ['slug' => $this->getSlug()]);
-		}
-	}
-
-	/**
-	 * @Route("/{id}/params", name="edk_route_params")
-	 */
-	public function getParams($id)
-	{
-		try {
-			$edkRoute = $this->crudInfo->getRepository()->getItem($id);
-			return new JsonResponse(['success' => 1, 
-									 'type' => (int)$edkRoute->getRouteType(),
-									 'length' => (int)$edkRoute->getRouteLength(),
-									 'ascent' => (int)$edkRoute->getRouteAscent()]);
-		} catch (Exception $exception) {
-			return new JsonResponse(['success' => 0,
-									 'error' => $exception->getMessage()]);
 		}
 	}
 	

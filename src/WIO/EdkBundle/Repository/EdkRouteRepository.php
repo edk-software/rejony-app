@@ -385,13 +385,13 @@ class EdkRouteRepository
 			throw $ex;
 		}
 	}
-	
-	public function approve(EdkRoute $item, User $user)
+
+	public function approve(EdkRoute $item, User $user, $force = false)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			if (!$item->approve($this->conn, $user)) {
-				throw new ModelException('Cannot approve this this route.');
+			if (!$item->approve($this->conn, $user, $force)) {
+				throw new ModelException('Cannot approve this route.');
 			}
 			$this->eventDispatcher->dispatch(MilestoneEvents::ACTIVATION_EVENT, new ActivationEvent(
 				$item->getArea()->getProject(),
@@ -405,12 +405,12 @@ class EdkRouteRepository
 		}
 	}
 
-	public function revoke(EdkRoute $item, User $user)
+	public function revoke(EdkRoute $item, User $user, $force = false)
 	{
 		$this->transaction->requestTransaction();
 		try {
-			if(!$item->revoke($this->conn, $user)) {
-				throw new ModelException('Cannot revoke this this route.');
+			if(!$item->revoke($this->conn, $user, $force)) {
+				throw new ModelException('Cannot revoke this route.');
 			}
 			$this->eventDispatcher->dispatch(MilestoneEvents::ACTIVATION_EVENT, new ActivationEvent(
 				$item->getArea()->getProject(),
