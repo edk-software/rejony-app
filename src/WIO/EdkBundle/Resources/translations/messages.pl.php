@@ -7,7 +7,7 @@ return array(
 	'Parish website' => 'Strona internetowa parafii',
 	'Responsible persons' => 'Opiekunowie rejonu',
 	'Priest' => 'Ksiądz (opiekun rejonu)',
-	'Area coordinator' => 'Koordynator rejonu',
+	'Area coordinator' => 'Lider rejonu',
 	
 	'Your Extreme Way' => 'Twoja Ekstremalna Droga',
 	'Type of the way you wish to create' => 'Rodzaj drogi, którą chcesz utworzyć',

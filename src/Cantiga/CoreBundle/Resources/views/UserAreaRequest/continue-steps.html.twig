@@ -1,0 +1,14 @@
+<div class="col-lg-12">
+	<ul class="nav nav-pills nav-justified thumbnail setup-panel">
+		<li{% if currentStep == 1 %} class="active"{% elseif currentStep < 1 or disablePrevious %} class="disabled"{% endif %}>
+			<a{% if currentStep > 1 and not disablePrevious %} href="{{ spath('user_area_request_create', {step: 1, projectId: projectId }) }}"{% endif %}>
+				<h4 class="list-group-item-heading">{{ 'ProvideContactDataText' | trans([], 'requests') }}</h4>
+				<p class="list-group-item-text hidden-xs">{{ 'Step 1' | trans([], 'requests') }}</p>
+			</a></li>
+		<li{% if currentStep == 2 %} class="active"{% elseif currentStep < 2 or disablePrevious %} class="disabled"{% endif %}>
+			<a>
+				<h4 class="list-group-item-heading">{{ 'AreaCreated' | trans([], 'requests') }}</h4>
+				<p class="list-group-item-text hidden-xs">{{ 'Step 2' | trans([], 'requests') }}</p>
+			</a></li>
+	</ul>
+</div>

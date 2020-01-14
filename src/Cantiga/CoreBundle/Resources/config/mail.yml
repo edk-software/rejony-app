@@ -35,3 +35,4 @@ services:
             - { name: kernel.event_listener, event: cantiga.area-request.verification, method: onAreaRequestVerification }
             - { name: kernel.event_listener, event: cantiga.area-request.revoked, method: onAreaRequestRevoked }
             - { name: kernel.event_listener, event: cantiga.area-request.approved, method: onAreaRequestApproved }
+            - { name: kernel.event_listener, event: cantiga.area.prolongation, method: onAreaProlongation }

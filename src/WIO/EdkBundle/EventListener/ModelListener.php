@@ -58,6 +58,8 @@ class ModelListener
 		$settings->create(new Setting(EdkSettings::GUIDE_MIRROR_URL, 'Guide mirror URL', 'edk', '', Setting::TYPE_STRING, false));
 		$settings->create(new Setting(EdkSettings::MAP_MIRROR_URL, 'Map mirror URL', 'edk', '', Setting::TYPE_STRING, false));
 		$settings->create(new Setting(EdkSettings::GPS_MIRROR_URL, 'GPS mirror URL', 'edk', '', Setting::TYPE_STRING, false));
+		$settings->create(new Setting(EdkSettings::EVENT_DATE, 'Data EDK', 'edk', '', Setting::TYPE_INTEGER, true));
+		$settings->create(new Setting(EdkSettings::START_REGISTRATION_DATE, 'Data Środy Popielcowej', 'edk', '', Setting::TYPE_INTEGER, true));
 		$settings->create(new Setting(EdkSettings::NOTIFICATION_EMAILS, 'Recipient of report mails', 'edk', '', Setting::TYPE_STRING, false));
 	}
 

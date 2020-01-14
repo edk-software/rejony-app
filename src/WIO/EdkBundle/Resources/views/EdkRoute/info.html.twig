@@ -367,10 +367,11 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <div class="col-md-12 margin-bottom">
-                        <a href="{{ spath('edk_route_verify', { id: item.id }) }}" class="btn btn-primary btn-block">
-                            <i class="fa fa-gears"></i> {{ 'Verify' | trans({}, 'edk') }}
-                        </a>
+                    <div class="col-md-12 margin-bottom bg-yellow">
+						<p>Weryfikacja śladu trasy możliwa będzie od 1 lutego 2020</p>
+{#                        <a href="{{ spath('edk_route_verify', { id: item.id }) }}" class="btn btn-primary btn-block">#}
+{#                            <i class="fa fa-gears"></i> {{ 'Verify' | trans({}, 'edk') }}#}
+{#                        </a>#}
                     </div>
 					{{ macros.route_verification_task_box(
 						'singlePath', 'fa-circle-o', item.verificationStatus, 'Single path' | trans({}, 'edk'),

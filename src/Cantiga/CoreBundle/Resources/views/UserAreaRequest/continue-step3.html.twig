@@ -1,0 +1,29 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_title %}
+	{{ 'Request a new area' | trans([], 'pages') }}
+{% endblock %}
+
+{% block page_content %}
+	<div class="row">
+		{% include 'CantigaCoreBundle:UserAreaRequest:continue-steps.html.twig' with { currentStep: 2, disablePrevious: true, projectId: null } %}
+	</div>
+	<div class="row">
+		<div class="col-lg-6 col-md-12 col-lg-offset-3 col-md-offset-0">
+			<div class="box box-success">
+				<div class="box-header with-border">
+					<i class="fa fa-legal"></i>
+					<h3 class="box-title">{{ 'AreaCreated' | trans([], 'requests') }}</h3>
+				</div>
+				<div class="box-body">
+					<p>{{ 'ThankYouProlongationText' | trans([], 'requests') }}</p>
+				</div>
+				<div class="box-footer">
+					<div class="pull-right"><a href="{{ path('place_dashboard', {'slug': slug} ) }}"
+											   class="btn btn-primary">{{ 'ViewAreaLinkName' | trans([], 'requests') }}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

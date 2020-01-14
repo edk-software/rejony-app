@@ -16,19 +16,32 @@
  * along with Foobar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-namespace WIO\EdkBundle;
 
-class EdkSettings
+namespace Cantiga\CoreBundle\Event;
+
+use Cantiga\CoreBundle\Entity\Area;
+use Symfony\Component\EventDispatcher\Event;
+
+/**
+ * Notification that the area request has been approved and the area has been
+ * created.
+ *
+ * @author Tomasz Jędrzejewski
+ */
+class AreaProlongationEvent extends Event
 {
-	const PUBLISHED_AREA_STATUS = 'edk_published_area_status';
-	const PUBLISHED_LIKE_AREA_STATUS = 'edk_published_like_area_status';
-	const PUBLISHED_PERCENT = 'edk_published_percent';
-	const MIRROR_URL = 'edk_mirror_url';
-	const REDIRECT_TO_MIRROR = 'edk_redirect_to_mirror';
-	const GUIDE_MIRROR_URL = 'edk_guide_mirror_url';
-	const MAP_MIRROR_URL = 'edk_map_mirror_url';
-	const GPS_MIRROR_URL = 'edk_gps_mirror_url';
-	const NOTIFICATION_EMAILS = 'edk_reports_emails';
-	const EVENT_DATE = 'edk_event_date';
-	const START_REGISTRATION_DATE = 'edk_start_registration_date';
+    private $area;
+
+    public function __construct(Area $area)
+    {
+        $this->area = $area;
+    }
+
+    /**
+     * @return Area
+     */
+    public function getArea()
+    {
+        return $this->area;
+    }
 }

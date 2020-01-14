@@ -16,10 +16,12 @@
  * along with Foobar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 namespace Cantiga\CoreBundle\Repository\Utils;
 
 use Cantiga\Components\Hierarchy\HierarchicalInterface;
 use Cantiga\Components\Hierarchy\User\CantigaUserRefInterface;
+use Cantiga\CoreBundle\Entity\Area;
 use Cantiga\CoreBundle\Entity\AreaRequest;
 use Cantiga\CoreBundle\Repository\UserAreaRequestRepository;
 use Cantiga\Metamodel\Exception\ModelException;
@@ -32,83 +34,101 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class AreaRequestFlow
 {
-	const REQUEST_KEY = 'area-request/request';
-	const CONTACT_KEY = 'area-request/contact-data';
-	
-	/**
-	 * @var UserAreaRequestRepository 
-	 */
-	private $areaRequestRepository;
-	/**
-	 * @var ContactRepository
-	 */
-	private $contactRepository;
-	
-	public function __construct(UserAreaRequestRepository $areaRequestRepository, ContactRepository $contactRepository)
-	{
-		$this->areaRequestRepository = $areaRequestRepository;
-		$this->contactRepository = $contactRepository;
-	}
-	
-	public function clearSession(Session $session)
-	{
-		$session->remove(self::REQUEST_KEY);
-		$session->remove(self::CONTACT_KEY);
-	}
-	
-	public function restoreRequest(Session $session): AreaRequest
-	{
-		if ($session->has(self::REQUEST_KEY)) {
-			return unserialize($session->get(self::REQUEST_KEY));
-		} else{
-			return new AreaRequest();
-		}
-	}
-	
-	public function createContactData(HierarchicalInterface $project, CantigaUserRefInterface $requestor): ContactData
-	{
-		return $this->contactRepository->findContactData($project, $requestor);
-	}
-	
-	public function persistRequest(Session $session, AreaRequest $request)
-	{
-		$session->set(self::REQUEST_KEY, serialize($request));
-	}
-	
-	public function persistContactData(Session $session, ContactData $contactData)
-	{
-		$session->set(self::CONTACT_KEY, serialize($contactData));
-	}
-	
-	public function isCompleted(Session $session): bool
-	{
-		return $session->has(self::REQUEST_KEY) && $session->has(self::CONTACT_KEY);
-	}
-	
-	public function create(Session $session, HierarchicalInterface $project, CantigaUserRefInterface $requestor): int
-	{
-		list($areaRequest, $contactData) = $this->unpackObjects($session, $project, $requestor);
-		
-		$this->clearSession($session);
-		
-		$this->contactRepository->persistContactData($contactData);
-		return $this->areaRequestRepository->insert($areaRequest);
-	}
-	
-	private function unpackObjects(Session $session, HierarchicalInterface $project, CantigaUserRefInterface $requestor)
-	{
-		$areaRequest = $session->get(self::REQUEST_KEY, null);
-		$contactData = $session->get(self::CONTACT_KEY, null);
-		
-		if (empty($contactData) || empty($areaRequest)) {
-			throw new ModelException('Missing data for creating the area request.');
-		}
-		$areaRequest = unserialize($areaRequest);
-		$contactData = unserialize($contactData);
+    const REQUEST_KEY = 'area-request/request';
+    const CONTACT_KEY = 'area-request/contact-data';
 
-		$areaRequest->setProject($project);
-		$areaRequest->setRequestor($requestor);
-		
-		return [$areaRequest, $contactData];
-	}
+    /**
+     * @var UserAreaRequestRepository
+     */
+    private $areaRequestRepository;
+    /**
+     * @var ContactRepository
+     */
+    private $contactRepository;
+
+    public function __construct(UserAreaRequestRepository $areaRequestRepository, ContactRepository $contactRepository)
+    {
+        $this->areaRequestRepository = $areaRequestRepository;
+        $this->contactRepository = $contactRepository;
+    }
+
+    public function clearSession(Session $session)
+    {
+        $session->remove(self::REQUEST_KEY);
+        $session->remove(self::CONTACT_KEY);
+    }
+
+    public function restoreRequest(Session $session): AreaRequest
+    {
+        if ($session->has(self::REQUEST_KEY)) {
+            return unserialize($session->get(self::REQUEST_KEY));
+        } else {
+            return new AreaRequest();
+        }
+    }
+
+    public function createContactData(HierarchicalInterface $project, CantigaUserRefInterface $requestor): ContactData
+    {
+        return $this->contactRepository->findContactData($project, $requestor);
+    }
+
+    public function persistRequest(Session $session, AreaRequest $request)
+    {
+        $session->set(self::REQUEST_KEY, serialize($request));
+    }
+
+    public function persistContactData(Session $session, ContactData $contactData)
+    {
+        $session->set(self::CONTACT_KEY, serialize($contactData));
+    }
+
+    public function isCompleted(Session $session): bool
+    {
+        return $session->has(self::REQUEST_KEY) && $session->has(self::CONTACT_KEY);
+    }
+
+    public function isContinueCompleted(Session $session): bool
+    {
+        return $session->has(self::CONTACT_KEY);
+    }
+
+    public function create(Session $session, HierarchicalInterface $project, CantigaUserRefInterface $requestor): int
+    {
+        list($areaRequest, $contactData) = $this->unpackObjects($session, $project, $requestor);
+
+        $this->clearSession($session);
+
+        $this->contactRepository->persistContactData($contactData);
+        return $this->areaRequestRepository->insert($areaRequest);
+    }
+
+    public function prolongationArea(Session $session, HierarchicalInterface $project, CantigaUserRefInterface $requestor, $areaId): Area
+    {
+        $contactData = $session->get(self::CONTACT_KEY, null);
+        if (empty($contactData)) {
+            throw new ModelException('Missing data for creating the area request.');
+        }
+        $contactData = unserialize($contactData);
+        $this->clearSession($session);
+
+        $this->contactRepository->persistContactData($contactData);
+        return $this->areaRequestRepository->prolongationArea($areaId, $project->getId(), $requestor->getId());
+    }
+
+    private function unpackObjects(Session $session, HierarchicalInterface $project, CantigaUserRefInterface $requestor)
+    {
+        $areaRequest = $session->get(self::REQUEST_KEY, null);
+        $contactData = $session->get(self::CONTACT_KEY, null);
+
+        if (empty($contactData) || empty($areaRequest)) {
+            throw new ModelException('Missing data for creating the area request.');
+        }
+        $areaRequest = unserialize($areaRequest);
+        $contactData = unserialize($contactData);
+
+        $areaRequest->setProject($project);
+        $areaRequest->setRequestor($requestor);
+
+        return [$areaRequest, $contactData];
+    }
 }

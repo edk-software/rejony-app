@@ -36,7 +36,7 @@ parameters:
     cantiga.controller.exception.class: Cantiga\CoreBundle\Controller\ExceptionController
     area_per_status_stats.class: Cantiga\CoreBundle\Statistics\AreasPerStatusStats
     targetFileDirectory: %kernel.root_dir%/../uploads/
-    
+
 services:
     cantiga.extensions:
         class:     "%extensions.class%"
@@ -68,8 +68,8 @@ services:
         class:     Cantiga\CoreBundle\Services\RecaptchaService
         arguments: ["@=container.getParameter('cantiga')['recaptcha']['siteKey']", "@=container.getParameter('cantiga')['recaptcha']['secretKey']"]
     cantiga.security.map:
-            class:     Cantiga\CoreBundle\Services\MapService
-            arguments: ["@=container.getParameter('cantiga')['map']['secretKey']"]
+        class:     Cantiga\CoreBundle\Services\MapService
+        arguments: ["@=container.getParameter('cantiga')['map']['secretKey']"]
 
     cantiga.project.settings.database_storage:
         class:     "%database_settings_storage.class%"
@@ -104,16 +104,16 @@ services:
     cantiga.core.repo.language:
         class:     "%language_repository.class%"
         arguments: ["@database_connection", "@cantiga.transaction"]
-    cantiga.core.repo.admin_user:                                                                                                                                                       
-        class:     Cantiga\CoreBundle\Repository\AdminUserRepository                                                                                                                                     
+    cantiga.core.repo.admin_user:
+        class:     Cantiga\CoreBundle\Repository\AdminUserRepository
         arguments: ["@database_connection", "@cantiga.transaction", "@event_dispatcher", "@cantiga.time", "@cantiga.roles"]
-    cantiga.core.repo.project:                                                                                                                                                     
+    cantiga.core.repo.project:
         class:     Cantiga\CoreBundle\Repository\ProjectRepository
         arguments: ["@database_connection", "@cantiga.transaction", "@cantiga.time", "@event_dispatcher", "@cantiga.project.settings.database_storage"]
-    cantiga.core.repo.archived_project:                                                                                                                                                     
+    cantiga.core.repo.archived_project:
         class:     Cantiga\CoreBundle\Repository\ArchivedProjectRepository
         arguments: ["@database_connection", "@cantiga.transaction", "@cantiga.time"]
-    cantiga.core.repo.user_registration:                                                                                                                                                
+    cantiga.core.repo.user_registration:
         class:     Cantiga\CoreBundle\Repository\UserRegistrationRepository
         arguments: ["@database_connection", "@cantiga.transaction", "@event_dispatcher", "@security.encoder_factory", "@cantiga.time"]
     cantiga.core.repo.user_dashboard:
@@ -121,7 +121,7 @@ services:
         arguments: ["@database_connection"]
     cantiga.core.repo.user_area_request:
         class:     Cantiga\CoreBundle\Repository\UserAreaRequestRepository
-        arguments: ["@database_connection", "@cantiga.transaction", "@event_dispatcher", "@cantiga.time", "@security.token_storage"]
+        arguments: ["@database_connection", "@cantiga.transaction", "@event_dispatcher", "@cantiga.time", "@security.token_storage","@cantiga.roles"]
     cantiga.core.repo.project_area_request:
         class:     Cantiga\CoreBundle\Repository\ProjectAreaRequestRepository
         arguments: ["@database_connection", "@cantiga.transaction", "@cantiga.time", "@event_dispatcher", "@cantiga.roles"]
@@ -145,13 +145,13 @@ services:
         arguments: ["@database_connection", "@cantiga.transaction"]
     cantiga.core.repo.text:
         calls:
-            -      [setTranslator, ["@translator"]]
+            - [setTranslator, ["@translator"]]
         class:     Cantiga\CoreBundle\Repository\AppTextRepository
         arguments: ["@database_connection", "@cantiga.transaction"]
     cantiga.core.repo.mail:
         class:     Cantiga\CoreBundle\Repository\AppMailRepository
         arguments: ["@database_connection", "@cantiga.transaction"]
-    cantiga.core.repo.statistics:                                                                                                                               
+    cantiga.core.repo.statistics:
         class:     Cantiga\CoreBundle\Repository\CoreStatisticsRepository
         arguments: ["@database_connection"]
         tags:
@@ -184,11 +184,11 @@ services:
             - { name: cantiga.extension, point: core.dashboard.project.right }
             - { name: cantiga.extension, point: core.dashboard.group.right }
             - { name: cantiga.extension, point: core.dashboard.area.right }
-#    cantiga.core.dashboard.recent_comments:
-#        class:     Cantiga\CoreBundle\Extension\DashboardChatExtension
-#        arguments: ["@cantiga.core.repo.project_area_request", "@templating"]
-#        tags:
-#            - { name: cantiga.extension, point: core.dashboard.project.central }
+    #    cantiga.core.dashboard.recent_comments:
+    #        class:     Cantiga\CoreBundle\Extension\DashboardChatExtension
+    #        arguments: ["@cantiga.core.repo.project_area_request", "@templating"]
+    #        tags:
+    #            - { name: cantiga.extension, point: core.dashboard.project.central }
     cantiga.core.dashboard.comments_in_areas_of_responsibility:
         class:     Cantiga\CoreBundle\Extension\DashboardResponsibilitiesExtension
         arguments: ["@cantiga.core.repo.project_area_request", "@templating", "@translator"]
