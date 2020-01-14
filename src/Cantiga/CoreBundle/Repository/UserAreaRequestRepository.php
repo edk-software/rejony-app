@@ -223,7 +223,7 @@ class UserAreaRequestRepository implements EntityTransformerInterface
             . 'INNER JOIN `' . CoreTables::PLACE_TBL . '` e ON e.`id` = a.`placeId` '
             . 'INNER JOIN `' . UserTables::PLACE_MEMBERS_TBL . '` m ON m.`placeId` = e.`id` '
             . 'INNER JOIN `' . CoreTables::PROJECT_TBL . '` p ON p.`id` = a.`projectId` '
-            . 'WHERE a.`projectId` = :parentProject AND m.`userId` = :userId');
+            . 'WHERE a.`projectId` = :parentProject AND m.`userId` = :userId AND a.`reporterId` = :userId');
         $stmt->bindValue(':parentProject', $projectId);
         $stmt->bindValue(':userId', $user->getId());
         $stmt->execute();
