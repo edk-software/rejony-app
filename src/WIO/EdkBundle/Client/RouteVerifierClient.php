@@ -4,9 +4,8 @@ namespace WIO\EdkBundle\Client;
 
 use Cantiga\Metamodel\FileRepositoryInterface;
 use Exception;
-use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use WIO\EdkBundle\Entity\EdkRoute;
+use WIO\EdkBundle\Exception\HttpClientRuntimeException;
 use WIO\EdkBundle\Exception\RouteVerifierResultException;
 use WIO\EdkBundle\Model\RouteVerifierResult;
 
@@ -18,7 +17,7 @@ class RouteVerifierClient
     /** @var string[]|null */
     private $basicAuth;
 
-    /** @var HttpClientInterface */
+    /** @var HttpClient */
     private $httpClient;
 
     /** @var FileRepositoryInterface */
@@ -30,7 +29,7 @@ class RouteVerifierClient
         $this->basicAuth = empty($basicAuthUser) || empty($basicAuthPass) ? null : [$basicAuthUser, $basicAuthPass];
     }
 
-    public function setHttpClient(HttpClientInterface $httpClient)
+    public function setHttpClient(HttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
     }
@@ -51,16 +50,17 @@ class RouteVerifierClient
 
         try {
             $url = sprintf('%s/api/verify', $this->baseUrl);
-            $response = $this->httpClient->request('POST', $url, [
-                'auth_basic' => $this->basicAuth,
-                'json' => [
-                    'kml' => $route->getGpsTrackContent($this->fileRepository),
-                ],
+            $response = $this->httpClient->makeRequest('POST', $url, [
+                'kml' => $route->getGpsTrackContent($this->fileRepository),
+            ], [
+                'Content-Type: application/json',
+            ], [
+                'authBasic' => $this->basicAuth,
             ]);
-            $result = new RouteVerifierResult($response->toArray());
+            $result = new RouteVerifierResult($response->getContent('json-array'));
         } catch (RouteVerifierResultException $exception) {
             throw new Exception('Route verification response is invalid.', 0, $exception);
-        } catch (ExceptionInterface $exception) {
+        } catch (HttpClientRuntimeException $exception) {
             throw new Exception('Third party error occurred.', 0, $exception);
         }
 

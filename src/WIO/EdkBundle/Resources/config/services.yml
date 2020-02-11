@@ -144,8 +144,7 @@ services:
          tags:
             - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get participants statistic" }
     wio.edk.http_client:
-        class: Symfony\Component\HttpClient\HttpClient
-        factory: [Symfony\Component\HttpClient\HttpClient, create]
+        class: WIO\EdkBundle\Client\HttpClient
     wio.edk.route_verifier:
         class: WIO\EdkBundle\Client\RouteVerifierClient
         arguments: ["%route_verifier_base_url%", "%route_verifier_basic_auth_user%", "%route_verifier_basic_auth_pass%"]
