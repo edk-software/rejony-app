@@ -25,6 +25,7 @@ class HttpClient
         $type = strtoupper($type);
         $body = $type === 'GET' ? '' : (is_array($data) || is_object($data) ? json_encode($data) : (string) $data);
         $options = array_merge([
+            'authBasic' => null,
             'ignoreHttpErrors' => false,
             'maxRedirs' => 0,
             'returnHeaders' => false,
@@ -73,7 +74,7 @@ class HttpClient
         if ($errorNo === CURLE_HTTP_POST_ERROR) {
             throw new HttpClientRuntimeException('HTTP POST error occurred during content sending.');
         } elseif ($errorNo !== CURLE_OK && $errorNo !== CURLE_HTTP_NOT_FOUND) {
-            throw new HttpClientRuntimeException('An error occurred during content sending.');
+            throw new HttpClientRuntimeException('An error ' . $errorNo . ' occurred during content sending.');
         } elseif ($options['ignoreHttpErrors'] === false && ($statusCode < 200 || $statusCode >= 300)) {
             throw new HttpClientRuntimeException('An error received in HTTP response.');
         }
