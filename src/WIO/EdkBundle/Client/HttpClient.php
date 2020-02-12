@@ -40,6 +40,8 @@ class HttpClient
         curl_setopt($connection, CURLOPT_MAXREDIRS, $options['maxRedirs']);
         curl_setopt($connection, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($connection, CURLOPT_HTTPHEADER, $requestHeaders);
+        curl_setopt($connection, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($connection, CURLOPT_SSL_VERIFYPEER, false);
         if (is_array($options['authBasic'])) {
             curl_setopt($connection, CURLOPT_USERPWD, implode(':', $options['authBasic']));
         }
