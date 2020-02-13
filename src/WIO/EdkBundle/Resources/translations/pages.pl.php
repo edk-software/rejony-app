@@ -1,6 +1,7 @@
 <?php
 return [
 	'Participants' => 'Uczestnicy',
+	'Stats' => 'Statystyki',
 	'Routes' => 'Trasy',
 	'Routes list' => 'Lista tras',
 	'Route statistics' => 'Statystyki tras',

@@ -39,6 +39,7 @@ return [
 	'Beginning' => 'Początek',
 	'Ending' => 'Koniec',
 	'Extreme Way date' => 'Data EDK',
+    'Pray time' => 'Data EDK i godzina Mszy Św.',
 	'Max people per record' => 'Max. osób w zgłoszeniu',
 	'Route details' => 'Pełny opis trasy',
 	'Area details' => 'Szczegółowe informacje o rejonie',

@@ -42,7 +42,8 @@ return array(
 	'ContactPhoneHintText' => 'Uczestnicy powinni mieć możliwość kontaktu z rejonem pod tym numerem.',
 	'FacebookProfileHintText' => 'W formacie "NAZWAMIEJSCOWOSCI.EDK"',
 	
-	'Date of Extreme Way of the Cross*' => 'Data Ekstremalnej Drogi Krzyżowej',
+	'Date of Extreme Way of the Cross*' => 'Data Ekstremalnej Drogi Krzyżowej, oraz godzina rozpoczęcia Mszy Św.',
+    'Date of EWC label' => 'Podaj dokładną godzinę rozpoczęcia Mszy Św.',
 	'Area location' => 'Położenie rejonu',
 	'Area location (lattitude)*' => 'Położenie rejonu (szerokość)',
 	'Area location (longitude)*' => 'Położenie rejonu (długość)',

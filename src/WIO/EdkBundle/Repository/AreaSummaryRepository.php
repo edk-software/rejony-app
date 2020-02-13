@@ -163,9 +163,24 @@ class AreaSummaryRepository implements EntityTransformerInterface
 			$row['percentCompleteness'] .= '%';
 			$row['course'] = $row['passedCourse'].'/'.$row['mandatoryCourse'];
             if (!empty($row['eventDate'])) {
-                $row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_DATE_LONG, $row['eventDate']);
+                $row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_LONG, $row['eventDate']);
             } else {
                 $row['eventDate'] = '---';
+            }
+            if (empty($row['routesCertification'])) {
+                $row['routesCertification'] = 0;
+            }
+            if (empty($row['mapCount'])) {
+                $row['mapCount'] = 0;
+            }
+            if (empty($row['descriptionCount'])) {
+                $row['descriptionCount'] = 0;
+            }
+            if (empty($row['gpsCount'])) {
+                $row['gpsCount'] = 0;
+            }
+            if (empty($row['routesApproved'])) {
+                $row['routesApproved'] = 0;
             }
 			return $row;
 		});

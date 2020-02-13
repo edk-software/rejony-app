@@ -25,6 +25,7 @@ use Cantiga\Metamodel\Form\EntityTransformer;
 use Cantiga\CoreBundle\Form\Type\BooleanType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -57,8 +58,14 @@ class AreaForm extends AbstractType
 		    ->add('lng', NumberType::class, array('label' => 'Area location (longitude)*', 'required' => false, 'scale' => 6, 'attr' => ['help_text' => 'LongitudeHintText'], 'constraints' => [
             new Range(['min' => -180, 'max' => 180])
             ]))
-		    ->add('eventDate', DateType::class, array('label' => 'Date of Extreme Way of the Cross*', 'input' => 'timestamp', 'required' => true, 'years' => $this->generateYears(), 'constraints' => [
-            ]))
+            ->add('eventDate', DateTimeType::class, array(
+                'label' => 'Date of Extreme Way of the Cross*',
+                'years' => $this->generateYears(),
+                'input' => 'timestamp',
+                'model_timezone' => 'UTC',
+                'required' => true,
+                'attr' => ['help_text' => 'Date of EWC label']
+            ))
 			->add('save', SubmitType::class, ['label' => 'Save']);
 		if (!empty($options['groupRepository'])) {
 			$builder->add('group', ChoiceType::class, ['label' => 'Group', 'choices' => $options['groupRepository']->getFormChoices()]);

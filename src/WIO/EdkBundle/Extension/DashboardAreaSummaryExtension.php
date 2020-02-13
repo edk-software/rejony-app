@@ -61,7 +61,7 @@ class DashboardAreaSummaryExtension implements DashboardExtensionInterface
 	{
 		$rootEntity = $this->membershipStorage->getMembership()->getPlace();
 		return $this->templating->render('WioEdkBundle:Extension:area-dashboard-summary.html.twig', [
-			'date' => empty($rootEntity->getEventDate()) ? '-' : $this->timeFormatter->format(TimeFormatterInterface::FORMAT_MONTH_YEAR, $rootEntity->getEventDate()),
+			'date' => empty($rootEntity->getEventDate()) ? '-' : $this->timeFormatter->format(TimeFormatterInterface::FORMAT_LONG, $rootEntity->getEventDate()),
 			'profile' => $rootEntity->getPercentCompleteness().' %',
 			'profileLabelColor' => $rootEntity->getPercentCompletenessLabel()
 		]);

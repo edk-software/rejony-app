@@ -29,4 +29,6 @@ return array(
 	'Completed courses' => 'Ukończonych szkoleń',
 	'Stationary training' => 'Szkolenie',
 	'View all courses' => 'Zobacz wszystkie kursy',
+    'Faq' => 'FAQ',
+    'Materials' => 'Materiały',
 );

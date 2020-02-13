@@ -14,6 +14,7 @@ return [
 	'Summary' => 'Zestawienia',
     'Knowledge and materials' => 'Wiedza i materiały',
     'Faq' => 'FAQ - pomoc',
+    'View' => 'Zobacz',
 
 
     // Help pages

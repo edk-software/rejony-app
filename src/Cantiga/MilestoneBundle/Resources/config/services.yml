@@ -27,8 +27,8 @@ services:
         class:     Cantiga\MilestoneBundle\Extension\DashboardMilestoneExtension
         arguments: ["@cantiga.milestone.repo.status", "@cantiga.user.membership.storage", "@templating"]
         tags:
-            - { name: cantiga.extension, point: core.dashboard.project.top, module: milestone }
-            - { name: cantiga.extension, point: core.dashboard.group.top, module: milestone }
+#            - { name: cantiga.extension, point: core.dashboard.project.top, module: milestone }
+#            - { name: cantiga.extension, point: core.dashboard.group.top, module: milestone }
             - { name: cantiga.extension, point: core.dashboard.area.top, module: milestone }
     cantiga.milestone.model_listener:
         class: Cantiga\MilestoneBundle\EventListener\ModelListener

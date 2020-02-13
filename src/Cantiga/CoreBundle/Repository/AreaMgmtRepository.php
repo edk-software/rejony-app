@@ -150,7 +150,7 @@ class AreaMgmtRepository implements EntityTransformerInterface
 			$row['statusName'] = $translator->trans($row['statusName'], [], 'statuses');
 			$row['percentCompleteness'] .= '%';
             if (!empty($row['eventDate'])) {
-                $row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_DATE_LONG, $row['eventDate']);
+                $row['eventDate'] = $this->timeFormatter->format(TimeFormatterInterface::FORMAT_LONG, $row['eventDate']);
             } else {
                 $row['eventDate'] = '---';
             }
