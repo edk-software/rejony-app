@@ -367,11 +367,11 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <div class="col-md-12 margin-bottom bg-yellow">
+{#                    <div class="col-md-12 margin-bottom bg-yellow">#}
 {#                        <a href="{{ spath('edk_route_verify', { id: item.id }) }}" class="btn btn-primary btn-block">#}
 {#                            <i class="fa fa-gears"></i> {{ 'Verify' | trans({}, 'edk') }}#}
 {#                        </a>#}
-                    </div>
+{#                    </div>#}
 					{{ macros.route_verification_task_box(
 						'singlePath', 'fa-circle-o', item.verificationStatus, 'Single path' | trans({}, 'edk'),
 						'SinglePathDescription' | trans({}, 'edk')
