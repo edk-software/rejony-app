@@ -286,35 +286,47 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	
 	public function validate(ExecutionContextInterface $context)
 	{
-		if ($this->routeType == self::TYPE_FULL) {
-			if ($this->routeLength < 30) {
-				$context->buildViolation('RouteLengthGreaterThan30Km')
-					->atPath('routeLength')
-					->addViolation();
-				return false;
-			}
-			if ($this->routeLength >= 30 && $this->routeLength < 40) {
-				if ($this->routeAscent < 500) {
-					$context->buildViolation('Routes30To40KmMustHaveEnoughAscent')
-						->atPath('routeAscent')
-						->addViolation();
-					return false;
-				}
-			}
-		} elseif ($this->routeType == self::TYPE_INSPIRED) {
-			if ($this->routeLength < 20) {
-				$context->buildViolation('RouteLengthGreaterThan20Km')
-					->atPath('routeLength')
-					->addViolation();
-				return false;
-			}
-			if ($this->routeAscent < 0) {
-				$context->buildViolation('NegativeAscentInvalid')
-					->atPath('routeAscent')
-					->addViolation();
-				return false;
-			}
-		}
+//		if ($this->routeType == self::TYPE_FULL) {
+//			if ($this->routeLength < 30) {
+//				$context->buildViolation('RouteLengthGreaterThan30Km')
+//					->atPath('routeLength')
+//					->addViolation();
+//				return false;
+//			}
+//			if ($this->routeLength >= 30 && $this->routeLength < 40) {
+//				if ($this->routeAscent < 500) {
+//					$context->buildViolation('Routes30To40KmMustHaveEnoughAscent')
+//						->atPath('routeAscent')
+//						->addViolation();
+//					return false;
+//				}
+//			}
+//		} elseif ($this->routeType == self::TYPE_INSPIRED) {
+//			if ($this->routeLength < 30) {
+//				$context->buildViolation('RouteLengthGreaterThan20Km')
+//					->atPath('routeLength')
+//					->addViolation();
+//				return false;
+//			}
+//			if ($this->routeAscent < 0) {
+//				$context->buildViolation('NegativeAscentInvalid')
+//					->atPath('routeAscent')
+//					->addViolation();
+//				return false;
+//			}
+//		}
+        if ($this->routeLength < 30) {
+            $context->buildViolation('RouteLengthGreaterThan30Km')
+                ->atPath('routeLength')
+                ->addViolation();
+            return false;
+        }
+        if ($this->routeAscent < 0) {
+            $context->buildViolation('NegativeAscentInvalid')
+                ->atPath('routeAscent')
+                ->addViolation();
+            return false;
+        }
 		return true;
 	}
 	
