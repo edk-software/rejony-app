@@ -138,6 +138,11 @@ services:
          arguments: ["@database_connection"]
          tags:
             - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get registration settings" }
+    wio.edk.button.routes_grabber:
+        class: WIO\EdkBundle\Extension\RoutesDetailsGrabberButton
+        arguments: ["@database_connection"]
+        tags:
+            - { name: cantiga.extension, point: core.magic-button, module: edk, description: "Get routes details" }
     wio.edk.button.participants_statistic_grabber:
          class: WIO\EdkBundle\Extension\ParticipantsCountGrabberButton
          arguments: ["@database_connection"]
