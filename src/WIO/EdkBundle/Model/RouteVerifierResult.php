@@ -20,6 +20,18 @@ class RouteVerifierResult
     /** @var array */
     private $elevationCharacteristic;
 
+    /** @var Coordinates[] */
+    private $pathCoordinates;
+
+    /** @var IndexedCoordinates[] */
+    private $stations;
+
+    /** @var Coordinates */
+    private $pathStart;
+
+    /** @var Coordinates */
+    private $pathEnd;
+
     public function __construct(array $body)
     {
         $statusItemsByValues = [
@@ -45,6 +57,33 @@ class RouteVerifierResult
                                 new Assert\Collection([
                                     'distance' => new LocalAssert\Type('number'),
                                     'elevation' => new LocalAssert\Type('number'),
+                                ]),
+                            ]),
+                        ],
+                        'pathCoordinates' => [
+                            new Assert\Type('array'),
+                            new Assert\All([
+                                new Assert\Collection([
+                                    'latitude' => new LocalAssert\Type('number'),
+                                    'longitude' => new LocalAssert\Type('number'),
+                                ]),
+                            ]),
+                        ],
+                        'pathEnd' => new Assert\Collection([
+                            'latitude' => new LocalAssert\Type('number'),
+                            'longitude' => new LocalAssert\Type('number'),
+                        ]),
+                        'pathStart' => new Assert\Collection([
+                            'latitude' => new LocalAssert\Type('number'),
+                            'longitude' => new LocalAssert\Type('number'),
+                        ]),
+                        'stations' => [
+                            new Assert\Type('array'),
+                            new Assert\All([
+                                new Assert\Collection([
+                                    'index' => new LocalAssert\Type('number'),
+                                    'latitude' => new LocalAssert\Type('number'),
+                                    'longitude' => new LocalAssert\Type('number'),
                                 ]),
                             ]),
                         ],
@@ -90,6 +129,16 @@ class RouteVerifierResult
         }, ARRAY_FILTER_USE_KEY);
         $this->verificationLogs = $body['verificationStatus']['logs'];
         $this->elevationCharacteristic = $body['routeCharacteristics']['elevationCharacteristics'];
+        $this->pathCoordinates = array_map(function ($data) {
+            return new Coordinates($data['latitude'], $data['longitude']);
+        }, $body['routeCharacteristics']['pathCoordinates']);
+        $this->stations = array_map(function ($data) {
+            return new IndexedCoordinates($data['index'], $data['latitude'], $data['longitude']);
+        }, $body['routeCharacteristics']['stations']);
+        $pathStart = $body['routeCharacteristics']['pathStart'];
+        $this->pathStart = new Coordinates($pathStart['latitude'], $pathStart['longitude']);
+        $pathEnd = $body['routeCharacteristics']['pathEnd'];
+        $this->pathEnd = new Coordinates($pathEnd['latitude'], $pathEnd['longitude']);
     }
 
     public function isValid(): bool
@@ -116,6 +165,28 @@ class RouteVerifierResult
     public function getElevationCharacteristic(): array
     {
         return $this->elevationCharacteristic;
+    }
+
+    /** @return Coordinates[] */
+    public function getPathCoordinates(): array
+    {
+        return $this->pathCoordinates;
+    }
+
+    /** @return IndexedCoordinates[] */
+    public function getStations(): array
+    {
+        return $this->stations;
+    }
+
+    public function getPathStart(): Coordinates
+    {
+        return $this->pathStart;
+    }
+
+    public function getPathEnd(): Coordinates
+    {
+        return $this->pathEnd;
     }
 
     public function getRouteAscent(): float

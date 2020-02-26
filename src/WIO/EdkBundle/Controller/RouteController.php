@@ -229,6 +229,10 @@ class RouteController extends WorkspaceController
             $result = $routeVerifier->verify($route);
             $route
                 ->setElevationCharacteristic($result->getElevationCharacteristic())
+                ->setPathCoordinates($result->getPathCoordinates())
+                ->setStations($result->getStations())
+                ->setPathStart($result->getPathStart())
+                ->setPathEnd($result->getPathEnd())
                 ->setVerificationStatus($result->getVerificationStatus())
                 ->setRouteAscent($result->getRouteAscent())
                 ->setRouteLength($result->getRouteLength())

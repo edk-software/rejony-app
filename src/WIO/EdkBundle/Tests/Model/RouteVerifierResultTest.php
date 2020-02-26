@@ -17,6 +17,19 @@ final class RouteVerifierResultTest extends TestCase
                 ['distance' => 8, 'elevation' => 0.8],
                 ['distance' => 10, 'elevation' => -0.1],
             ],
+            'pathCoordinates' => [
+                ['latitude' => 2.2, 'longitude' => 4.4],
+                ['latitude' => 4.4, 'longitude' => -1.1],
+                ['latitude' => 5, 'longitude' => 0],
+                ['latitude' => -1.1, 'longitude' => 2.2],
+            ],
+            'pathEnd' => ['latitude' => -1.1, 'longitude' => 2.2],
+            'pathStart' => ['latitude' => 2.2, 'longitude' => 4.4],
+            'stations' => [
+                ['index' => 1, 'latitude' => 2.2, 'longitude' => 4.4],
+                ['index' => 2, 'latitude' => 4.4, 'longitude' => -1.1],
+                ['index' => 3, 'latitude' => -1.1, 'longitude' => 2.2],
+            ],
         ], $patch);
     }
 
@@ -34,6 +47,16 @@ final class RouteVerifierResultTest extends TestCase
             'stationsOnPath' => ['valid' => true],
             'stationsOrder' => ['valid' => true],
         ], $patch);
+    }
+
+    private function dataAsserts(RouteVerifierResult $result, array $routeCharacteristics, array $verificationStatus)
+    {
+        $this->assertEquals($routeCharacteristics['elevationCharacteristics'], $result->getElevationCharacteristic());
+        $this->assertEquals($routeCharacteristics['pathCoordinates'], $result->getPathCoordinates());
+        $this->assertEquals($routeCharacteristics['stations'], $result->getStations());
+        $this->assertEquals($verificationStatus, array_merge($result->getVerificationStatus(), [
+            'logs' => $result->getVerificationLogs(),
+        ]));
     }
 
     public function testEmptyInput()
@@ -177,12 +200,7 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertTrue($result->isValid());
-        $this->assertEquals(
-            $routeCharacteristics['elevationCharacteristics'], $result->getElevationCharacteristic()
-        );
-        $this->assertEquals($verificationStatus, array_merge($result->getVerificationStatus(), [
-            'logs' => $result->getVerificationLogs(),
-        ]));
+        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
     }
 
     public function testCorrectInvalidInput()
@@ -203,12 +221,7 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertFalse($result->isValid());
-        $this->assertEquals(
-            $routeCharacteristics['elevationCharacteristics'], $result->getElevationCharacteristic()
-        );
-        $this->assertEquals($verificationStatus, array_merge($result->getVerificationStatus(), [
-            'logs' => $result->getVerificationLogs(),
-        ]));
+        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
     }
 
     public function testCorrectValidInputWithEmptyElevationCharacteristic()
@@ -223,12 +236,7 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertTrue($result->isValid());
-        $this->assertEquals(
-            $routeCharacteristics['elevationCharacteristics'], $result->getElevationCharacteristic()
-        );
-        $this->assertEquals($verificationStatus, array_merge($result->getVerificationStatus(), [
-            'logs' => $result->getVerificationLogs(),
-        ]));
+        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
     }
 
     public function testCorrectValidInputWithUnexpectedParamsInStatusGroups()
@@ -245,12 +253,7 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertTrue($result->isValid());
-        $this->assertEquals(
-            $routeCharacteristics['elevationCharacteristics'], $result->getElevationCharacteristic()
-        );
-        $this->assertEquals($verificationStatus, array_merge($result->getVerificationStatus(), [
-            'logs' => $result->getVerificationLogs(),
-        ]));
+        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
     }
 
     public function testCorrectValidInput()
@@ -263,11 +266,6 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertTrue($result->isValid());
-        $this->assertEquals(
-            $routeCharacteristics['elevationCharacteristics'], $result->getElevationCharacteristic()
-        );
-        $this->assertEquals($verificationStatus, array_merge($result->getVerificationStatus(), [
-            'logs' => $result->getVerificationLogs(),
-        ]));
+        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
     }
 }
