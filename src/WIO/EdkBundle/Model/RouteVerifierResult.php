@@ -64,26 +64,38 @@ class RouteVerifierResult
                             new Assert\Type('array'),
                             new Assert\All([
                                 new Assert\Collection([
-                                    'latitude' => new LocalAssert\Type('number'),
-                                    'longitude' => new LocalAssert\Type('number'),
+                                    'allowExtraFields' => true,
+                                    'fields' => [
+                                        'latitude' => new LocalAssert\Type('number'),
+                                        'longitude' => new LocalAssert\Type('number'),
+                                    ],
                                 ]),
                             ]),
                         ],
                         'pathEnd' => new Assert\Collection([
-                            'latitude' => new LocalAssert\Type('number'),
-                            'longitude' => new LocalAssert\Type('number'),
+                            'allowExtraFields' => true,
+                            'fields' => [
+                                'latitude' => new LocalAssert\Type('number'),
+                                'longitude' => new LocalAssert\Type('number'),
+                            ],
                         ]),
                         'pathStart' => new Assert\Collection([
-                            'latitude' => new LocalAssert\Type('number'),
-                            'longitude' => new LocalAssert\Type('number'),
+                            'allowExtraFields' => true,
+                            'fields' => [
+                                'latitude' => new LocalAssert\Type('number'),
+                                'longitude' => new LocalAssert\Type('number'),
+                            ],
                         ]),
                         'stations' => [
                             new Assert\Type('array'),
                             new Assert\All([
                                 new Assert\Collection([
-                                    'index' => new LocalAssert\Type('number'),
-                                    'latitude' => new LocalAssert\Type('number'),
-                                    'longitude' => new LocalAssert\Type('number'),
+                                    'allowExtraFields' => true,
+                                    'fields' => [
+                                        'index' => new LocalAssert\Type('number'),
+                                        'latitude' => new LocalAssert\Type('number'),
+                                        'longitude' => new LocalAssert\Type('number'),
+                                    ],
                                 ]),
                             ]),
                         ],

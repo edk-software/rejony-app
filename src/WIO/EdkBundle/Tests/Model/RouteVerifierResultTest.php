@@ -3,13 +3,15 @@
 use PHPUnit\Framework\TestCase;
 use WIO\EdkBundle\Entity\EdkRoute;
 use WIO\EdkBundle\Exception\RouteVerifierResultException;
+use WIO\EdkBundle\Model\Coordinates;
+use WIO\EdkBundle\Model\IndexedCoordinates;
 use WIO\EdkBundle\Model\RouteVerifierResult;
 
 final class RouteVerifierResultTest extends TestCase
 {
     private function getRouteCharacteristics(array $patch = []): array
     {
-        return array_merge([
+        return array_filter(array_merge([
             'elevationCharacteristics' => [
                 ['distance' => 2, 'elevation' => 1.4],
                 ['distance' => 4, 'elevation' => 3.14],
@@ -30,7 +32,9 @@ final class RouteVerifierResultTest extends TestCase
                 ['index' => 2, 'latitude' => 4.4, 'longitude' => -1.1],
                 ['index' => 3, 'latitude' => -1.1, 'longitude' => 2.2],
             ],
-        ], $patch);
+        ], $patch), function ($value) {
+            return isset($value);
+        });
     }
 
     private function getVerificationStatus(array $patch = []): array
@@ -49,14 +53,37 @@ final class RouteVerifierResultTest extends TestCase
         ], $patch);
     }
 
-    private function dataAsserts(RouteVerifierResult $result, array $routeCharacteristics, array $verificationStatus)
+    private function assertsCheck(RouteVerifierResult $result, array $routeCharacteristics, array $verificationStatus)
     {
         $this->assertEquals($routeCharacteristics['elevationCharacteristics'], $result->getElevationCharacteristic());
-        $this->assertEquals($routeCharacteristics['pathCoordinates'], $result->getPathCoordinates());
-        $this->assertEquals($routeCharacteristics['stations'], $result->getStations());
+        $coordinatesToCompare = [
+            [$routeCharacteristics['pathCoordinates'], $result->getPathCoordinates()],
+            [$routeCharacteristics['stations'], $result->getStations()],
+            [$routeCharacteristics['pathStart'], $result->getPathStart()],
+            [$routeCharacteristics['pathEnd'], $result->getPathEnd()],
+        ];
+        foreach ($coordinatesToCompare as [$rawCoordinates, $coordinates]) {
+            $this->assertEquals($this->mapCoordinates($rawCoordinates), json_decode(json_encode($coordinates), true));
+        }
         $this->assertEquals($verificationStatus, array_merge($result->getVerificationStatus(), [
             'logs' => $result->getVerificationLogs(),
         ]));
+    }
+
+    private function mapCoordinates($coordinates)
+    {
+        if (!is_array($coordinates)) {
+            return $coordinates;
+        } elseif (array_key_exists('latitude', $coordinates) && array_key_exists('longitude', $coordinates)) {
+            $coordinatesObject = array_key_exists('index', $coordinates) ?
+                new IndexedCoordinates($coordinates['index'], $coordinates['latitude'], $coordinates['longitude']) :
+                new Coordinates($coordinates['latitude'], $coordinates['longitude']);
+            return $coordinatesObject->jsonSerialize();
+        } else {
+            return array_map(function ($item) {
+                return $this->mapCoordinates($item);
+            }, $coordinates);
+        }
     }
 
     public function testEmptyInput()
@@ -78,6 +105,61 @@ final class RouteVerifierResultTest extends TestCase
         $this->expectException(RouteVerifierResultException::class);
         new RouteVerifierResult([
             'routeCharacteristics' => $this->getRouteCharacteristics(),
+        ]);
+    }
+
+    public function testInputWithoutElevationCharacteristics()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'elevationCharacteristics' => null,
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithoutPathCoordinates()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'pathCoordinates' => null,
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithoutPathStart()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'pathStart' => null,
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithoutPathEnd()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'pathEnd' => null,
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithoutStations()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'stations' => null,
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
         ]);
     }
 
@@ -114,6 +196,32 @@ final class RouteVerifierResultTest extends TestCase
             'routeCharacteristics' => $this->getRouteCharacteristics([
                 'elevationCharacteristics' => [
                     ['distance' => 2, 'elevation' => 1.4, 'unexpectedParam' => 'abc'],
+                ],
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithPathCoordinatesWithoutExpectedParams()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'pathCoordinates' => [
+                    ['latitude' => 2, 'unexpectedParam' => 'abc'],
+                ],
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithStationsWithoutExpectedParams()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'stations' => [
+                    ['latitude' => 2, 'longitude' => 3.2],
                 ],
             ]),
             'verificationStatus' => $this->getVerificationStatus(),
@@ -200,7 +308,7 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertTrue($result->isValid());
-        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
     }
 
     public function testCorrectInvalidInput()
@@ -221,7 +329,7 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertFalse($result->isValid());
-        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
     }
 
     public function testCorrectValidInputWithEmptyElevationCharacteristic()
@@ -236,7 +344,69 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertTrue($result->isValid());
-        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
+    }
+
+    public function testCorrectValidInputWithEmptyPathCoordinates()
+    {
+        $routeCharacteristics = $this->getRouteCharacteristics([
+            'pathCoordinates' => [],
+        ]);
+        $verificationStatus = $this->getVerificationStatus();
+
+        $result = new RouteVerifierResult([
+            'routeCharacteristics' => $routeCharacteristics,
+            'verificationStatus' => $verificationStatus,
+        ]);
+        $this->assertTrue($result->isValid());
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
+    }
+
+    public function testCorrectValidInputWithEmptyStations()
+    {
+        $routeCharacteristics = $this->getRouteCharacteristics([
+            'stations' => [],
+        ]);
+        $verificationStatus = $this->getVerificationStatus();
+
+        $result = new RouteVerifierResult([
+            'routeCharacteristics' => $routeCharacteristics,
+            'verificationStatus' => $verificationStatus,
+        ]);
+        $this->assertTrue($result->isValid());
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
+    }
+
+    public function testCorrectValidInputWithPathStartWithUnexpectedParam()
+    {
+        $routeCharacteristics = $this->getRouteCharacteristics([
+            'pathStart' => ['latitude' => 2.2, 'longitude' => 4.4, 'unexpectedParam' => 23],
+        ]);
+        $verificationStatus = $this->getVerificationStatus();
+
+        $result = new RouteVerifierResult([
+            'routeCharacteristics' => $routeCharacteristics,
+            'verificationStatus' => $verificationStatus,
+        ]);
+        $this->assertTrue($result->isValid());
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
+    }
+
+    public function testCorrectValidInputWithStationWithUnexpectedParam()
+    {
+        $routeCharacteristics = $this->getRouteCharacteristics([
+            'stations' => [
+                ['index' => 4, 'latitude' => 2.2, 'longitude' => 4.4, 'unexpectedParam' => 23]
+            ],
+        ]);
+        $verificationStatus = $this->getVerificationStatus();
+
+        $result = new RouteVerifierResult([
+            'routeCharacteristics' => $routeCharacteristics,
+            'verificationStatus' => $verificationStatus,
+        ]);
+        $this->assertTrue($result->isValid());
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
     }
 
     public function testCorrectValidInputWithUnexpectedParamsInStatusGroups()
@@ -253,7 +423,7 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertTrue($result->isValid());
-        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
     }
 
     public function testCorrectValidInput()
@@ -266,6 +436,6 @@ final class RouteVerifierResultTest extends TestCase
             'verificationStatus' => $verificationStatus,
         ]);
         $this->assertTrue($result->isValid());
-        $this->dataAsserts($result, $routeCharacteristics, $verificationStatus);
+        $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
     }
 }
