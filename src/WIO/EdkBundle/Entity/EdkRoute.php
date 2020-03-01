@@ -121,19 +121,19 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	private $mapFileUpload;
 	/** @var UploadedFile */
 	private $gpsTrackFileUpload;
-    /** @var array|null */
+	/** @var array|null */
 	private $verificationStatus;
 	/** @var array|null */
 	private $elevationCharacteristic;
-    /** @var Coordinates[] */
+	/** @var Coordinates[] */
 	private $pathCoordinates = [];
-    /** @var IndexedCoordinates[] */
+	/** @var IndexedCoordinates[] */
 	private $stations = [];
 	/** @var Coordinates|null */
 	private $pathStart;
-    /** @var Coordinates|null */
+	/** @var Coordinates|null */
 	private $pathEnd;
-    /** @var Coordinates|null */
+	/** @var Coordinates|null */
 	private $pathAvg;
 	private $publicAccessSlug;
 	private $commentNum;
@@ -207,11 +207,11 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$item = new EdkRoute;
 		DataMappers::fromArray($item, $array, $prefix);
 		if (isset($array['pathStartLat']) && isset($array['pathStartLng'])) {
-            $item->setPathStart(new Coordinates((float) $array['pathStartLat'], (float) $array['pathStartLng']));
-        }
+			$item->setPathStart(new Coordinates((float) $array['pathStartLat'], (float) $array['pathStartLng']));
+		}
 		if (isset($array['pathEndLat']) && isset($array['pathEndLng'])) {
-            $item->setPathEnd(new Coordinates((float) $array['pathEndLat'], (float) $array['pathEndLng']));
-        }
+			$item->setPathEnd(new Coordinates((float) $array['pathEndLat'], (float) $array['pathEndLng']));
+		}
 		return $item;
 	}
 
@@ -466,7 +466,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this->gpsTrackFileUpload;
 	}
 
-    /** @return array|null */
+	/** @return array|null */
 	public function getVerificationStatus()
 	{
 		return $this->verificationStatus;
@@ -478,31 +478,31 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		return $this->elevationCharacteristic;
 	}
 
-    /** @return Coordinates[] */
+	/** @return Coordinates[] */
 	public function getPathCoordinates()
 	{
 		return $this->pathCoordinates;
 	}
 
-    /** @return IndexedCoordinates[] */
+	/** @return IndexedCoordinates[] */
 	public function getStations()
 	{
 		return $this->stations;
 	}
 
-    /** @return Coordinates|null */
+	/** @return Coordinates|null */
 	public function getPathStart()
 	{
 		return $this->pathStart;
 	}
 
-    /** @return Coordinates|null */
+	/** @return Coordinates|null */
 	public function getPathEnd()
 	{
 		return $this->pathEnd;
 	}
 
-    /** @return Coordinates|null */
+	/** @return Coordinates|null */
 	public function getPathAvg()
 	{
 		return $this->pathAvg;
@@ -824,43 +824,43 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 
 	public function setPathCoordinates($pathCoordinates)
 	{
-	    if (is_string($pathCoordinates)) {
-            $pathCoordinates = json_decode($pathCoordinates, true);
-        }
+		if (is_string($pathCoordinates)) {
+			$pathCoordinates = json_decode($pathCoordinates, true);
+		}
 		$this->pathCoordinates = is_array($pathCoordinates) ? array_map(function ($data) {
-            return $data instanceof Coordinates ? $data : Coordinates::createFromDb($data);
-        }, $pathCoordinates) : [];
+			return $data instanceof Coordinates ? $data : Coordinates::createFromDb($data);
+		}, $pathCoordinates) : [];
 		return $this;
 	}
 
 	public function setStations($stations)
 	{
-        if (is_string($stations)) {
-            $stations = json_decode($stations, true);
-        }
-        $this->stations = is_array($stations) ? array_map(function ($data) {
-            return $data instanceof IndexedCoordinates ? $data : IndexedCoordinates::createFromDb($data);
-        }, $stations) : [];
-        return $this;
+		if (is_string($stations)) {
+			$stations = json_decode($stations, true);
+		}
+		$this->stations = is_array($stations) ? array_map(function ($data) {
+			return $data instanceof IndexedCoordinates ? $data : IndexedCoordinates::createFromDb($data);
+		}, $stations) : [];
+		return $this;
 	}
 
-    public function setPathStart($pathStart)
-    {
-        $this->pathStart = $pathStart;
-        if (isset($this->pathStart) && isset($this->pathEnd)) {
-            $this->pathAvg = Coordinates::createAvg($this->pathStart, $this->pathEnd);
-        }
-        return $this;
-    }
+	public function setPathStart($pathStart)
+	{
+		$this->pathStart = $pathStart;
+		if (isset($this->pathStart) && isset($this->pathEnd)) {
+			$this->pathAvg = Coordinates::createAvg($this->pathStart, $this->pathEnd);
+		}
+		return $this;
+	}
 
-    public function setPathEnd($pathEnd)
-    {
-        $this->pathEnd = $pathEnd;
-        if (isset($this->pathStart) && isset($this->pathEnd)) {
-            $this->pathAvg = Coordinates::createAvg($this->pathStart, $this->pathEnd);
-        }
-        return $this;
-    }
+	public function setPathEnd($pathEnd)
+	{
+		$this->pathEnd = $pathEnd;
+		if (isset($this->pathStart) && isset($this->pathEnd)) {
+			$this->pathAvg = Coordinates::createAvg($this->pathStart, $this->pathEnd);
+		}
+		return $this;
+	}
 
 	public function setPublicAccessSlug($publicAccessSlug)
 	{
@@ -1335,7 +1335,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 			$this->gpsApprovedBy = $user->getId();
 
 			$pathAvg = isset($this->pathStart) && isset($this->pathEnd) ?
-                Coordinates::createAvg($this->pathStart, $this->pathEnd) : null;
+				Coordinates::createAvg($this->pathStart, $this->pathEnd) : null;
 			$conn->update(EdkTables::ROUTE_TBL,
 				[
 					'approved' => $this->approved,
@@ -1376,28 +1376,28 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 			$this->approvedAt = time();
 			$this->approvedBy = $user->getId();
 
-            $pathAvg = isset($this->pathStart) && isset($this->pathEnd) ?
-                Coordinates::createAvg($this->pathStart, $this->pathEnd) : null;
+			$pathAvg = isset($this->pathStart) && isset($this->pathEnd) ?
+				Coordinates::createAvg($this->pathStart, $this->pathEnd) : null;
 			$conn->update(EdkTables::ROUTE_TBL,
 				[
 					'approved' => $this->approved,
 					'approvedAt' => $this->approvedAt,
 					'approvedBy' => $this->approvedBy,
-                    'elevationCharacteristic' => isset($this->elevationCharacteristic) ?
-                        json_encode($this->elevationCharacteristic) : null,
-                    'pathCoordinates' => isset($this->pathCoordinates) ? json_encode($this->pathCoordinates) : null,
-                    'stations' => isset($this->stations) ? json_encode($this->stations) : null,
-                    'pathStartLat' => isset($this->pathStart) ? $this->pathStart->getLatitude() : null,
-                    'pathStartLng' => isset($this->pathStart) ? $this->pathStart->getLongitude() : null,
-                    'pathEndLat' => isset($this->pathEnd) ? $this->pathEnd->getLatitude() : null,
-                    'pathEndLng' => isset($this->pathEnd) ? $this->pathEnd->getLongitude() : null,
-                    'pathAvgLat' => isset($pathAvg) ? $pathAvg->getLatitude() : null,
-                    'pathAvgLng' => isset($pathAvg) ? $pathAvg->getLongitude() : null,
-                    'routeAscent' => $this->routeAscent,
-                    'routeLength' => $this->routeLength,
-                    'routeType' => $this->routeType,
-                    'verificationStatus' => isset($this->verificationStatus) ? json_encode($this->verificationStatus) :
-                        null,
+					'elevationCharacteristic' => isset($this->elevationCharacteristic) ?
+						json_encode($this->elevationCharacteristic) : null,
+					'pathCoordinates' => isset($this->pathCoordinates) ? json_encode($this->pathCoordinates) : null,
+					'stations' => isset($this->stations) ? json_encode($this->stations) : null,
+					'pathStartLat' => isset($this->pathStart) ? $this->pathStart->getLatitude() : null,
+					'pathStartLng' => isset($this->pathStart) ? $this->pathStart->getLongitude() : null,
+					'pathEndLat' => isset($this->pathEnd) ? $this->pathEnd->getLatitude() : null,
+					'pathEndLng' => isset($this->pathEnd) ? $this->pathEnd->getLongitude() : null,
+					'pathAvgLat' => isset($pathAvg) ? $pathAvg->getLatitude() : null,
+					'pathAvgLng' => isset($pathAvg) ? $pathAvg->getLongitude() : null,
+					'routeAscent' => $this->routeAscent,
+					'routeLength' => $this->routeLength,
+					'routeType' => $this->routeType,
+					'verificationStatus' => isset($this->verificationStatus) ? json_encode($this->verificationStatus) :
+						null,
 				],
 				[
 					'id' => $this->getId(),
