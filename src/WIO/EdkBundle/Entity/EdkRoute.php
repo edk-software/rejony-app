@@ -819,7 +819,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	public function setPathCoordinates($pathCoordinates)
 	{
 	    if (is_string($pathCoordinates)) {
-            $pathCoordinates = json_decode($pathCoordinates);
+            $pathCoordinates = json_decode($pathCoordinates, true);
         }
 		$this->pathCoordinates = is_array($pathCoordinates) ? array_map(function ($data) {
             return $data instanceof Coordinates ? $data : Coordinates::createFromDb($data);
@@ -830,7 +830,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	public function setStations($stations)
 	{
         if (is_string($stations)) {
-            $stations = json_decode($stations);
+            $stations = json_decode($stations, true);
         }
         $this->stations = is_array($stations) ? array_map(function ($data) {
             return $data instanceof IndexedCoordinates ? $data : IndexedCoordinates::createFromDb($data);

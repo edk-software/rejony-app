@@ -15,7 +15,7 @@ class IndexedCoordinates extends Coordinates
 
     public static function createFromDb(array $data)
     {
-        return new self($data['index'], $data['lat'], $data['lng']);
+        return new self($data[0], $data[1], $data[2]);
     }
 
     public function getIndex(): int
@@ -26,9 +26,9 @@ class IndexedCoordinates extends Coordinates
     public function jsonSerialize()
     {
         return [
-            'index' => $this->getIndex(),
-            'lat' => $this->getLatitude(),
-            'lng' => $this->getLongitude(),
+            $this->getIndex(),
+            $this->getLatitude(),
+            $this->getLongitude(),
         ];
     }
 }

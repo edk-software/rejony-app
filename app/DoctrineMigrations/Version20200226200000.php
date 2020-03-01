@@ -19,7 +19,7 @@ class Version20200226200000 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE `cantiga_edk_routes`
-            ADD `pathCoordinates` text DEFAULT NULL AFTER `elevationCharacteristic`,
+            ADD `pathCoordinates` longtext DEFAULT NULL AFTER `elevationCharacteristic`,
             ADD `stations` text DEFAULT NULL AFTER `pathCoordinates`,
             ADD `pathStartLat` decimal(18,9) DEFAULT NULL AFTER `stations`,
             ADD `pathStartLng` decimal(18,9) DEFAULT NULL AFTER `pathStartLat`,

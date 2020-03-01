@@ -20,7 +20,7 @@ class Coordinates implements JsonSerializable
 
     public static function createFromDb(array $data)
     {
-        return new self($data['lat'], $data['lng']);
+        return new self($data[0], $data[1]);
     }
 
     public static function createAvg(...$list): self
@@ -52,8 +52,8 @@ class Coordinates implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'lat' => $this->getLatitude(),
-            'lng' => $this->getLongitude(),
+            $this->getLatitude(),
+            $this->getLongitude(),
         ];
     }
 }
