@@ -32,6 +32,7 @@ class EdkTexts
 	const REGISTRATION_COMPLETED_HTML = 'edk:completed-html';
 
 	const AREAS_STATUS_MAIL = 'edk:area-status-mail';
+	const AGREEMENTS_STATUS_MAIL = 'edk:agreements-status-mail';
 	const NOTIFICATION_MAIL = 'edk:notification';
 	const REGISTRATION_MAIL = 'edk:registration';
 	const ROUTE_INFO_TEXT = 'edk:route-info-text';
