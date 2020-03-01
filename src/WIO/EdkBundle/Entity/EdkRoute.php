@@ -206,6 +206,12 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	{
 		$item = new EdkRoute;
 		DataMappers::fromArray($item, $array, $prefix);
+		if (isset($array['pathStartLat']) && isset($array['pathStartLng'])) {
+            $item->setPathStart(new Coordinates((float) $array['pathStartLat'], (float) $array['pathStartLng']));
+        }
+		if (isset($array['pathEndLat']) && isset($array['pathEndLng'])) {
+            $item->setPathEnd(new Coordinates((float) $array['pathEndLat'], (float) $array['pathEndLng']));
+        }
 		return $item;
 	}
 
@@ -1329,7 +1335,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 			$this->gpsApprovedBy = $user->getId();
 
 			$pathAvg = isset($this->pathStart) && isset($this->pathEnd) ?
-                Coordinates::createAvg($this->pathStart, $this->pathStart) : null;
+                Coordinates::createAvg($this->pathStart, $this->pathEnd) : null;
 			$conn->update(EdkTables::ROUTE_TBL,
 				[
 					'approved' => $this->approved,
@@ -1371,7 +1377,7 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 			$this->approvedBy = $user->getId();
 
             $pathAvg = isset($this->pathStart) && isset($this->pathEnd) ?
-                Coordinates::createAvg($this->pathStart, $this->pathStart) : null;
+                Coordinates::createAvg($this->pathStart, $this->pathEnd) : null;
 			$conn->update(EdkTables::ROUTE_TBL,
 				[
 					'approved' => $this->approved,

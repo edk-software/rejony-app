@@ -27,7 +27,6 @@ class Version20200226200000 extends AbstractMigration
             ADD `pathEndLng` decimal(18,9) DEFAULT NULL AFTER `pathEndLat`,
             ADD `pathAvgLat` decimal(18,9) DEFAULT NULL AFTER `pathEndLng`,
             ADD `pathAvgLng` decimal(18,9) DEFAULT NULL AFTER `pathAvgLat`');
-
     }
 
     /**
