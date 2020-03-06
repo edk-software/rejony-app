@@ -499,7 +499,7 @@ final class RouteVerifierResultTest extends TestCase
         ]);
         $this->assertTrue($result->isValid());
         $jsonLength = strlen(json_encode($result->getPathCoordinates()));
-        $this->assertEquals(3100001, $jsonLength);
+        $this->assertEquals(2900001, $jsonLength);
         $this->assertLessThanOrEqual(self::MAX_MEDIUMTEXT_FIELD_LENGTH, $jsonLength);
     }
 
@@ -516,7 +516,7 @@ final class RouteVerifierResultTest extends TestCase
         ]);
         $this->assertTrue($result->isValid());
         $jsonLength = strlen(json_encode($result->getStations()));
-        $this->assertEquals(54401, $jsonLength);
+        $this->assertEquals(57601, $jsonLength);
         $this->assertLessThanOrEqual(self::MAX_TEXT_FIELD_LENGTH, $jsonLength);
     }
 
@@ -580,14 +580,14 @@ final class RouteVerifierResultTest extends TestCase
                 ['distance' => 27.9384615237465217486, 'elevation' => 53.93846576873612798376],
             ],
             'pathCoordinates' => [
-                ['latitude' => 2.7365124375, 'longitude' => -23.3847129638],
-                ['latitude' => 37.983, 'longitude' => -9.1173248913],
+                ['latitude' => 2.736512437, 'longitude' => -23.384712964],
+                ['latitude' => 37.983, 'longitude' => -9.117324891],
             ],
-            'pathEnd' => ['latitude' => 37.9838475679, 'longitude' => -9.1173248913],
-            'pathStart' => ['latitude' => 2.7365124375, 'longitude' => -23.3847129638],
+            'pathEnd' => ['latitude' => 37.983847568, 'longitude' => -9.117324891],
+            'pathStart' => ['latitude' => 2.736512437, 'longitude' => -23.384712964],
             'stations' => [
-                ['index' => 1, 'latitude' => 9.6235, 'longitude' => 76.9784076827],
-                ['index' => 2, 'latitude' => -8.8261947682, 'longitude' => -23.8172],
+                ['index' => 1, 'latitude' => 9.6235, 'longitude' => 76.978407683],
+                ['index' => 2, 'latitude' => -8.826194768, 'longitude' => -23.8172],
             ],
         ]), $verificationStatus);
     }
