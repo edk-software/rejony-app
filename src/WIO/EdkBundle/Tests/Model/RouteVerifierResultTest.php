@@ -9,6 +9,12 @@ use WIO\EdkBundle\Model\RouteVerifierResult;
 
 final class RouteVerifierResultTest extends TestCase
 {
+    /** @var int */
+    const MAX_TEXT_FIELD_LENGTH = 65535;
+
+    /** @var int */
+    const MAX_MEDIUMTEXT_FIELD_LENGTH = 16777215;
+
     private function getRouteCharacteristics(array $patch = []): array
     {
         return array_filter(array_merge([
@@ -56,34 +62,44 @@ final class RouteVerifierResultTest extends TestCase
     private function assertsCheck(RouteVerifierResult $result, array $routeCharacteristics, array $verificationStatus)
     {
         $this->assertEquals($routeCharacteristics['elevationCharacteristics'], $result->getElevationCharacteristic());
-        $coordinatesToCompare = [
-            [$routeCharacteristics['pathCoordinates'], $result->getPathCoordinates()],
-            [$routeCharacteristics['stations'], $result->getStations()],
-            [$routeCharacteristics['pathStart'], $result->getPathStart()],
-            [$routeCharacteristics['pathEnd'], $result->getPathEnd()],
-        ];
-        foreach ($coordinatesToCompare as [$rawCoordinates, $coordinates]) {
-            $this->assertEquals($this->mapCoordinates($rawCoordinates), json_decode(json_encode($coordinates), true));
-        }
+        $this->assertEqualsCoordinatesList(
+            $routeCharacteristics['pathCoordinates'], $result->getPathCoordinates(), 'path coordinates'
+        );
+        $this->assertEqualsCoordinatesList(
+            $routeCharacteristics['stations'], $result->getStations(), 'stations'
+        );
+        $this->assertEqualsCoordinates(
+            $routeCharacteristics['pathStart'], $result->getPathStart(), 'path start'
+        );
+        $this->assertEqualsCoordinates(
+            $routeCharacteristics['pathEnd'], $result->getPathEnd(), 'path end'
+        );
         $this->assertEquals($verificationStatus, array_merge($result->getVerificationStatus(), [
             'logs' => $result->getVerificationLogs(),
         ]));
     }
 
-    private function mapCoordinates($coordinates)
+    private function assertEqualsCoordinatesList(array $expectedList, array $actualList, $name)
     {
-        if (!is_array($coordinates)) {
-            return $coordinates;
-        } elseif (array_key_exists('latitude', $coordinates) && array_key_exists('longitude', $coordinates)) {
-            $coordinatesObject = array_key_exists('index', $coordinates) ?
-                new IndexedCoordinates($coordinates['index'], $coordinates['latitude'], $coordinates['longitude']) :
-                new Coordinates($coordinates['latitude'], $coordinates['longitude']);
-            return $coordinatesObject->jsonSerialize();
-        } else {
-            return array_map(function ($item) {
-                return $this->mapCoordinates($item);
-            }, $coordinates);
+        foreach ($actualList as $index => $actual) {
+            $this->assertEqualsCoordinates($expectedList[$index], $actual, sprintf('%d element of %s', $index, $name));
         }
+    }
+
+    private function assertEqualsCoordinates(array $expected, Coordinates $actual, $name)
+    {
+        if ($actual instanceof IndexedCoordinates) {
+            $this->assertEquals(
+                (string) $expected['index'], (string) $actual->getIndex(), sprintf('Invalid index of %s.', $name)
+            );
+        }
+        $this->assertEquals(
+            (string) $expected['latitude'], (string) $actual->getLatitude(), sprintf('Invalid latitude of %s.', $name)
+        );
+        $this->assertEquals(
+            (string) $expected['longitude'], (string) $actual->getLongitude(),
+            sprintf('Invalid longitude of %s.', $name)
+        );
     }
 
     public function testEmptyInput()
@@ -223,6 +239,48 @@ final class RouteVerifierResultTest extends TestCase
                 'stations' => [
                     ['latitude' => 2, 'longitude' => 3.2],
                 ],
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithTooManyElevationCharacteristics()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'elevationCharacteristics' => array_fill(
+                    0, RouteVerifierResult::MAX_ELEVATION_CHARACTERISTICS_NUMBER + 1,
+                    ['distance' => 2, 'elevation' => 3.2]
+                ),
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithTooManyPathCoordinates()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'pathCoordinates' => array_fill(
+                    0, RouteVerifierResult::MAX_PATH_COORDINATES_NUMBER + 1,
+                    ['latitude' => 2, 'longitude' => 3.2]
+                ),
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+    }
+
+    public function testInputWithTooManyStations()
+    {
+        $this->expectException(RouteVerifierResultException::class);
+        new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'stations' => array_fill(
+                    0, RouteVerifierResult::MAX_STATIONS_NUMBER + 1,
+                    ['index' => 12, 'latitude' => 2, 'longitude' => 3.2]
+                ),
             ]),
             'verificationStatus' => $this->getVerificationStatus(),
         ]);
@@ -409,6 +467,57 @@ final class RouteVerifierResultTest extends TestCase
         $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
     }
 
+    public function testCorrectValidInputWithMaximumNumberOfElevationCharacteristics()
+    {
+        $result = new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'elevationCharacteristics' => array_fill(
+                    0, RouteVerifierResult::MAX_ELEVATION_CHARACTERISTICS_NUMBER,
+                    ['distance' => 262.736251263748652615236, 'elevation' => 391.202385176355107982381]
+                ),
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+        $this->assertTrue($result->isValid());
+        $jsonLength = strlen(json_encode($result->getElevationCharacteristic()));
+        $this->assertEquals(62001, $jsonLength);
+        $this->assertLessThanOrEqual(self::MAX_TEXT_FIELD_LENGTH, $jsonLength);
+    }
+
+    public function testCorrectValidInputWithMaximumNumberOfPathCoordinates()
+    {
+        $result = new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'pathCoordinates' => array_fill(
+                    0, RouteVerifierResult::MAX_PATH_COORDINATES_NUMBER,
+                    ['latitude' => 92.034718273439, 'longitude' => -43.28475619284]
+                ),
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+        $this->assertTrue($result->isValid());
+        $jsonLength = strlen(json_encode($result->getPathCoordinates()));
+        $this->assertEquals(3100001, $jsonLength);
+        $this->assertLessThanOrEqual(self::MAX_MEDIUMTEXT_FIELD_LENGTH, $jsonLength);
+    }
+
+    public function testCorrectValidInputWithMaximumNumberOfStations()
+    {
+        $result = new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'stations' => array_fill(
+                    0, RouteVerifierResult::MAX_STATIONS_NUMBER,
+                    ['index' => 12, 'latitude' => 92.034718273439, 'longitude' => -43.28475619284]
+                ),
+            ]),
+            'verificationStatus' => $this->getVerificationStatus(),
+        ]);
+        $this->assertTrue($result->isValid());
+        $jsonLength = strlen(json_encode($result->getStations()));
+        $this->assertEquals(54401, $jsonLength);
+        $this->assertLessThanOrEqual(self::MAX_TEXT_FIELD_LENGTH, $jsonLength);
+    }
+
     public function testCorrectValidInputWithUnexpectedParamsInStatusGroups()
     {
         $routeCharacteristics = $this->getRouteCharacteristics();
@@ -437,5 +546,43 @@ final class RouteVerifierResultTest extends TestCase
         ]);
         $this->assertTrue($result->isValid());
         $this->assertsCheck($result, $routeCharacteristics, $verificationStatus);
+    }
+
+    public function testCorrectValidInputWithTooLongFloatValues()
+    {
+        $verificationStatus = $this->getVerificationStatus();
+
+        $result = new RouteVerifierResult([
+            'routeCharacteristics' => $this->getRouteCharacteristics([
+                'elevationCharacteristics' => [
+                    ['distance' => 23.32, 'elevation' => 45.231],
+                    ['distance' => 27.938461523746521748597, 'elevation' => 53.93846576873612798376],
+                ],
+                'pathCoordinates' => [
+                    ['latitude' => 2.736512437489, 'longitude' => -23.3847129638],
+                    ['latitude' => 37.983, 'longitude' => -9.117324891264],
+                ],
+                'stations' => [
+                    ['index' => 1, 'latitude' => 9.6235, 'longitude' => 76.97840768271],
+                    ['index' => 2, 'latitude' => -8.826194768234, 'longitude' => -23.8172],
+                ],
+            ]),
+            'verificationStatus' => $verificationStatus,
+        ]);
+        $this->assertTrue($result->isValid());
+        $this->assertsCheck($result, $this->getRouteCharacteristics([
+            'elevationCharacteristics' => [
+                ['distance' => 23.32, 'elevation' => 45.231],
+                ['distance' => 27.9384615237465217486, 'elevation' => 53.93846576873612798376],
+            ],
+            'pathCoordinates' => [
+                ['latitude' => 2.7365124375, 'longitude' => -23.3847129638],
+                ['latitude' => 37.983, 'longitude' => -9.1173248913],
+            ],
+            'stations' => [
+                ['index' => 1, 'latitude' => 9.6235, 'longitude' => 76.9784076827],
+                ['index' => 2, 'latitude' => -8.8261947682, 'longitude' => -23.8172],
+            ],
+        ]), $verificationStatus);
     }
 }

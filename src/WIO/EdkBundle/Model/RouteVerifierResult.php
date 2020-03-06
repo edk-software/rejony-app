@@ -11,6 +11,15 @@ use WIO\EdkBundle\Exception\RouteVerifierResultException;
 
 class RouteVerifierResult
 {
+    /** @var int */
+    const MAX_ELEVATION_CHARACTERISTICS_NUMBER = 1000; // ~ 65535 / 65
+
+    /** @var int */
+    const MAX_PATH_COORDINATES_NUMBER = 100000; // ~ 16777215 / 35
+
+    /** @var int */
+    const MAX_STATIONS_NUMBER = 1600; // ~ 65535 / 40
+
     /** @var array */
     private $verificationStatus;
 
@@ -32,6 +41,13 @@ class RouteVerifierResult
     /** @var Coordinates */
     private $pathEnd;
 
+    /**
+     * Construct
+     *
+     * @param array $body body
+     *
+     * @throws RouteVerifierResultException
+     */
     public function __construct(array $body)
     {
         $statusItemsByValues = [
@@ -59,6 +75,9 @@ class RouteVerifierResult
                                     'elevation' => new LocalAssert\Type('number'),
                                 ]),
                             ]),
+                            new Assert\Count([
+                                'max' => self::MAX_ELEVATION_CHARACTERISTICS_NUMBER,
+                            ]),
                         ],
                         'pathCoordinates' => [
                             new Assert\Type('array'),
@@ -70,6 +89,9 @@ class RouteVerifierResult
                                         'longitude' => new LocalAssert\Type('number'),
                                     ],
                                 ]),
+                            ]),
+                            new Assert\Count([
+                                'max' => self::MAX_PATH_COORDINATES_NUMBER,
                             ]),
                         ],
                         'pathEnd' => new Assert\Collection([
@@ -97,6 +119,9 @@ class RouteVerifierResult
                                         'longitude' => new LocalAssert\Type('number'),
                                     ],
                                 ]),
+                            ]),
+                            new Assert\Count([
+                                'max' => self::MAX_STATIONS_NUMBER,
                             ]),
                         ],
                     ],
@@ -140,12 +165,14 @@ class RouteVerifierResult
             return in_array($key, $statusKeys);
         }, ARRAY_FILTER_USE_KEY);
         $this->verificationLogs = $body['verificationStatus']['logs'];
-        $this->elevationCharacteristic = $body['routeCharacteristics']['elevationCharacteristics'];
+        $this->elevationCharacteristic = array_map(function ($data) {
+            return ['distance' => round($data['distance'], 20), 'elevation' => round($data['elevation'], 20)];
+        }, $body['routeCharacteristics']['elevationCharacteristics']);
         $this->pathCoordinates = array_map(function ($data) {
-            return new Coordinates($data['latitude'], $data['longitude']);
+            return new Coordinates(round($data['latitude'], 10), round($data['longitude'], 10));
         }, $body['routeCharacteristics']['pathCoordinates']);
         $this->stations = array_map(function ($data) {
-            return new IndexedCoordinates($data['index'], $data['latitude'], $data['longitude']);
+            return new IndexedCoordinates($data['index'], round($data['latitude'], 10), round($data['longitude'], 10));
         }, $body['routeCharacteristics']['stations']);
         $pathStart = $body['routeCharacteristics']['pathStart'];
         $this->pathStart = new Coordinates($pathStart['latitude'], $pathStart['longitude']);
