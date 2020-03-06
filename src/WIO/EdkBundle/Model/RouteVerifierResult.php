@@ -175,9 +175,9 @@ class RouteVerifierResult
             return new IndexedCoordinates($data['index'], round($data['latitude'], 10), round($data['longitude'], 10));
         }, $body['routeCharacteristics']['stations']);
         $pathStart = $body['routeCharacteristics']['pathStart'];
-        $this->pathStart = new Coordinates($pathStart['latitude'], $pathStart['longitude']);
+        $this->pathStart = new Coordinates(round($pathStart['latitude'], 10), round($pathStart['longitude'], 10));
         $pathEnd = $body['routeCharacteristics']['pathEnd'];
-        $this->pathEnd = new Coordinates($pathEnd['latitude'], $pathEnd['longitude']);
+        $this->pathEnd = new Coordinates(round($pathEnd['latitude'], 10), round($pathEnd['longitude'], 10));
     }
 
     public function isValid(): bool

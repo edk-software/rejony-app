@@ -82,7 +82,9 @@ final class RouteVerifierResultTest extends TestCase
     private function assertEqualsCoordinatesList(array $expectedList, array $actualList, $name)
     {
         foreach ($actualList as $index => $actual) {
-            $this->assertEqualsCoordinates($expectedList[$index], $actual, sprintf('%d element of %s', $index, $name));
+            $this->assertEqualsCoordinates(
+                $expectedList[$index], $actual, sprintf('array element %d in %s', $index, $name)
+            );
         }
     }
 
@@ -562,6 +564,8 @@ final class RouteVerifierResultTest extends TestCase
                     ['latitude' => 2.736512437489, 'longitude' => -23.3847129638],
                     ['latitude' => 37.983, 'longitude' => -9.117324891264],
                 ],
+                'pathEnd' => ['latitude' => 37.98384756789, 'longitude' => -9.117324891264],
+                'pathStart' => ['latitude' => 2.736512437489, 'longitude' => -23.384712963834],
                 'stations' => [
                     ['index' => 1, 'latitude' => 9.6235, 'longitude' => 76.97840768271],
                     ['index' => 2, 'latitude' => -8.826194768234, 'longitude' => -23.8172],
@@ -579,6 +583,8 @@ final class RouteVerifierResultTest extends TestCase
                 ['latitude' => 2.7365124375, 'longitude' => -23.3847129638],
                 ['latitude' => 37.983, 'longitude' => -9.1173248913],
             ],
+            'pathEnd' => ['latitude' => 37.9838475679, 'longitude' => -9.1173248913],
+            'pathStart' => ['latitude' => 2.7365124375, 'longitude' => -23.3847129638],
             'stations' => [
                 ['index' => 1, 'latitude' => 9.6235, 'longitude' => 76.9784076827],
                 ['index' => 2, 'latitude' => -8.8261947682, 'longitude' => -23.8172],
