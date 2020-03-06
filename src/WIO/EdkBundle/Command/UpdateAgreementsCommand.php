@@ -36,9 +36,6 @@ class UpdateAgreementsCommand extends ContainerAwareCommand
     const toUpdated = 'areasToUpdateContract';
     const toDowngrade = 'areasToDowngradeContract';
 
-    const toPublication = 'areasToPublication';
-    const toHide = 'areasToHide';
-
     const validationRepository = 'wio.edk.repo.validation';
 
     protected function configure()

@@ -82,6 +82,18 @@ class EdkValidationRepository
         ]);
     }
 
+    public function listRegistrationsData($projectId): array
+    {
+        return $data = $this->conn->fetchAll('SELECT'
+            .' r.id as routeId, r.name as routeName, a.id as areaId, a.name as areaName, g.registrationType'
+            .' FROM cantiga_edk_routes r'
+            .' JOIN cantiga_areas a ON a.id = r.areaId'
+            .' JOIN cantiga_area_statuses s ON s.id = a.statusId'
+            .' LEFT JOIN cantiga_edk_registration_settings g ON r.id = g.routeId'
+            .' WHERE r.approved = 1 AND s.isPublish = 1 AND a.projectId = :projectId AND  `g`.`registrationType` is null', [':projectId' => $projectId]);
+
+    }
+
     public function getAreasRouteStatus($projectId)
     {
         $stmt = $this->conn->prepare('SELECT a.`id` as areaId, a.`name` as areaName, a.`percentCompleteness` as profilePercent, s.`name` as statusName, s.`id` as statusId, SUM(r.`routeType`) as activeRoutesTypes, COUNT(r.`id`) as activeRoutesCount'
