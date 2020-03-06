@@ -116,7 +116,7 @@
                         <a href="{{ spath(indexPage) }}" class="btn btn-default btn-sm">
                             <i class="fa fa-fa-arrow-circle-o-left"></i> {{ 'Routes list' | trans([], 'pages') }}
                         </a>
-                        {% if not isArea and not isGroup %}
+                        {% if is_granted('ROLE_ADMIN') %}
                             {% if item.approved %}
                                 <a class="btn btn-danger btn-sm" href="{{ spath(revokePage, {'id': item.id}) }}">
                                     <i class="fa fa-close"></i> {{ 'Revoke' | trans([], 'general') }}
