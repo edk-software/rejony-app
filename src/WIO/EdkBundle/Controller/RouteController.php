@@ -251,12 +251,14 @@ class RouteController extends WorkspaceController
                 $flashBag->add('alert', implode(' ', array_merge([$message], $result->getVerificationLogs())));
             }
         } catch (Exception $exception) {
-            $messages = [$this->trans('VerificationError', [], 'edk')];
+            $messages = [$this->trans('VerificationError', [], 'edk'), $exception->getMessage()];
             $previousException = $exception->getPrevious();
             if ($previousException instanceof RouteVerifierResultException) {
                 foreach ($previousException->getViolations() as $violation) {
                     $messages[] = $violation;
                 }
+            } elseif (isset($previousException)) {
+                $messages[] = $previousException->getMessage();
             }
             $flashBag->add('error', implode(' ', $messages));
         }
