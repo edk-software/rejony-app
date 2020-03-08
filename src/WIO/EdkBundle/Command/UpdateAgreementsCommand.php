@@ -68,7 +68,7 @@ class UpdateAgreementsCommand extends ContainerAwareCommand
                 $result[self::toUpdated][] = $row;
             }
             if ($row->isContractToBeDowngrade()) {
-                $repository->updateContract($row->getAreaId(), 0);
+//                $repository->updateContract($row->getAreaId(), 0);
                 $result[self::toDowngrade][] = $row;
             }
         }
