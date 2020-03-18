@@ -18,25 +18,29 @@
  */
 namespace Cantiga\CoreBundle\Services;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
 class MapService
 {
 	private $secretKey;
-	
+	private $olBaseUrl;
+
 	public function __construct($secretKey)
 	{
 		$this->secretKey = $secretKey;
+		$this->olBaseUrl = 'https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1';
 	}
-	
+
 	public function getLink()
 	{
 		return 'https://maps.googleapis.com/maps/api/js?key='.$this->secretKey.'&v=3.exp&callback=initMap';
 	}
 
-	public function getGeometryLink()
+	public function getCssUrl()
     {
-        return 'https://maps.googleapis.com/maps/api/js?key='.$this->secretKey.'&libraries=geometry&v=3.exp';
-    }
+		return $this->olBaseUrl . '/css/ol.css';
+	}
+
+	public function getJsUrl()
+	{
+		return $this->olBaseUrl . '/build/ol.js';
+	}
 }

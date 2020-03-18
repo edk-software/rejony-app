@@ -428,6 +428,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/summernote.css') }}"/>
+    <link rel="stylesheet" href="{{ map.cssUrl }}"/>
 {% endblock %}
 
 {% block javascripts %}
@@ -536,90 +537,30 @@
             }
         });
     </script>
-    <script src="{{ map.geometryLink }}"></script>
+    <script src="{{ map.jsUrl }}"></script>
     <script>
         {% raw %}
-        function initialize() {
-            var myLatLng = new google.maps.LatLng(50.06561980, 19.946850);
-            var element = document.getElementById('map-canvas');
-            var map = new
-            google.maps.Map(element, {
-                zoom: 11,
-                center: myLatLng,
-                styles: [{
-                    "featureType": "administrative",
-                    "elementType": "labels.text.fill",
-                    "stylers": [{"color": "#444444"}]
-                }, {
-                    "featureType": "administrative.land_parcel",
-                    "elementType": "all",
-                    "stylers": [{"visibility": "off"}]
-                }, {
-                    "featureType": "landscape",
-                    "elementType": "all",
-                    "stylers": [{"color": "#f2f2f2"}]
-                }, {
-                    "featureType": "landscape.natural",
-                    "elementType": "all",
-                    "stylers": [{"visibility": "off"}]
-                }, {
-                    "featureType": "poi",
-                    "elementType": "all",
-                    "stylers": [{"visibility": "on"}, {"color": "#052366"}, {"saturation": "-70"}, {"lightness": "85"}]
-                }, {
-                    "featureType": "poi",
-                    "elementType": "labels",
-                    "stylers": [{"visibility": "simplified"}, {"lightness": "-53"}, {"weight": "1.00"}, {"gamma": "0.98"}]
-                }, {
-                    "featureType": "poi",
-                    "elementType": "labels.icon",
-                    "stylers": [{"visibility": "simplified"}]
-                }, {
-                    "featureType": "road",
-                    "elementType": "all",
-                    "stylers": [{"saturation": -100}, {"lightness": 45}, {"visibility": "on"}]
-                }, {
-                    "featureType": "road",
-                    "elementType": "geometry",
-                    "stylers": [{"saturation": "-18"}]
-                }, {
-                    "featureType": "road",
-                    "elementType": "labels",
-                    "stylers": [{"visibility": "off"}]
-                }, {
-                    "featureType": "road.highway",
-                    "elementType": "all",
-                    "stylers": [{"visibility": "on"}]
-                }, {
-                    "featureType": "road.arterial",
-                    "elementType": "all",
-                    "stylers": [{"visibility": "on"}]
-                }, {
-                    "featureType": "road.arterial",
-                    "elementType": "labels.icon",
-                    "stylers": [{"visibility": "off"}]
-                }, {
-                    "featureType": "road.local",
-                    "elementType": "all",
-                    "stylers": [{"visibility": "on"}]
-                }, {
-                    "featureType": "transit",
-                    "elementType": "all",
-                    "stylers": [{"visibility": "off"}]
-                }, {
-                    "featureType": "water",
-                    "elementType": "all",
-                    "stylers": [{"color": "#57677a"}, {"visibility": "on"}]
-                }]
+        (function (ol) {
+            var canvas = document.getElementById('map-canvas');
+            new ol.Map({
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    }),
+                    new ol.layer.Vector({
+                        source: new ol.source.Vector({
+                            format: new ol.format.KML(),
+                            url: canvas.getAttribute('data-what')
+                        })
+                    })
+                ],
+                target: canvas,
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([19.946850, 50.06561980]), // @TODO: Use pathAvg coordinates instead.
+                    zoom: 11
+                })
             });
-
-            var ctaLayer = new google.maps.KmlLayer({
-                url: element.getAttribute('data-what')
-            });
-            ctaLayer.setMap(map);
-        }
-
-        google.maps.event.addDomListener(window, 'load', initialize);
+        })(ol);
         {% endraw %}
     </script>
 {% endblock %}
