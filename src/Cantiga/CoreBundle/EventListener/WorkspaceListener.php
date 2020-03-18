@@ -127,6 +127,7 @@ class WorkspaceListener implements WorkspaceSourceInterface
             $workspace->addWorkItem('area', new WorkItem('project_stats_area_index', 'Area statistics'));
 		}
 		$workspace->addWorkItem('data', new WorkItem('project_buttons', 'Magic buttons'));
+		$workspace->addWorkItem('data', new WorkItem('project_fastAction', 'Fast action'));
 		$workspace->addWorkItem('community', new WorkItem('group_mgmt_index', 'Groups'));
 		$workspace->addWorkItem('community', new WorkItem('project_group_category_index', 'Group categories'));
 		

@@ -1,0 +1,43 @@
+{% extends 'CantigaCoreBundle:layout:base-layout.html.twig' %}
+
+{% block page_title %}
+	{{ 'Participant statistics' | trans([], 'pages') }}
+{% endblock %}
+
+{% block page_subtitle %}
+	{{ 'Analyze the data through charts' | trans([], 'pages') }}
+{% endblock %}
+
+{% block page_content %}
+	<div class="row">
+		<div class="col-xs-12">
+
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Trasy bez rejestracji</h3>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body no-padding">
+					<table class="table table-condensed">
+						<tbody>
+						<tr>
+							<th>Nazwa trasy</th>
+							<th>Nazwa rejonu</th>
+							<th style="width: 100px">Akcje</th>
+						</tr>
+						{% for item in regSettings %}
+							<tr>
+								<td><a href="{{ spath('edk_route_info', {'id': item.routeId } ) }}">{{ item.routeName }}</a></td>
+								<td><a href="{{ spath('area_mgmt_info', {'id': item.areaId}) }}">{{item.areaName}}</a></td>
+								<td><a href="{{ spath('edk_reg_settings_info', {'id': item.routeId}) }}" class="btn btn-xs btn-primary" role="button">Ustawienia rejestracji</a></td>
+							</tr>
+
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<!-- /.box-body -->
+			</div>
+		</div>
+	</div>
+{% endblock %}

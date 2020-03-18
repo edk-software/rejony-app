@@ -29,39 +29,47 @@ use WIO\EdkBundle\EdkSettings;
 use WIO\EdkBundle\EdkTexts;
 
 
-class AreasStatusValidatorCommand extends ContainerAwareCommand
+class UpdateAgreementsCommand extends ContainerAwareCommand
 {
-    const toPublication = 'areasToPublication';
-    const toHide = 'areasToHide';
+    const toSigned = 'areasToBeSignedContract';
+    const toAdded = 'areasToAddContract';
+    const toUpdated = 'areasToUpdateContract';
+    const toDowngrade = 'areasToDowngradeContract';
 
     const validationRepository = 'wio.edk.repo.validation';
 
     protected function configure()
     {
         $this
-            ->setName('cantiga:edk:areas-status-validator')
-            ->setDescription('Validate Areas Status.')
+            ->setName('cantiga:edk:update-agreements')
+            ->setDescription('Update Agreements')
             ->addOption('projectId', 'p', InputOption::VALUE_REQUIRED, 'Project id');
     }
 
-    private function validateStatus($repository, $projectId, AreaStatus $publicationStatus, AreaStatus $publicationLikeStatus, int $percentLimit, $output)
+    private function validateAggrements($repository, $projectId)
     {
         $result = [
-            self::toPublication => [],
-            self::toHide => [],
+            self::toSigned => [],
+            self::toAdded => [],
+            self::toUpdated => [],
+            self::toDowngrade => [],
         ];
-        $areas = $repository->getAreasRouteStatus($projectId);
-        foreach ($areas as $row) {
-            if ($row->isCorrectStatus($publicationStatus, $publicationLikeStatus, $percentLimit))
-                continue;
-            if ($row->isReadyToBePublication($percentLimit)) {
+        $summary = $repository->getAgreementsStatus($projectId);
 
-                //$newStatus = $row->getNewAreaStatus($publicationStatus, $publicationLikeStatus);
-
-                //$repository->updateAreaStatus($row->getAreaId(), $newStatus);
-                $result[self::toPublication][] = $row;
-            } else {
-                $result[self::toHide][] = $row;
+        foreach ($summary as $row) {
+            if ($row->isToBeSigned()) {
+                $result[self::toSigned][] = $row;
+            }
+            if ($row->isToAddAgreements()) {
+                $result[self::toAdded][] = $row;
+            }
+            if ($row->isContractToBeUpdated()) {
+                $repository->updateContract($row->getAreaId(), 1);
+                $result[self::toUpdated][] = $row;
+            }
+            if ($row->isContractToBeDowngrade()) {
+//                $repository->updateContract($row->getAreaId(), 0);
+                $result[self::toDowngrade][] = $row;
             }
         }
         return $result;
@@ -73,30 +81,30 @@ class AreasStatusValidatorCommand extends ContainerAwareCommand
         $projectId = (int)$input->getOption('projectId');
         $project = $repository->getProject($projectId);
 
-        $publicationStatus = $this->getPublishedStatus($project, $repository);
-        $publicationLikeStatus = $this->getPublishedLikeStatus($project, $repository);
-        $percentLimit = $this->getAreaPercentLimit($projectId);
+        $resultAggrements = $this->validateAggrements($repository, $projectId);
 
-        $resultAreas = $this->validateStatus($repository, $projectId, $publicationStatus, $publicationLikeStatus, $percentLimit, $output);
+        $repository->addUsersAgreement($project, 2, 2);
 
         $emails = $this->getMails($projectId);
         $mailer = $this->getContainer()->get('cantiga.mail.sender');
         try {
-            $this->distributeNotification($mailer, $emails, $projectId, $resultAreas);
+            $this->distributeNotification($mailer, $emails, $projectId, $resultAggrements);
             $output->writeln('<info>OK</info> areas status send');
         } catch (Exception $exception) {
             $output->writeln('<error>ERROR</error> areas status send: ' . $exception->getMessage());
         }
     }
 
-    private function distributeNotification(MailSenderInterface $mailer, $emails, $projectId, $resultAreas)
+    private function distributeNotification(MailSenderInterface $mailer, $emails, $projectId, $resultAggrements)
     {
         if (sizeof($emails) > 0) {
             $message = [
-                'publication' => $resultAreas[self::toPublication],
-                'toHide' => $resultAreas[self::toHide]
+                'toSigned' => $resultAggrements[self::toSigned],
+                'toAdded' => $resultAggrements[self::toAdded],
+                'updated' => $resultAggrements[self::toUpdated],
+                'downgraded' => $resultAggrements[self::toDowngrade]
             ];
-            $mailer->send(EdkTexts::AREAS_STATUS_MAIL, $emails, $projectId, $message);
+            $mailer->send(EdkTexts::AGREEMENTS_STATUS_MAIL, $emails, $projectId, $message);
         }
     }
 

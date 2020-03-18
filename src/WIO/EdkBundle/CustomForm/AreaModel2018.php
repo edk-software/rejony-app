@@ -48,7 +48,7 @@ class AreaModel2018 implements CustomFormModelInterface, CompletenessCalculatorI
 	
 	public function constructForm(FormBuilderInterface $builder)
 	{
-        $builder->add('packageCount', NumberType::class, array('label' => 'Package Count Label', 'required' => true, 'scale' => 0, 'attr' => ['help_text' => 'Package Count Help'], 'constraints' => [
+        $builder->add('packageCount', NumberType::class, array('label' => 'Package Count Label', 'required' => false, 'scale' => 0, 'attr' => ['help_text' => 'Package Count Help'], 'constraints' => [
             new Range(['min' => 0, 'max' => 10000])
         ]));
         $builder->add('packageDetails', TextareaType::class, array('required'   => false, 'label' => 'Package Details Label', 'attr' => ['help_text' => 'Package Details Help'], 'constraints' => [

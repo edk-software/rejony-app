@@ -63,6 +63,7 @@ return [
 	'Area statistics' => 'Statystyki rejonów',
 	'Territories' => 'Terytoria',
 	'Magic buttons' => 'Dodatki',
+	'Fast action' => 'Szybka ścieżka',
 	'Project members' => 'Członkowie projektu',
 	'Manage the areas' => 'Zarządzaj rejonami',
 	

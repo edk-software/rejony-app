@@ -40,4 +40,7 @@ project_stats_participant_controller:
 area_summary_controller:
     resource: "@WioEdkBundle/Controller/AreaSummaryController.php"
     type:     annotation
+project_fastAction_controller:
+    resource: "@WioEdkBundle/Controller/FastActionController.php"
+    type:     annotation
 

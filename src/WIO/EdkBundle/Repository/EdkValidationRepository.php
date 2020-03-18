@@ -64,6 +64,36 @@ class EdkValidationRepository
         return $result;
     }
 
+    public function addUsersAgreement(Project $project, int $agreementId, int $createdBy)
+    {
+        $this->conn->executeQuery('INSERT INTO `' . UserTables::AGREEMENTS_SIGNATURES_TBL . '` (`agreementId`, `signerId`, `projectId`, `createdAt`, `createdBy`)'
+            . 'select DISTINCT :agreementId, u.userId, :projectId, :createdAt, :createdBy '
+            . 'FROM `' . UserTables::PLACE_MEMBERS_TBL . '` u '
+            . 'JOIN `' . CoreTables::PLACE_TBL . '` p '
+            . 'ON p.id = u.placeId '
+            . 'WHERE p.rootPlaceId = :projectPlaceId AND p.type = "Area" '
+            . 'AND u.userId NOT IN '
+            . '(SELECT signerId FROM `' . UserTables::AGREEMENTS_SIGNATURES_TBL . '` WHERE projectId=:projectId)', [
+            ':projectId' => 12,
+            ':agreementId' => 2,
+            ':createdAt' => 1582497363,
+            ':createdBy' => 2,
+            ':projectPlaceId' => 1607
+        ]);
+    }
+
+    public function listRegistrationsData($projectId): array
+    {
+        return $data = $this->conn->fetchAll('SELECT'
+            .' r.id as routeId, r.name as routeName, a.id as areaId, a.name as areaName, g.registrationType'
+            .' FROM cantiga_edk_routes r'
+            .' JOIN cantiga_areas a ON a.id = r.areaId'
+            .' JOIN cantiga_area_statuses s ON s.id = a.statusId'
+            .' LEFT JOIN cantiga_edk_registration_settings g ON r.id = g.routeId'
+            .' WHERE r.approved = 1 AND s.isPublish = 1 AND a.projectId = :projectId AND  `g`.`registrationType` is null', [':projectId' => $projectId]);
+
+    }
+
     public function getAreasRouteStatus($projectId)
     {
         $stmt = $this->conn->prepare('SELECT a.`id` as areaId, a.`name` as areaName, a.`percentCompleteness` as profilePercent, s.`name` as statusName, s.`id` as statusId, SUM(r.`routeType`) as activeRoutesTypes, COUNT(r.`id`) as activeRoutesCount'
@@ -96,7 +126,7 @@ class EdkValidationRepository
         return AreaStatus::fetchByProject($this->conn, $id, $project);
     }
 
-    public function  getProject($projectId)
+    public function getProject($projectId)
     {
         return Project::fetch($this->conn, $projectId);
     }
