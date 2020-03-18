@@ -52,6 +52,12 @@ class PublicMessageFormController extends PublicEdkController
 			if (null !== $id) {
 				$intent->area = $publishedRepository->getArea($id);
 			}
+			else{
+                $areaId = $request->get('a');
+                if (!empty($areaId)) {
+                    $intent->area = $publishedRepository->getArea($areaId);
+                }
+            }
 			
 			$form = $this->createForm(EdkMessageForm::class, $intent, [
 				'repository' => $publishedRepository,

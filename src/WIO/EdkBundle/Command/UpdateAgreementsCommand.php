@@ -36,9 +36,6 @@ class UpdateAgreementsCommand extends ContainerAwareCommand
     const toUpdated = 'areasToUpdateContract';
     const toDowngrade = 'areasToDowngradeContract';
 
-    const toPublication = 'areasToPublication';
-    const toHide = 'areasToHide';
-
     const validationRepository = 'wio.edk.repo.validation';
 
     protected function configure()
@@ -71,7 +68,7 @@ class UpdateAgreementsCommand extends ContainerAwareCommand
                 $result[self::toUpdated][] = $row;
             }
             if ($row->isContractToBeDowngrade()) {
-                $repository->updateContract($row->getAreaId(), 0);
+//                $repository->updateContract($row->getAreaId(), 0);
                 $result[self::toDowngrade][] = $row;
             }
         }
