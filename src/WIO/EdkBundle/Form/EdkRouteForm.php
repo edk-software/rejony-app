@@ -38,7 +38,7 @@ class EdkRouteForm extends AbstractType
 
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefined(['mode', 'areaRepository', 'isPlaceManager']);
+		$resolver->setDefined(['mode', 'areaRepository']);
 		$resolver->setRequired(['mode']);
 		
 		$resolver->setDefaults(array(
@@ -48,22 +48,11 @@ class EdkRouteForm extends AbstractType
 	
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-	    $isPlaceManager = (bool) $options['isPlaceManager'];
 		if (!empty($options['areaRepository'])) {
 			$builder->add('area', ChoiceType::class, ['label' => 'Area', 'choices' => $options['areaRepository']->getFormChoices()]);
 			$builder->get('area')->addModelTransformer(new EntityTransformer($options['areaRepository']));
 		}
 
-		if ($isPlaceManager) {
-			$builder->add('routeType', ChoiceType::class, [
-				'choices' => [
-					'UndefinedRoute' => EdkRoute::TYPE_UNDEFINED,
-					'FullRoute' => EdkRoute::TYPE_FULL,
-					'RouteInspiredByEWC' => EdkRoute::TYPE_INSPIRED,
-				],
-				'label' => 'Route type',
-			]);
-		}
 		$builder
 			->add('name', TextType::class, array('label' => 'Route name','attr' => array('help_text' => 'Name helptext','placeholder' => 'Name placeholder')))
             ->add('routePatron', TextType::class, array('label' => 'Route patron','required' => false,'attr' => array('placeholder' => 'Patron placeholder')))
@@ -82,19 +71,6 @@ class EdkRouteForm extends AbstractType
             ->add('routeToDetails', TextType::class,
                 array('label' => 'Route end details', 'required' => false, 'attr' => array('help_text' => '(settlement details)','placeholder' => 'From Details placeholder'))
             )
-        ;
-		if ($isPlaceManager) {
-			$builder
-				->add('routeLength', IntegerType::class, [
-					'label' => 'Route length (km)',
-				])
-				->add('routeAscent', IntegerType::class, [
-					'attr' => ['help_text' => 'RouteAscentInfoText'],
-					'label' => 'Route ascent (m)',
-				])
-			;
-		}
-		$builder
 			->add('routeObstacles', TextType::class, 
 				array('label' => 'Additional obstacles', 'required' => false)
 			)

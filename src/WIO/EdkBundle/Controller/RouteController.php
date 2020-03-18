@@ -170,7 +170,6 @@ class RouteController extends WorkspaceController
 		$this->crudInfo->setInfoPage('edk_route_verify');
 		$action = new InsertAction($this->crudInfo, $entity, EdkRouteForm::class, [
 			'areaRepository' => $this->findAreaRepository($membership),
-            'isPlaceManager' => $this->isGranted('PLACE_MANAGER'),
             'mode' => EdkRouteForm::ADD,
 		]);
 		$action->slug($this->getSlug());
@@ -186,7 +185,6 @@ class RouteController extends WorkspaceController
         $this->crudInfo->setInfoPage('edk_route_verify');
 		$action = new EditAction($this->crudInfo, EdkRouteForm::class, [
 			'areaRepository' => $this->findAreaRepository($membership),
-            'isPlaceManager' => $this->isGranted('PLACE_MANAGER'),
             'mode' => EdkRouteForm::EDIT,
 		]);
 		$action->slug($this->getSlug());

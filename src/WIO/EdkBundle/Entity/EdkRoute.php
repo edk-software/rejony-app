@@ -266,8 +266,6 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 	
 	public static function loadValidatorMetadata(ClassMetadata $metadata)
 	{
-		$metadata->addConstraint(new Callback('validate'));
-
 		$metadata->addPropertyConstraint('name', new NotBlank());
 		$metadata->addPropertyConstraint('name', new Length(array('min' => 2, 'max' => 50)));
         $metadata->addPropertyConstraint('routePatron', new Length(array('min' => 2, 'max' => 50)));
@@ -282,52 +280,6 @@ class EdkRoute implements IdentifiableInterface, InsertableEntityInterface, Edit
 		$metadata->addPropertyConstraint('routeCourse', new NotBlank());
 		$metadata->addPropertyConstraint('routeCourse', new Length(array('min' => 2, 'max' => 500)));
 		$metadata->addPropertyConstraint('routeObstacles', new Length(array('min' => 0, 'max' => 100)));
-	}
-	
-	public function validate(ExecutionContextInterface $context)
-	{
-//		if ($this->routeType == self::TYPE_FULL) {
-//			if ($this->routeLength < 30) {
-//				$context->buildViolation('RouteLengthGreaterThan30Km')
-//					->atPath('routeLength')
-//					->addViolation();
-//				return false;
-//			}
-//			if ($this->routeLength >= 30 && $this->routeLength < 40) {
-//				if ($this->routeAscent < 500) {
-//					$context->buildViolation('Routes30To40KmMustHaveEnoughAscent')
-//						->atPath('routeAscent')
-//						->addViolation();
-//					return false;
-//				}
-//			}
-//		} elseif ($this->routeType == self::TYPE_INSPIRED) {
-//			if ($this->routeLength < 30) {
-//				$context->buildViolation('RouteLengthGreaterThan20Km')
-//					->atPath('routeLength')
-//					->addViolation();
-//				return false;
-//			}
-//			if ($this->routeAscent < 0) {
-//				$context->buildViolation('NegativeAscentInvalid')
-//					->atPath('routeAscent')
-//					->addViolation();
-//				return false;
-//			}
-//		}
-        if ($this->routeLength < 30) {
-            $context->buildViolation('RouteLengthGreaterThan30Km')
-                ->atPath('routeLength')
-                ->addViolation();
-            return false;
-        }
-        if ($this->routeAscent < 0) {
-            $context->buildViolation('NegativeAscentInvalid')
-                ->atPath('routeAscent')
-                ->addViolation();
-            return false;
-        }
-		return true;
 	}
 	
 	public function getId()

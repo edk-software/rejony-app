@@ -19,11 +19,6 @@ return [
 	'MinimumParticipantLimitErrMsg' => 'Minimum value is 10 participants.',
 	'InvalidRegistrationTypeErrMsg' => 'Invalid registration type.',
 
-	'RouteLengthGreaterThan30Km' => 'Route length should be equal or greater than 30 km.',
-	'Routes30To40KmMustHaveEnoughAscent' => 'Routes from 30 up to 40 km long should have proper ascent.',
-	'RouteLengthGreaterThan20Km' => 'Route length should be equal or greater than 20 km.',
-	'NegativeAscentInvalid' => 'Value of ascent couldn\'t be negative.',
-	
 	'MaxPeoplePerRecordRequired' => 'This field is required with this registration type - please enter a number from 1 to 10.',
 	'FieldRequiredErrMsg' => 'This field is required with this registration type.',
 ];

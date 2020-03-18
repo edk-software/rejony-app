@@ -22,18 +22,15 @@ return [
 	'Files' => 'Pliki',
 	
 	'Ascent' => 'Suma podejść',
-	'Length' => 'Długość',
 	'Beginning' => 'Początek',
 	'Ending' => 'Koniec',
 	'Name' => 'Nazwa',
 	'Route name' => 'Nazwa trasy',
-	'Route type' => 'Rodzaj trasy',
 	'Route patron' => 'Patron',
 	'Route color' => 'Kolor',
 	'Route author' => 'Autor',
 	'Comments' => 'Komentarzy',
 	'Area' => 'Rejon',
-	'Created at' => 'Utworzono',
 	'Updated at' => 'Zmodyfikowano',
 	'Approved at' => 'Zatwierdzono',
 	'Approved' => 'Zatwierdzona',
@@ -153,7 +150,6 @@ return [
 	'Registration via external website' => 'Rejestracja przez zewnętrzną stronę WWW',
 	
 	'Participants' => 'Uczestnicy',
-	'External participants' => 'Niezarejestrowani',
 	'Current number of participants' => 'Obecnie zarejestrowanych przez stronę EDK',
 	'Participants registered externally' => 'Uczestnicy niezarejestrowani',
 	'Beginning of registration' => 'Początek rejestracji',
@@ -185,7 +181,6 @@ return [
 	'MsgStatusClosed' => 'Zamknięta',
 	
 	'Message: 0' => 'Wiadomość: 0',
-	'E-mail' => 'E-mail',
 	'Phone number' => 'Numer telefonu',
 	'Duplicate' => 'Duplikat',
 	'Subject' => 'Temat',
@@ -200,7 +195,6 @@ return [
 	'MsgTransitionTakeMessage' => 'Weź wiadomość',
 	'MsgTransitionClose' => 'Zamknij wiadomość',
 	'MsgTransitionComplete' => 'Zakończ odpowiadanie',
-	'MsgTransitionReset' => 'Zresetuj stan',
 	'MsgTransitionUndo' => 'Cofnij się do fazy odpowiadania',
 	'MsgTransitionReset' => 'Zresetuj stan',
 	
@@ -312,5 +306,4 @@ return [
 
 	'Participants count' => 'Liczba uczestników',
 	'Disable chatbox' => 'W przypadku wątpliwości co do komentarzy skontaktuj się z zespołem tras.'
-
 ];
