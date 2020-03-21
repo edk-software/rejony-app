@@ -3,24 +3,19 @@
 {% block data_map %}
     <div id="map" style="width: 100%; height: 400px;"></div>
 {% endblock %}
+
+{% block stylesheets_map %}
+	<link rel="stylesheet" href="{{ map.cssUrl }}"/>
+	<link rel="stylesheet" href="{{ map.popupCssUrl }}"/>
+{% endblock %}
+
 {% block javascripts_map %}
-    <script src="{{ asset('js/map-common.js') }}"></script>
-    <script src="{{ asset('js/map-marker.js') }}"></script>
-    <script
-            async defer
-            src="{{ map.link }}">
-    </script>
-    <script>
-        function initMap() {
-            $.ajax({
-                url: '{{ spath(ajaxListMap) }}',
-                dataType: "json",
-                success: function (data) {
-                    render(data);
-                }
-            });
-        }
-    </script>
+	<script src="{{ map.jsUrl }}"></script>
+	<script src="{{ map.popupJsUrl }}"></script>
+	<script src="{{ asset('js/maps.js') }}"></script>
+	<script>
+		maps.renderMarkersFromUrl('map', '{{ spath(ajaxListMap) }}');
+	</script>
 {% endblock %}
 
 {% block data_filter %}
@@ -50,6 +45,3 @@
     ]) }}
     ]
 {% endblock %}
-
-
-

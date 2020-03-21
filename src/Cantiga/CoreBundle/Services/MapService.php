@@ -22,11 +22,13 @@ class MapService
 {
 	private $secretKey;
 	private $olBaseUrl;
+	private $olPopupBaseUrl;
 
 	public function __construct($secretKey)
 	{
 		$this->secretKey = $secretKey;
 		$this->olBaseUrl = 'https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1';
+		$this->olPopupBaseUrl = 'https://unpkg.com/ol-popup@4.0.0';
 	}
 
 	public function getLink()
@@ -42,5 +44,15 @@ class MapService
 	public function getJsUrl()
 	{
 		return $this->olBaseUrl . '/build/ol.js';
+	}
+
+	public function getPopupJsUrl()
+	{
+		return $this->olPopupBaseUrl;
+	}
+
+	public function getPopupCssUrl()
+	{
+		return $this->olPopupBaseUrl . '/src/ol-popup.css';
 	}
 }
