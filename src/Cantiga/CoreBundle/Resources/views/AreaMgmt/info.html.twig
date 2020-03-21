@@ -137,6 +137,11 @@
     </div>
 {% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ custom.map.cssUrl }}"/>
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     {#<script src="{{ asset('js/jquery-ui.min.js') }}"></script>#}
@@ -155,7 +160,6 @@
             });
         });
     </script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('#ppp').chatbox({

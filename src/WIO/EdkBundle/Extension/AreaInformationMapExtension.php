@@ -44,14 +44,13 @@ class AreaInformationMapExtension implements AreaInformationExtensionInterface
 
     public function render(CantigaController $controller, Request $request, Area $area)
     {
-        $map = $controller->get('cantiga.security.map');
         if (!empty($area->getLat()) && !empty($area->getLng())) {
             return $this->templating->render(
                 'WioEdkBundle:Extension:area-information-map.html.twig',
                 [
                     'positionLat' => $area->getLat(),
                     'positionLng' => $area->getLng(),
-                    'map' => $map,
+                    'map' => $controller->getMap(),
                 ]
             );
         }

@@ -110,7 +110,7 @@ class CantigaController extends Controller
 	{
 		return $this->get('cantiga.extensions');
 	}
-    protected function getMap()
+    public function getMap()
     {
         return $this->get('cantiga.security.map');
     }

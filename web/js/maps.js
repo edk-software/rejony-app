@@ -1,4 +1,4 @@
-var maps = (function ($, ol) {
+var maps = (function (ol) {
     function getDefaultLonLat() {
         return [19.498, 50.043];
     }
@@ -141,5 +141,13 @@ var maps = (function ($, ol) {
             addMarkerPopupsSupport(map);
             // @TODO: Move center of the map to sum of marker's coordinates.
         },
+        renderWithMarker: function (id, lonLat) {
+            var map = getMap(id, 15, lonLat);
+            map.addLayer(new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [getMarker(lonLat)],
+                })
+            }));
+        },
     };
-})(jQuery, ol);
+})(ol);

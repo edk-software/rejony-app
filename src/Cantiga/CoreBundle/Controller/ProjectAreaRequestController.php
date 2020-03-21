@@ -85,7 +85,6 @@ class ProjectAreaRequestController extends ProjectPageController
     public function indexAction(Request $request)
     {
         $filter = $this->get(self::FILTER_NAME);
-        $map = $this->get('cantiga.security.map');
         $filter->setTargetProject($this->getActiveProject());
         $filterForm = $filter->createForm($this->createFormBuilder($filter));
         $filterForm->handleRequest($request);
@@ -100,7 +99,7 @@ class ProjectAreaRequestController extends ProjectPageController
                 'pageTitle' => $this->crudInfo->getPageTitle(),
                 'pageSubtitle' => $this->crudInfo->getPageSubtitle(),
                 'dataTable' => $dataTable,
-                'map' => $map,
+                'map' => $this->getMap(),
                 'locale' => $request->getLocale(),
                 'ajaxListPage' => 'project_area_request_ajax_list',
                 'ajaxListMap' => 'project_area_request_ajax_map',

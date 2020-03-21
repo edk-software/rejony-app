@@ -166,7 +166,8 @@ class AreaMgmtController extends WorkspaceController
 					'progressBarColor' => $item->getPercentCompletenessLabel(),
 					'summary' => $formModel->createSummary(),
 					'extensions' => $html,
-					'links' => $event->getLinks()
+					'links' => $event->getLinks(),
+					'map' => $this->getMap(),
 				];
 			});
 	}

@@ -1,15 +1,10 @@
 <div class="box box-solid">
 	<div class="box-body">
-		<div id="map" style="width: 100%; height: 400px;"></div>
-		<script src="{{ asset('js/map-common.js') }}"></script>
-		<script
-				async defer
-				src="{{ map.link }}">
-		</script>
+		<div id="map-canvas" style="height:400px;width:100%"></div>
+		<script src="{{ map.jsUrl }}"></script>
+		<script src="{{ asset('js/maps.js') }}"></script>
 		<script>
-            function initMap() {
-                loadMap('map', {{positionLat}}, {{positionLng}}, '')
-            }
+            maps.renderWithMarker('map-canvas', [{{positionLng}}, {{positionLat}}]);
 		</script>
 	</div>
 </div>

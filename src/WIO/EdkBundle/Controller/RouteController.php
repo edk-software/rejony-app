@@ -157,7 +157,7 @@ class RouteController extends WorkspaceController
 		if (!$this->isArea($membership)) {
 			$action->set('approvePage', self::APPROVE_PAGE)->set('revokePage', self::REVOKE_PAGE);
 		}
-		$action->setMap($this->get('cantiga.security.map'));
+		$action->setMap($this->getMap());
 		return $action->run($this, $id);
 	}
 	 
