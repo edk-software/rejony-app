@@ -428,7 +428,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/summernote.css') }}"/>
-    <link rel="stylesheet" href="{{ map.cssUrl }}"/>
+    <link rel="stylesheet" href="{{ map.olCssUrl }}"/>
 {% endblock %}
 
 {% block javascripts %}
@@ -537,7 +537,7 @@
             }
         });
     </script>
-    <script src="{{ map.jsUrl }}"></script>
+    <script src="{{ map.olJsUrl }}"></script>
 	<script src="{{ asset('js/maps.js') }}"></script>
     <script>
 		maps.renderFromKml('map-canvas', jQuery('#map-canvas').data('what'));

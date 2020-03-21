@@ -33,22 +33,7 @@
                                 <span id="search" class="btn btn-success btn-sm"><i
                                             class="fa fa-search"></i> {{ 'SearchInMap' | trans([], 'public') }}</span>
                                 <span class="help-block">{{ 'MapPinHelp' | trans([], 'public') }}</span>
-                                <div id="map_canvas" style="width: 100%; height: 400px;"></div>
-
-                                <script src="{{ asset('js/map-common.js') }}"></script>
-                                <script src="{{ asset('js/map-geolocation.js') }}"></script>
-                                <script>
-                                    function initMap() {
-                                        initMapCore('map_canvas');
-                                        registerGeocoder('user_area_request_form_name', 'search');
-                                        registerChangeCoordinates('user_area_request_form_name', 'user_area_request_form_lat', 'user_area_request_form_lng');
-                                        findLocation();
-                                    }
-                                </script>
-                                <script
-                                        async defer
-                                        src="{{ map.link }}">
-                                </script>
+                                <div id="map-canvas" style="height:400px;width:100%"></div>
                                 <div class="col-md-6 col-xs-12 no-padding">
                                     {{ form_row(form.lat) }}
                                 </div>
@@ -68,6 +53,21 @@
         </div>
     </div>
 {% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ map.olCssUrl }}"/>
+{% endblock %}
+
 {% block javascripts_inline %}
     {{ use_icheck() }}
+	<script src="{{ map.gmJsUrl }}"></script>
+	<script src="{{ map.olJsUrl }}"></script>
+	<script src="{{ asset('js/maps.js') }}"></script>
+	<script>
+		maps.renderCoordsFetcher(
+			'map-canvas', [0, 0], jQuery('#user_area_request_form_lat'), jQuery('#user_area_request_form_lng'),
+			jQuery('#user_area_request_form_name'), jQuery('#search')
+		);
+	</script>
 {% endblock %}

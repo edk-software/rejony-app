@@ -1,7 +1,7 @@
 <div class="box box-solid">
 	<div class="box-body">
 		<div id="map-canvas" style="height:400px;width:100%"></div>
-		<script src="{{ map.jsUrl }}"></script>
+		<script src="{{ map.olJsUrl }}"></script>
 		<script src="{{ asset('js/maps.js') }}"></script>
 		<script>
             maps.renderWithMarker('map-canvas', [{{positionLng}}, {{positionLat}}]);

@@ -87,9 +87,9 @@ var maps = (function (ol) {
     }
 
     return {
-        renderCoordsFetcher: function (id, initLonLat, latInput, lonInput) {
-            var zoom = initLonLat[0] === 0 && initLonLat[1] === 0 ? 3 : 11;
-            var map = getMap(id, zoom, initLonLat);
+        renderCoordsFetcher: function (id, initLonLat, latInput, lonInput, placeInput, searchButton) {
+            var coordsNotSet = initLonLat[0] === 0 && initLonLat[1] === 0;
+            var map = getMap(id, coordsNotSet ? 3 : 11, initLonLat);
             var marker = getMarker(initLonLat);
             var source = new ol.source.Vector({
                 features: [marker],
@@ -101,17 +101,51 @@ var maps = (function (ol) {
                 source: source,
             });
             map.addInteraction(modify);
-            var relocateMarker = function () {
+            var relocateMarker = function (lonLat) {
                 marker.getGeometry()
-                    .setCoordinates(ol.proj.fromLonLat([getNumberFromInput(lonInput), getNumberFromInput(latInput)]));
+                    .setCoordinates(ol.proj.fromLonLat(lonLat));
             };
-            latInput.on('change', relocateMarker);
-            lonInput.on('change', relocateMarker);
-            modify.on('modifyend', function () {
+            var onCoordsChange = function () {
+                relocateMarker([getNumberFromInput(lonInput), getNumberFromInput(latInput)]);
+            };
+            var onMarkerMove = function () {
                 var lonLatFromMarker = ol.proj.toLonLat(marker.getGeometry().getCoordinates());
                 latInput.val(lonLatFromMarker[1]);
                 lonInput.val(lonLatFromMarker[0]);
-            });
+            };
+            var onPositionFind = function (lonLat) {
+                relocateMarker(lonLat);
+                var view = map.getView();
+                view.setCenter(ol.proj.fromLonLat(lonLat));
+                view.setZoom(8);
+                onMarkerMove();
+            };
+            latInput.on('change', onCoordsChange);
+            lonInput.on('change', onCoordsChange);
+            modify.on('modifyend', onMarkerMove);
+            if (coordsNotSet && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    onPositionFind([position.coords.longitude, position.coords.latitude]);
+                }, function () {
+                    onPositionFind(getDefaultLonLat());
+                });
+            }
+            if (placeInput && searchButton && google.maps.Geocoder) {
+                searchButton.on('click', function () {
+                    var address = placeInput.val();
+                    if (address === '') {
+                        return;
+                    }
+                    var geoCoder = new google.maps.Geocoder();
+                    geoCoder.geocode({ address: address }, function (results, status) {
+                        if (status !== 'OK') {
+                            alert('Geocode was not successful for the following reason: ' + status);
+                            return;
+                        }
+                        onPositionFind([results[0].geometry.location.lng(), results[0].geometry.location.lat()]);
+                    });
+                });
+            }
         },
         renderFromKml: function (id, kmlUrl) {
             var map = getMap(id, 11, [19.946850, 50.06561980]); // @TODO: Use pathAvg coordinates instead.

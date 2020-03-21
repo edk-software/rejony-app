@@ -31,27 +31,27 @@ class MapService
 		$this->olPopupBaseUrl = 'https://unpkg.com/ol-popup@4.0.0';
 	}
 
-	public function getLink()
+	public function getGmJsUrl()
 	{
-		return 'https://maps.googleapis.com/maps/api/js?key='.$this->secretKey.'&v=3.exp&callback=initMap';
+		return 'https://maps.googleapis.com/maps/api/js?key='.$this->secretKey.'&v=3.exp';
 	}
 
-	public function getCssUrl()
+	public function getOlCssUrl()
     {
 		return $this->olBaseUrl . '/css/ol.css';
 	}
 
-	public function getJsUrl()
+	public function getOlJsUrl()
 	{
 		return $this->olBaseUrl . '/build/ol.js';
 	}
 
-	public function getPopupJsUrl()
+	public function getOlPopupJsUrl()
 	{
 		return $this->olPopupBaseUrl;
 	}
 
-	public function getPopupCssUrl()
+	public function getOlPopupCssUrl()
 	{
 		return $this->olPopupBaseUrl . '/src/ol-popup.css';
 	}

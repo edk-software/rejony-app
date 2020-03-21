@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block stylesheets_map %}
-	<link rel="stylesheet" href="{{ map.cssUrl }}"/>
-	<link rel="stylesheet" href="{{ map.popupCssUrl }}"/>
+	<link rel="stylesheet" href="{{ map.olCssUrl }}"/>
+	<link rel="stylesheet" href="{{ map.olPopupCssUrl }}"/>
 {% endblock %}
 
 {% block javascripts_map %}
-	<script src="{{ map.jsUrl }}"></script>
-	<script src="{{ map.popupJsUrl }}"></script>
+	<script src="{{ map.olJsUrl }}"></script>
+	<script src="{{ map.olPopupJsUrl }}"></script>
 	<script src="{{ asset('js/maps.js') }}"></script>
 	<script>
 		jQuery.ajax({

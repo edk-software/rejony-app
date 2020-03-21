@@ -35,12 +35,12 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link rel="stylesheet" href="{{ map.cssUrl }}"/>
+	<link rel="stylesheet" href="{{ map.olCssUrl }}"/>
 {% endblock %}
 
 {% block javascripts_inline %}
     {{ use_icheck() }}
-	<script src="{{ map.jsUrl }}"></script>
+	<script src="{{ map.olJsUrl }}"></script>
 	<script src="{{ asset('js/maps.js') }}"></script>
 	<script>
 		maps.renderCoordsFetcher('map-canvas', (function () {
