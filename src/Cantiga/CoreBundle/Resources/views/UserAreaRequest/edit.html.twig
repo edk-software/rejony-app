@@ -16,20 +16,8 @@
             </div>
             <div class="col-xs-12">
                 <span class="help-block">{{ 'MapPinHelp' | trans([], 'public') }}</span>
-                <div id="map_canvas" style="width: 100%; height: 400px;"></div>
-                <script src="{{ asset('js/map-common.js') }}"></script>
-                <script src="{{ asset('js/map-geolocation.js') }}"></script>
-                <script>
-                    function initMap() {
-                        initMapCore('map_canvas');
-                        showMarker({lat:{{ item.lat }},lng:{{ item.lng }}}, '{{ item.name }}');
-                        registerChangeCoordinates('user_area_request_form_name','user_area_request_form_lat','user_area_request_form_lng');
-                    }
-                </script>
-                <script
-                        async defer
-                        src="{{ map.link }}">
-                </script>
+                <div id="map-canvas" style="height:400px;width:100%"
+					data-lat="{{ item.lat | number_format }}" data-lng="{{ item.lng | number_format }}"></div>
                 <div class="col-md-6 col-xs-12 no-padding">
                     {{ form_row(form.lat) }}
                 </div>
@@ -39,12 +27,25 @@
             </div>
         </div>
         <div class="col-md-6">
-            {% include formRenderer.template with { 'formRenderer': formRenderer, 'form': form } only %}
+            {% include formRenderer.template with { formRenderer: formRenderer, form: form } only %}
             {{ form_end(form) }}
         </div>
     </div>
-
 {% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ map.cssUrl }}"/>
+{% endblock %}
+
 {% block javascripts_inline %}
     {{ use_icheck() }}
+	<script src="{{ map.jsUrl }}"></script>
+	<script src="{{ asset('js/maps.js') }}"></script>
+	<script>
+		maps.renderCoordsFetcher('map-canvas', (function () {
+			var container = $('#map-canvas');
+			return [container.data('lng'), container.data('lat')];
+		})(), jQuery('#user_area_request_form_lat'), jQuery('#user_area_request_form_lng'));
+	</script>
 {% endblock %}

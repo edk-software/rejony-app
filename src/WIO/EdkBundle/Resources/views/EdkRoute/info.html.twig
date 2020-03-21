@@ -540,6 +540,6 @@
     <script src="{{ map.jsUrl }}"></script>
 	<script src="{{ asset('js/maps.js') }}"></script>
     <script>
-		maps.renderFromKml('map-canvas', document.getElementById('map-canvas').getAttribute('data-what'));
+		maps.renderFromKml('map-canvas', jQuery('#map-canvas').data('what'));
     </script>
 {% endblock %}

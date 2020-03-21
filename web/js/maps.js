@@ -3,17 +3,17 @@ var maps = (function ($, ol) {
         return [19.498, 50.043];
     }
 
-    function getMap(id, zoom, centerLonLat) {
+    function getMap(id, zoom, lonLat) {
         return new ol.Map({
             layers: [
                 new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                })
+                    source: new ol.source.OSM(),
+                }),
             ],
             target: id,
             view: new ol.View({
-                center: ol.proj.fromLonLat(centerLonLat),
-                zoom: zoom
+                center: ol.proj.fromLonLat(lonLat),
+                zoom: zoom,
             })
         });
     }
@@ -56,12 +56,12 @@ var maps = (function ($, ol) {
         }
     }
 
-    function getMarker(coords, options) {
+    function getMarker(lonLat, options) {
         if (!options) {
             options = {};
         }
         var marker = new ol.Feature(
-            new ol.geom.Point(coords)
+            new ol.geom.Point(ol.proj.fromLonLat(lonLat))
         );
         marker.setStyle(
             new ol.style.Style({
@@ -71,9 +71,9 @@ var maps = (function ($, ol) {
                     anchorYUnits: 'fraction',
                     opacity: 1,
                     src: options.icon || getIcon(),
-                    zIndex: 1
+                    zIndex: 1,
                 })),
-                zIndex: 1
+                zIndex: 1,
             })
         );
         if (options.popup) {
@@ -82,34 +82,35 @@ var maps = (function ($, ol) {
         return marker;
     }
 
-    function renderMarkers(id, places) {
-        var map = getMap(id, 5, getDefaultLonLat());
-        var markers = places.filter(function (place) {
-            return place.lng && place.lat;
-        }).map(function (place) {
-            return getMarker(ol.proj.fromLonLat([Number(place.lng), Number(place.lat)]), {
-                icon: getIcon(place.status),
-                popup: '<p><a href="' + place.id + '/info"><b>' + place.name + '</b></a></p>' +
-                    '<p><b>' + place.statusText + '</b></p>',
-            });
-        });
-        map.addLayer(new ol.layer.Vector({
-            source: new ol.source.Vector({
-                features: markers
-            })
-        }));
-        addMarkerPopupsSupport(map);
-        // @TODO: Move center of the map to sum of marker's coordinates.
+    function getNumberFromInput(field) {
+        return Number(field.val().trim().replace(/[^0-9\.-]/g, ''));
     }
 
     return {
-        renderMarkersFromUrl: function (id, jsonUrl) {
-            $.ajax({
-                dataType: 'json',
-                success: function (places) {
-                    renderMarkers(id, places);
-                },
-                url: jsonUrl
+        renderCoordsFetcher: function (id, initLonLat, latInput, lonInput) {
+            var zoom = initLonLat[0] === 0 && initLonLat[1] === 0 ? 3 : 11;
+            var map = getMap(id, zoom, initLonLat);
+            var marker = getMarker(initLonLat);
+            var source = new ol.source.Vector({
+                features: [marker],
+            });
+            map.addLayer(new ol.layer.Vector({
+                source: source,
+            }));
+            var modify = new ol.interaction.Modify({
+                source: source,
+            });
+            map.addInteraction(modify);
+            var relocateMarker = function () {
+                marker.getGeometry()
+                    .setCoordinates(ol.proj.fromLonLat([getNumberFromInput(lonInput), getNumberFromInput(latInput)]));
+            };
+            latInput.on('change', relocateMarker);
+            lonInput.on('change', relocateMarker);
+            modify.on('modifyend', function () {
+                var lonLatFromMarker = ol.proj.toLonLat(marker.getGeometry().getCoordinates());
+                latInput.val(lonLatFromMarker[1]);
+                lonInput.val(lonLatFromMarker[0]);
             });
         },
         renderFromKml: function (id, kmlUrl) {
@@ -117,9 +118,28 @@ var maps = (function ($, ol) {
             map.addLayer(new ol.layer.Vector({
                 source: new ol.source.Vector({
                     format: new ol.format.KML(),
-                    url: kmlUrl
+                    url: kmlUrl,
                 })
             }));
-        }
+        },
+        renderFromPlaces: function (id, places) {
+            var map = getMap(id, 5, getDefaultLonLat());
+            var markers = places.filter(function (place) {
+                return place.lng && place.lat;
+            }).map(function (place) {
+                return getMarker([Number(place.lng), Number(place.lat)], {
+                    icon: getIcon(place.status),
+                    popup: '<p><a href="' + place.id + '/info"><b>' + place.name + '</b></a></p>' +
+                        '<p><b>' + place.statusText + '</b></p>',
+                });
+            });
+            map.addLayer(new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: markers,
+                })
+            }));
+            addMarkerPopupsSupport(map);
+            // @TODO: Move center of the map to sum of marker's coordinates.
+        },
     };
 })(jQuery, ol);

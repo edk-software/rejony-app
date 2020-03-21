@@ -52,7 +52,6 @@ class AreaInformationMapExtension implements AreaInformationExtensionInterface
                     'positionLat' => $area->getLat(),
                     'positionLng' => $area->getLng(),
                     'map' => $map,
-
                 ]
             );
         }
