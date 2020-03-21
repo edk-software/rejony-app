@@ -5,23 +5,23 @@
 {% endblock %}
 
 {% block stylesheets_map %}
-	<link rel="stylesheet" href="{{ map.olCssUrl }}"/>
-	<link rel="stylesheet" href="{{ map.olPopupCssUrl }}"/>
+    <link rel="stylesheet" href="{{ map.olCssUrl }}"/>
+    <link rel="stylesheet" href="{{ map.olPopupCssUrl }}"/>
 {% endblock %}
 
 {% block javascripts_map %}
-	<script src="{{ map.olJsUrl }}"></script>
-	<script src="{{ map.olPopupJsUrl }}"></script>
-	<script src="{{ asset('js/maps.js') }}"></script>
-	<script>
-		jQuery.ajax({
-			dataType: 'json',
-			success: function (places) {
-				maps.renderFromPlaces('map-canvas', places);
-			},
-			url: '{{ spath(ajaxListMap) }}'
-		});
-	</script>
+    <script src="{{ map.olJsUrl }}"></script>
+    <script src="{{ map.olPopupJsUrl }}"></script>
+    <script src="{{ asset('js/maps.js') }}"></script>
+    <script>
+        jQuery.ajax({
+            dataType: 'json',
+            success: function (places) {
+                maps.renderFromPlaces('map-canvas', places);
+            },
+            url: '{{ spath(ajaxListMap) }}'
+        });
+    </script>
 {% endblock %}
 
 {% block data_filter %}

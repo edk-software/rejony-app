@@ -37,7 +37,7 @@ class MapService
 	}
 
 	public function getOlCssUrl()
-    {
+	{
 		return $this->olBaseUrl . '/css/ol.css';
 	}
 

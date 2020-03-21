@@ -55,19 +55,19 @@
 {% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
-	<link rel="stylesheet" href="{{ map.olCssUrl }}"/>
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ map.olCssUrl }}"/>
 {% endblock %}
 
 {% block javascripts_inline %}
     {{ use_icheck() }}
-	<script src="{{ map.gmJsUrl }}"></script>
-	<script src="{{ map.olJsUrl }}"></script>
-	<script src="{{ asset('js/maps.js') }}"></script>
-	<script>
-		maps.renderCoordsFetcher(
-			'map-canvas', [0, 0], jQuery('#user_area_request_form_lat'), jQuery('#user_area_request_form_lng'),
-			jQuery('#user_area_request_form_name'), jQuery('#search')
-		);
-	</script>
+    <script src="{{ map.gmJsUrl }}"></script>
+    <script src="{{ map.olJsUrl }}"></script>
+    <script src="{{ asset('js/maps.js') }}"></script>
+    <script>
+        maps.renderCoordsFetcher(
+            'map-canvas', [0, 0], jQuery('#user_area_request_form_lat'), jQuery('#user_area_request_form_lng'),
+            jQuery('#user_area_request_form_name'), jQuery('#search')
+        );
+    </script>
 {% endblock %}

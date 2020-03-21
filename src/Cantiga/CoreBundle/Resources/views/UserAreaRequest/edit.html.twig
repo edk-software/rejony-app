@@ -17,7 +17,7 @@
             <div class="col-xs-12">
                 <span class="help-block">{{ 'MapPinHelp' | trans([], 'public') }}</span>
                 <div id="map-canvas" style="height:400px;width:100%"
-					data-lat="{{ item.lat | number_format }}" data-lng="{{ item.lng | number_format }}"></div>
+                    data-lat="{{ item.lat | number_format }}" data-lng="{{ item.lng | number_format }}"></div>
                 <div class="col-md-6 col-xs-12 no-padding">
                     {{ form_row(form.lat) }}
                 </div>
@@ -34,18 +34,18 @@
 {% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
-	<link rel="stylesheet" href="{{ map.olCssUrl }}"/>
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ map.olCssUrl }}"/>
 {% endblock %}
 
 {% block javascripts_inline %}
     {{ use_icheck() }}
-	<script src="{{ map.olJsUrl }}"></script>
-	<script src="{{ asset('js/maps.js') }}"></script>
-	<script>
-		maps.renderCoordsFetcher('map-canvas', (function () {
-			var container = $('#map-canvas');
-			return [container.data('lng'), container.data('lat')];
-		})(), jQuery('#user_area_request_form_lat'), jQuery('#user_area_request_form_lng'));
-	</script>
+    <script src="{{ map.olJsUrl }}"></script>
+    <script src="{{ asset('js/maps.js') }}"></script>
+    <script>
+        maps.renderCoordsFetcher('map-canvas', (function () {
+            var container = $('#map-canvas');
+            return [container.data('lng'), container.data('lat')];
+        })(), jQuery('#user_area_request_form_lat'), jQuery('#user_area_request_form_lng'));
+    </script>
 {% endblock %}

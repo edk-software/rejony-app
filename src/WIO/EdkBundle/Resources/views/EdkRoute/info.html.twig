@@ -438,8 +438,8 @@
     <script src="{{ asset('js/summernote.min.js') }}"></script>
     <script src="{{ asset('js/lang/summernote-' ~ user.settingsLanguage.locale ~ '.js') }}"></script>
     <script src="{{ asset('js/Chart.min.js') }}"></script>
-	<script>
-		function drawElevationChart(chart, data) {
+    <script>
+        function drawElevationChart(chart, data) {
             var X_AXIS_NUMBER_OF_LABELS = 10;
             var X_AXIS_LABEL_STRING = '[km]';
             var Y_AXIS_LABEL_STRING = '[m]';
@@ -500,7 +500,7 @@
         if (chartCanvas.length === 1) {
             drawElevationChart(chartCanvas, chartCanvas.data('elevation'));
         }
-	</script>
+    </script>
 {% endblock %}
 
 {% block javascripts_inline %}
@@ -538,8 +538,8 @@
         });
     </script>
     <script src="{{ map.olJsUrl }}"></script>
-	<script src="{{ asset('js/maps.js') }}"></script>
+    <script src="{{ asset('js/maps.js') }}"></script>
     <script>
-		maps.renderFromKml('map-canvas', jQuery('#map-canvas').data('what'));
+        maps.renderFromKml('map-canvas', jQuery('#map-canvas').data('what'));
     </script>
 {% endblock %}
