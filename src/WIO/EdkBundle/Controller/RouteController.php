@@ -248,7 +248,9 @@ class RouteController extends WorkspaceController
             } else {
                 $message = $this->trans('VerificationFailed', [], 'edk');
                 $routeRepository->revoke($route, $user, true);
-                $flashBag->add('alert', implode(' ', array_merge([$message], $result->getVerificationLogs())));
+                $flashBag->add('alert', implode(' ', array_merge([
+                    $this->trans('VerificationFailed', [], 'edk'),
+                ], $result->getVerificationLogs())));
             }
         } catch (Exception $exception) {
             $messages = [$this->trans('VerificationError', [], 'edk'), $exception->getMessage()];
