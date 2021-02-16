@@ -11,6 +11,15 @@ use WIO\EdkBundle\Exception\RouteVerifierResultException;
 
 class RouteVerifierResult
 {
+    /** @var int */
+    const MAX_ELEVATION_CHARACTERISTICS_NUMBER = 1000; // ~ 65535 / 65
+
+    /** @var int */
+    const MAX_PATH_COORDINATES_NUMBER = 100000; // ~ 16777215 / 30
+
+    /** @var int */
+    const MAX_STATIONS_NUMBER = 1800; // ~ 65535 / 35
+
     /** @var array */
     private $verificationStatus;
 
@@ -20,6 +29,25 @@ class RouteVerifierResult
     /** @var array */
     private $elevationCharacteristic;
 
+    /** @var Coordinates[] */
+    private $pathCoordinates;
+
+    /** @var IndexedCoordinates[] */
+    private $stations;
+
+    /** @var Coordinates */
+    private $pathStart;
+
+    /** @var Coordinates */
+    private $pathEnd;
+
+    /**
+     * Construct
+     *
+     * @param array $body body
+     *
+     * @throws RouteVerifierResultException
+     */
     public function __construct(array $body)
     {
         $statusItemsByValues = [
@@ -46,6 +74,54 @@ class RouteVerifierResult
                                     'distance' => new LocalAssert\Type('number'),
                                     'elevation' => new LocalAssert\Type('number'),
                                 ]),
+                            ]),
+                            new Assert\Count([
+                                'max' => self::MAX_ELEVATION_CHARACTERISTICS_NUMBER,
+                            ]),
+                        ],
+                        'pathCoordinates' => [
+                            new Assert\Type('array'),
+                            new Assert\All([
+                                new Assert\Collection([
+                                    'allowExtraFields' => true,
+                                    'fields' => [
+                                        'latitude' => new LocalAssert\Type('number'),
+                                        'longitude' => new LocalAssert\Type('number'),
+                                    ],
+                                ]),
+                            ]),
+                            new Assert\Count([
+                                'max' => self::MAX_PATH_COORDINATES_NUMBER,
+                            ]),
+                        ],
+                        'pathEnd' => new Assert\Collection([
+                            'allowExtraFields' => true,
+                            'fields' => [
+                                'latitude' => new LocalAssert\Type('number'),
+                                'longitude' => new LocalAssert\Type('number'),
+                            ],
+                        ]),
+                        'pathStart' => new Assert\Collection([
+                            'allowExtraFields' => true,
+                            'fields' => [
+                                'latitude' => new LocalAssert\Type('number'),
+                                'longitude' => new LocalAssert\Type('number'),
+                            ],
+                        ]),
+                        'stations' => [
+                            new Assert\Type('array'),
+                            new Assert\All([
+                                new Assert\Collection([
+                                    'allowExtraFields' => true,
+                                    'fields' => [
+                                        'index' => new LocalAssert\Type('number'),
+                                        'latitude' => new LocalAssert\Type('number'),
+                                        'longitude' => new LocalAssert\Type('number'),
+                                    ],
+                                ]),
+                            ]),
+                            new Assert\Count([
+                                'max' => self::MAX_STATIONS_NUMBER,
                             ]),
                         ],
                     ],
@@ -89,7 +165,19 @@ class RouteVerifierResult
             return in_array($key, $statusKeys);
         }, ARRAY_FILTER_USE_KEY);
         $this->verificationLogs = $body['verificationStatus']['logs'];
-        $this->elevationCharacteristic = $body['routeCharacteristics']['elevationCharacteristics'];
+        $this->elevationCharacteristic = array_map(function ($data) {
+            return ['distance' => round($data['distance'], 20), 'elevation' => round($data['elevation'], 20)];
+        }, $body['routeCharacteristics']['elevationCharacteristics']);
+        $this->pathCoordinates = array_map(function ($data) {
+            return new Coordinates(round($data['latitude'], 9), round($data['longitude'], 9));
+        }, $body['routeCharacteristics']['pathCoordinates']);
+        $this->stations = array_map(function ($data) {
+            return new IndexedCoordinates($data['index'], round($data['latitude'], 9), round($data['longitude'], 9));
+        }, $body['routeCharacteristics']['stations']);
+        $pathStart = $body['routeCharacteristics']['pathStart'];
+        $this->pathStart = new Coordinates(round($pathStart['latitude'], 9), round($pathStart['longitude'], 9));
+        $pathEnd = $body['routeCharacteristics']['pathEnd'];
+        $this->pathEnd = new Coordinates(round($pathEnd['latitude'], 9), round($pathEnd['longitude'], 9));
     }
 
     public function isValid(): bool
@@ -116,6 +204,28 @@ class RouteVerifierResult
     public function getElevationCharacteristic(): array
     {
         return $this->elevationCharacteristic;
+    }
+
+    /** @return Coordinates[] */
+    public function getPathCoordinates(): array
+    {
+        return $this->pathCoordinates;
+    }
+
+    /** @return IndexedCoordinates[] */
+    public function getStations(): array
+    {
+        return $this->stations;
+    }
+
+    public function getPathStart(): Coordinates
+    {
+        return $this->pathStart;
+    }
+
+    public function getPathEnd(): Coordinates
+    {
+        return $this->pathEnd;
     }
 
     public function getRouteAscent(): float

@@ -40,11 +40,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use WIO\EdkBundle\Client\RouteVerifierClient;
 use WIO\EdkBundle\Entity\EdkRoute;
+use WIO\EdkBundle\Exception\RouteVerifierResultException;
 use WIO\EdkBundle\Form\EdkRouteForm;
 use WIO\EdkBundle\Form\AreaRoutesImportForm;
 use WIO\EdkBundle\EdkTexts;
@@ -221,6 +223,7 @@ class RouteController extends WorkspaceController
 
         /** @var SessionInterface $session */
         $session = $this->get('session');
+        /** @var FlashBagInterface $flashBag */
         $flashBag = $session->getFlashBag();
 
         try {
@@ -229,24 +232,37 @@ class RouteController extends WorkspaceController
             $result = $routeVerifier->verify($route);
             $route
                 ->setElevationCharacteristic($result->getElevationCharacteristic())
+                ->setPathCoordinates($result->getPathCoordinates())
+                ->setStations($result->getStations())
+                ->setPathStart($result->getPathStart())
+                ->setPathEnd($result->getPathEnd())
                 ->setVerificationStatus($result->getVerificationStatus())
                 ->setRouteAscent($result->getRouteAscent())
                 ->setRouteLength($result->getRouteLength())
                 ->setRouteType($result->getRouteType())
             ;
             if ($result->isValid()) {
+                $message = $this->trans('VerificationSuccessful', [], 'edk');
                 $routeRepository->approve($route, $user, true);
-                $flashBag->add('info', implode(' ', array_merge([
-                    $this->trans('VerificationSuccessful', [], 'edk'),
-                ], $result->getVerificationLogs())));
+                $flashBag->add('info', implode(' ', array_merge([$message], $result->getVerificationLogs())));
             } else {
+                $message = $this->trans('VerificationFailed', [], 'edk');
                 $routeRepository->revoke($route, $user, true);
                 $flashBag->add('alert', implode(' ', array_merge([
                     $this->trans('VerificationFailed', [], 'edk'),
                 ], $result->getVerificationLogs())));
             }
         } catch (Exception $exception) {
-            $flashBag->add('error', $this->trans('VerificationError', [], 'edk'));
+            $messages = [$this->trans('VerificationError', [], 'edk'), $exception->getMessage()];
+            $previousException = $exception->getPrevious();
+            if ($previousException instanceof RouteVerifierResultException) {
+                foreach ($previousException->getViolations() as $violation) {
+                    $messages[] = $violation;
+                }
+            } elseif (isset($previousException)) {
+                $messages[] = $previousException->getMessage();
+            }
+            $flashBag->add('error', implode(' ', $messages));
         }
 
         return $this->redirectToRoute('edk_route_info', [
