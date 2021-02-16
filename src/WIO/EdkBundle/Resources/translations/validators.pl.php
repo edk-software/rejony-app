@@ -14,7 +14,7 @@ return [
 	'PleaseFillCustomAnswerErrorMsg' => 'Wypełnienie tego pola jest niezbędne do rejestracji na tę trasę.',
 	'RegisteredPeopleNumInvalidErrorMsg' => 'Liczba rejestrowanych osób musi być z przedziału 1-%max%.',
 	'NoMorePlacesErrorMsg' => 'Przykro nam, ale na tej trasie skończyły się właśnie miejsca...',
-	
+
 	'MaxAllowedPeopleErrMsg' => 'W jednym zgłoszeniu można zarejestrować minimalnie jedną osobę, a maksymalnie 10 osób.',
 	'MinimumParticipantLimitErrMsg' => 'Minimalna wartość to 10 uczestników.',
 	'InvalidRegistrationTypeErrMsg' => 'Nieprawidłowy rodzaj rejestracji.',
@@ -22,7 +22,6 @@ return [
 	'RouteLengthGreaterThan30Km' => 'Długość trasy powinna być równa lub większa niż 30 km.',
 	'Routes30To40KmMustHaveEnoughAscent' => 'Trasy o długości od 30 do 40 km powinny mieć odpowiednią sumę podejść.',
 	'RouteLengthGreaterThan20Km' => 'Długość trasy powinna być równa lub większa niż 20 km.',
-    'RouteLengthGreaterThan30Km' => 'Długość trasy powinna być równa lub większa niż 30 km.',
 	'NegativeAscentInvalid' => 'Wartość sumy podejść nie może być ujemna.',
 	
 	'MaxPeoplePerRecordRequired' => 'To pole jest wymagane przy tym typie rejestracji - podaj liczbę z przedziału 1-10.',
